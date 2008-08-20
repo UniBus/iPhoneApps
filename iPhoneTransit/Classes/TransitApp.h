@@ -16,6 +16,7 @@
 	int cityId;
 }
 
+- (BusStop *) stopOfId:(int) stopId;
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
 

@@ -37,4 +37,6 @@
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) queryStopWithPosition:(CGPoint) pos;
 
+- (BusStop *) stopOfId: (NSInteger) id;
+
 @end

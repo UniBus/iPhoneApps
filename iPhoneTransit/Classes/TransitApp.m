@@ -46,6 +46,11 @@ NSString *cityPath[]={
 	[super dealloc];
 }
 
+- (BusStop *) stopOfId:(int) anId
+{
+	return [stopQuery stopOfId:anId];
+}
+
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm
 {
 	return [stopQuery queryStopWithPosition:pos within:distInKm];

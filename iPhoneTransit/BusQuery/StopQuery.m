@@ -149,6 +149,38 @@
 
 #pragma mark Stops Querying
 
+- (BusStop *) stopOfId: (NSInteger) anId
+{
+	[sortedStops sortUsingSelector:@selector(compareById:)];
+	
+	//By now 
+	int upperIndex_l = -1; 
+	int upperIndex_u = [sortedStops count] - 1;
+	int upperIndex = upperIndex_u/2;	
+	BusStop *aStop;
+	while (upperIndex != upperIndex_u)
+	{
+		aStop = [sortedStops objectAtIndex:upperIndex];
+		if (aStop.stopId < anId)
+			upperIndex_l = upperIndex;
+		else
+			upperIndex_u = upperIndex;
+		
+		upperIndex = (upperIndex_l + upperIndex_u + 1) / 2;
+	};
+	
+	if (upperIndex_l == -1)
+		return nil;
+	else
+	{
+		BusStop *aStop = [sortedStops objectAtIndex:upperIndex];
+		if (aStop.stopId == anId)
+			return aStop;
+		
+		return nil;
+	}
+}
+
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm
 {
 	double oldDistanceThreshold = distanceThreshold;

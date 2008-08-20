@@ -270,49 +270,47 @@ UIImage *favoriteIconImage = nil;
 
 @synthesize stopsOfInterest;
 
-- (id)initWithStyle:(UITableViewStyle)style 
-{
-	if (self = [super initWithStyle:style]) 
-	{
+
+
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		// Initialization code
 	}
 	return self;
 }
+
+/*
+ Implement loadView if you want to create a view hierarchy programmatically
+ - (void)loadView {
+ }
+ */
+
+/*
+ If you need to do additional setup after loading the view, override viewDidLoad.
+ - (void)viewDidLoad {
+ }
+ */
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	// Return YES for supported orientations
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	// Release anything that's not essential, such as cached data
+}
+
 
 - (void)dealloc 
 {
 	[arrivalsForStops release];
 	[stopsOfInterest release];
 	[super dealloc];
-}
-
-
-- (void)viewDidLoad 
-{
-	[super viewDidLoad];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated 
-{
-	[super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated 
-{
-	[super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated 
-{
-}
-
-- (void)viewDidDisappear:(BOOL)animated 
-{
-}
-
-- (void)didReceiveMemoryWarning
-{
-	[super didReceiveMemoryWarning];
 }
 
 - (void) reload
@@ -349,57 +347,11 @@ UIImage *favoriteIconImage = nil;
 		[arrivalsForOneStop autorelease];
 	}
 	
-	UITableView *tableView = (UITableView *) self.view;
-	[tableView reloadData];
+	//UITableView *tableView = (UITableView *) self.view;
+	[stopsTableView reloadData];
 }
 
-#pragma mark TableView Delegate Functions
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
-{
-	if (stopsOfInterest == nil)
-		return 1;
-	
-	if ([stopsOfInterest count] == 0)
-		return 1;
-	
-	return [stopsOfInterest count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
-{
-	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
-	
-	/*Find out how many buses arrive at this stop*/
-	BusArrival *anArrival = [arrivalsForOneStop objectAtIndex:0];
-	NSString *theBusSign = [anArrival busSign];
-	int numberOfDifferentBus = 1;
-	for (int i=1; i<[arrivalsForOneStop count]; i++)
-	{
-		if (![theBusSign isEqualToString:[[arrivalsForOneStop objectAtIndex:i] busSign]])
-		{
-			theBusSign = [[arrivalsForOneStop objectAtIndex:i] busSign];
-			numberOfDifferentBus ++;
-		}
-	}
-		
-	//return [arrivalsForOneStop count] + 1;
-	return numberOfDifferentBus + 1;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	BusStop *aStop = [stopsOfInterest objectAtIndex:section];
-	return [NSString stringWithFormat:@"%@", aStop.name];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (indexPath.row == 0)
-		return kUIStop_Section_Height;
-	else
-		return kUIArrival_Section_Height;
-}
+#pragma mark Stop/Arrival Data
 
 - (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index
 {
@@ -408,7 +360,7 @@ UIImage *favoriteIconImage = nil;
 	BusArrival *anArrival = [arrivals objectAtIndex:0];
 	NSString *theBusSign = [anArrival busSign];
 	int currentIndex = 0;
-
+	
 	if (index == currentIndex)
 		[result addObject:anArrival];
 	
@@ -429,6 +381,65 @@ UIImage *favoriteIconImage = nil;
 	}	
 	
 	return [result autorelease];
+}
+
+#pragma mark TableView Delegate Functions
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+	if (stopsOfInterest == nil)
+		return 1;
+	
+	if ([stopsOfInterest count] == 0)
+		return 1;
+	
+	return [stopsOfInterest count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	if (arrivalsForStops == nil)
+		return 0;
+	
+	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
+	if (arrivalsForOneStop == nil)
+		return 0;
+	
+	/*Find out how many buses arrive at this stop*/
+	BusArrival *anArrival = [arrivalsForOneStop objectAtIndex:0];
+	NSString *theBusSign = [anArrival busSign];
+	int numberOfDifferentBus = 1;
+	for (int i=1; i<[arrivalsForOneStop count]; i++)
+	{
+		if (![theBusSign isEqualToString:[[arrivalsForOneStop objectAtIndex:i] busSign]])
+		{
+			theBusSign = [[arrivalsForOneStop objectAtIndex:i] busSign];
+			numberOfDifferentBus ++;
+		}
+	}
+		
+	//return [arrivalsForOneStop count] + 1;
+	return numberOfDifferentBus + 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (stopsOfInterest == nil)
+		return @"No stops!";
+	
+	BusStop *aStop = [stopsOfInterest objectAtIndex:section];
+	if (aStop == nil)
+		return @"No stops!";
+
+	return [NSString stringWithFormat:@"%@", aStop.name];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.row == 0)
+		return kUIStop_Section_Height;
+	else
+		return kUIArrival_Section_Height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 

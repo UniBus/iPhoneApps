@@ -15,6 +15,16 @@ double UserDefinedLatitudeForComparison = 0.;
 @implementation BusStop
 @synthesize stopId, latitude, longtitude, name, position, direction;
 
+- (NSComparisonResult) compareById: (BusStop *) aStop
+{
+	if (stopId < aStop->stopId)
+		return NSOrderedAscending;
+	else if (stopId > aStop->stopId)
+		return NSOrderedDescending;
+	else
+		return NSOrderedSame;
+}
+
 - (NSComparisonResult) compareByLat: (BusStop *) aStop
 {
 	if (latitude < aStop->latitude)

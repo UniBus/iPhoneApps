@@ -38,9 +38,10 @@
 @end
 
 
-@interface StopsView : UITableViewController {
+@interface StopsView : UIViewController {
 	NSMutableArray        *arrivalsForStops;
 	NSMutableArray        *stopsOfInterest;
+	IBOutlet UITableView  *stopsTableView;
 	//IBOutlet StopCell     *stopCellToCopy;
 	//IBOutlet ArrivalCell  *arrivalCellToCopy;
 }

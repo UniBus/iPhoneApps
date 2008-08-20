@@ -24,6 +24,8 @@ double UserDefinedLatitudeForComparison;
 
 - (NSComparisonResult) compareByLon: (BusStop *)aStop;
 - (NSComparisonResult) compareByLat: (BusStop *)aStop;
+- (NSComparisonResult) compareById: (BusStop *)aStop;
+- (NSComparisonResult) compareByDistance: (BusStop *)aStop;
 
 @property NSInteger stopId;
 @property double longtitude;
