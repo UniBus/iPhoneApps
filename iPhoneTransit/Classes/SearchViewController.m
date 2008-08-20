@@ -7,7 +7,8 @@
 //
 
 #import "SearchViewController.h"
-
+#import "TransitApp.h"
+#import "BusStop.h"
 
 @implementation SearchViewController
 
@@ -45,6 +46,70 @@
 
 - (void)dealloc {
 	[super dealloc];
+}
+
+
+#pragma mark UISearchBarDelegate
+
+- (NSArray *) retrieveStopsFromText:(NSString *)text
+{
+	int idOfStop = [text intValue];
+
+	NSMutableArray *results = [[NSMutableArray alloc] init];
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	BusStop *aStop = [myApplication stopOfId:idOfStop];
+	if (aStop)
+	{
+		[results addObject:aStop];
+	}
+	return [results autorelease];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+	// only show the status bar's cancel button while in edit mode
+	searchBar.showsCancelButton = YES;
+	
+	// flush and save the current list content in case the user cancels the search later
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+	searchBar.showsCancelButton = NO;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	//I don't want dynamic search...
+}
+
+// called when cancel button pressed
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	//If cancelled, then do nothing.
+	[searchBar resignFirstResponder];
+	searchBar.text = @"";
+}
+
+// called when Search (in our case "Done") button pressed
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	NSArray *stops = [self retrieveStopsFromText:searchBar.text];
+	if ([stops count] != 0)
+	{
+		self.stopsOfInterest = [stops retain];
+		[self reload];
+		[searchBar resignFirstResponder];
+	}
+	else
+	{
+		// open an alert with just an OK button
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Couldn't find the stop(s)"
+													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+		//Show some info to user here!
+	}
 }
 
 

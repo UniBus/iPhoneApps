@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StopsView.h"
 
-
-@interface SearchViewController : UIViewController {
-
+@interface SearchViewController : StopsView {
+	IBOutlet UISearchBar *mySearchBar;
 }
 
 @end
