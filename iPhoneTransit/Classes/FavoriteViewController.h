@@ -10,7 +10,7 @@
 #import "StopsView.h"
 
 @interface FavoriteViewController : StopsView {
-
+	NSMutableArray *busesOfInterest;
 }
 
 @end

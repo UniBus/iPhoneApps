@@ -37,11 +37,13 @@
 
 @interface ArrivalCell : UITableViewCell
 {
-	UILabel      *busSign;
-	UILabel      *arrivalTime1;
-	UILabel      *arrivalTime2;
-	UIButton     *favoriteButton;
+	UILabel        *busSign;
+	UILabel        *arrivalTime1;
+	UILabel        *arrivalTime2;
+	UIButton       *favoriteButton;
 	NSMutableArray *theArrivals;
+	int            viewType;
+	UIViewController *ownerView;
 }
 
 - (void) setArrivals: (id) arrivals;
@@ -67,5 +69,8 @@ enum _stop_view_type_ {
 @property int stopViewType;
 
 - (void) reload;
+- (void) needsReload;
+//This is a virtual function!!!
+//- (void) filterData;
 
 @end

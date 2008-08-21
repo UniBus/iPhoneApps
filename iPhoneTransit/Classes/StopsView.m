@@ -18,6 +18,106 @@
 UIImage *mapIconImage = nil;
 UIImage *favoriteIconImage = nil;
 
+#pragma mark UserDefaults for Recent-List and Favorite-List
+
+void addStopAndBusToUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
+	
+	BOOL found = NO;
+	SavedItem *theSavedItem = nil;
+	int targetIndex = -1;
+	for (int i=0; i<[favoriteArray count]; i++)
+	{
+		NSData *anItemData = [favoriteArray objectAtIndex:i];
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		if (anItem.stopId == aStopId)
+		{
+			theSavedItem = anItem;
+			targetIndex = i;
+			break;
+		}
+	}
+	
+	if (theSavedItem == nil)
+	{
+		theSavedItem = [[SavedItem alloc] init];
+		theSavedItem.stopId = aStopId;
+		[theSavedItem.buses addObject:aBusSign];
+		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+		[favoriteArray addObject:theItemData];
+	}
+	else
+	{
+		for (NSString *aString in theSavedItem.buses)
+		{
+			if ([aString isEqualToString:aBusSign])
+			{
+				found = YES;
+				break;
+			}
+		}
+		if (found == NO)
+		{
+			[theSavedItem.buses addObject:aBusSign];
+			NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+			[favoriteArray replaceObjectAtIndex:targetIndex withObject:theItemData];
+		}
+	}
+	
+	if (found == NO)
+	{
+		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
+	}
+}
+
+void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
+	
+	BOOL found = NO;
+	SavedItem *theSavedItem = nil;
+	int index = 0;
+	for (; index < [favoriteArray count]; index++)
+	{
+		NSData *anItemData = [favoriteArray objectAtIndex:index];
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		if (anItem.stopId == aStopId)
+		{
+			theSavedItem = anItem;
+			int busIndexAtStop = 0;
+			for (;busIndexAtStop<[theSavedItem.buses count];busIndexAtStop++)
+			{
+				NSString *aString = [theSavedItem.buses objectAtIndex:busIndexAtStop];
+				if ([aString isEqualToString:aBusSign])
+				{
+					found = YES;
+					[theSavedItem.buses removeObjectAtIndex:busIndexAtStop];
+					break;
+				}
+			}
+			if (found) 
+			{
+				if ([theSavedItem.buses count]==0)
+					[favoriteArray removeObjectAtIndex:index];
+				else
+				{
+					NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+					[favoriteArray replaceObjectAtIndex:index withObject:theItemData];					
+				}
+			}
+			break; 
+		}
+	}
+		
+	if (found)
+	{
+		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
+	}
+}
+
 @implementation SavedItem
 @synthesize stopId, buses;
 -(id) init
@@ -187,60 +287,37 @@ UIImage *favoriteIconImage = nil;
 
 -(void) addToFavorite: (int)aStopId busSign:(NSString *)aBusSign
 {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserSavedFavoriteStopsAndBuses]];
-	
-	BOOL found = NO;
-	SavedItem *theSavedItem = nil;
-	for (NSData *anItemData in favoriteArray)
-	{
-		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		if (anItem.stopId == aStopId)
-		{
-			theSavedItem = anItem;
-			break;
-		}
-	}
-	
-	if (theSavedItem == nil)
-	{
-		theSavedItem = [[SavedItem alloc] init];
-		theSavedItem.stopId = aStopId;
-		[theSavedItem.buses addObject:aBusSign];
-		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-		[favoriteArray addObject:theItemData];
-	}
-	else
-	{
-		for (NSString *aString in theSavedItem.buses)
-		{
-			if ([aString isEqualToString:aBusSign])
-			{
-				found = YES;
-				break;
-			}
-		}
-		if (found == NO)
-			[theSavedItem.buses addObject:aBusSign];
-	}
-	
-	if (found == NO)
-	{
-		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
-	}
+	addStopAndBusToUserDefaultList(aStopId, aBusSign, UserSavedFavoriteStopsAndBuses);
+	//if ([self.superview isKindOfClass:[StopsView class]])
+	//	[(StopsView*)self.superview reload];
 }
 
 -(void) removeFromFavorite: (int)aStopId busSign:(NSString *)aBusSign
 {
+	removeStopAndBusFromUserDefaultList(aStopId, aBusSign, UserSavedFavoriteStopsAndBuses);
+	if (ownerView)
+		if ([ownerView isKindOfClass:[StopsView class]])
+		{
+			[(StopsView *)ownerView needsReload];
+		}
 }
 
 - (IBAction) favoriteButtonClicked:(id)sender
 {	
 	BusArrival *anArrival = [theArrivals objectAtIndex:0];
 
-	[self addToFavorite:anArrival.stopId busSign:[anArrival busSign]];
-	
-	NSString *message = [NSString stringWithFormat:@"Bus <%@> at Stop <%d> added to favorite!", [anArrival busSign], [anArrival stopId]];
+	NSString *message;
+	if (viewType == kStopViewTypeToDelete)
+	{
+		[self removeFromFavorite:anArrival.stopId busSign:[anArrival busSign]];
+		message = [NSString stringWithFormat:@"Bus <%@> at Stop <%d> removed from the list!", [anArrival busSign], [anArrival stopId]];
+	}
+	else
+	{
+		[self addToFavorite:anArrival.stopId busSign:[anArrival busSign]];
+		message = [NSString stringWithFormat:@"Bus <%@> at Stop <%d> added to favorite!", [anArrival busSign], [anArrival stopId]];
+	}
+		
 	// open an alert with just an OK button
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -258,10 +335,11 @@ UIImage *favoriteIconImage = nil;
 }
 
 //- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type owner:(UIViewController *)owner
 {
 	[super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
 	
+	ownerView = owner;
 	CGRect ctrlFrame = CGRectMake(70, 10, 160, 18);
 	busSign = [[UILabel alloc] initWithFrame:ctrlFrame];	
 	busSign.backgroundColor = [UIColor clearColor];
@@ -290,6 +368,7 @@ UIImage *favoriteIconImage = nil;
 	arrivalTime2.font = [UIFont systemFontOfSize:12];
 	
 	ctrlFrame = CGRectMake(240, 10, 50, 50);
+	viewType = type;
 	if (type == kStopViewTypeToDelete)
 		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain] initWithFrame:ctrlFrame];
 	else
@@ -321,7 +400,7 @@ UIImage *favoriteIconImage = nil;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
-	return [self initWithFrame:frame reuseIdentifier:reuseIdentifier viewType:kStopViewTypeToAdd];
+	return [self initWithFrame:frame reuseIdentifier:reuseIdentifier viewType:kStopViewTypeToAdd owner:nil];
 }
 
 - (void) setArrivals: (id) arrivals
@@ -404,6 +483,16 @@ UIImage *favoriteIconImage = nil;
 	[super dealloc];
 }
 
+- (void) filterData
+{
+	//To be implemented in subclass;
+}
+
+- (void) needsReload
+{
+	//To be implemented in subclasses;
+}
+
 - (void) reload
 {
 	if ([stopsOfInterest count] == 0)
@@ -415,7 +504,7 @@ UIImage *favoriteIconImage = nil;
 		[alert release];
 		//Show some info to user here!
 		
-		return;
+		//return;
 	}
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
@@ -439,6 +528,8 @@ UIImage *favoriteIconImage = nil;
 		[arrivalsForStops addObject:arrivalsForOneStop];
 		[arrivalsForOneStop autorelease];
 	}
+	
+	[self filterData];
 	
 	//UITableView *tableView = (UITableView *) self.view;
 	[stopsTableView reloadData];
@@ -492,6 +583,9 @@ UIImage *favoriteIconImage = nil;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (arrivalsForStops == nil)
+		return 0;
+	
+	if ([arrivalsForStops count] == 0)
 		return 0;
 	
 	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
@@ -548,7 +642,7 @@ UIImage *favoriteIconImage = nil;
 		ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 		if (cell == nil) 
 		{
-			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType] autorelease];
+			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType owner:self] autorelease];
 		}
 		
 		NSMutableArray *arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];
