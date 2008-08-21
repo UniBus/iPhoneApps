@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StopsView.h"
 
-
-@interface RecentViewController : UIViewController {
+@interface RecentViewController : StopsView {
 
 }
 

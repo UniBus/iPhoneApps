@@ -7,6 +7,7 @@
 //
 
 #import "RecentViewController.h"
+#import "TransitApp.h"
 
 
 @implementation RecentViewController
@@ -18,11 +19,11 @@
 	return self;
 }
 
-/*
- Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView {
+- (void)loadView 
+{
+	[super loadView];
+	self.stopViewType = kStopViewTypeToDelete;
 }
- */
 
 /*
  If you need to do additional setup after loading the view, override viewDidLoad.
@@ -30,6 +31,24 @@
 }
  */
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [defaults objectForKey:UserSavedRecentStopsAndBuses];
+	
+	NSMutableArray *newStops = [NSMutableArray array];
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	for (NSData *anItemData in favoriteArray)
+	{
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		BusStop *aStop = [myApplication stopOfId:anItem.stopId];
+		[newStops addObject:aStop];
+	}
+	
+	stopsOfInterest = [newStops retain];
+	
+	[self reload];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	// Return YES for supported orientations

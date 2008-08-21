@@ -11,6 +11,17 @@
 @class BusStop;
 @class BusArrival;
 
+@interface SavedItem : NSObject <NSCoding>
+{
+	int stopId;
+	NSMutableArray *buses;
+}
+
+@property (assign) NSMutableArray *buses;
+@property int stopId;
+
+@end
+
 @interface StopCell : UITableViewCell
 {
 	UILabel      *stopName;
@@ -37,6 +48,11 @@
 
 @end
 
+enum _stop_view_type_ {
+	kStopViewTypeNormal,
+	kStopViewTypeToAdd,
+	kStopViewTypeToDelete,
+};
 
 @interface StopsView : UIViewController {
 	NSMutableArray        *arrivalsForStops;
@@ -44,9 +60,11 @@
 	IBOutlet UITableView  *stopsTableView;
 	//IBOutlet StopCell     *stopCellToCopy;
 	//IBOutlet ArrivalCell  *arrivalCellToCopy;
+	int stopViewType;
 }
 
 @property (readwrite, assign) NSMutableArray *stopsOfInterest;
+@property int stopViewType;
 
 - (void) reload;
 

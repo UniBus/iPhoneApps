@@ -38,7 +38,6 @@
 			viewController.tabBarItem.image = [UIImage imageNamed:@"favorite.png"];
 	}
 	
-	
 	[window addSubview:tabBarController.view];
 }
 

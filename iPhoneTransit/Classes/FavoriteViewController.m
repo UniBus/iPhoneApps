@@ -7,22 +7,35 @@
 //
 
 #import "FavoriteViewController.h"
-
+#import "TransitApp.h"
 
 @implementation FavoriteViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		// Initialization code
-	}
-	return self;
+// Implement loadView if you want to create a view hierarchy programmatically
+- (void)loadView 
+{
+	[super loadView];
+	self.stopViewType = kStopViewTypeToDelete;
 }
 
-/*
- Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView {
+- (void)viewDidAppear:(BOOL)animated
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [defaults objectForKey:UserSavedFavoriteStopsAndBuses];
+	
+	NSMutableArray *newStops = [NSMutableArray array];
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	for (NSData *anItemData in favoriteArray)
+	{
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		BusStop *aStop = [myApplication stopOfId:anItem.stopId];
+		[newStops addObject:aStop];
+	}
+	
+	stopsOfInterest = [newStops retain];
+	
+	[self reload];
 }
- */
 
 /*
  If you need to do additional setup after loading the view, override viewDidLoad.

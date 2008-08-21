@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StopsView.h"
 
-
-@interface FavoriteViewController : UIViewController {
+@interface FavoriteViewController : StopsView {
 
 }
 

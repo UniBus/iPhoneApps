@@ -18,6 +18,31 @@
 UIImage *mapIconImage = nil;
 UIImage *favoriteIconImage = nil;
 
+@implementation SavedItem
+@synthesize stopId, buses;
+-(id) init
+{
+	[super init];
+	buses = [[NSMutableArray alloc] init];
+	return self;
+}
+
+- (id) initWithCoder: (NSCoder *) coder
+{
+	[super init];
+	stopId = [coder decodeIntForKey:@"Stop_ID"];
+	buses = [[coder decodeObjectForKey:@"Buse_IDs"] retain];
+	return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) coder
+{
+	[coder encodeInt:stopId forKey:@"Stop_ID"];
+	[coder encodeObject:buses forKey:@"Buse_IDs"];
+}
+
+@end
+
 @implementation StopCell
 
 - (IBAction) mapButtonClicked:(id)sender
@@ -160,9 +185,61 @@ UIImage *favoriteIconImage = nil;
 
 @implementation ArrivalCell
 
-- (IBAction) favoriteButtonClicked:(id)sender
+-(void) addToFavorite: (int)aStopId busSign:(NSString *)aBusSign
 {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserSavedFavoriteStopsAndBuses]];
+	
+	BOOL found = NO;
+	SavedItem *theSavedItem = nil;
+	for (NSData *anItemData in favoriteArray)
+	{
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		if (anItem.stopId == aStopId)
+		{
+			theSavedItem = anItem;
+			break;
+		}
+	}
+	
+	if (theSavedItem == nil)
+	{
+		theSavedItem = [[SavedItem alloc] init];
+		theSavedItem.stopId = aStopId;
+		[theSavedItem.buses addObject:aBusSign];
+		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+		[favoriteArray addObject:theItemData];
+	}
+	else
+	{
+		for (NSString *aString in theSavedItem.buses)
+		{
+			if ([aString isEqualToString:aBusSign])
+			{
+				found = YES;
+				break;
+			}
+		}
+		if (found == NO)
+			[theSavedItem.buses addObject:aBusSign];
+	}
+	
+	if (found == NO)
+	{
+		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
+	}
+}
+
+-(void) removeFromFavorite: (int)aStopId busSign:(NSString *)aBusSign
+{
+}
+
+- (IBAction) favoriteButtonClicked:(id)sender
+{	
 	BusArrival *anArrival = [theArrivals objectAtIndex:0];
+
+	[self addToFavorite:anArrival.stopId busSign:[anArrival busSign]];
+	
 	NSString *message = [NSString stringWithFormat:@"Bus <%@> at Stop <%d> added to favorite!", [anArrival busSign], [anArrival stopId]];
 	// open an alert with just an OK button
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:message
@@ -180,7 +257,8 @@ UIImage *favoriteIconImage = nil;
 	[super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+//- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type
 {
 	[super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
 	
@@ -212,7 +290,10 @@ UIImage *favoriteIconImage = nil;
 	arrivalTime2.font = [UIFont systemFontOfSize:12];
 	
 	ctrlFrame = CGRectMake(240, 10, 50, 50);
-	favoriteButton = [[[UIButton buttonWithType:UIButtonTypeContactAdd] retain] initWithFrame:ctrlFrame];
+	if (type == kStopViewTypeToDelete)
+		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain] initWithFrame:ctrlFrame];
+	else
+		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeContactAdd] retain] initWithFrame:ctrlFrame];
 	/*
 	if (favoriteIconImage == nil)
 	{
@@ -238,25 +319,38 @@ UIImage *favoriteIconImage = nil;
 	return self;
 }
 
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+{
+	return [self initWithFrame:frame reuseIdentifier:reuseIdentifier viewType:kStopViewTypeToAdd];
+}
+
 - (void) setArrivals: (id) arrivals
 {
 	[theArrivals autorelease];
 	theArrivals = [arrivals retain];
 	BusArrival *anArrival = [arrivals objectAtIndex:0];
 
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];	
+
 	[busSign setText:[NSString stringWithFormat:@"%@", [anArrival busSign]]];
 	if (anArrival.departed)
-		[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
+		[arrivalTime1 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
+		//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
 	else
-		[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
+		[arrivalTime1 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
+		//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
 	
 	if ([arrivals count] >= 2)
 	{
 		anArrival = [arrivals objectAtIndex:1];
 		if (anArrival.departed)
-			[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
+			[arrivalTime2 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
+			//[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
 		else
-			[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
+			[arrivalTime2 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
+			//[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
 	}
 	else
 	{
@@ -268,16 +362,13 @@ UIImage *favoriteIconImage = nil;
 
 @implementation StopsView
 
-@synthesize stopsOfInterest;
-
-
-
-
+@synthesize stopsOfInterest, stopViewType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
+	stopViewType = kStopViewTypeToAdd;
 	return self;
 }
 
@@ -323,6 +414,8 @@ UIImage *favoriteIconImage = nil;
 		[alert show];	
 		[alert release];
 		//Show some info to user here!
+		
+		return;
 	}
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
@@ -427,6 +520,9 @@ UIImage *favoriteIconImage = nil;
 	if (stopsOfInterest == nil)
 		return @"No stops!";
 	
+	if ([stopsOfInterest count] == 0)
+		return @"No stops!";
+		
 	BusStop *aStop = [stopsOfInterest objectAtIndex:section];
 	if (aStop == nil)
 		return @"No stops!";
@@ -452,7 +548,7 @@ UIImage *favoriteIconImage = nil;
 		ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 		if (cell == nil) 
 		{
-			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType] autorelease];
 		}
 		
 		NSMutableArray *arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];

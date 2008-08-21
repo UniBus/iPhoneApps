@@ -17,6 +17,9 @@ NSString *cityPath[]={
 	@"portland",
 };
 
+NSString * const UserSavedRecentStopsAndBuses = @"UserSavedRecentStopsAndBuses";
+NSString * const UserSavedFavoriteStopsAndBuses = @"UserSavedFavoriteStopsAndBuses";
+
 @implementation TransitApp
 
 - (id) init
@@ -35,7 +38,14 @@ NSString *cityPath[]={
 	
 	stopQuery = [StopQuery initWithFile:path];
 	arrivalQuery = [[ArrivalQuery alloc] init];
-
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+	NSMutableArray *emptyArray = [NSMutableArray array];
+	[defaultValues setObject:emptyArray forKey:UserSavedRecentStopsAndBuses];
+	[defaultValues setObject:emptyArray forKey:UserSavedFavoriteStopsAndBuses];
+	[defaults registerDefaults:defaultValues];
+	
 	return self;
 }
 

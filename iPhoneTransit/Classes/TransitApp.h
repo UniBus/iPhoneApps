@@ -10,6 +10,9 @@
 #import "ArrivalQuery.h"
 #import "StopQuery.h"
 
+extern NSString * const UserSavedRecentStopsAndBuses;
+extern NSString * const UserSavedFavoriteStopsAndBuses;
+
 @interface TransitApp : UIApplication {
 	ArrivalQuery *arrivalQuery;
 	StopQuery    *stopQuery;
