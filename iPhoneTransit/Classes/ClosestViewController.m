@@ -14,6 +14,7 @@
 - (void)loadView 
 {
 	[super loadView];
+	stopViewType = kStopViewTypeToAdd;	
 
 	double testLon = -122.60389;
 	double testLat = 45.379719;

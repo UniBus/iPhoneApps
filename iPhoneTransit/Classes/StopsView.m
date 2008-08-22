@@ -370,30 +370,30 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	ctrlFrame = CGRectMake(240, 10, 50, 50);
 	viewType = type;
 	if (type == kStopViewTypeToDelete)
-		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain] initWithFrame:ctrlFrame];
-	else
-		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeContactAdd] retain] initWithFrame:ctrlFrame];
-	/*
-	if (favoriteIconImage == nil)
 	{
-		NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"favorite.png"];
-		favoriteIconImage = [UIImage imageWithContentsOfFile:iconPath];
+		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain] initWithFrame:ctrlFrame];
+		if (favoriteIconImage == nil)
+		{
+			NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"delete.png"];
+			favoriteIconImage = [UIImage imageWithContentsOfFile:iconPath];
+		}		
+		[favoriteButton setImage:favoriteIconImage forState:UIControlStateNormal];
 	}
-	[favoriteButton setBackgroundImage:favoriteIconImage forState:UIControlStateNormal];
-	 */
-	[favoriteButton addTarget:self action:@selector(favoriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-	
+	else if (type == kStopViewTypeToAdd)
+		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeContactAdd] retain] initWithFrame:ctrlFrame];
+
 	self.opaque = NO;
 	self.selectionStyle = UITableViewCellSelectionStyleNone;
-	//UIView *bkView = self.backgroundView;
-	//[bkView setBackgroundColor:[UIColor blackColor]];
-	//[bkView release];
-	//[self.backgroundColor = [UIColor blackColor];
 	
 	[self.contentView addSubview:busSign];
 	[self.contentView addSubview:arrivalTime1];
 	[self.contentView addSubview:arrivalTime2];
-	[self.contentView addSubview:favoriteButton];
+
+	if (favoriteButton)
+	{
+		[favoriteButton addTarget:self action:@selector(favoriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:favoriteButton];
+	}
 	
 	return self;
 }
@@ -447,15 +447,17 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
 	}
-	stopViewType = kStopViewTypeToAdd;
+	
 	return self;
 }
 
-/*
- Implement loadView if you want to create a view hierarchy programmatically
- - (void)loadView {
- }
- */
+
+/*// Implement loadView if you want to create a view hierarchy programmatically
+ - (void)loadView 
+{
+	[super loadView];
+}
+*/ 
 
 /*
  If you need to do additional setup after loading the view, override viewDidLoad.

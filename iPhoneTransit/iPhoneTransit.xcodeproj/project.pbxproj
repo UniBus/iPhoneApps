@@ -69,6 +69,8 @@
 		7D9446040E5CF41F00D5A00C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		7D9446050E5CF41F00D5A00C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		7D9446060E5CF41F00D5A00C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23698C0E5A4E32004348A8 /* CoreGraphics.framework */; };
+		7DDAD0570E5E579D008F1128 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DDAD0560E5E579D008F1128 /* delete.png */; };
+		7DDAD0B70E5E5C02008F1128 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DDAD0560E5E579D008F1128 /* delete.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,7 @@
 		7D386F480E5CADD800CE6434 /* ClosestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClosestView.xib; sourceTree = "<group>"; };
 		7D7E8F0E0E5B53D500F754B5 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
 		7D9445480E5CF3CD00D5A00C /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DDAD0560E5E579D008F1128 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -204,6 +207,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7DDAD0560E5E579D008F1128 /* delete.png */,
 				7D1409EC0E5D2B3600492600 /* busIcon.png */,
 				7D3405E80E5C000E007F8821 /* recent.png */,
 				7D3405E90E5C000E007F8821 /* setting.png */,
@@ -324,6 +328,7 @@
 				7D386E720E5C9B6C00CE6434 /* SearchView.xib in Resources */,
 				7D386F490E5CADD800CE6434 /* ClosestView.xib in Resources */,
 				7D1409ED0E5D2B3600492600 /* busIcon.png in Resources */,
+				7DDAD0570E5E579D008F1128 /* delete.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +336,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DDAD0B70E5E5C02008F1128 /* delete.png in Resources */,
 				7D140A1C0E5D2CB300492600 /* busIcon.png in Resources */,
 				7D94454E0E5CF40A00D5A00C /* MainWindow.xib in Resources */,
 				7D94454F0E5CF40A00D5A00C /* StopsView.xib in Resources */,
@@ -475,6 +481,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F21C99C-DB81-4429-8E44-DFBEB9E4D3F1";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Debug;

@@ -10,7 +10,7 @@
 #import "StopsView.h"
 
 @interface RecentViewController : StopsView {
-
+	NSMutableArray *busesOfInterest;
 }
 
 @end

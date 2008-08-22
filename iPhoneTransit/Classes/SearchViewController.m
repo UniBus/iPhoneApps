@@ -19,11 +19,14 @@
 	return self;
 }
 
-/*
- Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView {
+
+// Implement loadView if you want to create a view hierarchy programmatically
+- (void)loadView 
+{
+	[super loadView];	
+	stopViewType = kStopViewTypeToAdd;	
 }
- */
+
 
 /*
  If you need to do additional setup after loading the view, override viewDidLoad.
