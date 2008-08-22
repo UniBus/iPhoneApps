@@ -1,0 +1,490 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* MetronomeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2899E5220DE3E06400AC0155 /* MetronomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MetronomeViewController.xib */; };
+		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		28D7ACF80DDB3853001CB0EB /* MetronomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MetronomeViewController.m */; };
+		7D3B0EF20E4E7372002BD25F /* BeatPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B0EF10E4E7372002BD25F /* BeatPlayer.m */; };
+		7D3B0F730E4EAED0002BD25F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */; };
+		7D3B0FF10E4EB1AF002BD25F /* down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FEF0E4EB1AF002BD25F /* down.wav */; };
+		7D3B0FF20E4EB1AF002BD25F /* up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FF00E4EB1AF002BD25F /* up.wav */; };
+		7D484FC80E4EC18B000DE071 /* BeatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D484FC70E4EC18B000DE071 /* BeatView.m */; };
+		7D4850790E4EEEC9000DE071 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */; };
+		7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAB0E53BB50004BEF22 /* downbeat.png */; };
+		7DB5BDAE0E53BB50004BEF22 /* upbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAC0E53BB50004BEF22 /* upbeat.png */; };
+		7DB5BDBD0E53BB92004BEF22 /* downbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAB0E53BB50004BEF22 /* downbeat.png */; };
+		7DB5BDBE0E53BB92004BEF22 /* upbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAC0E53BB50004BEF22 /* upbeat.png */; };
+		7DFB4D0D0E4FCD80002C3511 /* metronome.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DFB4D0C0E4FCD80002C3511 /* metronome.png */; };
+		7DFB4D240E500B4A002C3511 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */; };
+		7DFB4D250E500B4A002C3511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */; };
+		7DFB4D260E500B4A002C3511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		7DFB4D270E500B4A002C3511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		7DFB4D3E0E500C3B002C3511 /* metronome.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DFB4D0C0E4FCD80002C3511 /* metronome.png */; };
+		7DFB4D3F0E500C3B002C3511 /* down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FEF0E4EB1AF002BD25F /* down.wav */; };
+		7DFB4D400E500C3B002C3511 /* up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FF00E4EB1AF002BD25F /* up.wav */; };
+		7DFB4D410E500C3B002C3511 /* MetronomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MetronomeViewController.xib */; };
+		7DFB4D420E500C3B002C3511 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		7DFB4D430E500C6E002C3511 /* MetronomeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */; };
+		7DFB4D440E500C6E002C3511 /* MetronomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MetronomeViewController.m */; };
+		7DFB4D450E500C6E002C3511 /* BeatPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B0EF10E4E7372002BD25F /* BeatPlayer.m */; };
+		7DFB4D460E500C6E002C3511 /* BeatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D484FC70E4EC18B000DE071 /* BeatView.m */; };
+		7DFB4D470E500C6E002C3511 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* MetronomeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetronomeAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetronomeAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Metronome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metronome.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2899E5210DE3E06400AC0155 /* MetronomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetronomeViewController.xib; sourceTree = "<group>"; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* MetronomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetronomeViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* MetronomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetronomeViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Metronome_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Metronome_Prefix.pch; sourceTree = "<group>"; };
+		7D3B0EF00E4E7372002BD25F /* BeatPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatPlayer.h; sourceTree = "<group>"; };
+		7D3B0EF10E4E7372002BD25F /* BeatPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeatPlayer.m; sourceTree = "<group>"; };
+		7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7D3B0FEF0E4EB1AF002BD25F /* down.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = down.wav; sourceTree = "<group>"; };
+		7D3B0FF00E4EB1AF002BD25F /* up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = up.wav; sourceTree = "<group>"; };
+		7D484FC60E4EC18B000DE071 /* BeatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatView.h; sourceTree = "<group>"; };
+		7D484FC70E4EC18B000DE071 /* BeatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeatView.m; sourceTree = "<group>"; };
+		7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7DB215F30E52CC4900381D34 /* Screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Screenshot.png; sourceTree = "<group>"; };
+		7DB215FE0E52CE4300381D34 /* Description */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Description; sourceTree = "<group>"; };
+		7DB5BDAB0E53BB50004BEF22 /* downbeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downbeat.png; sourceTree = "<group>"; };
+		7DB5BDAC0E53BB50004BEF22 /* upbeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upbeat.png; sourceTree = "<group>"; };
+		7DFB4D0C0E4FCD80002C3511 /* metronome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metronome.png; sourceTree = "<group>"; };
+		7DFB4D1E0E500ABA002C3511 /* iTick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTick.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				7D3B0F730E4EAED0002BD25F /* AudioToolbox.framework in Frameworks */,
+				7D4850790E4EEEC9000DE071 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFB4D1C0E500ABA002C3511 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFB4D240E500B4A002C3511 /* AudioToolbox.framework in Frameworks */,
+				7DFB4D250E500B4A002C3511 /* CoreGraphics.framework in Frameworks */,
+				7DFB4D260E500B4A002C3511 /* Foundation.framework in Frameworks */,
+				7DFB4D270E500B4A002C3511 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* MetronomeAppDelegate.h */,
+				1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */,
+				28D7ACF60DDB3853001CB0EB /* MetronomeViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MetronomeViewController.m */,
+				7D3B0EF00E4E7372002BD25F /* BeatPlayer.h */,
+				7D3B0EF10E4E7372002BD25F /* BeatPlayer.m */,
+				7D484FC60E4EC18B000DE071 /* BeatView.h */,
+				7D484FC70E4EC18B000DE071 /* BeatView.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Metronome.app */,
+				7DFB4D1E0E500ABA002C3511 /* iTick.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				7DB215FE0E52CE4300381D34 /* Description */,
+				7DB215F30E52CC4900381D34 /* Screenshot.png */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Metronome_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7DB5BDAB0E53BB50004BEF22 /* downbeat.png */,
+				7DB5BDAC0E53BB50004BEF22 /* upbeat.png */,
+				7DFB4D0C0E4FCD80002C3511 /* metronome.png */,
+				7D3B0FEF0E4EB1AF002BD25F /* down.wav */,
+				7D3B0FF00E4EB1AF002BD25F /* up.wav */,
+				2899E5210DE3E06400AC0155 /* MetronomeViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */,
+				7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* Metronome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Metronome" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Metronome;
+			productName = Metronome;
+			productReference = 1D6058910D05DD3D006BFB54 /* Metronome.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7DFB4D1D0E500ABA002C3511 /* iTick */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DFB4D230E500ABA002C3511 /* Build configuration list for PBXNativeTarget "iTick" */;
+			buildPhases = (
+				7DFB4D1A0E500ABA002C3511 /* Resources */,
+				7DFB4D1B0E500ABA002C3511 /* Sources */,
+				7DFB4D1C0E500ABA002C3511 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTick;
+			productName = iBeat;
+			productReference = 7DFB4D1E0E500ABA002C3511 /* iTick.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Metronome" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* Metronome */,
+				7DFB4D1D0E500ABA002C3511 /* iTick */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* MetronomeViewController.xib in Resources */,
+				7D3B0FF10E4EB1AF002BD25F /* down.wav in Resources */,
+				7D3B0FF20E4EB1AF002BD25F /* up.wav in Resources */,
+				7DFB4D0D0E4FCD80002C3511 /* metronome.png in Resources */,
+				7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */,
+				7DB5BDAE0E53BB50004BEF22 /* upbeat.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFB4D1A0E500ABA002C3511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DB5BDBD0E53BB92004BEF22 /* downbeat.png in Resources */,
+				7DB5BDBE0E53BB92004BEF22 /* upbeat.png in Resources */,
+				7DFB4D3E0E500C3B002C3511 /* metronome.png in Resources */,
+				7DFB4D3F0E500C3B002C3511 /* down.wav in Resources */,
+				7DFB4D400E500C3B002C3511 /* up.wav in Resources */,
+				7DFB4D410E500C3B002C3511 /* MetronomeViewController.xib in Resources */,
+				7DFB4D420E500C3B002C3511 /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* MetronomeAppDelegate.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* MetronomeViewController.m in Sources */,
+				7D3B0EF20E4E7372002BD25F /* BeatPlayer.m in Sources */,
+				7D484FC80E4EC18B000DE071 /* BeatView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DFB4D1B0E500ABA002C3511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7DFB4D430E500C6E002C3511 /* MetronomeAppDelegate.m in Sources */,
+				7DFB4D440E500C6E002C3511 /* MetronomeViewController.m in Sources */,
+				7DFB4D450E500C6E002C3511 /* BeatPlayer.m in Sources */,
+				7DFB4D460E500C6E002C3511 /* BeatView.m in Sources */,
+				7DFB4D470E500C6E002C3511 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Metronome;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Metronome;
+			};
+			name = Release;
+		};
+		7D4890520E52B60C006C3AF8 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B629AC78-54AC-4268-AD12-D7EF17565DD8";
+				SDKROOT = iphoneos2.0;
+			};
+			name = Distribution;
+		};
+		7D4890530E52B60C006C3AF8 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Metronome;
+			};
+			name = Distribution;
+		};
+		7D4890540E52B60C006C3AF8 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTick;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B629AC78-54AC-4268-AD12-D7EF17565DD8";
+				SDKROOT = iphoneos2.0;
+				ZERO_LINK = NO;
+			};
+			name = Distribution;
+		};
+		7DFB4D210E500ABA002C3511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTick;
+				SDKROOT = iphoneos2.0;
+			};
+			name = Debug;
+		};
+		7DFB4D220E500ABA002C3511 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = iTick;
+				SDKROOT = iphoneos2.0;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9567E737-B6AA-4FDA-89B3-27C4736A8522";
+				SDKROOT = iphoneos2.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Metronome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+				7D4890530E52B60C006C3AF8 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DFB4D230E500ABA002C3511 /* Build configuration list for PBXNativeTarget "iTick" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DFB4D210E500ABA002C3511 /* Debug */,
+				7DFB4D220E500ABA002C3511 /* Release */,
+				7D4890540E52B60C006C3AF8 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Metronome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+				7D4890520E52B60C006C3AF8 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
