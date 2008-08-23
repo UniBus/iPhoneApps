@@ -6,7 +6,7 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+//#import <UIKit/UIKit.h>
 
 @interface ArrivalQuery : NSObject {
 	NSMutableArray *arrivalsForStops;

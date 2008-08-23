@@ -20,25 +20,22 @@
 @synthesize tabBarController;
 
 
+- (void)dataDidFinishLoading:(UIApplication *)application
+{
+	[indicator stopAnimating];
+	[indicator removeFromSuperview];
+	UIViewController *selectedViewController = [tabBarController selectedViewController];
+	if ([selectedViewController isKindOfClass:[StopsView class]])
+		[(StopsView *)selectedViewController needsReload];
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
 	// Add the tab bar controller's current view as a subview of the window
-	
-	for (UIViewController *viewController in tabBarController.viewControllers)
-	{
-		if ([viewController isKindOfClass:[ClosestViewController class]])
-			viewController.tabBarItem.image = [UIImage imageNamed:@"closest.png"];
-		else if ([viewController isKindOfClass:[SettingsViewController class]])
-			viewController.tabBarItem.image = [UIImage imageNamed:@"setting.png"];
-		else if ([viewController isKindOfClass:[RecentViewController class]])
-			viewController.tabBarItem.image = [UIImage imageNamed:@"recent.png"];
-		else if ([viewController isKindOfClass:[SearchViewController class]])
-			viewController.tabBarItem.image = [UIImage imageNamed:@"search.png"];
-		else if ([viewController isKindOfClass:[FavoriteViewController class]])
-			viewController.tabBarItem.image = [UIImage imageNamed:@"favorite.png"];
-	}
-	
+    [window makeKeyAndVisible];	
 	[window addSubview:tabBarController.view];
+	[window addSubview:indicator];
+	[indicator startAnimating];
 }
 
 

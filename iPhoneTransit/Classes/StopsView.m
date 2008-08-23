@@ -407,14 +407,35 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 {
 	[theArrivals autorelease];
 	theArrivals = [arrivals retain];
-	BusArrival *anArrival = [arrivals objectAtIndex:0];
-
+	
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
 	[dateFormatter setDateStyle:NSDateFormatterNoStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];	
 
-	[busSign setText:[NSString stringWithFormat:@"%@", [anArrival busSign]]];
-	if (anArrival.departed)
+	BusArrival *anArrival = nil;
+	if ([arrivals count])
+	{
+		anArrival = [arrivals objectAtIndex:0];
+		[busSign setText:[NSString stringWithFormat:@"%@", [anArrival busSign]]];		
+	}
+	else
+	{
+		[busSign setText:@"Unknown"];		
+	}
+	
+	if (anArrival == nil)
+	{
+		[arrivalTime1 setText:@"-- -- --"];
+		[arrivalTime2 setText:@"-- -- --"];
+		return;
+	}
+	
+	if (anArrival.flag)
+	{
+		[arrivalTime1 setText:@"-- -- --"];
+		[arrivalTime2 setText:@"-- -- --"];
+	}
+	else if (anArrival.departed)
 		[arrivalTime1 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
 		//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
 	else
@@ -495,17 +516,23 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	//To be implemented in subclasses;
 }
 
+- (void) alertOnEmptyStopsOfInterest
+{
+	//To be implemented in subclasses
+	
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"There is no stops"
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+	//Show some info to user here!
+}
+
 - (void) reload
 {
 	if ([stopsOfInterest count] == 0)
 	{
-		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"There is no stops"
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alert show];	
-		[alert release];
-		//Show some info to user here!
-		
+		[self alertOnEmptyStopsOfInterest];
 		//return;
 	}
 	
@@ -543,28 +570,31 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 {
 	/*Find out how many buses arrive at this stop*/
 	NSMutableArray *result = [[NSMutableArray alloc] init];
-	BusArrival *anArrival = [arrivals objectAtIndex:0];
-	NSString *theBusSign = [anArrival busSign];
-	int currentIndex = 0;
-	
-	if (index == currentIndex)
-		[result addObject:anArrival];
-	
-	for (int i=1; i<[arrivals count]; i++)
+	if ([arrivals count] )
 	{
-		anArrival = [arrivals objectAtIndex:i];
-		
-		if (![theBusSign isEqualToString:[anArrival busSign]])
-		{
-			theBusSign = [[arrivals objectAtIndex:i] busSign];
-			currentIndex ++;
-		}
+		BusArrival *anArrival = [arrivals objectAtIndex:0];
+		NSString *theBusSign = [anArrival busSign];
+		int currentIndex = 0;
 		
 		if (index == currentIndex)
 			[result addObject:anArrival];
-		else if (currentIndex > index)
-			break;		
-	}	
+		
+		for (int i=1; i<[arrivals count]; i++)
+		{
+			anArrival = [arrivals objectAtIndex:i];
+			
+			if (![theBusSign isEqualToString:[anArrival busSign]])
+			{
+				theBusSign = [[arrivals objectAtIndex:i] busSign];
+				currentIndex ++;
+			}
+			
+			if (index == currentIndex)
+				[result addObject:anArrival];
+			else if (currentIndex > index)
+				break;		
+		}		
+	}
 	
 	return [result autorelease];
 }
@@ -593,6 +623,9 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
 	if (arrivalsForOneStop == nil)
 		return 0;
+	
+	if ([arrivalsForOneStop count] == 0)
+		return 1; // Still need to list the stop info.
 	
 	/*Find out how many buses arrive at this stop*/
 	BusArrival *anArrival = [arrivalsForOneStop objectAtIndex:0];
@@ -652,18 +685,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		
 		[cell setArrivals:arrivalsAtOneStopForOneBus];
 		return cell;
-		/*
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-		if (cell == nil) 
-		{
-			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		}
-
-		NSMutableArray *arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];
-		BusArrival *anArrival = [arrivalsAtOneStop objectAtIndex:[indexPath row]-1];
-		cell.text = [[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil];
-		return cell;
-		 */
 	}
 	else
 	{

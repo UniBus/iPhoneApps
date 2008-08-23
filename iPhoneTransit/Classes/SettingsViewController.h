@@ -8,24 +8,33 @@
 
 #import <UIKit/UIKit.h>
 
+@interface SearchRangeCell : UITableViewCell
+{
+}
+@end
+
+
 @interface SettingsViewController : UIViewController {
 	IBOutlet UITableView *settingView;
-	IBOutlet UITableViewCell *rangeCell;
+	IBOutlet SearchRangeCell *rangeCell;
 	IBOutlet UITableViewCell *recentCell;
 	IBOutlet UITableViewCell *aboutCell;
 	IBOutlet UIWebView       *aboutWebCell;
 	IBOutlet UISlider        *rangeSlider;
 	IBOutlet UISlider        *recentSlider;
 	
-	float searchRange;
-	int   numberOfRecentStops;
+	//float searchRange;
+	//int   numberOfRecentStops;
 }
 
-@property float searchRange;
-@property int numberOfRecentStops;
+//@property float searchRange;
+//@property int numberOfRecentStops;
 
 - (IBAction) rangeChanged:(id) sender;
-- (IBAction) recentChanged:(id) sender;
+- (IBAction) resultNumChanged:(id) sender;
+
+- (IBAction) rangeChangedFinial:(id) sender;
+- (IBAction) resultNumChangedFinal:(id) sender;
 
 @end
 

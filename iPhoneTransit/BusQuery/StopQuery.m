@@ -6,7 +6,7 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+//#import <UIKit/UIKit.h>
 #import "StopQuery.h"
 #import "parseCSV.h"
 #import "General.h"

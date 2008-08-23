@@ -5,12 +5,12 @@
 //  Created by Zhenwang Yao on 17/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
-#import <UIKit/UIKit.h>
+//#import <UIKit/UIKit.h>
 #import "BusArrival.h"
 
 @implementation BusArrival
 
-@synthesize departed, stopId;
+@synthesize departed, stopId, flag;
 
 - (void) dealloc
 {

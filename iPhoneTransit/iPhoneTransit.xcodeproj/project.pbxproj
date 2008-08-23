@@ -38,6 +38,10 @@
 		7D386E500E5C9B0800CE6434 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386E4F0E5C9B0800CE6434 /* SearchViewController.m */; };
 		7D386E720E5C9B6C00CE6434 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D386E710E5C9B6C00CE6434 /* SearchView.xib */; };
 		7D386F490E5CADD800CE6434 /* ClosestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D386F480E5CADD800CE6434 /* ClosestView.xib */; };
+		7D6D0F310E5F4F4C002E3188 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D0F300E5F4F4C002E3188 /* Default.png */; };
+		7D6D0F320E5F4F4C002E3188 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D0F300E5F4F4C002E3188 /* Default.png */; };
+		7D6D113B0E5F7D28002E3188 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */; };
+		7D6D11A60E5F80CC002E3188 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */; };
 		7D7E8F0F0E5B53D500F754B5 /* mapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D7E8F0E0E5B53D500F754B5 /* mapicon.png */; };
 		7D94454E0E5CF40A00D5A00C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
 		7D94454F0E5CF40A00D5A00C /* StopsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D2369B00E5A4E7B004348A8 /* StopsView.xib */; };
@@ -120,6 +124,8 @@
 		7D386E4F0E5C9B0800CE6434 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		7D386E710E5C9B6C00CE6434 /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		7D386F480E5CADD800CE6434 /* ClosestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClosestView.xib; sourceTree = "<group>"; };
+		7D6D0F300E5F4F4C002E3188 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D7E8F0E0E5B53D500F754B5 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
 		7D9445480E5CF3CD00D5A00C /* MyBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DDAD0560E5E579D008F1128 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				7D23698D0E5A4E32004348A8 /* CoreGraphics.framework in Frameworks */,
+				7D6D113B0E5F7D28002E3188 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D6D11A60E5F80CC002E3188 /* CoreLocation.framework in Frameworks */,
 				7D9446040E5CF41F00D5A00C /* Foundation.framework in Frameworks */,
 				7D9446050E5CF41F00D5A00C /* UIKit.framework in Frameworks */,
 				7D9446060E5CF41F00D5A00C /* CoreGraphics.framework in Frameworks */,
@@ -153,22 +161,22 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7D2369500E5A4DED004348A8 /* SettingsViewController.h */,
-				7D2369510E5A4DED004348A8 /* SettingsViewController.m */,
-				1D3623240D0F684500981E51 /* iPhoneTransitAppDelegate.h */,
-				1D3623250D0F684500981E51 /* iPhoneTransitAppDelegate.m */,
-				7D2369B30E5A4F02004348A8 /* ClosestViewController.h */,
-				7D2369B40E5A4F02004348A8 /* ClosestViewController.m */,
-				7D2369B70E5A4F6E004348A8 /* StopsView.h */,
-				7D2369B80E5A4F6E004348A8 /* StopsView.m */,
 				7D236A1E0E5A63C3004348A8 /* TransitApp.h */,
 				7D236A1F0E5A63C3004348A8 /* TransitApp.m */,
-				7D3405C90E5BFB8D007F8821 /* RecentViewController.h */,
-				7D3405CA0E5BFB8D007F8821 /* RecentViewController.m */,
+				1D3623240D0F684500981E51 /* iPhoneTransitAppDelegate.h */,
+				1D3623250D0F684500981E51 /* iPhoneTransitAppDelegate.m */,
+				7D2369B70E5A4F6E004348A8 /* StopsView.h */,
+				7D2369B80E5A4F6E004348A8 /* StopsView.m */,
+				7D2369B30E5A4F02004348A8 /* ClosestViewController.h */,
+				7D2369B40E5A4F02004348A8 /* ClosestViewController.m */,
 				7D3405DE0E5BFFA1007F8821 /* FavoriteViewController.h */,
 				7D3405DF0E5BFFA1007F8821 /* FavoriteViewController.m */,
 				7D386E4E0E5C9B0800CE6434 /* SearchViewController.h */,
 				7D386E4F0E5C9B0800CE6434 /* SearchViewController.m */,
+				7D2369500E5A4DED004348A8 /* SettingsViewController.h */,
+				7D2369510E5A4DED004348A8 /* SettingsViewController.m */,
+				7D3405C90E5BFB8D007F8821 /* RecentViewController.h */,
+				7D3405CA0E5BFB8D007F8821 /* RecentViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -222,6 +230,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				7D386E710E5C9B6C00CE6434 /* SearchView.xib */,
 				7D386F480E5CADD800CE6434 /* ClosestView.xib */,
+				7D6D0F300E5F4F4C002E3188 /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -229,6 +238,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */,
 				7D23698C0E5A4E32004348A8 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -329,6 +339,7 @@
 				7D386F490E5CADD800CE6434 /* ClosestView.xib in Resources */,
 				7D1409ED0E5D2B3600492600 /* busIcon.png in Resources */,
 				7DDAD0570E5E579D008F1128 /* delete.png in Resources */,
+				7D6D0F310E5F4F4C002E3188 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +361,7 @@
 				7D9445570E5CF40A00D5A00C /* setting.png in Resources */,
 				7D9445580E5CF40A00D5A00C /* SearchView.xib in Resources */,
 				7D9445590E5CF40A00D5A00C /* ClosestView.xib in Resources */,
+				7D6D0F320E5F4F4C002E3188 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +450,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iPhoneTransit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PREBINDING = NO;
@@ -455,8 +468,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				INFOPLIST_FILE = "MyBus-Info.plist";
+				GCC_PREFIX_HEADER = iPhoneTransit_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",

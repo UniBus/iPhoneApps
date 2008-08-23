@@ -24,14 +24,22 @@
 	[self needsReload];
 }
 
+- (void) alertOnEmptyStopsOfInterest
+{
+}
+
 - (void) needsReload
 {
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	if (!myApplication.queryAvailable)
+		return;
+	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	NSMutableArray *favoriteArray = [defaults objectForKey:UserSavedFavoriteStopsAndBuses];
 	
 	NSMutableArray *newStops = [NSMutableArray array];
 	NSMutableArray *newBuses = [NSMutableArray array];
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+
 	for (NSData *anItemData in favoriteArray)
 	{
 		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
@@ -112,5 +120,81 @@
 	[super dealloc];
 }
 
+#pragma mark TableView Delegate Functions
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	if (busesOfInterest == nil)
+		return 0;
+	
+	if ([busesOfInterest count] == 0)
+		return 0;
+	
+	NSMutableArray *arrivalsForOneStop = [busesOfInterest objectAtIndex:section];
+	if (arrivalsForOneStop == nil)
+		return 0;
+	
+	return [arrivalsForOneStop count]+1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (stopsOfInterest == nil)
+		return @"Empty favorite list!";
+	
+	if ([stopsOfInterest count] == 0)
+		return @"Empty favorite list!";
+	
+	BusStop *aStop = [stopsOfInterest objectAtIndex:section];
+	if (aStop == nil)
+		return @"Empty favorite list!";
+	
+	return [NSString stringWithFormat:@"%@", aStop.name];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	static NSString *MyIdentifier = @"MyIdentifier";
+	static NSString *MyIdentifier2 = @"MyIdentifier2";
+	
+	if ([indexPath row] >= 1)
+	{
+		ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+		if (cell == nil) 
+		{
+			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType owner:self] autorelease];
+		}
+		
+		NSMutableArray *arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];
+		NSArray *arrivalsAtOneStopForOneBus = [self arrivalsOfOneBus:arrivalsAtOneStop ofIndex:[indexPath row]-1];
+		
+		if ([arrivalsAtOneStopForOneBus count] == 0)
+		{
+			BusArrival *aFakedArrival = [[BusArrival alloc] init];
+			aFakedArrival.stopId = [[stopsOfInterest objectAtIndex:[indexPath section]] stopId];
+			NSArray *allBuses = [busesOfInterest objectAtIndex:[indexPath section]];
+			NSString *fakeBusSign = [allBuses objectAtIndex:[indexPath row]-1];
+			[aFakedArrival setBusSign:fakeBusSign];
+			aFakedArrival.flag = YES;
+			arrivalsAtOneStop = [NSArray arrayWithObject: aFakedArrival];
+		}
+		
+		[cell setArrivals:arrivalsAtOneStopForOneBus];
+		return cell;
+	}
+	else
+	{
+		StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
+		if (cell == nil) 
+		{
+			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2] autorelease];
+		}
+		[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
+		return cell;
+	}
+	
+	// Configure the cell
+	//return cell;
+}
 
 @end

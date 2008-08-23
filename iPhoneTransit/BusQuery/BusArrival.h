@@ -5,15 +5,17 @@
 //  Created by Zhenwang Yao on 17/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
-#import <UIKit/UIKit.h>
+//#import <UIKit/UIKit.h>
 
 @interface BusArrival : NSObject {
 	NSInteger stopId;
 	NSDate *arrivalTime;
 	NSString *busSign;
 	BOOL departed;
+	BOOL flag; 
 }
 
+@property BOOL flag;
 @property BOOL departed;
 @property NSInteger stopId;
 

@@ -46,6 +46,7 @@
 	UIViewController *ownerView;
 }
 
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type owner:(UIViewController *)owner;
 - (void) setArrivals: (id) arrivals;
 
 @end
@@ -70,7 +71,9 @@ enum _stop_view_type_ {
 
 - (void) reload;
 - (void) needsReload;
+- (void) alertOnEmptyStopsOfInterest;
 //This is a virtual function!!!
 //- (void) filterData;
+- (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index;
 
 @end

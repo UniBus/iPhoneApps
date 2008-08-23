@@ -7,7 +7,7 @@
  *
  */
 
-#import <UIKit/UIKit.h>
+//#import <UIKit/UIKit.h>
 
 @interface CSVParser:NSObject {
 	int fileHandle;

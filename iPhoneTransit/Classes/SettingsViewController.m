@@ -7,7 +7,11 @@
 //
 
 #import "SettingsViewController.h"
+#import "TransitApp.h"
 
+extern float searchRange;
+extern int   numberOfResults;
+extern BOOL  globalTestMode;
 
 enum SettingTableSections
 {
@@ -19,16 +23,18 @@ enum SettingTableSections
 
 @implementation SettingsViewController
 
-@synthesize searchRange, numberOfRecentStops;
-
-
+//@synthesize searchRange, numberOfRecentStops;
 // Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView {
-	searchRange = 0.1;
-	numberOfRecentStops = 2;
-	
+- (void)loadView 
+{
+	//searchRange = 0.1;
+	//numberOfRecentStops = 2;
 	[super loadView];
-
+		
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	searchRange = [defaults floatForKey:UserSavedSearchRange];
+	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	
 	NSMutableString *content =[NSMutableString  stringWithString: @"<html> Author: Zhenwang Yao <br><br>"];
 	[content appendString:@"This is an application based on Google Transit Feed data. Web service is provided by "];
 	[content appendString:@"<a href=\"http://developer.trimet.org/\">Trimet</a>. </html>"];
@@ -68,12 +74,24 @@ enum SettingTableSections
 	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
 }
 
-- (IBAction) recentChanged:(id) sender
+- (IBAction) resultNumChanged:(id) sender
 {
-	numberOfRecentStops = [recentSlider value];
+	numberOfResults = [recentSlider value];
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRecent_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in recent list", numberOfRecentStops];
+	cellToUpdate.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];
+}
+
+- (IBAction) rangeChangedFinial:(id) sender
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setFloat:searchRange forKey:UserSavedSearchRange];
+}
+
+- (IBAction) resultNumChangedFinal:(id) sender
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setInteger:numberOfResults forKey:UserSavedSearchResultsNum];
 }
 
 #pragma mark UITableView Delegate Functions
@@ -122,7 +140,7 @@ enum SettingTableSections
 			title = @"Search Range";
 			break;
 		case kUIRecent_Section:
-			title = @"Recent Stops";
+			title = @"Search Results";
 			break;
 		case kUIAbout_Section:
 			title = @"About";
@@ -162,7 +180,7 @@ enum SettingTableSections
 		}
 		else if ( indexPath.section == kUIRecent_Section)
 		{
-			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in recent list", numberOfRecentStops];					
+			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in recent list", numberOfResults];					
 		}
 		else
 		{			
@@ -187,5 +205,27 @@ enum SettingTableSections
 }
 
 @end
+
+@implementation SearchRangeCell
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	static int numOfTouches = 1;
+	numOfTouches ++;
+	
+	numOfTouches = numOfTouches % 10;
+	if (numOfTouches == 0)
+	{
+		globalTestMode = YES;
+		NSLog(@"Switch to Test mode!!");
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
+
+@end
+
 
 

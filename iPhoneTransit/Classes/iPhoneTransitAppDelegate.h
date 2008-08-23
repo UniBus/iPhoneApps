@@ -11,9 +11,12 @@
 @interface iPhoneTransitAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
+	IBOutlet UIActivityIndicatorView *indicator;
 }
 
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
+
+- (void)dataDidFinishLoading:(UIApplication *)application;
 
 @end

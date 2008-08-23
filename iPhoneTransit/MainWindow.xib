@@ -8,7 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
+			<integer value="108"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -24,17 +25,31 @@
 			</object>
 			<object class="IBUICustomObject" id="664661524"/>
 			<object class="IBUIWindow" id="380026005">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">1316</int>
+				<object class="NSMutableArray" key="NSSubviews">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="IBUIActivityIndicatorView" id="659523343">
+						<reference key="NSNextResponder" ref="380026005"/>
+						<int key="NSvFlags">1316</int>
+						<string key="NSFrame">{{152, 237}, {20, 20}}</string>
+						<reference key="NSSuperview" ref="380026005"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<bool key="IBUIHidesWhenStopped">NO</bool>
+						<int key="IBUIStyle">2</int>
+					</object>
+				</object>
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{320, 480}</string>
+				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEAA</bytes>
 				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-				<bool key="IBUIVisibleAtLaunch">YES</bool>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 			</object>
 			<object class="IBUITabBarController" id="1034742383">
@@ -43,45 +58,57 @@
 					<bool key="IBUIPrompted">NO</bool>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUIViewController" key="IBUISelectedViewController" id="399854583">
-					<string key="IBUITitle">Settings</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="579069738">
-						<string key="IBUITitle">Settings</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="1024858337">
+					<string key="IBUITitle">Closest Stops</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
+						<string key="IBUITitle">Nearby</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">closest.png</string>
+						</object>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<string key="IBUINibName">SettingsView</string>
+					<string key="IBUINibName">ClosestView</string>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIViewController" id="848383291">
 						<string key="IBUITitle">Favorite Stops/Bus</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="792187309">
-							<string key="IBUITitle">Favorite</string>
+							<int key="IBUISystemItemIdentifier">1</int>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">StopsView</string>
 					</object>
-					<object class="IBUIViewController" id="1024858337">
-						<string key="IBUITitle">Closest Stops</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="765670903">
-							<string key="IBUITitle">Closest</string>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<string key="IBUINibName">ClosestView</string>
-					</object>
+					<reference ref="1024858337"/>
 					<object class="IBUIViewController" id="268481961">
 						<string key="IBUITitle">Search</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="807309489">
 							<string key="IBUITitle">Search</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">search.png</string>
+							</object>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<string key="IBUINibName">SearchView</string>
 					</object>
-					<reference ref="399854583"/>
+					<object class="IBUIViewController" id="399854583">
+						<string key="IBUITitle">Settings</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="579069738">
+							<string key="IBUITitle">Settings</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">setting.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1034742383"/>
+						<string key="IBUINibName">SettingsView</string>
+					</object>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<nil key="NSNextResponder"/>
@@ -122,6 +149,14 @@
 					</object>
 					<int key="connectionID">113</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">indicator</string>
+						<reference key="source" ref="664661524"/>
+						<reference key="destination" ref="659523343"/>
+					</object>
+					<int key="connectionID">124</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -139,6 +174,7 @@
 						<reference key="object" ref="380026005"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="659523343"/>
 						</object>
 						<reference key="parent" ref="957960031"/>
 					</object>
@@ -233,6 +269,11 @@
 						<reference key="object" ref="792187309"/>
 						<reference key="parent" ref="848383291"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">123</int>
+						<reference key="object" ref="659523343"/>
+						<reference key="parent" ref="380026005"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -252,6 +293,7 @@
 					<string>111.IBPluginDependency</string>
 					<string>115.CustomClassName</string>
 					<string>121.CustomClassName</string>
+					<string>123.IBPluginDependency</string>
 					<string>2.IBAttributePlaceholdersKey</string>
 					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
@@ -273,6 +315,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SettingsViewController</string>
 					<string>FavoriteViewController</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSMutableDictionary">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -308,7 +351,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">122</int>
+			<int key="maxID">124</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -412,11 +455,13 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>indicator</string>
 							<string>tabBarController</string>
 							<string>window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
 							<string>UITabBarController</string>
 							<string>UIWindow</string>
 						</object>
