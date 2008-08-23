@@ -10,15 +10,14 @@
 #import "BusStop.h"
 
 @interface StopQuery : NSObject {
-	NSMutableArray *rawStops;	
 	double distanceThreshold;
 	NSMutableArray *sortedStops;
-	double minLongtitude;
-	double maxLongtitude;
-	double maxLatitude;
-	double minLatitude;
-	int numberOfLonGrid;
-	int numberOfLatGrid;
+	//double minLongtitude;
+	//double maxLongtitude;
+	//double maxLatitude;
+	//double minLatitude;
+	//int numberOfLonGrid;
+	//int numberOfLatGrid;
 }
 
 @property double distanceThreshold;
@@ -26,10 +25,10 @@
 //Create an object with the stop file
 + (id) initWithFile:(NSString *) stopFile;
 - (BOOL) openStopFile: (NSString *)stopFile;
+- (BOOL) saveStopFile: (NSString *)stopFile;
 
 //Some propertoes
 - (NSMutableArray *) stops;
-- (void) setStops:(NSMutableArray *)newStops;
 - (NSInteger) numberOfStops;
 - (BusStop *) stopAtIndex: (NSInteger) index;
 

@@ -18,7 +18,7 @@
 		7D23698D0E5A4E32004348A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23698C0E5A4E32004348A8 /* CoreGraphics.framework */; };
 		7D2369B10E5A4E7B004348A8 /* StopsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D2369B00E5A4E7B004348A8 /* StopsView.xib */; };
 		7D2369B50E5A4F02004348A8 /* ClosestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B40E5A4F02004348A8 /* ClosestViewController.m */; };
-		7D2369B90E5A4F6E004348A8 /* StopsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B80E5A4F6E004348A8 /* StopsView.m */; };
+		7D2369B90E5A4F6E004348A8 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B80E5A4F6E004348A8 /* StopsViewController.m */; };
 		7D2369F30E5A5B51004348A8 /* ArrivalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369E70E5A5B50004348A8 /* ArrivalQuery.m */; };
 		7D2369F40E5A5B51004348A8 /* BusArrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369E90E5A5B50004348A8 /* BusArrival.m */; };
 		7D2369F50E5A5B51004348A8 /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369EB0E5A5B51004348A8 /* BusStop.m */; };
@@ -38,6 +38,10 @@
 		7D386E500E5C9B0800CE6434 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D386E4F0E5C9B0800CE6434 /* SearchViewController.m */; };
 		7D386E720E5C9B6C00CE6434 /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D386E710E5C9B6C00CE6434 /* SearchView.xib */; };
 		7D386F490E5CADD800CE6434 /* ClosestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D386F480E5CADD800CE6434 /* ClosestView.xib */; };
+		7D3C78D40E5FDB9A006C4332 /* StopQuery-ARV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3C78D10E5FDB9A006C4332 /* StopQuery-ARV.m */; };
+		7D3C78D50E5FDB9A006C4332 /* StopQuery-CSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3C78D30E5FDB9A006C4332 /* StopQuery-CSV.m */; };
+		7D3C78F10E5FDC7B006C4332 /* StopQuery-ARV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3C78D10E5FDB9A006C4332 /* StopQuery-ARV.m */; };
+		7D3C78F20E5FDC7B006C4332 /* StopQuery-CSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3C78D30E5FDB9A006C4332 /* StopQuery-CSV.m */; };
 		7D6D0F310E5F4F4C002E3188 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D0F300E5F4F4C002E3188 /* Default.png */; };
 		7D6D0F320E5F4F4C002E3188 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D6D0F300E5F4F4C002E3188 /* Default.png */; };
 		7D6D113B0E5F7D28002E3188 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */; };
@@ -59,7 +63,7 @@
 		7D94455B0E5CF41500D5A00C /* iPhoneTransitAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iPhoneTransitAppDelegate.m */; };
 		7D94455C0E5CF41500D5A00C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369510E5A4DED004348A8 /* SettingsViewController.m */; };
 		7D94455D0E5CF41500D5A00C /* ClosestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B40E5A4F02004348A8 /* ClosestViewController.m */; };
-		7D94455E0E5CF41500D5A00C /* StopsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B80E5A4F6E004348A8 /* StopsView.m */; };
+		7D94455E0E5CF41500D5A00C /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369B80E5A4F6E004348A8 /* StopsViewController.m */; };
 		7D94455F0E5CF41500D5A00C /* ArrivalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369E70E5A5B50004348A8 /* ArrivalQuery.m */; };
 		7D9445600E5CF41500D5A00C /* BusArrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369E90E5A5B50004348A8 /* BusArrival.m */; };
 		7D9445610E5CF41500D5A00C /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2369EB0E5A5B51004348A8 /* BusStop.m */; };
@@ -93,8 +97,8 @@
 		7D2369B00E5A4E7B004348A8 /* StopsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StopsView.xib; sourceTree = "<group>"; };
 		7D2369B30E5A4F02004348A8 /* ClosestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosestViewController.h; sourceTree = "<group>"; };
 		7D2369B40E5A4F02004348A8 /* ClosestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClosestViewController.m; sourceTree = "<group>"; };
-		7D2369B70E5A4F6E004348A8 /* StopsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsView.h; sourceTree = "<group>"; };
-		7D2369B80E5A4F6E004348A8 /* StopsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsView.m; sourceTree = "<group>"; };
+		7D2369B70E5A4F6E004348A8 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
+		7D2369B80E5A4F6E004348A8 /* StopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsViewController.m; sourceTree = "<group>"; };
 		7D2369E60E5A5B50004348A8 /* ArrivalQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrivalQuery.h; sourceTree = "<group>"; };
 		7D2369E70E5A5B50004348A8 /* ArrivalQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrivalQuery.m; sourceTree = "<group>"; };
 		7D2369E80E5A5B50004348A8 /* BusArrival.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusArrival.h; sourceTree = "<group>"; };
@@ -124,6 +128,10 @@
 		7D386E4F0E5C9B0800CE6434 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		7D386E710E5C9B6C00CE6434 /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
 		7D386F480E5CADD800CE6434 /* ClosestView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClosestView.xib; sourceTree = "<group>"; };
+		7D3C78D00E5FDB9A006C4332 /* StopQuery-ARV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StopQuery-ARV.h"; sourceTree = "<group>"; };
+		7D3C78D10E5FDB9A006C4332 /* StopQuery-ARV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StopQuery-ARV.m"; sourceTree = "<group>"; };
+		7D3C78D20E5FDB9A006C4332 /* StopQuery-CSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StopQuery-CSV.h"; sourceTree = "<group>"; };
+		7D3C78D30E5FDB9A006C4332 /* StopQuery-CSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StopQuery-CSV.m"; sourceTree = "<group>"; };
 		7D6D0F300E5F4F4C002E3188 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7D6D113A0E5F7D28002E3188 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D7E8F0E0E5B53D500F754B5 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
@@ -165,8 +173,8 @@
 				7D236A1F0E5A63C3004348A8 /* TransitApp.m */,
 				1D3623240D0F684500981E51 /* iPhoneTransitAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iPhoneTransitAppDelegate.m */,
-				7D2369B70E5A4F6E004348A8 /* StopsView.h */,
-				7D2369B80E5A4F6E004348A8 /* StopsView.m */,
+				7D2369B70E5A4F6E004348A8 /* StopsViewController.h */,
+				7D2369B80E5A4F6E004348A8 /* StopsViewController.m */,
 				7D2369B30E5A4F02004348A8 /* ClosestViewController.h */,
 				7D2369B40E5A4F02004348A8 /* ClosestViewController.m */,
 				7D3405DE0E5BFFA1007F8821 /* FavoriteViewController.h */,
@@ -249,6 +257,10 @@
 		7D2369E50E5A5B12004348A8 /* BusQuery */ = {
 			isa = PBXGroup;
 			children = (
+				7D3C78D00E5FDB9A006C4332 /* StopQuery-ARV.h */,
+				7D3C78D10E5FDB9A006C4332 /* StopQuery-ARV.m */,
+				7D3C78D20E5FDB9A006C4332 /* StopQuery-CSV.h */,
+				7D3C78D30E5FDB9A006C4332 /* StopQuery-CSV.m */,
 				7D2369E60E5A5B50004348A8 /* ArrivalQuery.h */,
 				7D2369E70E5A5B50004348A8 /* ArrivalQuery.m */,
 				7D2369E80E5A5B50004348A8 /* BusArrival.h */,
@@ -376,7 +388,7 @@
 				1D3623260D0F684500981E51 /* iPhoneTransitAppDelegate.m in Sources */,
 				7D2369520E5A4DED004348A8 /* SettingsViewController.m in Sources */,
 				7D2369B50E5A4F02004348A8 /* ClosestViewController.m in Sources */,
-				7D2369B90E5A4F6E004348A8 /* StopsView.m in Sources */,
+				7D2369B90E5A4F6E004348A8 /* StopsViewController.m in Sources */,
 				7D2369F30E5A5B51004348A8 /* ArrivalQuery.m in Sources */,
 				7D2369F40E5A5B51004348A8 /* BusArrival.m in Sources */,
 				7D2369F50E5A5B51004348A8 /* BusStop.m in Sources */,
@@ -387,6 +399,8 @@
 				7D3405CB0E5BFB8D007F8821 /* RecentViewController.m in Sources */,
 				7D3405E00E5BFFA1007F8821 /* FavoriteViewController.m in Sources */,
 				7D386E500E5C9B0800CE6434 /* SearchViewController.m in Sources */,
+				7D3C78D40E5FDB9A006C4332 /* StopQuery-ARV.m in Sources */,
+				7D3C78D50E5FDB9A006C4332 /* StopQuery-CSV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,10 +409,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D94455A0E5CF41500D5A00C /* main.m in Sources */,
+				7D3C78F10E5FDC7B006C4332 /* StopQuery-ARV.m in Sources */,
+				7D3C78F20E5FDC7B006C4332 /* StopQuery-CSV.m in Sources */,
 				7D94455B0E5CF41500D5A00C /* iPhoneTransitAppDelegate.m in Sources */,
 				7D94455C0E5CF41500D5A00C /* SettingsViewController.m in Sources */,
 				7D94455D0E5CF41500D5A00C /* ClosestViewController.m in Sources */,
-				7D94455E0E5CF41500D5A00C /* StopsView.m in Sources */,
+				7D94455E0E5CF41500D5A00C /* StopsViewController.m in Sources */,
 				7D94455F0E5CF41500D5A00C /* ArrivalQuery.m in Sources */,
 				7D9445600E5CF41500D5A00C /* BusArrival.m in Sources */,
 				7D9445610E5CF41500D5A00C /* BusStop.m in Sources */,

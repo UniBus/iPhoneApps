@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StopsView.h"
+#import "StopsViewController.h"
 
-@interface FavoriteViewController : StopsView {
+@interface FavoriteViewController : StopsViewController {
 	NSMutableArray *busesOfInterest;
 }
 

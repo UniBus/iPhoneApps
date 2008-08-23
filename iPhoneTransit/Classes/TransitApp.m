@@ -8,6 +8,7 @@
 
 #import "TransitApp.h"
 #import "iPhoneTransitAppDelegate.h"
+#import "StopQuery-CSV.h"
 
 enum _supported_city {
 	kCity_Portland,
@@ -122,7 +123,7 @@ extern int numberOfResults;
 
 - (void) dataTaskEntry: (id) data
 {
-	StopQuery *tmpStopQuery = [StopQuery initWithFile:dataFile];
+	StopQuery *tmpStopQuery = [StopQuery_CSV initWithFile:dataFile];
 	if (tmpStopQuery == nil)
 		return;
 	

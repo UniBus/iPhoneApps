@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h> //</CLLocationManager.h>
-#import "StopsView.h"
+#import "StopsViewController.h"
 
-@interface ClosestViewController : StopsView <CLLocationManagerDelegate> {
+@interface ClosestViewController : StopsViewController <CLLocationManagerDelegate> {
 	CLLocationManager *location;
 }
 

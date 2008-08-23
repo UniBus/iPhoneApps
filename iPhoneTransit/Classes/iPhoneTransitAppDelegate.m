@@ -25,8 +25,8 @@
 	[indicator stopAnimating];
 	[indicator removeFromSuperview];
 	UIViewController *selectedViewController = [tabBarController selectedViewController];
-	if ([selectedViewController isKindOfClass:[StopsView class]])
-		[(StopsView *)selectedViewController needsReload];
+	if ([selectedViewController isKindOfClass:[StopsViewController class]])
+		[(StopsViewController *)selectedViewController needsReload];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
