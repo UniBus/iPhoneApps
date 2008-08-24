@@ -75,8 +75,10 @@
 #pragma mark File Open/Close
 - (BOOL) openStopFile: (NSString *)stopFile
 {
+    NSString *path = [NSString stringWithFormat:@"%@.txt", stopFile];
+	
 	CSVParser *parser = [[CSVParser alloc] init];
-	if ([parser openFile:stopFile] == YES)
+	if ([parser openFile:path] == YES)
 	{
 		[rawStops release]; 
 		rawStops = [[parser parseFile] retain];

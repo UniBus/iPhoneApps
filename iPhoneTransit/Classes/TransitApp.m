@@ -9,6 +9,7 @@
 #import "TransitApp.h"
 #import "iPhoneTransitAppDelegate.h"
 #import "StopQuery-CSV.h"
+#import "StopQuery-ARV.h"
 
 enum _supported_city {
 	kCity_Portland,
@@ -19,6 +20,9 @@ NSString *cityPath[]={
 	@"portland",
 };
 
+typedef StopQuery_ARV StopQuery_Used;
+//typedef StopQuery_CSV StopQuery_Used;
+	
 NSString * const UserSavedRecentStopsAndBuses = @"UserSavedRecentStopsAndBuses";
 NSString * const UserSavedFavoriteStopsAndBuses = @"UserSavedFavoriteStopsAndBuses";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
@@ -46,7 +50,7 @@ extern int numberOfResults;
     //NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSAllApplicationsDirectory, NSUserDomainMask, YES);
     //NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *documentsDirectory = [[NSBundle mainBundle] resourcePath];
-	NSString *filename = [NSString stringWithFormat:@"%@_stops.txt", cityPath[cityId]];
+	NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
 	NSLog(@"Opening file: %@", path);
 	dataFile = [path retain];
@@ -123,7 +127,7 @@ extern int numberOfResults;
 
 - (void) dataTaskEntry: (id) data
 {
-	StopQuery *tmpStopQuery = [StopQuery_CSV initWithFile:dataFile];
+	StopQuery *tmpStopQuery = [StopQuery_Used initWithFile:dataFile];
 	if (tmpStopQuery == nil)
 		return;
 	
