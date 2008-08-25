@@ -20,7 +20,7 @@ double UserDefinedLatitudeForComparison = 0.;
 #define  Stop_Key_POS    @"POS"
 
 @implementation BusStop
-@synthesize stopId, latitude, longtitude, name, position, direction;
+@synthesize stopId, latitude, longtitude, name, position, direction, flag;
 
 #pragma mark Comparison Tools
 

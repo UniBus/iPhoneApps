@@ -8,6 +8,10 @@
 //#import <UIKit/UIKit.h>
 #import "BusArrival.h"
 
+#define  Arrival_Key_StopId     @"StopId"
+#define  Arrival_Key_BusSign    @"BusSign"
+
+
 @implementation BusArrival
 
 @synthesize departed, stopId, flag;
@@ -58,5 +62,24 @@
 	[busSign release];
 	busSign = [sign copy];
 }
-			
+
+#pragma mark Archiver/UnArchiver Functions
+
+- (id) initWithCoder: (NSCoder *) coder
+{
+	[super init];
+	stopId = [coder decodeIntForKey:Arrival_Key_StopId];
+	busSign = [[coder decodeObjectForKey:Arrival_Key_BusSign] retain];
+	arrivalTime = nil;
+	departed = NO;
+	flag = YES;
+	return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) coder
+{
+	[coder encodeInt:stopId forKey:Arrival_Key_StopId];
+	[coder encodeObject:busSign forKey:Arrival_Key_BusSign];
+}
+	
 @end

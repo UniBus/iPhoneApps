@@ -11,6 +11,7 @@
 
 @interface SearchViewController : StopsViewController {
 	IBOutlet UISearchBar *mySearchBar;
+	NSCharacterSet *delimiterSet;
 }
 
 @end

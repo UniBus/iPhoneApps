@@ -19,15 +19,18 @@ extern NSString * const UserSavedSearchResultsNum;
 	ArrivalQuery *arrivalQuery;
 	StopQuery    *stopQuery;
 	NSString     *dataFile;
-	BOOL         queryAvailable;
+	BOOL         stopQueryAvailable;
+	BOOL         arrivalQueryAvailable;
 	int          cityId;
 	NSOperationQueue  *opQueue;
 }
 
-@property BOOL queryAvailable;
+@property BOOL arrivalQueryAvailable;
+@property BOOL stopQueryAvailable;
 - (BusStop *) stopOfId:(int) stopId;
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
 - (int) numberOfStops;
+- (void) loadStopDataInBackground;
 
 @end

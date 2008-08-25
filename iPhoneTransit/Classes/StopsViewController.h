@@ -13,12 +13,13 @@
 
 @interface SavedItem : NSObject <NSCoding>
 {
-	int stopId;
+	//int stopId;
+	BusStop *stop;
 	NSMutableArray *buses;
 }
 
 @property (assign) NSMutableArray *buses;
-@property int stopId;
+@property (assign) BusStop *stop;
 
 @end
 

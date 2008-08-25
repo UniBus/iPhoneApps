@@ -20,6 +20,7 @@ double UserDefinedLatitudeForComparison;
 	NSString *name;
 	NSString *direction;
 	NSString *position;
+	BOOL     flag;
 } BusStop;
 
 - (NSComparisonResult) compareByLon: (BusStop *)aStop;
@@ -33,6 +34,7 @@ double UserDefinedLatitudeForComparison;
 @property (retain) NSString *name;
 @property (retain) NSString *direction;
 @property (retain) NSString *position;
+@property BOOL flag;
 
 @end
 

@@ -20,6 +20,7 @@ UIImage *favoriteIconImage = nil;
 
 #pragma mark UserDefaults for Recent-List and Favorite-List
 
+/*
 void addStopAndBusToUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
@@ -71,6 +72,59 @@ void addStopAndBusToUserDefaultList(int aStopId, NSString *aBusSign, NSString *U
 		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
 	}
 }
+*/
+
+void addStopAndBusToUserDefaultList(BusStop *aStop, BusArrival *anArrival, NSString *UserDefaults)
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
+	
+	BOOL found = NO;
+	SavedItem *theSavedItem = nil;
+	int targetIndex = -1;
+	for (int i=0; i<[favoriteArray count]; i++)
+	{
+		NSData *anItemData = [favoriteArray objectAtIndex:i];
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		if (anItem.stop.stopId == aStop.stopId)
+		{
+			theSavedItem = anItem;
+			targetIndex = i;
+			break;
+		}
+	}
+	
+	if (theSavedItem == nil)
+	{
+		theSavedItem = [[SavedItem alloc] init];
+		theSavedItem.stop = aStop;
+		[theSavedItem.buses addObject:anArrival];
+		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+		[favoriteArray addObject:theItemData];
+	}
+	else
+	{
+		for (BusArrival *anBusArrival in theSavedItem.buses)
+		{
+			if ([[anBusArrival busSign] isEqualToString:[anArrival busSign]])
+			{
+				found = YES;
+				break;
+			}
+		}
+		if (found == NO)
+		{
+			[theSavedItem.buses addObject:anArrival];
+			NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
+			[favoriteArray replaceObjectAtIndex:targetIndex withObject:theItemData];
+		}
+	}
+	
+	if (found == NO)
+	{
+		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
+	}
+}
 
 void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
 {
@@ -84,14 +138,14 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	{
 		NSData *anItemData = [favoriteArray objectAtIndex:index];
 		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		if (anItem.stopId == aStopId)
+		if (anItem.stop.stopId == aStopId)
 		{
 			theSavedItem = anItem;
 			int busIndexAtStop = 0;
 			for (;busIndexAtStop<[theSavedItem.buses count];busIndexAtStop++)
 			{
-				NSString *aString = [theSavedItem.buses objectAtIndex:busIndexAtStop];
-				if ([aString isEqualToString:aBusSign])
+				BusArrival *anArrival = [theSavedItem.buses objectAtIndex:busIndexAtStop];
+				if ([[anArrival busSign] isEqualToString:aBusSign])
 				{
 					found = YES;
 					[theSavedItem.buses removeObjectAtIndex:busIndexAtStop];
@@ -119,7 +173,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 }
 
 @implementation SavedItem
-@synthesize stopId, buses;
+@synthesize stop, buses;
 -(id) init
 {
 	[super init];
@@ -127,18 +181,25 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	return self;
 }
 
+- (void) dealloc
+{
+	[stop release];
+	[buses release];
+	[super dealloc];
+}
+
 - (id) initWithCoder: (NSCoder *) coder
 {
 	[super init];
-	stopId = [coder decodeIntForKey:@"Stop_ID"];
-	buses = [[coder decodeObjectForKey:@"Buse_IDs"] retain];
+	stop = [[coder decodeObjectForKey:@"Stop"] retain];
+	buses = [[coder decodeObjectForKey:@"Buses"] retain];
 	return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) coder
 {
-	[coder encodeInt:stopId forKey:@"Stop_ID"];
-	[coder encodeObject:buses forKey:@"Buse_IDs"];
+	[coder encodeObject:stop forKey:@"Stop"];
+	[coder encodeObject:buses forKey:@"Buses"];
 }
 
 @end
@@ -147,6 +208,9 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (IBAction) mapButtonClicked:(id)sender
 {
+	if (theStop.flag)
+		return;
+	
 	NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f", 	
 						   theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
 	NSURL *url = [NSURL URLWithString:urlString];
@@ -240,54 +304,18 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[stopDir setText:[NSString stringWithFormat:@"Direction:%@", theStop.direction]];
 }
 
-/*
-- (id)copyWithZone:(NSZone *)zone {
-	StopCell *copy = [[StopCell alloc] init];
-	
-	(copy->stopName).frame = stopName.frame;
-	(copy->stopName).backgroundColor = stopName.backgroundColor;
-	(copy->stopName).opaque = stopName.opaque;
-	(copy->stopName).textAlignment = stopName.textAlignment;
-	(copy->stopName).baselineAdjustment = stopName.baselineAdjustment;
-	(copy->stopName).font = stopName.font;
-	
-	(copy->stopPos).frame = stopPos.frame;
-	(copy->stopPos).backgroundColor = stopPos.backgroundColor;
-	(copy->stopPos).opaque = stopPos.opaque;
-	(copy->stopPos).textAlignment = stopPos.textAlignment;
-	(copy->stopPos).baselineAdjustment = stopPos.baselineAdjustment;
-	(copy->stopPos).font = stopPos.font;
-
-	(copy->stopDir).frame = stopDir.frame;
-	(copy->stopDir).backgroundColor = stopDir.backgroundColor;
-	(copy->stopDir).opaque = stopDir.opaque;
-	(copy->stopDir).textAlignment = stopDir.textAlignment;
-	(copy->stopDir).baselineAdjustment = stopDir.baselineAdjustment;
-	(copy->stopDir).font = stopDir.font;
-	
-	(copy->mapButton).frame = mapButton.frame;
-	[copy->mapButton setBackgroundImage:mapButton.currentBackgroundImage forState:UIControlStateNormal];
-	[copy->mapButton addTarget:copy action:@selector(mapButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-	
-	copy.selectionStyle = self.selectionStyle;
-	[copy setI
-	
-	[copy.contentView addSubview:copy->stopName];
-	[copy.contentView addSubview:copy->stopPos];
-	[copy.contentView addSubview:copy->stopDir];
-	[copy.contentView addSubview:copy->mapButton];
-	
-	return copy;
-}
-*/
-
 @end;
 
 @implementation ArrivalCell
 
--(void) addToFavorite: (int)aStopId busSign:(NSString *)aBusSign
+-(void) addToFavorite: (BusArrival *)anArrival
 {
-	addStopAndBusToUserDefaultList(aStopId, aBusSign, UserSavedFavoriteStopsAndBuses);
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+	BusStop *aStop = [myApplication stopOfId:anArrival.stopId];	
+	if (aStop)
+	{
+		addStopAndBusToUserDefaultList(aStop, anArrival, UserSavedFavoriteStopsAndBuses);
+	}
 }
 
 -(void) removeFromFavorite: (int)aStopId busSign:(NSString *)aBusSign
@@ -312,7 +340,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	}
 	else
 	{
-		[self addToFavorite:anArrival.stopId busSign:[anArrival busSign]];
+		[self addToFavorite:anArrival];
 		message = [NSString stringWithFormat:@"Bus <%@> at Stop <%d> added to favorite!", [anArrival busSign], [anArrival stopId]];
 	}
 		
@@ -645,7 +673,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if (stopsOfInterest == nil)
-		return @"No stops!";
+		return @"";
 	
 	if ([stopsOfInterest count] == 0)
 		return @"No stops!";

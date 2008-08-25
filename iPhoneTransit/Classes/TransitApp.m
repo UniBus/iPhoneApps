@@ -32,14 +32,13 @@ extern float searchRange;
 extern int numberOfResults;
 
 @interface TransitApp ()
-- (void) loadDataInBackground;
 - (void) dataTaskEntry: (id) data;
 @end
 
 
 @implementation TransitApp
 
-@synthesize queryAvailable;
+@synthesize stopQueryAvailable, arrivalQueryAvailable;
 
 - (id) init
 {
@@ -55,12 +54,6 @@ extern int numberOfResults;
 	NSLog(@"Opening file: %@", path);
 	dataFile = [path retain];
 	
-	//stopQuery = [StopQuery initWithFile:path];
-	//arrivalQuery = [[ArrivalQuery alloc] init];
-	//queryAvailable = YES;
-	opQueue = [[NSOperationQueue alloc] init];
-	[self loadDataInBackground];
-	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
 	NSMutableArray *emptyArray = [NSMutableArray array];
@@ -69,6 +62,13 @@ extern int numberOfResults;
 	[defaultValues setObject:[NSNumber numberWithFloat:searchRange] forKey:UserSavedSearchRange];
 	[defaultValues setObject:[NSNumber numberWithInt:numberOfResults] forKey:UserSavedSearchResultsNum];
 	[defaults registerDefaults:defaultValues];
+	
+	arrivalQuery = [[ArrivalQuery alloc] init];
+	if (arrivalQuery)
+		arrivalQueryAvailable = YES;
+	opQueue = [[NSOperationQueue alloc] init];
+	//stopQuery = [StopQuery initWithFile:path];
+	//[self loadDataInBackground];
 	
 	return self;
 }
@@ -118,33 +118,28 @@ extern int numberOfResults;
 }
 
 #pragma mark A Task to load in data files
-- (void) loadDataInBackground
+- (void) loadStopDataInBackground
 {
 	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(dataTaskEntry:) object:nil];
-	
+	[theOp setQueuePriority:NSOperationQueuePriorityLow];
 	[opQueue addOperation:theOp];
 }
 
 - (void) dataTaskEntry: (id) data
 {
-	StopQuery *tmpStopQuery = [StopQuery_Used initWithFile:dataFile];
-	if (tmpStopQuery == nil)
-		return;
-	
-	ArrivalQuery *tmpArrivalQuery = [[ArrivalQuery alloc] init];
-	if (tmpArrivalQuery == nil)
-	{
-		[tmpStopQuery release];
-		tmpStopQuery = nil;
-		return;
-	}
-	
-	stopQuery = tmpStopQuery;
-	arrivalQuery = tmpArrivalQuery;
-	queryAvailable = YES;
-	
 	iPhoneTransitAppDelegate *transitDelegate = (iPhoneTransitAppDelegate *)[self delegate];
-	[transitDelegate dataDidFinishLoading:self];
+	if (![transitDelegate isKindOfClass:[iPhoneTransitAppDelegate class]])
+	{
+		NSLog(@"For some reason, the App delegate is not a iPhoneTransitAppDelegate");
+	}
+
+	[NSThread sleepForTimeInterval:30];
+	stopQuery = [StopQuery_Used initWithFile:dataFile];
+	if (stopQuery)
+	{
+		stopQueryAvailable = YES;
+		[transitDelegate dataDidFinishLoading:self];
+	}
 }
 
 @end

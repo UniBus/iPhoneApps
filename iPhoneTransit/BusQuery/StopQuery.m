@@ -60,7 +60,9 @@
 
 - (BusStop *) stopAtIndex: (NSInteger) index
 {
-	return [sortedStops objectAtIndex:index];
+	if ((index>=0) && (index < [sortedStops count]))
+		return [sortedStops objectAtIndex:index];
+	return nil;
 }
 
 - (NSInteger) numberOfStops

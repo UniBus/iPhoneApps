@@ -31,7 +31,7 @@
 - (void) needsReload
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-	if (!myApplication.queryAvailable)
+	if (!myApplication.arrivalQueryAvailable)
 		return;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
@@ -43,9 +43,19 @@
 	for (NSData *anItemData in favoriteArray)
 	{
 		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		BusStop *aStop = [myApplication stopOfId:anItem.stopId];
-		[newStops addObject:aStop];
-		[newBuses addObject:anItem.buses];
+		BusStop *aStop = [myApplication stopOfId:anItem.stop.stopId];
+		
+		if (aStop == nil)
+		{
+			//which means the data is not ready yet!!
+			[newStops addObject:anItem.stop];
+			[newBuses addObject:anItem.buses];
+		}
+		else
+		{		
+			[newStops addObject:aStop];
+			[newBuses addObject:anItem.buses];
+		}
 	}
 	
 	stopsOfInterest = [newStops retain];
@@ -66,9 +76,9 @@
 		if (aStop.stopId == anArrival.stopId)
 		{
 			NSMutableArray *allBueses = [busesOfInterest objectAtIndex:i];
-			for (NSString *busSign in allBueses)
+			for (BusArrival *aBusArrival in allBueses)
 			{
-				if ([busSign isEqualToString:anArrival.busSign])
+				if ([[aBusArrival busSign] isEqualToString:anArrival.busSign])
 				{
 					found = YES;
 					break;
@@ -140,7 +150,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if (stopsOfInterest == nil)
-		return @"Empty favorite list!";
+		return @"";
 	
 	if ([stopsOfInterest count] == 0)
 		return @"Empty favorite list!";
@@ -172,10 +182,13 @@
 		{
 			BusArrival *aFakedArrival = [[BusArrival alloc] init];
 			aFakedArrival.stopId = [[stopsOfInterest objectAtIndex:[indexPath section]] stopId];
-			NSArray *allBuses = [busesOfInterest objectAtIndex:[indexPath section]];
-			NSString *fakeBusSign = [allBuses objectAtIndex:[indexPath row]-1];
-			[aFakedArrival setBusSign:fakeBusSign];
-			aFakedArrival.flag = YES;
+			BusArrival *theDesiredArrival = [busesOfInterest objectAtIndex:[indexPath section]];
+			[aFakedArrival setBusSign:[theDesiredArrival busSign]];
+			aFakedArrival.flag = YES;		
+			
+			//NSString *fakeBusSign = [allBuses objectAtIndex:[indexPath row]-1];
+			//[aFakedArrival setBusSign:fakeBusSign];
+			
 			arrivalsAtOneStop = [NSArray arrayWithObject: aFakedArrival];
 		}
 		

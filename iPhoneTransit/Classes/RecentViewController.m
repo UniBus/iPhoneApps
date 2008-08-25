@@ -36,7 +36,7 @@
 	for (NSData *anItemData in recentArray)
 	{
 		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		BusStop *aStop = [myApplication stopOfId:anItem.stopId];
+		BusStop *aStop = [myApplication stopOfId:anItem.stop.stopId];
 		[newStops addObject:aStop];
 		[newBuses addObject:anItem.buses];
 	}

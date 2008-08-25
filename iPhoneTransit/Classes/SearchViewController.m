@@ -28,6 +28,7 @@
 	[super loadView];	
 	stopViewType = kStopViewTypeToAdd;	
 	mySearchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+	delimiterSet = [[NSCharacterSet characterSetWithCharactersInString:@",; "] retain];
 }
 
 
@@ -54,23 +55,80 @@
 
 - (void)dealloc 
 {
+	[delimiterSet release];
 	[super dealloc];
 }
 
+- (void) alertOnEmptyStopsOfInterest
+{
+	// open an alert with just an OK button
+	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Couldn't find the stop(s)"
+	//											   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	//[alert show];	
+	//[alert release];
+}
+
+- (void) needsReload
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	if (!myApplication.arrivalQueryAvailable)
+		return;
+		
+	for (BusStop *aStop in stopsOfInterest)
+	{
+		if (aStop.flag = NO)
+			continue;
+		
+		BusStop *aStopInDataBase = [myApplication stopOfId: aStop.stopId];
+		
+		if (aStopInDataBase)
+		{
+			aStop.latitude = aStopInDataBase.latitude;
+			aStop.longtitude = aStopInDataBase.longtitude;
+			aStop.name = aStopInDataBase.name;
+			aStop.position = aStopInDataBase.position;
+			aStop.direction = aStopInDataBase.direction;
+		}
+	}
+		
+	[self reload];
+}
 
 #pragma mark UISearchBarDelegate
 
+//Returns
+//  - empty array when there is something wrong
+//  - an array with BusStop objects, normally
 - (NSArray *) retrieveStopsFromText:(NSString *)text
 {
-	int idOfStop = [text intValue];
-
+	NSArray *stopIDs = [text componentsSeparatedByCharactersInSet:delimiterSet];	
+	if ([stopIDs count] == 0)
+		return [NSArray array];
+		
 	NSMutableArray *results = [[NSMutableArray alloc] init];
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-	BusStop *aStop = [myApplication stopOfId:idOfStop];
-	if (aStop)
+	for (NSString *aStopIdStr in stopIDs)
 	{
-		[results addObject:aStop];
+		int idOfStop = [aStopIdStr intValue];
+		
+		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+		BusStop *aStop = [myApplication stopOfId:idOfStop];
+		if (aStop)
+		{
+			[results addObject:aStop];
+		}
+		else
+		{
+			BusStop *aFakeStop = [[BusStop alloc] init];
+			aFakeStop.stopId = idOfStop;
+			aFakeStop.flag = YES;
+			aFakeStop.latitude = aFakeStop.longtitude = 0.0;
+			aFakeStop.name = [[NSString stringWithString:@"Unknown"] retain];
+			aFakeStop.direction = [[NSString stringWithString:@"Unknown"] retain];
+			aFakeStop.position = [[NSString stringWithString:@"Unknown"] retain];
+			[results addObject:aFakeStop];
+		}
 	}
+	
 	return [results autorelease];
 }
 
@@ -112,12 +170,10 @@
 	}
 	else
 	{
-		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Couldn't find the stop(s)"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Error! check your stop IDs"
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
-		//Show some info to user here!
 	}
 }
 

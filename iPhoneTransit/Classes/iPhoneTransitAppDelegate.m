@@ -12,6 +12,7 @@
 #import "FavoriteViewController.h"
 #import "SearchViewController.h"
 #import "SettingsViewController.h"
+#import "TransitApp.h"
 
 
 @implementation iPhoneTransitAppDelegate
@@ -22,11 +23,33 @@
 
 - (void)dataDidFinishLoading:(UIApplication *)application
 {
-	[indicator stopAnimating];
-	[indicator removeFromSuperview];
+	if (window == nil)
+		return;
+	
+	if ([window isHidden])
+		return;
+	
 	UIViewController *selectedViewController = [tabBarController selectedViewController];
 	if ([selectedViewController isKindOfClass:[StopsViewController class]])
 		[(StopsViewController *)selectedViewController needsReload];
+	
+	if ([application isKindOfClass:[TransitApp class]])
+	{
+		TransitApp *myApp = (TransitApp *)application;
+		if (myApp.arrivalQueryAvailable && myApp.stopQueryAvailable)
+		{
+			[indicator stopAnimating];
+			[indicator removeFromSuperview];
+		}
+	}
+	else
+	{
+		if ([indicator isAnimating])
+		{
+			[indicator stopAnimating];
+			[indicator removeFromSuperview];
+		}
+	}
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
@@ -36,6 +59,11 @@
 	[window addSubview:tabBarController.view];
 	[window addSubview:indicator];
 	[indicator startAnimating];
+	
+	if ([application isKindOfClass:[TransitApp class]])
+	{
+		[(TransitApp *)application loadStopDataInBackground];
+	}
 }
 
 
