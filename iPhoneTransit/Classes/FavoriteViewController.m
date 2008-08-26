@@ -17,6 +17,7 @@
 {
 	[super loadView];
 	self.stopViewType = kStopViewTypeToDelete;
+	self.navigationItem.title = @"Favorite Stops";
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -200,7 +201,7 @@
 		StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
 		if (cell == nil) 
 		{
-			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2] autorelease];
+			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
 		}
 		[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
 		return cell;

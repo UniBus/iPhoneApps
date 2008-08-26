@@ -10,6 +10,8 @@
 
 @class BusStop;
 @class BusArrival;
+@class StopsViewController;
+@class MapViewController;
 
 @interface SavedItem : NSObject <NSCoding>
 {
@@ -30,9 +32,11 @@
 	UILabel      *stopDir;
 	UIButton     *mapButton;
 	BusStop      *theStop;
+	UIViewController *ownerView;
 }
 
 - (void) setStop:(id) aStop;
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner;
 
 @end
 
@@ -58,10 +62,19 @@ enum _stop_view_type_ {
 	kStopViewTypeToDelete,
 };
 
+@interface MapViewController : UIViewController
+{
+	IBOutlet UIWebView  *mapWeb;
+}
+
+- (void)mapWithURL:(NSURL *)url;
+@end
+
 @interface StopsViewController : UIViewController {
+	IBOutlet UITableView  *stopsTableView;
 	NSMutableArray        *arrivalsForStops;
 	NSMutableArray        *stopsOfInterest;
-	IBOutlet UITableView  *stopsTableView;
+	UIViewController      *mapViewController;
 	//IBOutlet StopCell     *stopCellToCopy;
 	//IBOutlet ArrivalCell  *arrivalCellToCopy;
 	int stopViewType;
@@ -76,5 +89,6 @@ enum _stop_view_type_ {
 //This is a virtual function!!!
 //- (void) filterData;
 - (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index;
+- (void) showMapOfAStop:(BusStop *)theStop;
 
 @end

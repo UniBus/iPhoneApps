@@ -18,19 +18,24 @@
 	{
 		// Initialization code
 	}
+	self.navigationItem.title = @"Search for Stops";
 	return self;
 }
-
 
 // Implement loadView if you want to create a view hierarchy programmatically
 - (void)loadView 
 {
 	[super loadView];	
+	self.navigationItem.title = @"Search for Stops";
 	stopViewType = kStopViewTypeToAdd;	
 	mySearchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
 	delimiterSet = [[NSCharacterSet characterSetWithCharactersInString:@",; "] retain];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self needsReload];
+}
 
 /*
  If you need to do additional setup after loading the view, override viewDidLoad.

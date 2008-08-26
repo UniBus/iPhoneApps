@@ -19,6 +19,7 @@ BOOL  globalTestMode = NO;
 - (void)loadView 
 {
 	[super loadView];
+	self.navigationItem.title = @"Nearby Stops";
 
 	location = [[CLLocationManager alloc] init];
 	location.delegate = self;

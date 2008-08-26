@@ -133,7 +133,7 @@ extern int numberOfResults;
 		NSLog(@"For some reason, the App delegate is not a iPhoneTransitAppDelegate");
 	}
 
-	[NSThread sleepForTimeInterval:30];
+	//[NSThread sleepForTimeInterval:30];
 	stopQuery = [StopQuery_Used initWithFile:dataFile];
 	if (stopQuery)
 	{

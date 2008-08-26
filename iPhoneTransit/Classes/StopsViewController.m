@@ -20,60 +20,6 @@ UIImage *favoriteIconImage = nil;
 
 #pragma mark UserDefaults for Recent-List and Favorite-List
 
-/*
-void addStopAndBusToUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
-	
-	BOOL found = NO;
-	SavedItem *theSavedItem = nil;
-	int targetIndex = -1;
-	for (int i=0; i<[favoriteArray count]; i++)
-	{
-		NSData *anItemData = [favoriteArray objectAtIndex:i];
-		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		if (anItem.stopId == aStopId)
-		{
-			theSavedItem = anItem;
-			targetIndex = i;
-			break;
-		}
-	}
-	
-	if (theSavedItem == nil)
-	{
-		theSavedItem = [[SavedItem alloc] init];
-		theSavedItem.stopId = aStopId;
-		[theSavedItem.buses addObject:aBusSign];
-		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-		[favoriteArray addObject:theItemData];
-	}
-	else
-	{
-		for (NSString *aString in theSavedItem.buses)
-		{
-			if ([aString isEqualToString:aBusSign])
-			{
-				found = YES;
-				break;
-			}
-		}
-		if (found == NO)
-		{
-			[theSavedItem.buses addObject:aBusSign];
-			NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-			[favoriteArray replaceObjectAtIndex:targetIndex withObject:theItemData];
-		}
-	}
-	
-	if (found == NO)
-	{
-		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
-	}
-}
-*/
-
 void addStopAndBusToUserDefaultList(BusStop *aStop, BusArrival *anArrival, NSString *UserDefaults)
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
@@ -210,11 +156,21 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 {
 	if (theStop.flag)
 		return;
+
+	if (ownerView)
+	{
+		if ([ownerView isKindOfClass:[StopsViewController class]])
+		{
+			[(StopsViewController *)ownerView showMapOfAStop:theStop];
+		}
+	}
 	
-	NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f", 	
-						   theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
-	NSURL *url = [NSURL URLWithString:urlString];
-	[[UIApplication sharedApplication] openURL: url];	
+	/*
+	 NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f", 	
+	 theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
+	 NSURL *url = [NSURL URLWithString:urlString];
+	 [[UIApplication sharedApplication] openURL: url];	
+	 */
 }
 
 - (void) dealloc
@@ -286,6 +242,14 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[self.contentView addSubview:stopDir];
 	[self.contentView addSubview:mapButton];
 
+	return self;
+}
+
+
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner
+{
+	[self initWithFrame:frame reuseIdentifier:reuseIdentifier];
+	ownerView = owner;
 	return self;
 }
 
@@ -486,6 +450,31 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 @end;
 
+@implementation MapViewController
+
+- (void) loadView
+{
+	[super loadView];
+	if (mapWeb == nil)
+	{
+		mapWeb = [[UIWebView alloc] init];
+	}
+	self.view = mapWeb;
+}
+
+- (void)mapWithURL:(NSURL *)url
+{	
+	[mapWeb loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
+- (void) dealloc
+{
+	[mapWeb release];
+	[super dealloc];
+}
+
+@end
+
 @implementation StopsViewController
 
 @synthesize stopsOfInterest, stopViewType;
@@ -493,6 +482,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		// Initialization code
+		//self.navigationItem.prompt=@"Justacolor..."; 
 	}
 	
 	return self;
@@ -591,6 +581,26 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 }
 
 #pragma mark Stop/Arrival Data
+
+- (void) showMapOfAStop: (BusStop *)theStop
+{
+	static MapViewController *staticMapViewController;
+
+	if (staticMapViewController == nil)
+	{
+		staticMapViewController = [[MapViewController alloc] init];
+	}
+	
+	UINavigationController *navigController = [self navigationController];
+	if (navigController)
+	{
+		[navigController pushViewController:staticMapViewController animated:YES];
+		NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f", 	
+							   theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
+		NSURL *url = [NSURL URLWithString:urlString];
+		[staticMapViewController mapWithURL:url];
+	}	
+}
 
 - (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index
 {
@@ -717,7 +727,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
 		if (cell == nil) 
 		{
-			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2] autorelease];
+			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
 		}
 		[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
 		return cell;
