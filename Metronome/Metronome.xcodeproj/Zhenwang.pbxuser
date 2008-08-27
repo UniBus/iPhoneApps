@@ -187,8 +187,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 241513363;
-			PBXWorkspaceStateSaveDate = 241513363;
+			PBXPerProjectTemplateStateSaveDate = 241513722;
+			PBXWorkspaceStateSaveDate = 241513722;
 		};
 		perUserProjectItems = {
 			7D6177BC0E536A0A00ABA880 = 7D6177BC0E536A0A00ABA880 /* PBXTextBookmark */;
@@ -197,30 +197,21 @@
 			7D6178040E536DDC00ABA880 = 7D6178040E536DDC00ABA880 /* PBXTextBookmark */;
 			7D61780A0E536DDC00ABA880 = 7D61780A0E536DDC00ABA880 /* PBXTextBookmark */;
 			7D61781B0E536F1500ABA880 = 7D61781B0E536F1500ABA880 /* PBXTextBookmark */;
-			7D85F7A60E64C1F7009A9CD0 = 7D85F7A60E64C1F7009A9CD0 /* PBXBookmark */;
-			7D85F7C40E64C396009A9CD0 = 7D85F7C40E64C396009A9CD0 /* PBXBookmark */;
 			7D85F7C60E64C396009A9CD0 = 7D85F7C60E64C396009A9CD0 /* PBXBookmark */;
 			7D85F7CE0E64C416009A9CD0 = 7D85F7CE0E64C416009A9CD0 /* PBXTextBookmark */;
 			7D8A2F4A0E6533870047B1A8 = 7D8A2F4A0E6533870047B1A8 /* PBXTextBookmark */;
-			7D8A2F4B0E6533870047B1A8 = 7D8A2F4B0E6533870047B1A8 /* PlistBookmark */;
-			7D8A2F4C0E6533870047B1A8 = 7D8A2F4C0E6533870047B1A8 /* PBXTextBookmark */;
-			7D8A2F4D0E6533870047B1A8 = 7D8A2F4D0E6533870047B1A8 /* PlistBookmark */;
-			7D8A2F6F0E6533A60047B1A8 /* PBXBookmark */ = 7D8A2F6F0E6533A60047B1A8 /* PBXBookmark */;
-			7D8A2F700E6533A60047B1A8 /* PlistBookmark */ = 7D8A2F700E6533A60047B1A8 /* PlistBookmark */;
-			7D8A2F710E6533A60047B1A8 /* PlistBookmark */ = 7D8A2F710E6533A60047B1A8 /* PlistBookmark */;
-			7D8A2F720E6533A60047B1A8 /* PBXBookmark */ = 7D8A2F720E6533A60047B1A8 /* PBXBookmark */;
-			7D8A2F730E6533A60047B1A8 /* PlistBookmark */ = 7D8A2F730E6533A60047B1A8 /* PlistBookmark */;
-			7D8A2F740E6533A60047B1A8 /* PBXBookmark */ = 7D8A2F740E6533A60047B1A8 /* PBXBookmark */;
-			7D8A2F7F0E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F7F0E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F800E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F800E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F820E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F820E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F830E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F830E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F840E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F840E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F860E65342D0047B1A8 /* PBXBookmark */ = 7D8A2F860E65342D0047B1A8 /* PBXBookmark */;
-			7D8A2F8D0E6534390047B1A8 /* PBXBookmark */ = 7D8A2F8D0E6534390047B1A8 /* PBXBookmark */;
-			7D8A2F8E0E6534390047B1A8 /* PBXBookmark */ = 7D8A2F8E0E6534390047B1A8 /* PBXBookmark */;
-			7D8A2F8F0E6534390047B1A8 /* PBXBookmark */ = 7D8A2F8F0E6534390047B1A8 /* PBXBookmark */;
-			7D8A2F900E6534390047B1A8 /* PBXBookmark */ = 7D8A2F900E6534390047B1A8 /* PBXBookmark */;
+			7D8A2F700E6533A60047B1A8 = 7D8A2F700E6533A60047B1A8 /* PlistBookmark */;
+			7D8A2F710E6533A60047B1A8 = 7D8A2F710E6533A60047B1A8 /* PlistBookmark */;
+			7D8A2F720E6533A60047B1A8 = 7D8A2F720E6533A60047B1A8 /* PBXBookmark */;
+			7D8A2F730E6533A60047B1A8 = 7D8A2F730E6533A60047B1A8 /* PlistBookmark */;
+			7D8A2F800E65342D0047B1A8 = 7D8A2F800E65342D0047B1A8 /* PBXBookmark */;
+			7D8A2F830E65342D0047B1A8 = 7D8A2F830E65342D0047B1A8 /* PBXBookmark */;
+			7D8A2F840E65342D0047B1A8 = 7D8A2F840E65342D0047B1A8 /* PBXBookmark */;
+			7D8A2F8D0E6534390047B1A8 = 7D8A2F8D0E6534390047B1A8 /* PBXBookmark */;
+			7D8A2F8E0E6534390047B1A8 = 7D8A2F8E0E6534390047B1A8 /* PBXBookmark */;
+			7D8A2F8F0E6534390047B1A8 = 7D8A2F8F0E6534390047B1A8 /* PBXBookmark */;
+			7D8A2F930E6534930047B1A8 = 7D8A2F930E6534930047B1A8 /* PBXBookmark */;
+			7D8A2FC60E65355C0047B1A8 /* PBXBookmark */ = 7D8A2FC60E65355C0047B1A8 /* PBXBookmark */;
 			7D9058450E52B14F00322CEE = 7D9058450E52B14F00322CEE /* PBXTextBookmark */;
 			7D94AAFE0E53B5E4003F2C5E = 7D94AAFE0E53B5E4003F2C5E /* PBXBookmark */;
 			7D94AB000E53B5E4003F2C5E = 7D94AB000E53B5E4003F2C5E /* PBXBookmark */;
@@ -580,14 +571,6 @@
 		vrLen = 668;
 		vrLoc = 178;
 	};
-	7D85F7A60E64C1F7009A9CD0 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7DB215F30E52CC4900381D34 /* Screenshot.png */;
-	};
-	7D85F7C40E64C396009A9CD0 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
-	};
 	7D85F7C60E64C396009A9CD0 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
@@ -669,42 +652,6 @@
 		vrLen = 486;
 		vrLoc = 0;
 	};
-	7D8A2F4B0E6533870047B1A8 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/Zhenwang/Documents/iPhoneApps/Metronome/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	7D8A2F4C0E6533870047B1A8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* MetronomeAppDelegate.h */;
-		name = "MetronomeAppDelegate.h: 18";
-		rLen = 0;
-		rLoc = 402;
-		rType = 0;
-		vrLen = 486;
-		vrLoc = 0;
-	};
-	7D8A2F4D0E6533870047B1A8 /* PlistBookmark */ = {
-		isa = PlistBookmark;
-		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-		);
-		name = /Users/Zhenwang/Documents/iPhoneApps/Metronome/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
-	};
-	7D8A2F6F0E6533A60047B1A8 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7DB215F30E52CC4900381D34 /* Screenshot.png */;
-	};
 	7D8A2F700E6533A60047B1A8 /* PlistBookmark */ = {
 		isa = PlistBookmark;
 		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
@@ -742,14 +689,6 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
-	7D8A2F740E6533A60047B1A8 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
-	};
-	7D8A2F7F0E65342D0047B1A8 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
-	};
 	7D8A2F800E65342D0047B1A8 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 7D8A2F810E65342D0047B1A8 /* metronome-large.png */;
@@ -761,10 +700,6 @@
 		path = "/Users/Zhenwang/Documents/iPhoneApps/Metronome/metronome-large.png";
 		sourceTree = "<absolute>";
 	};
-	7D8A2F820E65342D0047B1A8 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7DB215F30E52CC4900381D34 /* Screenshot.png */;
-	};
 	7D8A2F830E65342D0047B1A8 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
@@ -775,13 +710,10 @@
 	};
 	7D8A2F850E65342D0047B1A8 /* metronome-large.png */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = image.png;
 		name = "metronome-large.png";
 		path = "/Users/Zhenwang/Documents/iPhoneApps/Metronome/metronome-large.png";
 		sourceTree = "<absolute>";
-	};
-	7D8A2F860E65342D0047B1A8 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 7DB215F30E52CC4900381D34 /* Screenshot.png */;
 	};
 	7D8A2F8D0E6534390047B1A8 /* PBXBookmark */ = {
 		isa = PBXBookmark;
@@ -795,7 +727,11 @@
 		isa = PBXBookmark;
 		fRef = 7DB215F30E52CC4900381D34 /* Screenshot.png */;
 	};
-	7D8A2F900E6534390047B1A8 /* PBXBookmark */ = {
+	7D8A2F930E6534930047B1A8 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
+	};
+	7D8A2FC60E65355C0047B1A8 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 7D40BA180E5F4D8C00530E93 /* Default.png */;
 	};
