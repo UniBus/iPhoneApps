@@ -18,6 +18,8 @@
 		7D3B0F730E4EAED0002BD25F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */; };
 		7D3B0FF10E4EB1AF002BD25F /* down.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FEF0E4EB1AF002BD25F /* down.wav */; };
 		7D3B0FF20E4EB1AF002BD25F /* up.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D3B0FF00E4EB1AF002BD25F /* up.wav */; };
+		7D40BA190E5F4D8C00530E93 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D40BA180E5F4D8C00530E93 /* Default.png */; };
+		7D40BA1A0E5F4D8C00530E93 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D40BA180E5F4D8C00530E93 /* Default.png */; };
 		7D484FC80E4EC18B000DE071 /* BeatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D484FC70E4EC18B000DE071 /* BeatView.m */; };
 		7D4850790E4EEEC9000DE071 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */; };
 		7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAB0E53BB50004BEF22 /* downbeat.png */; };
@@ -58,6 +60,7 @@
 		7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7D3B0FEF0E4EB1AF002BD25F /* down.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = down.wav; sourceTree = "<group>"; };
 		7D3B0FF00E4EB1AF002BD25F /* up.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = up.wav; sourceTree = "<group>"; };
+		7D40BA180E5F4D8C00530E93 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7D484FC60E4EC18B000DE071 /* BeatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeatView.h; sourceTree = "<group>"; };
 		7D484FC70E4EC18B000DE071 /* BeatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeatView.m; sourceTree = "<group>"; };
 		7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -154,6 +157,7 @@
 				2899E5210DE3E06400AC0155 /* MetronomeViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				7D40BA180E5F4D8C00530E93 /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -236,6 +240,7 @@
 				7DFB4D0D0E4FCD80002C3511 /* metronome.png in Resources */,
 				7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */,
 				7DB5BDAE0E53BB50004BEF22 /* upbeat.png in Resources */,
+				7D40BA190E5F4D8C00530E93 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +255,7 @@
 				7DFB4D400E500C3B002C3511 /* up.wav in Resources */,
 				7DFB4D410E500C3B002C3511 /* MetronomeViewController.xib in Resources */,
 				7DFB4D420E500C3B002C3511 /* MainWindow.xib in Resources */,
+				7D40BA1A0E5F4D8C00530E93 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +439,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9567E737-B6AA-4FDA-89B3-27C4736A8522";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Debug;
