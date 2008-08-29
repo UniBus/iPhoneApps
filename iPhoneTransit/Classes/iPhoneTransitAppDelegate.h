@@ -11,7 +11,7 @@
 @interface iPhoneTransitAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
-	IBOutlet UIActivityIndicatorView *indicator;
+	//IBOutlet UIActivityIndicatorView *indicator;
 }
 
 @property (nonatomic, retain) UIWindow *window;

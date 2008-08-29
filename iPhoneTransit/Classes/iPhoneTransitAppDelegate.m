@@ -14,6 +14,7 @@
 #import "SettingsViewController.h"
 #import "TransitApp.h"
 
+extern NSString * const UserSavedSelectedPage;
 
 @implementation iPhoneTransitAppDelegate
 
@@ -33,6 +34,7 @@
 	if ([selectedViewController isKindOfClass:[StopsViewController class]])
 		[(StopsViewController *)selectedViewController needsReload];
 	
+#ifdef _ENABLE_INDICATOR_	
 	if ([application isKindOfClass:[TransitApp class]])
 	{
 		TransitApp *myApp = (TransitApp *)application;
@@ -50,16 +52,25 @@
 			[indicator removeFromSuperview];
 		}
 	}
+#endif
+	
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
 	// Add the tab bar controller's current view as a subview of the window
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	int selectedPage = [defaults integerForKey:UserSavedSelectedPage];
+	if (selectedPage < [tabBarController.viewControllers count])
+		tabBarController.selectedIndex = selectedPage;
+
     [window makeKeyAndVisible];	
 	[window addSubview:tabBarController.view];
-	[window addSubview:indicator];
-	[indicator startAnimating];
-	
+
+#ifdef _ENABLE_INDICATOR_	
+	//[window addSubview:indicator];
+	//[indicator startAnimating];
+#endif	
 	if ([application isKindOfClass:[TransitApp class]])
 	{
 		[(TransitApp *)application loadStopDataInBackground];
@@ -67,15 +78,19 @@
 }
 
 
-/*
- Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+
+// Optional UITabBarControllerDelegate method
+- (void)tabBarController:(UITabBarController *)theTabBar didSelectViewController:(UIViewController *)viewController 
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	if ([defaults integerForKey:UserSavedSelectedPage] != tabBarController.selectedIndex)
+		[defaults setInteger:tabBarController.selectedIndex forKey:UserSavedSelectedPage];
 }
-*/
+
 
 /*
  Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
+- (void)tabBarController:(UITabBarController *)theTabBar didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
 }
 */
 

@@ -11,13 +11,20 @@
 #import "StopQuery-CSV.h"
 #import "StopQuery-ARV.h"
 
-enum _supported_city {
+enum _supported_city 
+{
 	kCity_Portland,
 	kCity_Num,	
 };
 
-NSString *cityPath[]={
+NSString *cityPath[]=
+{
 	@"portland",
+};
+
+NSString *cityTitles[]=
+{
+	@"Portland, OR",
 };
 
 typedef StopQuery_ARV StopQuery_Used;
@@ -27,6 +34,7 @@ NSString * const UserSavedRecentStopsAndBuses = @"UserSavedRecentStopsAndBuses";
 NSString * const UserSavedFavoriteStopsAndBuses = @"UserSavedFavoriteStopsAndBuses";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
+NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
 
 extern float searchRange;
 extern int numberOfResults;
@@ -61,6 +69,7 @@ extern int numberOfResults;
 	[defaultValues setObject:emptyArray forKey:UserSavedFavoriteStopsAndBuses];
 	[defaultValues setObject:[NSNumber numberWithFloat:searchRange] forKey:UserSavedSearchRange];
 	[defaultValues setObject:[NSNumber numberWithInt:numberOfResults] forKey:UserSavedSearchResultsNum];
+	[defaultValues setObject:[NSNumber numberWithInt:0] forKey:UserSavedSelectedPage];
 	[defaults registerDefaults:defaultValues];
 	
 	arrivalQuery = [[ArrivalQuery alloc] init];

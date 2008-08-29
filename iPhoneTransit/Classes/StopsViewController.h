@@ -62,14 +62,6 @@ enum _stop_view_type_ {
 	kStopViewTypeToDelete,
 };
 
-@interface MapViewController : UIViewController
-{
-	IBOutlet UIWebView  *mapWeb;
-}
-
-- (void)mapWithURL:(NSURL *)url;
-@end
-
 @interface StopsViewController : UIViewController {
 	IBOutlet UITableView  *stopsTableView;
 	NSMutableArray        *arrivalsForStops;

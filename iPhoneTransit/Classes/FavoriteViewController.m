@@ -18,6 +18,7 @@
 	[super loadView];
 	self.stopViewType = kStopViewTypeToDelete;
 	self.navigationItem.title = @"Favorite Stops";
+	//self.navigationItem.prompt = @"Portland, OR";
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -183,14 +184,17 @@
 		{
 			BusArrival *aFakedArrival = [[BusArrival alloc] init];
 			aFakedArrival.stopId = [[stopsOfInterest objectAtIndex:[indexPath section]] stopId];
-			BusArrival *theDesiredArrival = [busesOfInterest objectAtIndex:[indexPath section]];
-			[aFakedArrival setBusSign:[theDesiredArrival busSign]];
+			NSMutableArray *theDesiredArrivals = [busesOfInterest objectAtIndex:[indexPath section]];
+			if (indexPath.row <= [theDesiredArrivals count])
+				[aFakedArrival setBusSign:[[theDesiredArrivals objectAtIndex:(indexPath.row-1)] busSign]];
+			else
+				[aFakedArrival setBusSign:@"Unknown"];
 			aFakedArrival.flag = YES;		
 			
 			//NSString *fakeBusSign = [allBuses objectAtIndex:[indexPath row]-1];
 			//[aFakedArrival setBusSign:fakeBusSign];
 			
-			arrivalsAtOneStop = [NSArray arrayWithObject: aFakedArrival];
+			arrivalsAtOneStopForOneBus = [NSArray arrayWithObject: aFakedArrival];
 		}
 		
 		[cell setArrivals:arrivalsAtOneStopForOneBus];

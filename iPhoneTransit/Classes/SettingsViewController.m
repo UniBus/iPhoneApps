@@ -180,7 +180,7 @@ enum SettingTableSections
 		}
 		else if ( indexPath.section == kUIRecent_Section)
 		{
-			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in recent list", numberOfResults];					
+			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
 		}
 		else
 		{			

@@ -11,6 +11,7 @@
 #import "BusStop.h"
 #import "BusArrival.h"
 #import "TransitApp.h"
+#import "MapViewController.h"
 
 #define kUIStop_Section_Height    70
 #define kUIArrival_Section_Height 70
@@ -450,31 +451,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 @end;
 
-@implementation MapViewController
-
-- (void) loadView
-{
-	[super loadView];
-	if (mapWeb == nil)
-	{
-		mapWeb = [[UIWebView alloc] init];
-	}
-	self.view = mapWeb;
-}
-
-- (void)mapWithURL:(NSURL *)url
-{	
-	[mapWeb loadRequest:[NSURLRequest requestWithURL:url]];
-}
-
-- (void) dealloc
-{
-	[mapWeb release];
-	[super dealloc];
-}
-
-@end
-
 @implementation StopsViewController
 
 @synthesize stopsOfInterest, stopViewType;
@@ -595,10 +571,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if (navigController)
 	{
 		[navigController pushViewController:staticMapViewController animated:YES];
-		NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f", 	
-							   theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
-		NSURL *url = [NSURL URLWithString:urlString];
-		[staticMapViewController mapWithURL:url];
+		//NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%f+%f+(Stop-%d)&ll=%f,%f&output=html", 	
+		//					   theStop.latitude, theStop.longtitude, theStop.stopId, theStop.latitude, theStop.longtitude];	
+		//NSURL *url = [NSURL URLWithString:urlString];
+		//[staticMapViewController mapWithURL:url];
+		[staticMapViewController mapWithLatitude:theStop.latitude Longitude:theStop.longtitude];
 	}	
 }
 
