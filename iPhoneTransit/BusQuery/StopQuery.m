@@ -89,6 +89,8 @@
 	while (upperIndex != upperIndex_u)
 	{
 		aStop = [sortedStops objectAtIndex:upperIndex];
+		if (aStop.stopId == anId)
+			upperIndex_l = upperIndex_u = upperIndex;
 		if (aStop.stopId < anId)
 			upperIndex_l = upperIndex;
 		else
