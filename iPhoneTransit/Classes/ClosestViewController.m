@@ -32,6 +32,21 @@ BOOL  globalTestMode = NO;
 	[self needsReload];
 }
 
+- (void)didReceiveMemoryWarning 
+{
+	if (indicator)
+		if (![indicator isAnimating])
+		{
+			//there shouldn't be any superview related to it.
+			[indicator release];
+			indicator = nil;
+		}
+	[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
+	// Release anything that's not essential, such as cached data
+}
+
+
 - (void) alertOnEmptyStopsOfInterest
 {
 	// open an alert with just an OK button
@@ -81,6 +96,13 @@ BOOL  globalTestMode = NO;
 	}
 	else
 	{
+		if (indicator == nil)
+		{
+			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+			indicator.center = self.view.center;
+		}
+		[indicator startAnimating];
+		[self.view addSubview:indicator];
 		[location startUpdatingLocation];
 	}
 }
@@ -96,6 +118,11 @@ BOOL  globalTestMode = NO;
 	[alert release];
 	
 	[location stopUpdatingLocation];
+	if (indicator)
+	{
+		[indicator removeFromSuperview];
+		[indicator stopAnimating];
+	}
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -113,6 +140,12 @@ BOOL  globalTestMode = NO;
 	self.stopsOfInterest = querryResults;
 	
 	[location stopUpdatingLocation];
+	if (indicator)
+	{
+		[indicator removeFromSuperview];
+		[indicator stopAnimating];
+	}
+	
 	[self reload];	
 }
 

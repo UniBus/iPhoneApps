@@ -124,7 +124,12 @@ extern int numberOfResults;
 	{
 		return [NSMutableArray array];
 	}
-	return [arrivalQuery queryForStops:stops];
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [arrivalQuery queryForStops:stops];
+	self.networkActivityIndicatorVisible = NO;
+	
+	return results;
 }
 
 #pragma mark A Task to load in data files

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <UIWebViewDelegate>
 {
 	IBOutlet UIWebView  *mapWeb;
 	CGPoint lastOneFingerPos;

@@ -43,6 +43,8 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 		mapWeb = [[UIWebView alloc] initWithFrame:self.view.bounds];
 		mapWeb.userInteractionEnabled = NO;
 		mapWeb.multipleTouchEnabled = NO;
+		mapWeb.clearsContextBeforeDrawing = YES;
+		mapWeb.delegate = self;
 		[self.view addSubview:mapWeb];
 	}
 }
@@ -68,12 +70,20 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	if (memoryWarning)
-	{
-		[self removeMapWebView];
-		[[NSURLCache sharedURLCache] removeAllCachedResponses];
-	}
+	//if (memoryWarning)
+	//{
+	[self removeMapWebView];
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	memoryWarning = NO;
+	//}
 	
+	[super viewWillDisappear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+	if ([self navigationController])
+		[self.navigationController popToRootViewControllerAnimated:animated];
 	[super viewWillDisappear:animated];
 }
 
@@ -119,8 +129,9 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	if (mapWeb == nil)
 		[self initMapWebView];
 
-	if (!loaded)
-	{
+	//Reload the map every time.
+	//if (!loaded)
+	//{
 		//NSString *urlString = [NSString stringWithFormat:@"http://www.wenear.com/iphone-test?width=%f&height=%f", 
 		//					   self.view.frame.size.width, self.view.frame.size.height];
 		NSString *urlString = [NSString stringWithFormat:@"http://zhenwang.yao.googlepages.com/maplet.html?width=%f&height=%f&lat=%f&long=%f", 
@@ -133,17 +144,31 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 											 timeoutInterval:20];  // 20 sec;
 		[mapWeb loadRequest:request];
 		loaded = YES;
-	}
-	else
-	{
-		[self centerMarkerAtLatitude:lat Longitude:lon];
-	}
+	//}
+	//else
+	//{
+	//	[self centerMarkerAtLatitude:lat Longitude:lon];
+	//}
 	
 	lastRequestedLat = lat;
 	lastRequestedLon = lon;
 }
 
 #pragma mark Map Operation
+- (void) mapWebExecuteScript:(NSString *)script
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	@try
+	{		
+		[mapWeb stringByEvaluatingJavaScriptFromString:script];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"MapViewController: Caught %@: %@", [exception name], [exception  reason]);
+	}
+	@finally {
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	}
+}
 
 - (void) moveMapByOffset:(CGPoint)offset
 {
@@ -156,7 +181,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	 "map.setCenter(newCenterLatLng);", 
 	 (int)(centerX - offset.x), (int)(centerY - offset.y)];
 	
-	[mapWeb stringByEvaluatingJavaScriptFromString:script];
+	[self mapWebExecuteScript:script];
 }
 
 - (void) zoomMapByOffset:(double)offset
@@ -169,7 +194,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	else if (currentLevel > 18)
 		currentLevel = 18;
 	
-	[mapWeb stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"map.setZoom(%d);", currentLevel]];
+	[self mapWebExecuteScript:[NSString stringWithFormat:@"map.setZoom(%d);", currentLevel]];
 }
 
 - (void) centerMarkerAtLatitude:(double)lat Longitude:(double)lon
@@ -180,10 +205,20 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 						"map.setCenter(newpoint);", 
 						lat, lon];
 	
-	[mapWeb stringByEvaluatingJavaScriptFromString:script];
+	[self mapWebExecuteScript:script];
 }
 
 #pragma mark UIWebView Delegate Protocol
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {

@@ -12,6 +12,7 @@
 
 @interface ClosestViewController : StopsViewController <CLLocationManagerDelegate> {
 	CLLocationManager *location;
+	UIActivityIndicatorView *indicator;
 }
 
 @end
