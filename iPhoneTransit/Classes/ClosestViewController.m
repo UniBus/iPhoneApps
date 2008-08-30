@@ -36,7 +36,7 @@ BOOL  globalTestMode = NO;
 {
 	// open an alert with just an OK button
 	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %f Km", searchRange];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:message
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -75,7 +75,7 @@ BOOL  globalTestMode = NO;
 			NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
 			[querryResults removeObjectsAtIndexes:rangeToDelete];
 		}
-		stopsOfInterest = [querryResults retain];
+		self.stopsOfInterest = querryResults;
 	
 		[self reload];
 	}
@@ -90,7 +90,7 @@ BOOL  globalTestMode = NO;
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Couldn't update current location"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't update current location"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -103,13 +103,14 @@ BOOL  globalTestMode = NO;
 	CGPoint queryPos = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:queryPos within:searchRange] ];
+			//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
 	if ([querryResults count] > numberOfResults)
 	{
 		//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
 		NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
 		[querryResults removeObjectsAtIndexes:rangeToDelete];
 	}
-	stopsOfInterest = [querryResults retain];
+	self.stopsOfInterest = querryResults;
 	
 	[location stopUpdatingLocation];
 	[self reload];	

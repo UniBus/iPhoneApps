@@ -53,7 +53,8 @@
 
 - (void)didReceiveMemoryWarning 
 {
-	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
 
@@ -67,7 +68,7 @@
 - (void) alertOnEmptyStopsOfInterest
 {
 	// open an alert with just an OK button
-	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Couldn't find the stop(s)"
+	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't find the stop(s)"
 	//											   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	//[alert show];	
 	//[alert release];
@@ -104,7 +105,7 @@
 //Returns
 //  - empty array when there is something wrong
 //  - an array with BusStop objects, normally
-- (NSArray *) retrieveStopsFromText:(NSString *)text
+- (NSMutableArray *) retrieveStopsFromText:(NSString *)text
 {
 	NSArray *stopIDs = [text componentsSeparatedByCharactersInSet:delimiterSet];	
 	if ([stopIDs count] == 0)
@@ -131,6 +132,7 @@
 			aFakeStop.direction = [[NSString stringWithString:@"Unknown"] retain];
 			aFakeStop.position = [[NSString stringWithString:@"Unknown"] retain];
 			[results addObject:aFakeStop];
+			[aFakeStop autorelease];
 		}
 	}
 	
@@ -166,16 +168,16 @@
 // called when Search (in our case "Done") button pressed
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-	NSArray *stops = [self retrieveStopsFromText:searchBar.text];
+	NSMutableArray *stops = [self retrieveStopsFromText:searchBar.text];
 	if ([stops count] != 0)
 	{
-		self.stopsOfInterest = [stops retain];
+		self.stopsOfInterest = stops;
 		[self reload];
 		[searchBar resignFirstResponder];
 	}
 	else
 	{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Error! check your stop IDs"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Error! check your stop IDs"
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];

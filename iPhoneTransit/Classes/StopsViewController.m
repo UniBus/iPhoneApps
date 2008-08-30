@@ -48,6 +48,7 @@ void addStopAndBusToUserDefaultList(BusStop *aStop, BusArrival *anArrival, NSStr
 		[theSavedItem.buses addObject:anArrival];
 		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
 		[favoriteArray addObject:theItemData];
+		[theSavedItem autorelease];
 	}
 	else
 	{
@@ -124,7 +125,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 -(id) init
 {
 	[super init];
-	buses = [[NSMutableArray alloc] init];
+	buses = [[NSMutableArray alloc] init]; //it starts with an empty list
 	return self;
 }
 
@@ -138,6 +139,8 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 - (id) initWithCoder: (NSCoder *) coder
 {
 	[super init];
+	[stop release];
+	[buses release];
 	stop = [[coder decodeObjectForKey:@"Stop"] retain];
 	buses = [[coder decodeObjectForKey:@"Buses"] retain];
 	return self;
@@ -180,6 +183,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[stopPos release];
 	[stopDir release];
 	[mapButton release];
+	[theStop release];
 	[super dealloc];
 }
 
@@ -310,7 +314,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	}
 		
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:message
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -427,7 +431,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		[arrivalTime2 setText:@"-- -- --"];
 	}
 	else if (anArrival.departed)
-		[arrivalTime1 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
+		[arrivalTime1 setText:[NSString stringWithFormat: @"(departed) %@",[dateFormatter stringFromDate:[anArrival arrivalTime]]]];
 		//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
 	else
 		[arrivalTime1 setText:[dateFormatter stringFromDate:[anArrival arrivalTime]]];
@@ -486,7 +490,8 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 
 - (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	//[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
 
@@ -513,7 +518,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	//To be implemented in subclasses
 	
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"There is no stops"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"There is no stops"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -614,6 +619,18 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 #pragma mark TableView Delegate Functions
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.row == 0)
+	{
+		UITableViewCell *stopCell = [tableView cellForRowAtIndexPath:indexPath];
+		if ([stopCell isKindOfClass:[StopCell class]])
+		{
+			[(StopCell *)stopCell mapButtonClicked:self];
+		}			
+	}
+}
+		
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	if (stopsOfInterest == nil)
@@ -688,6 +705,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if ([indexPath row] >= 1)
 	{
 		ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+											//Assume in dequeResableCellWithIdentifier, autorelease has been called
 		if (cell == nil) 
 		{
 			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType owner:self] autorelease];

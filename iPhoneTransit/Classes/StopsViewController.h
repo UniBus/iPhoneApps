@@ -20,8 +20,8 @@
 	NSMutableArray *buses;
 }
 
-@property (assign) NSMutableArray *buses;
-@property (assign) BusStop *stop;
+@property (retain) NSMutableArray *buses;
+@property (retain) BusStop *stop;
 
 @end
 
@@ -72,7 +72,7 @@ enum _stop_view_type_ {
 	int stopViewType;
 }
 
-@property (readwrite, assign) NSMutableArray *stopsOfInterest;
+@property (readwrite, retain) NSMutableArray *stopsOfInterest;
 @property int stopViewType;
 
 - (void) reload;

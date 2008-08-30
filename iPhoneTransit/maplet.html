@@ -11,6 +11,7 @@
     //<![CDATA[
   
 	var map;
+	var marker;
     function load() {     
 
 		var searchString = document.location.search;
@@ -38,7 +39,8 @@
 			if( (lat!= "0") && (long!= "0") ){
 				var point = new GLatLng(lat, long);
 				map.setCenter(point, 17);
-				map.addOverlay(new GMarker(point));
+				marker = new GMarker(point);
+				map.addOverlay(marker);
 			}
 			else
 				document.write("Parameter error! Unknow coordinate!");

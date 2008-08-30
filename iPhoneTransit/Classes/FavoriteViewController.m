@@ -18,6 +18,7 @@
 	[super loadView];
 	self.stopViewType = kStopViewTypeToDelete;
 	self.navigationItem.title = @"Favorite Stops";
+	//self.navigationItem.title = @"iBus - Portland, OR";
 	//self.navigationItem.prompt = @"Portland, OR";
 }
 
@@ -39,7 +40,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	NSMutableArray *favoriteArray = [defaults objectForKey:UserSavedFavoriteStopsAndBuses];
 	
-	NSMutableArray *newStops = [NSMutableArray array];
+	NSMutableArray *newStops = [NSMutableArray array]; //Notes, as documents say, [NSMutableArray array] will autorelease
 	NSMutableArray *newBuses = [NSMutableArray array];
 
 	for (NSData *anItemData in favoriteArray)
@@ -60,7 +61,7 @@
 		}
 	}
 	
-	stopsOfInterest = [newStops retain];
+	self.stopsOfInterest = newStops;
 	
 	[busesOfInterest release]; //should I use autorelease here?
 	busesOfInterest = [newBuses retain];
@@ -123,7 +124,8 @@
 
 
 - (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
 
@@ -195,6 +197,7 @@
 			//[aFakedArrival setBusSign:fakeBusSign];
 			
 			arrivalsAtOneStopForOneBus = [NSArray arrayWithObject: aFakedArrival];
+			[aFakedArrival release];
 		}
 		
 		[cell setArrivals:arrivalsAtOneStopForOneBus];

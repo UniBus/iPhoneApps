@@ -7,16 +7,23 @@
 //
 
 #import "MapViewController.h"
+#import "TransitApp.h"
 
 #define NUM_TOUCH_SKIP		5
 #define DIST_THRESHOLD_MOVE	20
-#define DIST_THRESHOLD_ZOOM 20
+#define DIST_THRESHOLD_ZOOM 30
 
 double DistanceBetween(CGPoint point1, CGPoint point2)
 {
 	double value = (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y);
 	return sqrt(value);
 }
+
+@interface MapViewController (private)
+- (void) moveMapByOffset:(CGPoint)offset;
+- (void) zoomMapByOffset:(double)offset;
+- (void) centerMarkerAtLatitude:(double)lat Longitude:(double)lon;
+@end
 
 @implementation MapViewController
 
@@ -29,6 +36,25 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	return self;
 }
 
+- (void) initMapWebView
+{
+	if (mapWeb == nil)
+	{
+		mapWeb = [[UIWebView alloc] initWithFrame:self.view.bounds];
+		mapWeb.userInteractionEnabled = NO;
+		mapWeb.multipleTouchEnabled = NO;
+		[self.view addSubview:mapWeb];
+	}
+}
+
+- (void) removeMapWebView
+{
+	[mapWeb removeFromSuperview];
+	[mapWeb release];
+	mapWeb = nil;
+	loaded = NO;
+}
+
 - (void) loadView
 {
 	[super loadView];
@@ -37,17 +63,18 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	self.view.autoresizesSubviews = YES;
 	self.view.multipleTouchEnabled = YES;
 	
-	if (mapWeb == nil)
-	{
-		mapWeb = [[UIWebView alloc] initWithFrame:self.view.bounds];
-		mapWeb.userInteractionEnabled = NO;
-		mapWeb.multipleTouchEnabled = NO;
-	}
+	[self initMapWebView];
+}
 
-	[self.view addSubview:mapWeb];
+- (void)viewWillDisappear:(BOOL)animated
+{
+	if (memoryWarning)
+	{
+		[self removeMapWebView];
+		[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	}
 	
-	//[self becomeFirstResponder];
-	//self.view = mapWeb;
+	[super viewWillDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -59,7 +86,11 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void)didReceiveMemoryWarning 
 {
-	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	//[self removeMapWebView];
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
+	memoryWarning = YES;
+	//[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
 
@@ -70,8 +101,13 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	[super dealloc];
 }
 
+#pragma mark Map Manipulation
+
 - (void)mapWithURL:(NSURL *)url
 {	
+	if (mapWeb == nil)
+		[self initMapWebView];
+	
 	NSURLRequest *request = [NSURLRequest requestWithURL:url 
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:20];  // 20 sec;
@@ -80,17 +116,31 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void)mapWithLatitude: (double)lat Longitude:(double)lon
 {
-	//NSString *urlString = [NSString stringWithFormat:@"http://www.wenear.com/iphone-test?width=%f&height=%f", 
-	//					   self.view.frame.size.width, self.view.frame.size.height];
-	NSString *urlString = [NSString stringWithFormat:@"http://zhenwang.yao.googlepages.com/maplet.html?width=%f&height=%f&lat=%f&long=%f", 
-						   self.view.frame.size.width, self.view.frame.size.height, lat, lon];
+	if (mapWeb == nil)
+		[self initMapWebView];
+
+	if (!loaded)
+	{
+		//NSString *urlString = [NSString stringWithFormat:@"http://www.wenear.com/iphone-test?width=%f&height=%f", 
+		//					   self.view.frame.size.width, self.view.frame.size.height];
+		NSString *urlString = [NSString stringWithFormat:@"http://zhenwang.yao.googlepages.com/maplet.html?width=%f&height=%f&lat=%f&long=%f", 
+							   self.view.frame.size.width, self.view.frame.size.height, lat, lon];
 	
-	//NSURL *url = [NSURL URLWithString:@"http://zhenwang.yao.googlepages.com/maplet.html"];
-	NSURL *url= [NSURL URLWithString:urlString];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url 
-											 cachePolicy:NSURLRequestUseProtocolCachePolicy
-										 timeoutInterval:20];  // 20 sec;
-	[mapWeb loadRequest:request];
+		//NSURL *url = [NSURL URLWithString:@"http://zhenwang.yao.googlepages.com/maplet.html"];
+		NSURL *url= [NSURL URLWithString:urlString];
+		NSURLRequest *request = [NSURLRequest requestWithURL:url 
+												 cachePolicy:NSURLRequestUseProtocolCachePolicy
+											 timeoutInterval:20];  // 20 sec;
+		[mapWeb loadRequest:request];
+		loaded = YES;
+	}
+	else
+	{
+		[self centerMarkerAtLatitude:lat Longitude:lon];
+	}
+	
+	lastRequestedLat = lat;
+	lastRequestedLon = lon;
 }
 
 #pragma mark Map Operation
@@ -120,6 +170,28 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 		currentLevel = 18;
 	
 	[mapWeb stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"map.setZoom(%d);", currentLevel]];
+}
+
+- (void) centerMarkerAtLatitude:(double)lat Longitude:(double)lon
+{
+    NSString *script = [NSString stringWithFormat:
+						@"var newpoint = new GLatLng(%lf, %lf);"
+						"marker.setLatLng(newpoint);"
+						"map.setCenter(newpoint);", 
+						lat, lon];
+	
+	[mapWeb stringByEvaluatingJavaScriptFromString:script];
+}
+
+#pragma mark UIWebView Delegate Protocol
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Map load-in failed!"
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];
+	[alert release];	
 }
 
 #pragma mark Multi-Touch Handlings
@@ -170,7 +242,12 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	touch0 = [[touches allObjects] objectAtIndex:0];
 	touchPoint0 = [touch0 locationInView:self.view];
 	
-	if ([touches count] == 2)
+	if ([touches count] == 3)
+	{
+		//Reset the center
+		[self centerMarkerAtLatitude:lastRequestedLat Longitude:lastRequestedLon];
+	}	
+	else if ([touches count] == 2)
 	{
 		touch1 = [[touches allObjects] objectAtIndex:1];
 		touchPoint1 = [touch1 locationInView: self.view];
@@ -187,10 +264,16 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 		else
 		{
 			lastTwoFingerDistance = twoFingerDistance;
+			lastOneFingerPos = touchPoint0;
 		}
+	}	
+	else if ([touches count] == 1)
+	{
+		if (lastNumOfTouches != 1)
+			lastOneFingerPos = touchPoint0;
 	}
 
-	if (!isZooming)
+	if ((!isZooming) && ([touches count] < 3))
 	{
 		if (DistanceBetween(lastOneFingerPos, touchPoint0) > DIST_THRESHOLD_MOVE)
 		{
@@ -216,6 +299,11 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	if ([touch tapCount] == 2)
 	{
 		[self zoomMapByOffset: DIST_THRESHOLD_ZOOM];
+	}
+	
+	if ([touch tapCount] == 3) 
+	{
+		[self centerMarkerAtLatitude:lastRequestedLat Longitude:lastRequestedLon];
 	}
 }
 

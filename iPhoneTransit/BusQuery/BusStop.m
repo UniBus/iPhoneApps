@@ -81,17 +81,30 @@ double UserDefinedLatitudeForComparison = 0.;
 		return NSOrderedSame;
 }
 
+- (void) dealloc
+{
+	[name release];
+	[direction release];
+	[position release];
+	[super dealloc];
+}
+
 #pragma mark Archiver/UnArchiver Functions
 
 - (id) initWithCoder: (NSCoder *) coder
 {
 	[super init];
+	[name autorelease];
+	[direction autorelease];
+	[position autorelease];
+	
 	stopId = [coder decodeIntForKey:Stop_Key_ID];
 	longtitude = [coder decodeDoubleForKey:Stop_Key_LON];
 	latitude = [coder decodeDoubleForKey:Stop_Key_LAT];
 	name = [[coder decodeObjectForKey:Stop_Key_NAME] retain];
 	direction = [[coder decodeObjectForKey:Stop_Key_DIR] retain];
 	position = [[coder decodeObjectForKey:Stop_Key_POS] retain];
+	
 	return self;
 }
 

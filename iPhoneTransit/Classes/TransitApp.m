@@ -35,6 +35,7 @@ NSString * const UserSavedFavoriteStopsAndBuses = @"UserSavedFavoriteStopsAndBus
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
 NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
+NSString * const UserApplicationTitle = @"iBus";
 
 extern float searchRange;
 extern int numberOfResults;

@@ -102,7 +102,7 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 	[parser abortParsing];
 
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"iPhone-Transit" message:@"Update failed!"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Update failed!"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];	

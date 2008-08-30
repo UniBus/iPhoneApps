@@ -28,6 +28,7 @@
 
 - (BOOL) openStopFile: (NSString *)stopFile
 {
+	[sortedStops release];
     NSString *path = [NSString stringWithFormat:@"%@.arv", stopFile];
 	sortedStops = [[NSKeyedUnarchiver unarchiveObjectWithFile:path] retain];
 	return (sortedStops != nil);

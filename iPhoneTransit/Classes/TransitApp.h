@@ -14,6 +14,7 @@ extern NSString * const UserSavedRecentStopsAndBuses;
 extern NSString * const UserSavedFavoriteStopsAndBuses;
 extern NSString * const UserSavedSearchRange;
 extern NSString * const UserSavedSearchResultsNum;
+extern NSString * const UserApplicationTitle;
 
 @interface TransitApp : UIApplication {
 	ArrivalQuery *arrivalQuery;

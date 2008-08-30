@@ -35,13 +35,14 @@
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 	for (NSData *anItemData in recentArray)
 	{
-		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
+		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData]; //Didn't forgot the release
+																					//It just that I assume the object has been autoreleased in unarchiveObjectWithData
 		BusStop *aStop = [myApplication stopOfId:anItem.stop.stopId];
 		[newStops addObject:aStop];
 		[newBuses addObject:anItem.buses];
 	}
 	
-	stopsOfInterest = [newStops retain];
+	self.stopsOfInterest = newStops;
 	
 	[busesOfInterest release]; //should I use autorelease here?
 	busesOfInterest = [newBuses retain];
