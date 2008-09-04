@@ -29,6 +29,7 @@
 	self.navigationItem.title = @"Search for Stops";
 	stopViewType = kStopViewTypeToAdd;	
 	mySearchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+	mySearchBar.prompt = @"Stop ID";
 	delimiterSet = [[NSCharacterSet characterSetWithCharactersInString:@",; "] retain];
 }
 

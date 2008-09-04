@@ -62,11 +62,11 @@ enum _stop_view_type_ {
 	kStopViewTypeToDelete,
 };
 
-@interface StopsViewController : UIViewController {
+@interface StopsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 	IBOutlet UITableView  *stopsTableView;
 	NSMutableArray        *arrivalsForStops;
 	NSMutableArray        *stopsOfInterest;
-	UIViewController      *mapViewController;
+	//MapViewController     *mapViewController;
 	//IBOutlet StopCell     *stopCellToCopy;
 	//IBOutlet ArrivalCell  *arrivalCellToCopy;
 	int stopViewType;

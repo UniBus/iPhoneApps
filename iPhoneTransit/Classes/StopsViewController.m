@@ -227,7 +227,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if (mapIconImage == nil)
 	{
 		NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"mapicon.png"];
-		mapIconImage = [UIImage imageWithContentsOfFile:iconPath];
+		mapIconImage = [[UIImage imageWithContentsOfFile:iconPath] retain];
 	}
 	//[buttonImage stretchableImageWithLeftCapWidth:12.0 topCapHeight:12.0];
 	//[mapButton setImage:buttonImage forState:UIControlStateNormal];
@@ -370,7 +370,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		if (favoriteIconImage == nil)
 		{
 			NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"delete.png"];
-			favoriteIconImage = [UIImage imageWithContentsOfFile:iconPath];
+			favoriteIconImage = [[UIImage imageWithContentsOfFile:iconPath] retain];
 		}		
 		[favoriteButton setImage:favoriteIconImage forState:UIControlStateNormal];
 	}
@@ -467,7 +467,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	
 	return self;
 }
-
 
 /*// Implement loadView if you want to create a view hierarchy programmatically
  - (void)loadView 
@@ -566,7 +565,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 - (void) showMapOfAStop: (BusStop *)theStop
 {
 	static MapViewController *staticMapViewController;
-
+	
 	if (staticMapViewController == nil)
 	{
 		staticMapViewController = [[MapViewController alloc] init];
