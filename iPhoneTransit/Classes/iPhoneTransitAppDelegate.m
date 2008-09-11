@@ -31,8 +31,12 @@ extern NSString * const UserSavedSelectedPage;
 		return;
 	
 	UIViewController *selectedViewController = [tabBarController selectedViewController];
-	if ([selectedViewController isKindOfClass:[StopsViewController class]])
-		[(StopsViewController *)selectedViewController needsReload];
+	if ([selectedViewController isKindOfClass:[UINavigationController class]])
+	{
+		UINavigationController *navigController = (UINavigationController *)selectedViewController;
+		if ([navigController.visibleViewController isKindOfClass:[StopsViewController class]])
+			[(StopsViewController *)(navigController.visibleViewController) needsReload];
+	}
 	
 #ifdef _ENABLE_INDICATOR_	
 	if ([application isKindOfClass:[TransitApp class]])
