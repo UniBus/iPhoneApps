@@ -81,6 +81,7 @@ enum _stop_view_type_ {
 //This is a virtual function!!!
 //- (void) filterData;
 - (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index;
+- (void) arrivalsUpdated: (NSArray *)results;
 - (void) showMapOfAStop:(BusStop *)theStop;
 
 @end

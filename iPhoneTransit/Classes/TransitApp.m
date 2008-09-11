@@ -8,6 +8,7 @@
 
 #import "TransitApp.h"
 #import "iPhoneTransitAppDelegate.h"
+#import "StopsViewController.h"
 #import "StopQuery-CSV.h"
 #import "StopQuery-ARV.h"
 
@@ -42,6 +43,7 @@ extern int numberOfResults;
 
 @interface TransitApp ()
 - (void) dataTaskEntry: (id) data;
+- (void) queryTaskEntry: (id) queryingObj;
 @end
 
 
@@ -130,6 +132,33 @@ extern int numberOfResults;
 	self.networkActivityIndicatorVisible = NO;
 	
 	return results;
+}
+
+- (void) arrivalsAtStopsAsync: (id)stopView
+{
+	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryTaskEntry:) object:stopView];
+	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
+	[opQueue addOperation:theOp];
+}	
+	
+- (void) queryTaskEntry: (id) queryingObj
+{
+	if (! [queryingObj isKindOfClass:[StopsViewController class]])
+		return;
+	
+	StopsViewController *stopsViewCtrl = (StopsViewController *)queryingObj;
+	
+	if (arrivalQuery == nil)
+	{
+		[queryingObj arrivalsUpdated: [NSMutableArray array]];
+	}
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+	//[NSThread sleepForTimeInterval:30];
+	self.networkActivityIndicatorVisible = NO;
+	
+	[queryingObj arrivalsUpdated: results];
 }
 
 #pragma mark A Task to load in data files

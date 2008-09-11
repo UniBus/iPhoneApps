@@ -538,10 +538,18 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	
 	if (arrivalsForStops == nil)
 		arrivalsForStops = [[NSMutableArray alloc] init];
+		
+	[self arrivalsUpdated: [NSMutableArray array]];
 	
+	self.navigationItem.prompt = @"Updating...";
+	[myApplication arrivalsAtStopsAsync:self];
+
+	//[stopsTableView reloadData];
+}
+
+- (void) arrivalsUpdated: (NSArray *)results
+{
 	[arrivalsForStops removeAllObjects];
-	
-	NSArray *results = [myApplication arrivalsAtStops:stopsOfInterest];
 	for (BusStop *aStop in stopsOfInterest)
 	{
 		NSMutableArray *arrivalsForOneStop = [[NSMutableArray alloc] init];
@@ -558,6 +566,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	
 	//UITableView *tableView = (UITableView *) self.view;
 	[stopsTableView reloadData];
+	self.navigationItem.prompt = nil;
 }
 
 #pragma mark Stop/Arrival Data

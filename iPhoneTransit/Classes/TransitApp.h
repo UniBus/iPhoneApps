@@ -31,6 +31,7 @@ extern NSString * const UserApplicationTitle;
 - (BusStop *) stopOfId:(int) stopId;
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
+- (void) arrivalsAtStopsAsync: (id)stopView;
 - (int) numberOfStops;
 - (void) loadStopDataInBackground;
 
