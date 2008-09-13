@@ -14,9 +14,15 @@
 @implementation RecentViewController
 
 // Implement loadView if you want to create a view hierarchy programmatically
+/*
 - (void)loadView 
 {
-	[super loadView];
+}
+*/
+
+- (void) viewDidLoad
+{
+	[super viewDidLoad];
 	self.stopViewType = kStopViewTypeToDelete;
 }
 

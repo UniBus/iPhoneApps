@@ -18,32 +18,32 @@
 	{
 		// Initialization code
 	}
-	self.navigationItem.title = @"Search for Stops";
 	return self;
 }
 
 // Implement loadView if you want to create a view hierarchy programmatically
+/*
 - (void)loadView 
 {
 	[super loadView];	
+}
+*/
+
+// If you need to do additional setup after loading the view, override viewDidLoad.
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
 	self.navigationItem.title = @"Search for Stops";
 	stopViewType = kStopViewTypeToAdd;	
 	mySearchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
 	mySearchBar.prompt = @"Stop ID";
 	delimiterSet = [[NSCharacterSet characterSetWithCharactersInString:@",; "] retain];
-}
-
+ }
+ 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[self needsReload];
 }
-
-/*
- If you need to do additional setup after loading the view, override viewDidLoad.
-- (void)viewDidLoad {
-}
- */
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -83,7 +83,7 @@
 		
 	for (BusStop *aStop in stopsOfInterest)
 	{
-		if (aStop.flag = NO)
+		if (aStop.flag == NO)
 			continue;
 		
 		BusStop *aStopInDataBase = [myApplication stopOfId: aStop.stopId];
@@ -172,6 +172,7 @@
 	NSMutableArray *stops = [self retrieveStopsFromText:searchBar.text];
 	if ([stops count] != 0)
 	{
+		[arrivalsForStops removeAllObjects];
 		self.stopsOfInterest = stops;
 		[self reload];
 		[searchBar resignFirstResponder];

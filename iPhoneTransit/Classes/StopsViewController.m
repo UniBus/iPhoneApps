@@ -526,25 +526,24 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void) reload
 {
+	if (arrivalsForStops == nil)
+		arrivalsForStops = [[NSMutableArray alloc] init];
+	
 	if ([stopsOfInterest count] == 0)
 	{
+		[self arrivalsUpdated: [NSMutableArray array]];		
 		[self alertOnEmptyStopsOfInterest];
-		//return;
+		return;
 	}
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
 	if (![myApplication isKindOfClass:[TransitApp class]])
 		NSLog(@"Something wrong, Need to set the application to be TransitApp!!");
-	
-	if (arrivalsForStops == nil)
-		arrivalsForStops = [[NSMutableArray alloc] init];
 		
-	[self arrivalsUpdated: [NSMutableArray array]];
-	
 	self.navigationItem.prompt = @"Updating...";
 	[myApplication arrivalsAtStopsAsync:self];
 
-	//[stopsTableView reloadData];
+	[stopsTableView reloadData];
 }
 
 - (void) arrivalsUpdated: (NSArray *)results
@@ -652,15 +651,21 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if (arrivalsForStops == nil)
+	if (stopsOfInterest == nil)
 		return 0;
 	
-	if ([arrivalsForStops count] == 0)
+	if ([stopsOfInterest count] == 0)
 		return 0;
+	
+	if (arrivalsForStops == nil)
+		return 1;
+	
+	if ([arrivalsForStops count] == 0)
+		return 1;
 	
 	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
 	if (arrivalsForOneStop == nil)
-		return 0;
+		return 1;
 	
 	if ([arrivalsForOneStop count] == 0)
 		return 1; // Still need to list the stop info.

@@ -16,11 +16,15 @@ BOOL  globalTestMode = NO;
 
 @implementation ClosestViewController
 
-- (void)loadView 
+- (void)viewDidLoad 
 {
-	[super loadView];
+	[super viewDidLoad];
 	self.navigationItem.title = @"Nearby Stops";
 
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	searchRange = [defaults floatForKey:UserSavedSearchRange];
+	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	
 	location = [[CLLocationManager alloc] init];
 	location.delegate = self;
 	
@@ -30,6 +34,12 @@ BOOL  globalTestMode = NO;
 - (void)viewDidAppear:(BOOL)animated
 {
 	[self needsReload];
+}
+
+- (void) dealloc
+{
+	[location release];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -111,22 +121,29 @@ BOOL  globalTestMode = NO;
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't update current location"
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-	[alert show];	
-	[alert release];
-	
 	[location stopUpdatingLocation];
 	if (indicator)
 	{
 		[indicator removeFromSuperview];
 		[indicator stopAnimating];
 	}
+
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't update current location"
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+	[location stopUpdatingLocation];
+	if (indicator)
+	{
+		[indicator removeFromSuperview];
+		[indicator stopAnimating];
+	}
+	
 	CGPoint queryPos = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:queryPos within:searchRange] ];
@@ -138,13 +155,6 @@ BOOL  globalTestMode = NO;
 		[querryResults removeObjectsAtIndexes:rangeToDelete];
 	}
 	self.stopsOfInterest = querryResults;
-	
-	[location stopUpdatingLocation];
-	if (indicator)
-	{
-		[indicator removeFromSuperview];
-		[indicator stopAnimating];
-	}
 	
 	[self reload];	
 }

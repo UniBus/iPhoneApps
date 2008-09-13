@@ -24,29 +24,41 @@ enum SettingTableSections
 @implementation SettingsViewController
 
 //@synthesize searchRange, numberOfRecentStops;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
+	{
+		// Initialization code
+	}
+	return self;
+}
+
 // Implement loadView if you want to create a view hierarchy programmatically
-- (void)loadView 
+/*
+- (void)loadView
+{
+}
+*/
+ 
+// Implement viewDidLoad if you need to do additional setup after loading the view.
+- (void)viewDidLoad
 {
 	//searchRange = 0.1;
 	//numberOfRecentStops = 2;
-	[super loadView];
+	[super viewDidLoad];
 		
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	searchRange = [defaults floatForKey:UserSavedSearchRange];
 	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	
+	rangeSlider.value = searchRange;
+	recentSlider.value = numberOfResults;
 	
 	NSMutableString *content =[NSMutableString  stringWithString: @"<html> Author: Zhenwang Yao <br><br>"];
 	[content appendString:@"This is an application based on Google Transit Feed data. Web service is provided by "];
 	[content appendString:@"<a href=\"http://developer.trimet.org/\">Trimet</a>. </html>"];
 	[aboutWebCell loadHTMLString:content baseURL:nil];
 }
-
-/*
-// Implement viewDidLoad if you need to do additional setup after loading the view.
-- (void)viewDidLoad {
-	[super viewDidLoad];
-}
-*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	// Return YES for supported orientations

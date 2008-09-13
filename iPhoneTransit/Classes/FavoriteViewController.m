@@ -12,19 +12,50 @@
 
 @implementation FavoriteViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
+{
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
+	{
+		// Initialization code
+	}
+	return self;
+}
+
 // Implement loadView if you want to create a view hierarchy programmatically
+/*
 - (void)loadView 
 {
-	[super loadView];
+}
+*/
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self needsReload];
+}
+
+// If you need to do additional setup after loading the view, override viewDidLoad.
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
 	self.stopViewType = kStopViewTypeToDelete;
 	self.navigationItem.title = @"Favorite Stops";
 	//self.navigationItem.title = @"iBus - Portland, OR";
 	//self.navigationItem.prompt = @"Portland, OR";
 }
+ 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+	// Return YES for supported orientations
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[self needsReload];
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
+	// Release anything that's not essential, such as cached data
+}
+
+- (void)dealloc {
+	[super dealloc];
 }
 
 - (void) alertOnEmptyStopsOfInterest
@@ -110,30 +141,6 @@
 	}
 }
 
-/*
- If you need to do additional setup after loading the view, override viewDidLoad.
-- (void)viewDidLoad {
-}
- */
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
-- (void)didReceiveMemoryWarning {
-	[super didReceiveMemoryWarning]; 
-	// Releases the view if it doesn't have a superview
-	// Release anything that's not essential, such as cached data
-}
-
-
-- (void)dealloc {
-	[super dealloc];
-}
-
 #pragma mark TableView Delegate Functions
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -179,10 +186,22 @@
 			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType owner:self] autorelease];
 		}
 		
-		NSMutableArray *arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];
-		NSArray *arrivalsAtOneStopForOneBus = [self arrivalsOfOneBus:arrivalsAtOneStop ofIndex:[indexPath row]-1];
+		BOOL realArrivals = NO;
+		NSMutableArray *arrivalsAtOneStop;
+		NSArray *arrivalsAtOneStopForOneBus;
+		if (arrivalsForStops)
+		{
+			if ([arrivalsForStops count]>[indexPath section])
+			{
+				arrivalsAtOneStop = [arrivalsForStops objectAtIndex:[indexPath section]];
+				arrivalsAtOneStopForOneBus = [self arrivalsOfOneBus:arrivalsAtOneStop ofIndex:[indexPath row]-1];
+				if ([arrivalsAtOneStopForOneBus count])
+					realArrivals = YES;
+			}
+		}
 		
-		if ([arrivalsAtOneStopForOneBus count] == 0)
+		//if ([arrivalsAtOneStopForOneBus count] == 0)
+		if (!realArrivals)
 		{
 			BusArrival *aFakedArrival = [[BusArrival alloc] init];
 			aFakedArrival.stopId = [[stopsOfInterest objectAtIndex:[indexPath section]] stopId];

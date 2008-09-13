@@ -17,6 +17,7 @@
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
 
-- (void)dataDidFinishLoading:(UIApplication *)application;
+- (void)dataDidFinishLoading:(id)data;
+//- (void)queryDidFinishLoading:(id)queryingObj;
 
 @end

@@ -57,9 +57,9 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	loaded = NO;
 }
 
-- (void) loadView
+- (void) viewDidLoad
 {
-	[super loadView];
+	[super viewDidLoad];
 	
 	self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.view.autoresizesSubviews = YES;

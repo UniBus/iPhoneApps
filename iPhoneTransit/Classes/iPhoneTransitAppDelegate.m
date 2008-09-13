@@ -22,7 +22,7 @@ extern NSString * const UserSavedSelectedPage;
 @synthesize tabBarController;
 
 
-- (void)dataDidFinishLoading:(UIApplication *)application
+- (void)dataDidFinishLoading:(id)data
 {
 	if (window == nil)
 		return;
@@ -39,6 +39,8 @@ extern NSString * const UserSavedSelectedPage;
 	}
 	
 #ifdef _ENABLE_INDICATOR_	
+	(UIApplication *)application = [UIApplication sharedApplication];	
+
 	if ([application isKindOfClass:[TransitApp class]])
 	{
 		TransitApp *myApp = (TransitApp *)application;
@@ -59,6 +61,11 @@ extern NSString * const UserSavedSelectedPage;
 #endif
 	
 }
+
+//- (void)queryDidFinishLoading:(id)queryingObj
+//{
+//	
+//}
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {

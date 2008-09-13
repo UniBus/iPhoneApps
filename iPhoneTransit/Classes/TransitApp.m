@@ -141,6 +141,12 @@ extern int numberOfResults;
 	[opQueue addOperation:theOp];
 }	
 	
+#pragma mark Arrivals query through internet
+- (void) queryTaskExit: (NSInvocation *) invocation 
+{
+	[invocation invoke];
+}
+
 - (void) queryTaskEntry: (id) queryingObj
 {
 	if (! [queryingObj isKindOfClass:[StopsViewController class]])
@@ -148,17 +154,29 @@ extern int numberOfResults;
 	
 	StopsViewController *stopsViewCtrl = (StopsViewController *)queryingObj;
 	
-	if (arrivalQuery == nil)
+	//Only allow one single query at a time
+	@synchronized (self)
 	{
-		[queryingObj arrivalsUpdated: [NSMutableArray array]];
+		if (arrivalQuery == nil)
+		{
+			[queryingObj arrivalsUpdated: [NSMutableArray array]];
+		}
+	
+		self.networkActivityIndicatorVisible = YES;
+		NSArray *results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+		//[NSThread sleepForTimeInterval:3];
+		self.networkActivityIndicatorVisible = NO;
+
+		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
+		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+		[invocation setTarget: queryingObj];
+		[invocation setSelector: @selector(arrivalsUpdated:)];	
+		[invocation setArgument:&results atIndex:2];
+		[invocation retainArguments];
+		
+		//[queryingObj arrivalsUpdated: results];
+		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
 	}
-	
-	self.networkActivityIndicatorVisible = YES;
-	NSArray *results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-	//[NSThread sleepForTimeInterval:30];
-	self.networkActivityIndicatorVisible = NO;
-	
-	[queryingObj arrivalsUpdated: results];
 }
 
 #pragma mark A Task to load in data files
@@ -169,7 +187,7 @@ extern int numberOfResults;
 	[opQueue addOperation:theOp];
 }
 
-- (void) dataTaskEntry: (id) data
+- (void) dataTaskExit: (id) data
 {
 	iPhoneTransitAppDelegate *transitDelegate = (iPhoneTransitAppDelegate *)[self delegate];
 	if (![transitDelegate isKindOfClass:[iPhoneTransitAppDelegate class]])
@@ -177,12 +195,18 @@ extern int numberOfResults;
 		NSLog(@"For some reason, the App delegate is not a iPhoneTransitAppDelegate");
 	}
 
-	//[NSThread sleepForTimeInterval:30];
+	[transitDelegate dataDidFinishLoading:self];
+}
+
+- (void) dataTaskEntry: (id) data
+{
+	//[NSThread sleepForTimeInterval:5];
 	stopQuery = [StopQuery_Used initWithFile:dataFile];
 	if (stopQuery)
 	{
 		stopQueryAvailable = YES;
-		[transitDelegate dataDidFinishLoading:self];
+		[self performSelectorOnMainThread:@selector(dataTaskExit:) withObject:nil waitUntilDone:NO];
+		//[transitDelegate dataDidFinishLoading:self];
 	}
 }
 
