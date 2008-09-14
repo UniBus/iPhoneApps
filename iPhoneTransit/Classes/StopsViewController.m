@@ -246,6 +246,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[self.contentView addSubview:stopPos];
 	[self.contentView addSubview:stopDir];
 	[self.contentView addSubview:mapButton];
+	
+	[stopName release];
+	[stopPos release];
+	[stopDir release];
+	[mapButton release];
 
 	return self;
 }
@@ -384,12 +389,17 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[self.contentView addSubview:arrivalTime1];
 	[self.contentView addSubview:arrivalTime2];
 
+	[busSign release];
+	[arrivalTime1 release];
+	[arrivalTime2 release];
+
 	if (favoriteButton)
 	{
 		[favoriteButton addTarget:self action:@selector(favoriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:favoriteButton];
+		[favoriteButton release];
 	}
-	
+		
 	return self;
 }
 
@@ -663,7 +673,9 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if ([arrivalsForStops count] == 0)
 		return 1;
 	
-	NSMutableArray *arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
+	NSMutableArray *arrivalsForOneStop = nil;
+	if ([arrivalsForStops count] > section)
+		arrivalsForOneStop = [arrivalsForStops objectAtIndex:section];
 	if (arrivalsForOneStop == nil)
 		return 1;
 	

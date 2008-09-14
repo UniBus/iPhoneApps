@@ -100,12 +100,17 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
 	[parser abortParsing];
+	//NSLog(@"Error: %@", parseError);
 
+	/*
 	// open an alert with just an OK button
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Update failed!"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];	
+	 */
+	
+	[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed!" waitUntilDone:NO];
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser

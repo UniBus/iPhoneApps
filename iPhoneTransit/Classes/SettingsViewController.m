@@ -55,24 +55,30 @@ enum SettingTableSections
 	recentSlider.value = numberOfResults;
 	
 	NSMutableString *content =[NSMutableString  stringWithString: @"<html> Author: Zhenwang Yao <br><br>"];
-	[content appendString:@"This is an application based on Google Transit Feed data. Web service is provided by "];
+	[content appendString:@"This is an application based on <a href=\"http://code.google.com/transit/spec/transit_feed_specification.html\">Google Transit Feed Specification (GTFS)</a> data. Web service is provided by "];
 	[content appendString:@"<a href=\"http://developer.trimet.org/\">Trimet</a>. </html>"];
+	[content appendString:@"<br><br>Great thanks to them!"];
+	[content appendString:@"<br><br>The author does not guarantee accurancy of the information, and future availability of the service."];
+	[content appendString:@"<br><br>Enjoy!"];
 	[aboutWebCell loadHTMLString:content baseURL:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
 	// Return YES for supported orientations
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning 
+{
 	//[super didReceiveMemoryWarning]; 
 	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
 	[super dealloc];
 }
 
@@ -156,7 +162,7 @@ enum SettingTableSections
 			title = @"Search Results";
 			break;
 		case kUIAbout_Section:
-			title = @"About";
+			title = @"About & Disclaimer";
 			break;
 		default:
 			break;
@@ -196,7 +202,8 @@ enum SettingTableSections
 			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
 		}
 		else
-		{			
+		{		
+			cell.textAlignment = UITextAlignmentCenter;
 			cell.text = @"Copyright @ 2008 Zhenwang Yao";
 		}
 		return cell;

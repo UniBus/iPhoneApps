@@ -140,6 +140,15 @@ extern int numberOfResults;
 	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
 	[opQueue addOperation:theOp];
 }	
+
+- (void) userAlert: (NSString *) msg
+{
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:msg
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];		
+}
 	
 #pragma mark Arrivals query through internet
 - (void) queryTaskExit: (NSInvocation *) invocation 
