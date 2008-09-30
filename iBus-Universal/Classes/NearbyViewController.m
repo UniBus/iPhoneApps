@@ -1,12 +1,14 @@
 //
-//  NearbyViewController
-//  iBus-Universal
+//  ClosestViewController.m
+//  iPhoneTransit
 //
-//  Created by Zhenwang Yao on 20/09/08.
+//  Created by Zhenwang Yao on 18/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#include <stdlib.h>
 #import "NearbyViewController.h"
+#import "TransitApp.h"
 
 float searchRange = 0.1;
 int   numberOfResults = 5;
@@ -14,45 +16,142 @@ BOOL  globalTestMode = NO;
 
 @implementation NearbyViewController
 
-/*
-// Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically.
-- (void)loadView {
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-*/
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
+	self.navigationItem.title = @"Nearby Stops";
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	searchRange = [defaults floatForKey:UserSavedSearchRange];
+	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	
+	location = [[CLLocationManager alloc] init];
+	location.delegate = self;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self needsReload];
+}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+- (void) dealloc
+{
+	[location release];
+	[super dealloc];
+}
+
+- (void)didReceiveMemoryWarning 
+{
+	if (indicator)
+		if (![indicator isAnimating])
+		{
+			//there shouldn't be any superview related to it.
+			[indicator release];
+			indicator = nil;
+		}
+	[super didReceiveMemoryWarning]; 
+	// Releases the view if it doesn't have a superview
+	// Release anything that's not essential, such as cached data
 }
 
 
-- (void)dealloc {
-    [super dealloc];
+- (void) alertOnEmptyStopsOfInterest
+{
+	// open an alert with just an OK button
+	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %f Km", searchRange];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+	//Show some info to user here!	
 }
 
+- (CGPoint) getARandomCoordinate
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	
+	BusStop *aStop = [myApplication getRandomStop];
+	if (aStop)
+		return CGPointMake(aStop.longtitude, aStop.latitude);
+	else
+	{
+		double testLon = -122.60389;
+		double testLat = 45.379719;
+		return CGPointMake(testLon, testLat);
+	}	
+}
+
+- (void) needsReload
+{
+	if (globalTestMode)
+	{
+		CGPoint queryPos = [self getARandomCoordinate];
+		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+		NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:queryPos within:searchRange] ];
+		if ([querryResults count] > numberOfResults)
+		{
+			//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
+			NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
+			[querryResults removeObjectsAtIndexes:rangeToDelete];
+		}
+		self.stopsOfInterest = querryResults;
+		
+		[self reload];
+	}
+	else
+	{
+		if (indicator == nil)
+		{
+			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+			indicator.center = self.view.center;
+		}
+		[indicator startAnimating];
+		[self.view addSubview:indicator];
+		[location startUpdatingLocation];
+	}
+}
+
+#pragma mark Location Update
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+	[location stopUpdatingLocation];
+	if (indicator)
+	{
+		[indicator removeFromSuperview];
+		[indicator stopAnimating];
+	}
+	
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't update current location"
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+	[location stopUpdatingLocation];
+	if (indicator)
+	{
+		[indicator removeFromSuperview];
+		[indicator stopAnimating];
+	}
+	
+	CGPoint queryPos = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:queryPos within:searchRange] ];
+	//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
+	if ([querryResults count] > numberOfResults)
+	{
+		//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
+		NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
+		[querryResults removeObjectsAtIndexes:rangeToDelete];
+	}
+	self.stopsOfInterest = querryResults;
+	
+	[self reload];	
+}
 
 @end
+

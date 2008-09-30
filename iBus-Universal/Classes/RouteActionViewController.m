@@ -10,6 +10,7 @@
 #import "RouteScheduleViewController.h"
 #import "DatePickViewController.h"
 #import "TransitApp.h"
+#import "FavoriteViewController.h"
 
 @implementation RouteActionViewController
 
@@ -80,7 +81,7 @@
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
 }
 
-- (void) showInfoOfRoute: (NSString*)route atStop:(NSString *)stop
+- (void) showInfoOfRoute: (NSString*)route atStop:(NSString *)stop  withSign:(NSString *)sign
 {
 	if (route) 
 	{
@@ -91,6 +92,12 @@
 	{
 		[stopID release];
 		stopID = [stop retain];
+	}
+	
+	if (sign)
+	{
+		[busSign release];
+		busSign = [sign retain];
 	}
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
@@ -117,6 +124,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	if (indexPath.section == 0)
+	{
+		if (isInFavorite2(stopID, routeID))
+			removeFromFavorite2(stopID, routeID);
+		else
+			saveToFavorite2(stopID, routeID, busSign);
+		[tableView reloadData];
+		return;
+	}
+	
+	//section == 1;
 	RouteScheduleViewController *routeScheduleVC = [[RouteScheduleViewController alloc] initWithNibName:nil bundle:nil];
 	routeScheduleVC.stopID = stopID;
 	routeScheduleVC.routeID = routeID;	
@@ -191,7 +210,10 @@
 	
 	if (indexPath.section == 0)
 	{
-		cell.text = [NSString stringWithFormat:@"Bookmark route & stop"];
+		if (isInFavorite2(stopID, routeID))
+			cell.text = [NSString stringWithFormat:@"Remove from favorite"];
+		else
+			cell.text = [NSString stringWithFormat:@"Add to favorite"];
 	}
 	else if (indexPath.section == 1)
 	{

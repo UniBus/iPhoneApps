@@ -13,35 +13,12 @@
 @class StopsViewController;
 @class MapViewController;
 
-@interface SavedItem : NSObject <NSCoding>
-{
-	BusStop *stop;
-	NSMutableArray *buses;
-}
-
-@property (retain) NSMutableArray *buses;
-@property (retain) BusStop *stop;
-
-@end
-
-
-enum _stop_view_type_ {
-	kStopViewTypeNormal,
-	kStopViewTypeToAdd,
-	kStopViewTypeToDelete,
-};
-
 @interface StopsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-	UITableView		*stopsTableView;
-	NSMutableArray  *arrivalsForStops;
-	NSArray			*stopsOfInterest;
-	int				stopViewType;
+	UITableView			*stopsTableView;
+	NSArray				*stopsOfInterest;
 	NSMutableDictionary *stopsDictionary;
-	NSMutableArray *routesOfInterest;
+	NSMutableArray		*routesOfInterest;
 }
-
-//@property (readwrite, retain) NSMutableArray *stopsOfInterest;
-@property int stopViewType;
 
 - (NSArray *) stopsOfInterest;
 - (void) setStopsOfInterest: (NSArray *)stops;
@@ -49,13 +26,8 @@ enum _stop_view_type_ {
 - (void) reload;
 - (void) needsReload;
 - (void) alertOnEmptyStopsOfInterest;
-//This is a virtual function!!!
-//- (void) filterData;
-- (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index;
+
 - (void) arrivalsUpdated: (NSArray *)results;
 - (void) showMapOfAStop:(BusStop *)theStop;
-- (void) busArrivalBookmarked: (BusArrival *)theArrival;
-
-- (void) testFunction;
 
 @end

@@ -9,6 +9,7 @@
 
 #include "General.h"
 #include <math.h>
+#include <stdio.h>
 /*************************************************************************
  *
  *N  distance
@@ -93,7 +94,9 @@ float distance( double lat1, double lon1, double lat2, double lon2)
 
 float deltaLat(double lat, double lon, double dist)
 {
-	return RAD2DEG * acos(dist / (EARTH_RADIUS * lon*DEG2RAD) );
+	//printf("acos(%f) = %f", dist / (EARTH_RADIUS * lon*DEG2RAD), acos(dist / (EARTH_RADIUS * lon*DEG2RAD) ));
+	//printf("RAD2DEG * acos(dist / (EARTH_RADIUS * lon*DEG2RAD) = %f", RAD2DEG * acos(dist / (EARTH_RADIUS * lon*DEG2RAD) ));
+	return RAD2DEG * (dist / EARTH_RADIUS );
 }
 
 float deltaLon(double lat, double lon, double dist)

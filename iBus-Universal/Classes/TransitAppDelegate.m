@@ -29,7 +29,7 @@
 		UINavigationController *navigController = (UINavigationController *)selectedViewController;
 		if ([navigController.visibleViewController isKindOfClass:[StopsViewController class]])
 		{
-			[(StopsViewController *)(navigController.visibleViewController) testFunction];
+			//[(StopsViewController *)(navigController.visibleViewController) testFunction];
 			[(StopsViewController *)(navigController.visibleViewController) needsReload];
 		}
 	}	

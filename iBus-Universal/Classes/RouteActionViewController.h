@@ -12,12 +12,13 @@
 @interface RouteActionViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> {
 	NSString *stopID;
 	NSString *routeID;
+	NSString *busSign;
 	NSDate   *otherDate;
 	UITableView *routeTableView;
 }
 
 - (void) setStopId: (NSString *) stop;
 - (void) setRouteId: (NSString *) route;
-- (void) showInfoOfRoute: (NSString*)route atStop:(NSString *)stop;
+- (void) showInfoOfRoute: (NSString*)route atStop:(NSString *)stop withSign:(NSString *)sign;
 
 @end

@@ -40,7 +40,7 @@ extern float searchRange;
 extern int numberOfResults;
 
 @interface TransitApp ()
-- (void) dataTaskEntry: (id) data;
+- (void) initializeDatabase;
 - (void) queryTaskEntry: (id) queryingObj;
 @end
 
@@ -48,21 +48,6 @@ extern int numberOfResults;
 @implementation TransitApp
 
 @synthesize stopQueryAvailable, arrivalQueryAvailable;
-
-- (NSString *) currentDatabase
-{
-	NSString *documentsDirectory = [[NSBundle mainBundle] resourcePath];
-	//NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
-	NSString *filename = @"stops.sqlite";
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
-	return path;
-}
-
-- (NSString *) currentWebServicePrefix
-{
-	return nil;
-}
-
 - (id) init
 {
 	[super init];
@@ -75,6 +60,7 @@ extern int numberOfResults;
 	//NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
 	//NSString *filename = @"stops.sqlite";
     //NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
+	[self initializeDatabase];
 	NSString *path = [self currentDatabase];
 	NSLog(@"Opening file: %@", path);
 	dataFile = [path retain];
@@ -109,6 +95,55 @@ extern int numberOfResults;
 	[arrivalQuery release];
 	[stopQuery release];
 	[super dealloc];
+}
+
+#pragma mark Database operation
+- (void) initializeDatabase
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"stops.sqlite"];
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:destPath])
+	{
+		NSError *error;
+		// The writable database does not exist, so copy the default to the appropriate location.
+		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"stops.sqlite"];
+		if (![fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
+			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+		else
+			NSLog(@"Database file copy to %@", destPath);
+	}
+}
+
+- (NSString *) currentDatabase
+{
+	/*
+	 NSString *documentsDirectory = [[NSBundle mainBundle] resourcePath];
+	 //NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
+	 NSString *filename = @"stops.sqlite";
+	 NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
+	 */
+	
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"stops.sqlite"];
+	return destPath;
+}
+
+- (NSString *) currentWebServicePrefix
+{
+	return nil;
+}
+
+- (BusStop *) getRandomStop
+{
+	if (stopQuery == nil)
+	{
+		return nil;
+	}	
+	return [stopQuery getRandomStop];
 }
 
 - (BusStop *) stopOfId:(NSString *) anId
@@ -248,37 +283,6 @@ extern int numberOfResults;
 		
 		//[queryingObj arrivalsUpdated: results];
 		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
-	}
-}
-
-#pragma mark A Task to load in data files
-- (void) loadStopDataInBackground
-{
-	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(dataTaskEntry:) object:nil];
-	[theOp setQueuePriority:NSOperationQueuePriorityLow];
-	[opQueue addOperation:theOp];
-}
-
-- (void) dataTaskExit: (id) data
-{
-	TransitAppDelegate *transitDelegate = (TransitAppDelegate *)[self delegate];
-	if (![transitDelegate isKindOfClass:[TransitAppDelegate class]])
-	{
-		NSLog(@"For some reason, the App delegate is not a iPhoneTransitAppDelegate");
-	}
-
-	[transitDelegate dataDidFinishLoading:self];
-}
-
-- (void) dataTaskEntry: (id) data
-{
-	//[NSThread sleepForTimeInterval:5];
-	stopQuery = [StopQuery initWithFile:dataFile];
-	if (stopQuery)
-	{
-		stopQueryAvailable = YES;
-		[self performSelectorOnMainThread:@selector(dataTaskExit:) withObject:nil waitUntilDone:NO];
-		//[transitDelegate dataDidFinishLoading:self];
 	}
 }
 

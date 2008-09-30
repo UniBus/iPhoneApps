@@ -18,7 +18,8 @@
 + (id) initWithFile:(NSString *) stopFile;
 - (BOOL) openStopFile: (NSString *)stopFile;
 
-//Query the closest stops with given pos (with longtitude and latitude)
+//Query
+- (BusStop *) getRandomStop;
 - (BusStop *) stopOfId: (NSString *) sid;
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) queryStopWithName:(NSString *) stopName;

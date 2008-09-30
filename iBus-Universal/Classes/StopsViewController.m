@@ -23,155 +23,14 @@
 
 void addStopAndBusToUserDefaultList(BusStop *aStop, BusArrival *anArrival, NSString *UserDefaults)
 {
-	/*
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
-	
-	BOOL found = NO;
-	SavedItem *theSavedItem = nil;
-	int targetIndex = -1;
-	for (int i=0; i<[favoriteArray count]; i++)
-	{
-		NSData *anItemData = [favoriteArray objectAtIndex:i];
-		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		if (anItem.stop.stopId == aStop.stopId)
-		{
-			theSavedItem = anItem;
-			targetIndex = i;
-			break;
-		}
-	}
-	
-	if (theSavedItem == nil)
-	{
-		theSavedItem = [[SavedItem alloc] init];
-		theSavedItem.stop = aStop;
-		[theSavedItem.buses addObject:anArrival];
-		NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-		[favoriteArray addObject:theItemData];
-		[theSavedItem autorelease];
-	}
-	else
-	{
-		for (BusArrival *anBusArrival in theSavedItem.buses)
-		{
-			if ([[anBusArrival busSign] isEqualToString:[anArrival busSign]])
-			{
-				found = YES;
-				break;
-			}
-		}
-		if (found == NO)
-		{
-			[theSavedItem.buses addObject:anArrival];
-			NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-			[favoriteArray replaceObjectAtIndex:targetIndex withObject:theItemData];
-		}
-	}
-	
-	if (found == NO)
-	{
-		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
-	}
-	 */
 }
 
 void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
 {
-	/*
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	NSMutableArray *favoriteArray = [NSMutableArray arrayWithArray:[defaults objectForKey:UserDefaults]];
-	
-	BOOL found = NO;
-	SavedItem *theSavedItem = nil;
-	int index = 0;
-	for (; index < [favoriteArray count]; index++)
-	{
-		NSData *anItemData = [favoriteArray objectAtIndex:index];
-		SavedItem *anItem = [NSKeyedUnarchiver unarchiveObjectWithData:anItemData];
-		if (anItem.stop.stopId == aStopId)
-		{
-			theSavedItem = anItem;
-			int busIndexAtStop = 0;
-			for (;busIndexAtStop<[theSavedItem.buses count];busIndexAtStop++)
-			{
-				BusArrival *anArrival = [theSavedItem.buses objectAtIndex:busIndexAtStop];
-				if ([[anArrival busSign] isEqualToString:aBusSign])
-				{
-					found = YES;
-					[theSavedItem.buses removeObjectAtIndex:busIndexAtStop];
-					break;
-				}
-			}
-			if (found) 
-			{
-				if ([theSavedItem.buses count]==0)
-					[favoriteArray removeObjectAtIndex:index];
-				else
-				{
-					NSData *theItemData = [NSKeyedArchiver archivedDataWithRootObject:theSavedItem];
-					[favoriteArray replaceObjectAtIndex:index withObject:theItemData];					
-				}
-			}
-			break; 
-		}
-	}
-		
-	if (found)
-	{
-		[defaults setObject:favoriteArray forKey:UserSavedFavoriteStopsAndBuses];
-	}
-	 */
 }
-
-@implementation SavedItem
-@synthesize stop, buses;
--(id) init
-{
-	[super init];
-	buses = [[NSMutableArray alloc] init]; //it starts with an empty list
-	return self;
-}
-
-- (void) dealloc
-{
-	[stop release];
-	[buses release];
-	[super dealloc];
-}
-
-- (id) initWithCoder: (NSCoder *) coder
-{
-	[super init];
-	[stop release];
-	[buses release];
-	stop = [[coder decodeObjectForKey:@"Stop"] retain];
-	buses = [[coder decodeObjectForKey:@"Buses"] retain];
-	return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) coder
-{
-	[coder encodeObject:stop forKey:@"Stop"];
-	[coder encodeObject:buses forKey:@"Buses"];
-}
-
-@end
 
 @implementation StopsViewController
 
-@synthesize stopViewType;
-
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		// Initialization code
-		//self.navigationItem.prompt=@"Justacolor..."; 
-	}
-	
-	return self;
-}
-*/
 // Implement loadView if you want to create a view hierarchy programmatically
  - (void)loadView 
 {
@@ -208,14 +67,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void)dealloc 
 {
-	[arrivalsForStops release];
+	[stopsDictionary release];
 	[stopsOfInterest release];
+	[routesOfInterest release];
+	[stopsTableView release];
 	[super dealloc];
-}
-
-- (void) filterData
-{
-	//To be implemented in subclass;
 }
 
 - (void) needsReload
@@ -235,6 +91,8 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	//Show some info to user here!
 }
 
+#pragma mark Stops/Arrivals data manipulation.
+
 - (void) clearArrivals
 {
 	NSEnumerator *enumerator = [stopsDictionary keyEnumerator];
@@ -246,7 +104,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		NSArray *allKeys = [routeAtStop allKeys];
 		for (NSString *aRouteKey in allKeys)
 		{
-			if ([aRouteKey isEqualToString:@"stop:info:info"])
+			if ([aRouteKey rangeOfString:@"stop:info"].length)
 				continue;
 			[routeAtStop removeObjectForKey:aRouteKey];
 		}		
@@ -255,9 +113,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void) reload
 {
-	if (arrivalsForStops == nil)
-		arrivalsForStops = [[NSMutableArray alloc] init];
-	
 	if ([stopsOfInterest count] == 0)
 	{
 		[self arrivalsUpdated: [NSMutableArray array]];		
@@ -311,7 +166,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		NSMutableArray *routesAtAStop = [NSMutableArray array];
 		for (NSString *aRouteKey in allKeys)
 		{
-			if ([aRouteKey isEqualToString:@"stop:info:info"])
+			if ([aRouteKey rangeOfString:@"stop:info"].length)
 				continue;
 			[routesAtAStop addObject:aRouteKey];
 		}
@@ -323,8 +178,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[stopsTableView reloadData];
 	self.navigationItem.prompt = nil;
 }
-
-#pragma mark Setter/Getter of stopsOfInterest
 
 - (NSArray *) stopsOfInterest
 {
@@ -358,13 +211,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	}
 }
 
-#pragma mark Stop/Arrival Data
-
-- (void) busArrivalBookmarked: (BusArrival *)theArrival
-{
-	//To be finished
-}
-
 - (void) showMapOfAStop: (BusStop *)theStop
 {
 	MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:nil bundle:nil];
@@ -377,73 +223,35 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	}	
 }
 
-- (NSArray *) arrivalsOfOneBus: (NSArray*) arrivals ofIndex: (int)index
-{
-	/*Find out how many buses arrive at this stop*/
-	NSMutableArray *result = [[NSMutableArray alloc] init];
-	if ([arrivals count] )
-	{
-		BusArrival *anArrival = [arrivals objectAtIndex:0];
-		NSString *theBusSign = [anArrival busSign];
-		int currentIndex = 0;
-		
-		if (index == currentIndex)
-			[result addObject:anArrival];
-		
-		for (int i=1; i<[arrivals count]; i++)
-		{
-			anArrival = [arrivals objectAtIndex:i];
-			
-			if (![theBusSign isEqualToString:[anArrival busSign]])
-			{
-				theBusSign = [[arrivals objectAtIndex:i] busSign];
-				currentIndex ++;
-			}
-			
-			if (index == currentIndex)
-				[result addObject:anArrival];
-			else if (currentIndex > index)
-				break;		
-		}		
-	}
-	
-	return [result autorelease];
-}
-
 #pragma mark TableView Delegate Functions
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.row == 0)
 	{
-		UITableViewCell *stopCell = [tableView cellForRowAtIndexPath:indexPath];
-		if ([stopCell isKindOfClass:[StopCell class]])
-		{
-			[(StopCell *)stopCell mapButtonClicked:self];
-		}			
+		StopCell *stopCell = (StopCell *)[tableView cellForRowAtIndexPath:indexPath];
+		NSAssert([stopCell isKindOfClass:[StopCell class]], @"Stop cell type mismatched!!");
+		[self showMapOfAStop:[stopCell stop]];
 	}
 	else
 	{
+		ArrivalCell *arrivalCell = (ArrivalCell *)[tableView cellForRowAtIndexPath:indexPath];
+		NSAssert([arrivalCell isKindOfClass:[ArrivalCell class]], @"Arrival cell type mismatched!!");
+		BusArrival *anArrival = [arrivalCell firstArrival];
 		
-		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:indexPath.section] stopId]];
-		NSDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
-		NSArray *allRouteKeysAtAStop = [routesOfInterest objectAtIndex:indexPath.section];
-		NSString *routeKey = [allRouteKeysAtAStop objectAtIndex:(indexPath.row-1)];
-		NSArray *arrivalsAtOneStopForOneBus = [aStopInDictionary objectForKey:routeKey];
-		
-		BusArrival *anArrival = nil;
-		if (arrivalsAtOneStopForOneBus)
-			if ([arrivalsAtOneStopForOneBus count] > 0)
-				anArrival = [arrivalsAtOneStopForOneBus objectAtIndex:0];
-		RouteActionViewController *routeActionVC = [[RouteActionViewController alloc] initWithNibName:nil bundle:nil];
-		
-		UINavigationController *navigController = [self navigationController];
-		if (navigController)
+		if (anArrival)
 		{
-			[routeActionVC  showInfoOfRoute:anArrival.route atStop:anArrival.stopId];	
-			[navigController pushViewController:routeActionVC animated:YES];
-		}	
+			RouteActionViewController *routeActionVC = [[RouteActionViewController alloc] initWithNibName:nil bundle:nil];
 		
+			UINavigationController *navigController = [self navigationController];
+			if (navigController)
+			{
+				[routeActionVC  showInfoOfRoute:anArrival.route atStop:anArrival.stopId withSign:anArrival.busSign];	
+				[navigController pushViewController:routeActionVC animated:YES];
+			}
+		}
+		else
+			NSLog(@"Get an empty set of arrival!");
 	}
 }
 		
@@ -463,9 +271,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	if ([stopsDictionary count] == 0)
 		return 0;
 	
-	NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:section] stopId]];
-	NSDictionary *favoriteStop =  [stopsDictionary  objectForKey:stopKey];
-	return [favoriteStop count];
+	//NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:section] stopId]];
+	//NSDictionary *favoriteStop =  [stopsDictionary  objectForKey:stopKey];
+	//return [favoriteStop count];
+	NSArray *routesAtAStop = [routesOfInterest objectAtIndex:section];
+	return [routesAtAStop count] + 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -502,7 +312,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 											//Assume in dequeResableCellWithIdentifier, autorelease has been called
 		if (cell == nil) 
 		{
-			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier viewType:stopViewType owner:self] autorelease];
+			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier owner:self] autorelease];
 		}
 		
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:indexPath.section] stopId]];
@@ -534,50 +344,6 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	//return cell;
 }
 
-
-/*
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- }
- */
-/*
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- }
- if (editingStyle == UITableViewCellEditingStyleInsert) {
- }
- }
- */
-/*
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- return YES;
- }
- */
-/*
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-/*
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- return YES;
- }
- */
-
-#pragma mark Test Functions
-
-- (void) testFunction
-{
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-	BusStop *aStop = [myApplication stopOfId:@"10324"];
-	NSMutableArray *stops = [[NSMutableArray alloc] init];
-	if (aStop)
-	{
-		[stops addObject:aStop];
-	}
-	
-	self.stopsOfInterest = stops;
-	[self reload];
-}
 
 @end
 

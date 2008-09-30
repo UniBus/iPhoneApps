@@ -31,6 +31,11 @@
 		7D76F6420E85C5380040B004 /* portland_stops.arv in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F6400E85C5380040B004 /* portland_stops.arv */; };
 		7D76F6430E85C5380040B004 /* portland_stops.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F6410E85C5380040B004 /* portland_stops.txt */; };
 		7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F64E0E85C5B20040B004 /* mapicon.png */; };
+		7D80D92B0E92A0D3005DA0D5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */; };
+		7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9380E92A134005DA0D5 /* busIcon.png */; };
+		7D80D93B0E92A134005DA0D5 /* closest.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9390E92A134005DA0D5 /* closest.png */; };
+		7D80D9470E92A1C1005DA0D5 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9460E92A1C1005DA0D5 /* setting.png */; };
+		7D80D9490E92A1F6005DA0D5 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9480E92A1F6005DA0D5 /* search.png */; };
 		7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D83B0E40E88234100DCB5EC /* DatePickView.xib */; };
 		7D83B0E90E88242000DCB5EC /* DatePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */; };
 		7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */; };
@@ -80,6 +85,11 @@
 		7D76F6400E85C5380040B004 /* portland_stops.arv */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = portland_stops.arv; sourceTree = "<group>"; };
 		7D76F6410E85C5380040B004 /* portland_stops.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = portland_stops.txt; sourceTree = "<group>"; };
 		7D76F64E0E85C5B20040B004 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
+		7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7D80D9380E92A134005DA0D5 /* busIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busIcon.png; sourceTree = "<group>"; };
+		7D80D9390E92A134005DA0D5 /* closest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closest.png; sourceTree = "<group>"; };
+		7D80D9460E92A1C1005DA0D5 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
+		7D80D9480E92A1F6005DA0D5 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		7D83B0E40E88234100DCB5EC /* DatePickView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePickView.xib; sourceTree = "<group>"; };
 		7D83B0E70E88242000DCB5EC /* DatePickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickViewController.h; sourceTree = "<group>"; };
 		7D83B0E80E88242000DCB5EC /* DatePickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickViewController.m; sourceTree = "<group>"; };
@@ -104,6 +114,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				7D76F46E0E85BAED0040B004 /* CoreGraphics.framework in Frameworks */,
 				7D127E940E8648E20068D300 /* libsqlite3.0.dylib in Frameworks */,
+				7D80D92B0E92A0D3005DA0D5 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,8 +124,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */,
-				7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */,
 				7D767C0A0E85791100CEFE8A /* ArrivalCell.h */,
 				7D767C0B0E85791100CEFE8A /* ArrivalCell.m */,
 				7D767C070E85790400CEFE8A /* StopCell.h */,
@@ -125,6 +134,8 @@
 				1D3623250D0F684500981E51 /* TransitAppDelegate.m */,
 				7D83B3E20E885F4400DCB5EC /* FavoriteViewController.h */,
 				7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */,
+				7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */,
+				7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */,
 				7D76F4DC0E85BB310040B004 /* SettingsViewController.h */,
 				7D76F4DD0E85BB310040B004 /* SettingsViewController.m */,
 				7D767C010E8578E300CEFE8A /* MapViewController.h */,
@@ -176,6 +187,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7D80D9480E92A1F6005DA0D5 /* search.png */,
+				7D80D9460E92A1C1005DA0D5 /* setting.png */,
+				7D80D9380E92A134005DA0D5 /* busIcon.png */,
+				7D80D9390E92A134005DA0D5 /* closest.png */,
 				7D91E4920E86DFCD008CA23D /* stops.sqlite */,
 				7D76F64E0E85C5B20040B004 /* mapicon.png */,
 				7D76F6400E85C5380040B004 /* portland_stops.arv */,
@@ -192,6 +207,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */,
 				7D127E930E8648E20068D300 /* libsqlite3.0.dylib */,
 				7D76F46D0E85BAED0040B004 /* CoreGraphics.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -267,6 +283,10 @@
 				7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */,
 				7D91E4930E86DFCD008CA23D /* stops.sqlite in Resources */,
 				7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */,
+				7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */,
+				7D80D93B0E92A134005DA0D5 /* closest.png in Resources */,
+				7D80D9470E92A1C1005DA0D5 /* setting.png in Resources */,
+				7D80D9490E92A1F6005DA0D5 /* search.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

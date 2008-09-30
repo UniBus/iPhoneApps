@@ -114,6 +114,11 @@ UIImage *mapIconImage = nil;
 	return self;
 }
 
+- (BusStop *) stop
+{
+	return theStop;
+}
+
 - (void) setStop:(id) aStop
 {
 	if (![aStop isKindOfClass:[BusStop class]])

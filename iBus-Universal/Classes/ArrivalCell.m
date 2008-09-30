@@ -31,27 +31,6 @@ UIImage *favoriteIconImage = nil;
 	return 70; // POS_TEXT_HEIGHT * 3;
 }
 
-- (IBAction) favoriteButtonClicked:(id)sender
-{	
-	BusArrival *anArrival = [theArrivals objectAtIndex:0];
-	
-	if (ownerView)
-	{
-		if ([ownerView isKindOfClass:[StopsViewController class]])
-		{
-			[(StopsViewController *)ownerView busArrivalBookmarked:anArrival];
-		}
-	}
-}	
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated 
-{
-	
-	[super setSelected:selected animated:animated];
-	
-	// Configure the view for the selected state
-}
-
 - (void) dealloc
 {
 	[busRoute release];
@@ -63,7 +42,7 @@ UIImage *favoriteIconImage = nil;
 }
 
 //- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type owner:(UIViewController *)owner
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner
 {
 	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
 	if (!self)
@@ -112,23 +91,6 @@ UIImage *favoriteIconImage = nil;
 	arrivalTime2.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 	arrivalTime2.font = [UIFont systemFontOfSize:12];
 	
-	/*
-	ctrlFrame = CGRectMake(POS_ICON_LEFT, POS_ICON_TOP,POS_ICON_SIZE, POS_ICON_SIZE);
-	viewType = type;
-	if (type == kArrivalButtonTypeRemove)
-	{
-		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain] initWithFrame:ctrlFrame];
-		if (favoriteIconImage == nil)
-		{
-			NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"delete.png"];
-			favoriteIconImage = [[UIImage imageWithContentsOfFile:iconPath] retain];
-		}		
-		[favoriteButton setImage:favoriteIconImage forState:UIControlStateNormal];
-	}
-	else if (type == kArrivalButtonTypeBookmark)
-		favoriteButton = [[[UIButton buttonWithType:UIButtonTypeContactAdd] retain] initWithFrame:ctrlFrame];
-	*/
-	
 	self.opaque = NO;
 	//self.selectionStyle = UITableViewCellSelectionStyleNone;
 	
@@ -154,7 +116,16 @@ UIImage *favoriteIconImage = nil;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
-	return [self initWithFrame:frame reuseIdentifier:reuseIdentifier viewType:kArrivalButtonTypeBookmark owner:nil];
+	return [self initWithFrame:frame reuseIdentifier:reuseIdentifier owner:nil];
+}
+
+- (BusArrival *) firstArrival
+{
+	if (theArrivals)
+		if ([theArrivals count] > 0)
+			return [theArrivals objectAtIndex:0];
+	
+	return nil;
 }
 
 - (void) setArrivals: (id) arrivals

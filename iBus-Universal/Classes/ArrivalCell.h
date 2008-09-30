@@ -13,6 +13,8 @@ enum _Arrival_Icon_Type {
 	kArrivalButtonTypeRemove
 };
 
+@class BusArrival;
+
 @interface ArrivalCell : UITableViewCell
 {
 	id             delegate;
@@ -22,12 +24,12 @@ enum _Arrival_Icon_Type {
 	UILabel        *arrivalTime2;
 	UIButton       *favoriteButton;
 	NSMutableArray *theArrivals;
-	int            viewType;
 	UIViewController *ownerView;
 }
 
 + (NSInteger) height;
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier viewType:(int)type owner:(UIViewController *)owner;
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner;
+- (BusArrival *) firstArrival;
 - (void) setArrivals: (id) arrivals;
 
 @end

@@ -29,6 +29,7 @@ extern NSString * const UserApplicationTitle;
 @property BOOL arrivalQueryAvailable;
 @property BOOL stopQueryAvailable;
 
+- (BusStop *) getRandomStop;
 - (BusStop *) stopOfId:(NSString *) stopId;
 - (NSArray *) queryStopWithPosition:(CGPoint) pos;
 - (NSArray *) queryStopWithName:(NSString *) stopName;
@@ -37,7 +38,6 @@ extern NSString * const UserApplicationTitle;
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
 - (void) arrivalsAtStopsAsync: (id)stopView;
 - (void) scheduleAtStopsAsync: (id)stopView;
-- (void) loadStopDataInBackground;
 
 - (NSString *) currentDatabase;
 - (NSString *) currentWebServicePrefix;
