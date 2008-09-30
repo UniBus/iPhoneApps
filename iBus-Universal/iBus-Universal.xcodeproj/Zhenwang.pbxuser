@@ -1,0 +1,1356 @@
+// !$*UTF8*$!
+{
+	1D3623240D0F684500981E51 /* TransitAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{516, 0}";
+			sepNavVisRange = "{0, 522}";
+			sepNavWindowFrame = "{{38, 101}, {936, 751}}";
+		};
+	};
+	1D3623250D0F684500981E51 /* TransitAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {606, 1064}}";
+			sepNavSelRange = "{1112, 68}";
+			sepNavVisRange = "{795, 572}";
+			sepNavWindowFrame = "{{15, 122}, {936, 751}}";
+		};
+	};
+	1D6058900D05DD3D006BFB54 /* iBus-Universal */ = {
+		activeExec = 0;
+		executables = (
+			7D767BD70E85778400CEFE8A /* iBus-Universal */,
+		);
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 7D767BD70E85778400CEFE8A /* iBus-Universal */;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* iBus-Universal */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* iBus-Universal */,
+		);
+		breakpoints = (
+			7D9EBBF40E8790AD0004E4D4 /* RouteScheduleViewController.m:122 */,
+			7D83B1690E88324300DCB5EC /* DatePickViewController.m:96 */,
+			7D83B17E0E8833DE00DCB5EC /* DatePickViewController.m:68 */,
+			7D83B1820E8833E900DCB5EC /* DatePickViewController.m:60 */,
+			7D83B19F0E88367C00DCB5EC /* RouteActionViewController.m:112 */,
+			7D83B1CF0E88385D00DCB5EC /* DatePickViewController.m:38 */,
+			7D83B1D90E8838BB00DCB5EC /* RouteActionViewController.m:113 */,
+			7D83B1FA0E883B5B00DCB5EC /* DatePickViewController.m:73 */,
+			7D83B2380E88448600DCB5EC /* RouteActionViewController.m:210 */,
+			7D83B28D0E8849C100DCB5EC /* RouteActionViewController.m:103 */,
+			7D83B2DB0E884D1E00DCB5EC /* TransitApp.m:239 */,
+			7D83B35A0E88548100DCB5EC /* StopSearchViewController.m:115 */,
+			7D83B35D0E88548E00DCB5EC /* StopSearchViewController.m:113 */,
+			7D83B36A0E88550500DCB5EC /* StopSearchViewController.m:118 */,
+			7D83B3910E8855FC00DCB5EC /* ArrivalQuery.m:63 */,
+			7D83B39F0E88567000DCB5EC /* StopsViewController.m:296 */,
+			7D83B3AF0E88569C00DCB5EC /* StopsViewController.m:321 */,
+			7D83B3B10E88569E00DCB5EC /* StopsViewController.m:296 */,
+			7D83B3B30E8856D000DCB5EC /* StopsViewController.m:469 */,
+			7D83B3C40E88578900DCB5EC /* StopsViewController.m:433 */,
+			7D8E7A920E88AF32001F54F9 /* FavoriteViewController.m:294 */,
+			7D8E7A980E88AFA1001F54F9 /* FavoriteViewController.m:26 */,
+			7D8E7AB30E88AFFD001F54F9 /* FavoriteViewController.m:184 */,
+			7D8E7AB80E88B265001F54F9 /* FavoriteViewController.m:34 */,
+			7D8E7ABD0E88B448001F54F9 /* FavoriteViewController.m:36 */,
+			7D8E7ACF0E88BEF5001F54F9 /* FavoriteViewController.m:165 */,
+			7D8E7ADA0E88C358001F54F9 /* FavoriteViewController.m:216 */,
+			7D8E7AE10E88C546001F54F9 /* FavoriteViewController.m:48 */,
+			7D8E7AF40E88C77A001F54F9 /* FavoriteViewController.m:296 */,
+			7D8E7AF60E88C77B001F54F9 /* FavoriteViewController.m:293 */,
+			7D8E7AF80E88C77C001F54F9 /* FavoriteViewController.m:292 */,
+			7D8E7AFA0E88C77E001F54F9 /* FavoriteViewController.m:295 */,
+			7D8E7B000E88C7A8001F54F9 /* FavoriteViewController.m:116 */,
+			7D8E7B060E88C816001F54F9 /* FavoriteViewController.m:152 */,
+			7D8E7B2C0E88CA7C001F54F9 /* FavoriteViewController.m:263 */,
+			7D8E7B450E88CED2001F54F9 /* FavoriteViewController.m:85 */,
+			7D8E7BC70E88E689001F54F9 /* FavoriteViewController.m:163 */,
+			7D8E7BDA0E88E6DF001F54F9 /* FavoriteViewController.m:195 */,
+			7D8E7BDC0E88E751001F54F9 /* FavoriteViewController.m:234 */,
+			7D8E7C0E0E88EB8F001F54F9 /* StopsViewController.m:337 */,
+			7D8E7C120E88EBB6001F54F9 /* StopsViewController.m:280 */,
+		);
+		codeSenseManager = 7D767BEC0E85779F00CEFE8A /* Code sense */;
+		executables = (
+			7D767BD70E85778400CEFE8A /* iBus-Universal */,
+		);
+		expressions = (
+			arrival,
+			anArrival,
+			sql,
+			stopFile,
+			datePickVC,
+			aStop,
+		);
+		perUserDictionary = {
+			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBreakpointsDataSource_BreakpointID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					198,
+					20,
+					99,
+					99,
+					29,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBreakpointsDataSource_ActionID,
+					PBXBreakpointsDataSource_TypeID,
+					PBXBreakpointsDataSource_BreakpointID,
+					PBXBreakpointsDataSource_UseID,
+					PBXBreakpointsDataSource_LocationID,
+					PBXBreakpointsDataSource_ConditionID,
+					PBXBreakpointsDataSource_IgnoreCountID,
+					PBXBreakpointsDataSource_ContinueID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					535,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					752,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 244439805;
+			PBXWorkspaceStateSaveDate = 244439805;
+		};
+		perUserProjectItems = {
+			7D780D3E0E8D41BE0004EB08 = 7D780D3E0E8D41BE0004EB08 /* PBXTextBookmark */;
+			7D80951F0E8DFBB7000F9B17 = 7D80951F0E8DFBB7000F9B17 /* PBXTextBookmark */;
+			7D8095FE0E8E1B80000F9B17 = 7D8095FE0E8E1B80000F9B17 /* PBXTextBookmark */;
+			7D80D68F0E91DAE8005DA0D5 = 7D80D68F0E91DAE8005DA0D5 /* PBXTextBookmark */;
+			7D80D6D10E91DB5E005DA0D5 /* PBXTextBookmark */ = 7D80D6D10E91DB5E005DA0D5 /* PBXTextBookmark */;
+			7D88EF400E91D8C000DF4ED4 = 7D88EF400E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF420E91D8C000DF4ED4 = 7D88EF420E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF430E91D8C000DF4ED4 = 7D88EF430E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF440E91D8C000DF4ED4 = 7D88EF440E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF450E91D8C000DF4ED4 = 7D88EF450E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF460E91D8C000DF4ED4 = 7D88EF460E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF480E91D8C000DF4ED4 = 7D88EF480E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF4F0E91D8C000DF4ED4 = 7D88EF4F0E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF580E91D8C000DF4ED4 = 7D88EF580E91D8C000DF4ED4 /* PBXTextBookmark */;
+			7D88EF700E91D95000DF4ED4 = 7D88EF700E91D95000DF4ED4 /* PBXTextBookmark */;
+			7D88EF720E91D95000DF4ED4 = 7D88EF720E91D95000DF4ED4 /* PBXTextBookmark */;
+			7D88EF8C0E91DAC400DF4ED4 = 7D88EF8C0E91DAC400DF4ED4 /* PBXTextBookmark */;
+			7D8E7BF90E88E8E2001F54F9 = 7D8E7BF90E88E8E2001F54F9 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 7D767BEB0E85779F00CEFE8A /* Source Control */;
+		userBookmarkGroup = 7D767BD40E85778400CEFE8A /* PBXBookmarkGroup */;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1031, 543}}";
+			sepNavSelRange = "{396, 0}";
+			sepNavVisRange = "{0, 435}";
+		};
+	};
+	7D127E1B0E8636000068D300 /* StopSearchViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 566}}";
+			sepNavSelRange = "{306, 0}";
+			sepNavVisRange = "{0, 409}";
+		};
+	};
+	7D127E1C0E8636000068D300 /* StopSearchViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {900, 2800}}";
+			sepNavSelRange = "{3582, 0}";
+			sepNavVisRange = "{2849, 1437}";
+			sepNavWindowFrame = "{{15, 122}, {936, 751}}";
+		};
+	};
+	7D127EA00E8649170068D300 /* General.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 316}";
+		};
+	};
+	7D767BD40E85778400CEFE8A /* PBXBookmarkGroup */ = {
+		isa = PBXBookmarkGroup;
+		children = (
+			7D767C350E85812500CEFE8A /* PBXBookmark */,
+			7D8E7C180E88ECBC001F54F9 /* PBXTextBookmark */,
+		);
+		name = Root;
+	};
+	7D767BD70E85778400CEFE8A /* iBus-Universal */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "iBus-Universal";
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	7D767BEB0E85779F00CEFE8A /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryName = iPhoneApps;
+		};
+	};
+	7D767BEC0E85779F00CEFE8A /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	7D767C010E8578E300CEFE8A /* MapViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 593}";
+		};
+	};
+	7D767C020E8578E300CEFE8A /* MapViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 4116}}";
+			sepNavSelRange = "{1358, 0}";
+			sepNavVisRange = "{475, 1387}";
+		};
+	};
+	7D767C030E8578E300CEFE8A /* StopsViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {713, 868}}";
+			sepNavSelRange = "{825, 0}";
+			sepNavVisRange = "{268, 1086}";
+		};
+	};
+	7D767C040E8578E300CEFE8A /* StopsViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {654, 8358}}";
+			sepNavSelRange = "{370, 0}";
+			sepNavVisRange = "{254, 245}";
+			sepNavWindowFrame = "{{38, 101}, {936, 751}}";
+		};
+	};
+	7D767C070E85790400CEFE8A /* StopCell.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 566}}";
+			sepNavSelRange = "{563, 0}";
+			sepNavVisRange = "{0, 569}";
+		};
+	};
+	7D767C080E85790400CEFE8A /* StopCell.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {713, 1848}}";
+			sepNavSelRange = "{2689, 9}";
+			sepNavVisRange = "{2212, 1457}";
+		};
+	};
+	7D767C0A0E85791100CEFE8A /* ArrivalCell.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1031, 543}}";
+			sepNavSelRange = "{339, 0}";
+			sepNavVisRange = "{0, 758}";
+		};
+	};
+	7D767C0B0E85791100CEFE8A /* ArrivalCell.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 3150}}";
+			sepNavSelRange = "{5165, 0}";
+			sepNavVisRange = "{4658, 1178}";
+		};
+	};
+	7D767C100E857B8700CEFE8A /* ArrivalQuery.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{416, 0}";
+			sepNavVisRange = "{0, 584}";
+		};
+	};
+	7D767C110E857B8700CEFE8A /* ArrivalQuery.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {684, 2282}}";
+			sepNavSelRange = "{4109, 0}";
+			sepNavVisRange = "{4037, 355}";
+			sepNavWindowFrame = "{{61, 80}, {936, 751}}";
+		};
+	};
+	7D767C120E857B8700CEFE8A /* BusArrival.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{361, 0}";
+			sepNavVisRange = "{0, 757}";
+		};
+	};
+	7D767C130E857B8700CEFE8A /* BusArrival.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 1512}}";
+			sepNavSelRange = "{325, 0}";
+			sepNavVisRange = "{0, 766}";
+		};
+	};
+	7D767C140E857B8700CEFE8A /* BusStop.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 546}}";
+			sepNavSelRange = "{745, 0}";
+			sepNavVisRange = "{0, 924}";
+		};
+	};
+	7D767C150E857B8700CEFE8A /* BusStop.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {864, 1638}}";
+			sepNavSelRange = "{772, 0}";
+			sepNavVisRange = "{0, 866}";
+			sepNavWindowFrame = "{{38, 101}, {936, 751}}";
+		};
+	};
+	7D767C1E0E857B8700CEFE8A /* StopQuery.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{482, 8}";
+			sepNavVisRange = "{0, 646}";
+		};
+	};
+	7D767C1F0E857B8700CEFE8A /* StopQuery.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1122, 2016}}";
+			sepNavSelRange = "{649, 0}";
+			sepNavVisRange = "{374, 808}";
+		};
+	};
+	7D767C350E85812500CEFE8A /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 7D767C0B0E85791100CEFE8A /* ArrivalCell.m */;
+	};
+	7D76F41B0E85B8C50040B004 /* TransitApp.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 644}}";
+			sepNavSelRange = "{1256, 0}";
+			sepNavVisRange = "{144, 1120}";
+		};
+	};
+	7D76F41C0E85B8C50040B004 /* TransitApp.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {948, 4004}}";
+			sepNavSelRange = "{1494, 0}";
+			sepNavVisRange = "{0, 867}";
+		};
+	};
+	7D76F4DC0E85BB310040B004 /* SettingsViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {713, 637}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 870}";
+		};
+	};
+	7D76F4DD0E85BB310040B004 /* SettingsViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1338, 3444}}";
+			sepNavSelRange = "{794, 8}";
+			sepNavVisRange = "{993, 1799}";
+		};
+	};
+	7D780D3E0E8D41BE0004EB08 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */;
+		name = "RouteAtStopViewController.m: 75";
+		rLen = 1559;
+		rLoc = 2018;
+		rType = 0;
+		vrLen = 1356;
+		vrLoc = 2223;
+	};
+	7D80951F0E8DFBB7000F9B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */;
+		name = "RouteViewController.h: 15";
+		rLen = 0;
+		rLoc = 345;
+		rType = 0;
+		vrLen = 548;
+		vrLoc = 0;
+	};
+	7D8095FE0E8E1B80000F9B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		name = "RouteViewController.m: 109";
+		rLen = 302;
+		rLoc = 2805;
+		rType = 0;
+		vrLen = 1422;
+		vrLoc = 2206;
+	};
+	7D80D68F0E91DAE8005DA0D5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */;
+		name = "RouteScheduleViewController.m: 12";
+		rLen = 0;
+		rLoc = 268;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 1525;
+	};
+	7D80D6D10E91DB5E005DA0D5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */;
+		name = "RouteScheduleViewController.m: 12";
+		rLen = 0;
+		rLoc = 268;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 1525;
+	};
+	7D83B0E70E88242000DCB5EC /* DatePickViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 543}}";
+			sepNavSelRange = "{429, 0}";
+			sepNavVisRange = "{0, 543}";
+		};
+	};
+	7D83B0E80E88242000DCB5EC /* DatePickViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {970, 2184}}";
+			sepNavSelRange = "{2648, 0}";
+			sepNavVisRange = "{1685, 1050}";
+			sepNavWindowFrame = "{{15, 121}, {936, 751}}";
+		};
+	};
+	7D83B1690E88324300DCB5EC /* DatePickViewController.m:96 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */;
+		functionName = "-tableView:didSelectRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 96;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840794;
+		state = 2;
+	};
+	7D83B17E0E8833DE00DCB5EC /* DatePickViewController.m:68 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */;
+		functionName = "-datePicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 68;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840809;
+		state = 2;
+	};
+	7D83B1820E8833E900DCB5EC /* DatePickViewController.m:60 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */;
+		functionName = "-datePicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 60;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840818;
+		state = 2;
+	};
+	7D83B19F0E88367C00DCB5EC /* RouteActionViewController.m:112 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		functionName = "-pickTheOtherDate:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 112;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840828;
+		state = 2;
+	};
+	7D83B1CF0E88385D00DCB5EC /* DatePickViewController.m:38 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */;
+		functionName = "-viewDidLoad";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 38;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840838;
+		state = 2;
+	};
+	7D83B1D90E8838BB00DCB5EC /* RouteActionViewController.m:113 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		functionName = "-pickTheOtherDate:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 113;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840847;
+		state = 2;
+	};
+	7D83B1FA0E883B5B00DCB5EC /* DatePickViewController.m:73 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */;
+		functionName = "-date";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 73;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840857;
+		state = 0;
+	};
+	7D83B2380E88448600DCB5EC /* RouteActionViewController.m:210 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 210;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840867;
+		state = 2;
+	};
+	7D83B28D0E8849C100DCB5EC /* RouteActionViewController.m:103 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		functionName = "-theOtherDatePicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 103;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840876;
+		state = 2;
+	};
+	7D83B2DB0E884D1E00DCB5EC /* TransitApp.m:239 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D76F41C0E85B8C50040B004 /* TransitApp.m */;
+		functionName = "-queryTaskEntry2:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 239;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840885;
+		state = 2;
+	};
+	7D83B35A0E88548100DCB5EC /* StopSearchViewController.m:115 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */;
+		functionName = "-searchBarSearchButtonClicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 115;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840895;
+		state = 2;
+	};
+	7D83B35D0E88548E00DCB5EC /* StopSearchViewController.m:113 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */;
+		functionName = "-searchBarSearchButtonClicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 113;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840905;
+		state = 2;
+	};
+	7D83B36A0E88550500DCB5EC /* StopSearchViewController.m:118 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */;
+		functionName = "-searchBarSearchButtonClicked:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 118;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840914;
+		state = 2;
+	};
+	7D83B3910E8855FC00DCB5EC /* ArrivalQuery.m:63 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C110E857B8700CEFE8A /* ArrivalQuery.m */;
+		functionName = "-queryForStops:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 63;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840923;
+		state = 2;
+	};
+	7D83B39F0E88567000DCB5EC /* StopsViewController.m:296 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-arrivalsUpdated:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 296;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840933;
+		state = 2;
+	};
+	7D83B3AF0E88569C00DCB5EC /* StopsViewController.m:321 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-arrivalsUpdated:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 321;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840942;
+		state = 2;
+	};
+	7D83B3B10E88569E00DCB5EC /* StopsViewController.m:296 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-arrivalsUpdated:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 296;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840952;
+		state = 2;
+	};
+	7D83B3B30E8856D000DCB5EC /* StopsViewController.m:469 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-tableView:numberOfRowsInSection:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 469;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840961;
+		state = 2;
+	};
+	7D83B3C40E88578900DCB5EC /* StopsViewController.m:433 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-tableView:didSelectRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 433;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840971;
+		state = 2;
+	};
+	7D83B3E20E885F4400DCB5EC /* FavoriteViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {439, 252}}";
+			sepNavSelRange = "{310, 0}";
+			sepNavVisRange = "{181, 171}";
+			sepNavWindowFrame = "{{15, 122}, {936, 751}}";
+		};
+	};
+	7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {877, 4522}}";
+			sepNavSelRange = "{8972, 0}";
+			sepNavVisRange = "{3501, 1069}";
+			sepNavWindowFrame = "{{84, 59}, {936, 751}}";
+		};
+	};
+	7D88EF400E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C080E85790400CEFE8A /* StopCell.m */;
+		name = "StopCell.m: 94";
+		rLen = 9;
+		rLoc = 2689;
+		rType = 0;
+		vrLen = 1457;
+		vrLoc = 2212;
+	};
+	7D88EF420E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */;
+		name = "RouteScheduleViewController.h: 28";
+		rLen = 0;
+		rLoc = 576;
+		rType = 0;
+		vrLen = 576;
+		vrLoc = 0;
+	};
+	7D88EF430E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */;
+		name = "RouteActionViewController.h: 12";
+		rLen = 0;
+		rLoc = 217;
+		rType = 0;
+		vrLen = 554;
+		vrLoc = 0;
+	};
+	7D88EF440E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */;
+		name = "RouteActionViewController.m: 152";
+		rLen = 0;
+		rLoc = 4886;
+		rType = 0;
+		vrLen = 1466;
+		vrLoc = 0;
+	};
+	7D88EF450E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		name = "StopsViewController.m: 444";
+		rLen = 0;
+		rLoc = 11971;
+		rType = 0;
+		vrLen = 1233;
+		vrLoc = 0;
+	};
+	7D88EF460E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D76F41C0E85B8C50040B004 /* TransitApp.m */;
+		name = "TransitApp.m: 63";
+		rLen = 0;
+		rLoc = 1494;
+		rType = 0;
+		vrLen = 867;
+		vrLoc = 0;
+	};
+	7D88EF480E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C080E85790400CEFE8A /* StopCell.m */;
+		name = "StopCell.m: 94";
+		rLen = 9;
+		rLoc = 2689;
+		rType = 0;
+		vrLen = 1457;
+		vrLoc = 2212;
+	};
+	7D88EF4F0E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */;
+		name = "RouteScheduleViewController.h: 28";
+		rLen = 0;
+		rLoc = 576;
+		rType = 0;
+		vrLen = 574;
+		vrLoc = 0;
+	};
+	7D88EF580E91D8C000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D76F41C0E85B8C50040B004 /* TransitApp.m */;
+		name = "TransitApp.m: 63";
+		rLen = 0;
+		rLoc = 1494;
+		rType = 0;
+		vrLen = 867;
+		vrLoc = 0;
+	};
+	7D88EF700E91D95000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C150E857B8700CEFE8A /* BusStop.m */;
+		name = "BusStop.m: 33";
+		rLen = 0;
+		rLoc = 772;
+		rType = 0;
+		vrLen = 866;
+		vrLoc = 0;
+	};
+	7D88EF720E91D95000DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C150E857B8700CEFE8A /* BusStop.m */;
+		name = "BusStop.m: 33";
+		rLen = 0;
+		rLoc = 772;
+		rType = 0;
+		vrLen = 866;
+		vrLoc = 0;
+	};
+	7D88EF8C0E91DAC400DF4ED4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */;
+		name = "RouteScheduleViewController.m: 12";
+		rLen = 0;
+		rLoc = 268;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 1525;
+	};
+	7D8E7A920E88AF32001F54F9 /* FavoriteViewController.m:294 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 294;
+		location = "iBus-Universal";
+		modificationTime = 244439384.84098;
+		state = 2;
+	};
+	7D8E7A980E88AFA1001F54F9 /* FavoriteViewController.m:26 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "readFavorite()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 26;
+		location = "iBus-Universal";
+		modificationTime = 244439384.84099;
+		state = 2;
+	};
+	7D8E7AB30E88AFFD001F54F9 /* FavoriteViewController.m:184 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-needsReload";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 184;
+		location = "iBus-Universal";
+		modificationTime = 244439384.8409989;
+		state = 2;
+	};
+	7D8E7AB80E88B265001F54F9 /* FavoriteViewController.m:34 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "readFavorite()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 34;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841008;
+		state = 2;
+	};
+	7D8E7ABD0E88B448001F54F9 /* FavoriteViewController.m:36 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "readFavorite()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 36;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841018;
+		state = 2;
+	};
+	7D8E7ACF0E88BEF5001F54F9 /* FavoriteViewController.m:165 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-needsReload";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 165;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841027;
+		state = 2;
+	};
+	7D8E7ADA0E88C358001F54F9 /* FavoriteViewController.m:216 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-filterData";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 216;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841036;
+		state = 2;
+	};
+	7D8E7AE10E88C546001F54F9 /* FavoriteViewController.m:48 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "readFavorite()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 48;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841046;
+		state = 2;
+	};
+	7D8E7AF40E88C77A001F54F9 /* FavoriteViewController.m:296 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 296;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841055;
+		state = 2;
+	};
+	7D8E7AF60E88C77B001F54F9 /* FavoriteViewController.m:293 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 293;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841065;
+		state = 2;
+	};
+	7D8E7AF80E88C77C001F54F9 /* FavoriteViewController.m:292 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 292;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841074;
+		state = 2;
+	};
+	7D8E7AFA0E88C77E001F54F9 /* FavoriteViewController.m:295 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 295;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841083;
+		state = 2;
+	};
+	7D8E7B000E88C7A8001F54F9 /* FavoriteViewController.m:116 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-loadView";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 116;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841093;
+		state = 2;
+	};
+	7D8E7B060E88C816001F54F9 /* FavoriteViewController.m:152 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-needsReload";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 152;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841102;
+		state = 2;
+	};
+	7D8E7B2C0E88CA7C001F54F9 /* FavoriteViewController.m:263 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-tableView:numberOfRowsInSection:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 263;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841112;
+		state = 2;
+	};
+	7D8E7B450E88CED2001F54F9 /* FavoriteViewController.m:85 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "saveToFavorite()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 85;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841121;
+		state = 0;
+	};
+	7D8E7BC70E88E689001F54F9 /* FavoriteViewController.m:163 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-needsReload";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 163;
+		location = "iBus-Universal";
+		modificationTime = 244439384.84113;
+		state = 2;
+	};
+	7D8E7BDA0E88E6DF001F54F9 /* FavoriteViewController.m:195 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-clearArrivals";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 195;
+		location = "iBus-Universal";
+		modificationTime = 244439384.84114;
+		state = 2;
+	};
+	7D8E7BDC0E88E751001F54F9 /* FavoriteViewController.m:234 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */;
+		functionName = "-arrivalsUpdated:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 234;
+		location = "iBus-Universal";
+		modificationTime = 244439384.84115;
+		state = 2;
+	};
+	7D8E7BF90E88E8E2001F54F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		name = "StopsViewController.m: 445";
+		rLen = 0;
+		rLoc = 12499;
+		rType = 0;
+		vrLen = 1360;
+		vrLoc = 11567;
+	};
+	7D8E7C0E0E88EB8F001F54F9 /* StopsViewController.m:337 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-setStopsOfInterest:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 337;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841159;
+		state = 2;
+	};
+	7D8E7C120E88EBB6001F54F9 /* StopsViewController.m:280 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		functionName = "-arrivalsUpdated:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 280;
+		location = "iBus-Universal";
+		modificationTime = 244439384.841169;
+		state = 2;
+	};
+	7D8E7C180E88ECBC001F54F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7D767C040E8578E300CEFE8A /* StopsViewController.m */;
+		name = routesOfIn;
+		rLen = 0;
+		rLoc = 8843;
+		rType = 0;
+		vrLen = 1056;
+		vrLoc = 8216;
+	};
+	7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {756, 637}}";
+			sepNavSelRange = "{217, 0}";
+			sepNavVisRange = "{0, 554}";
+		};
+	};
+	7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {900, 3150}}";
+			sepNavSelRange = "{4886, 0}";
+			sepNavVisRange = "{0, 1466}";
+		};
+	};
+	7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {713, 637}}";
+			sepNavSelRange = "{576, 0}";
+			sepNavVisRange = "{0, 576}";
+			sepNavWindowFrame = "{{15, 122}, {936, 751}}";
+		};
+	};
+	7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {906, 1862}}";
+			sepNavSelRange = "{268, 0}";
+			sepNavVisRange = "{1525, 806}";
+			sepNavWindowFrame = "{{38, 101}, {936, 751}}";
+		};
+	};
+	7D9EBBF40E8790AD0004E4D4 /* RouteScheduleViewController.m:122 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */;
+		functionName = "-tableView:cellForRowAtIndexPath:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 122;
+		location = "iBus-Universal";
+		modificationTime = 244439384.840377;
+		state = 2;
+	};
+}
