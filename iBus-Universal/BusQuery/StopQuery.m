@@ -165,4 +165,80 @@
 	return results;
 }
 
+- (NSArray *) queryStopWithNames:(NSArray *) stopNames
+{
+	NSMutableArray *results = [NSMutableArray array];
+	NSString *queryString = @"";
+	for (NSString *aKey in stopNames)
+	{
+		if ([queryString isEqualToString:@""])
+			queryString = [NSString stringWithFormat:@"stop_name LIKE \"%c%@%c\" ", '%', aKey, '%'];
+		else
+			queryString = [NSString stringWithFormat:@"%@ AND stop_name LIKE \"%c%@%c\" ", queryString, '%', aKey, '%'];
+	}
+	
+	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, stop_name, stop_lon, stop_lat, stop_desc FROM stops WHERE %@", queryString];
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			BusStop *aStop = [[BusStop alloc] init];
+			aStop.stopId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			aStop.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			aStop.longtitude = sqlite3_column_double(statement, 2);
+			aStop.latitude = sqlite3_column_double(statement, 3);
+			aStop.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+			
+			[results addObject:aStop];
+			[aStop release];
+		}
+	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}
+	
+	sqlite3_finalize(statement);
+	return results;
+}
+
+- (NSArray *) queryStopWithIds:(NSArray *) stopIds
+{
+	NSMutableArray *results = [NSMutableArray array];
+	NSString *queryString = @"";
+	for (NSString *aKey in stopIds)
+	{
+		if ([queryString isEqualToString:@""])
+			queryString = [NSString stringWithFormat:@"stop_id=\"%@\" ", aKey];
+		else
+			queryString = [NSString stringWithFormat:@"%@ OR stop_id=\"%@\" ", queryString, aKey];
+	}
+	
+	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, stop_name, stop_lon, stop_lat, stop_desc FROM stops WHERE %@", queryString];
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			BusStop *aStop = [[BusStop alloc] init];
+			aStop.stopId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			aStop.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			aStop.longtitude = sqlite3_column_double(statement, 2);
+			aStop.latitude = sqlite3_column_double(statement, 3);
+			aStop.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+			
+			[results addObject:aStop];
+			[aStop release];
+		}
+	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}
+	
+	sqlite3_finalize(statement);
+	return results;
+}
+
 @end

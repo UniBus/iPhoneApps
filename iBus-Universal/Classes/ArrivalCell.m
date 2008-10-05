@@ -148,7 +148,7 @@ UIImage *favoriteIconImage = nil;
 	else
 	{
 		[busSign setText:@"Unknown"];		
-		[busSign setText:@"?"];		
+		[busSign setText:@"?"];	
 	}
 	
 	if (anArrival == nil)

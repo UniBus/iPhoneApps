@@ -124,7 +124,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	if (indexPath.section == 0)
+		[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	
 	if (indexPath.section == 0)
 	{
 		if (isInFavorite2(stopID, routeID))

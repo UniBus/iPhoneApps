@@ -29,7 +29,6 @@
 
 //@property float searchRange;
 //@property int numberOfRecentStops;
-
 - (IBAction) rangeChanged:(id) sender;
 - (IBAction) resultNumChanged:(id) sender;
 

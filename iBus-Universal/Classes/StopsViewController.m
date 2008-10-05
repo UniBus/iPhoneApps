@@ -32,11 +32,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 @implementation StopsViewController
 
 // Implement loadView if you want to create a view hierarchy programmatically
- - (void)loadView 
+- (void)loadView 
 {
 	[stopsTableView release];
 	stopsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame
-															   style:UITableViewStyleGrouped]; 
+												  style:UITableViewStyleGrouped]; 
 	[stopsTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	stopsTableView.delegate = self;
 	stopsTableView.dataSource = self;
@@ -93,22 +93,31 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 #pragma mark Stops/Arrivals data manipulation.
 
+- (void) reset
+{
+}
+
 - (void) clearArrivals
 {
-	NSEnumerator *enumerator = [stopsDictionary keyEnumerator];
-	NSString *key;
-	while ((key = [enumerator nextObject])) 
-	{
-		NSMutableDictionary *routeAtStop = [stopsDictionary objectForKey:key];
-		
-		NSArray *allKeys = [routeAtStop allKeys];
-		for (NSString *aRouteKey in allKeys)
+	@try{
+		NSEnumerator *enumerator = [stopsDictionary keyEnumerator];
+		NSString *key;
+		while ((key = [enumerator nextObject])) 
 		{
-			if ([aRouteKey rangeOfString:@"stop:info"].length)
-				continue;
-			[routeAtStop removeObjectForKey:aRouteKey];
-		}		
-	}		
+			NSMutableDictionary *routeAtStop = [stopsDictionary objectForKey:key];
+			
+			NSArray *allKeys = [routeAtStop allKeys];
+			for (NSString *aRouteKey in allKeys)
+			{
+				if ([aRouteKey rangeOfString:@"stop:info"].length)
+					continue;
+				[routeAtStop removeObjectForKey:aRouteKey];
+			}		
+		}
+	}
+	@catch (NSException *err) {
+		NSLog(@"Exception catch in clearArrivals function");
+	}
 }
 
 - (void) reload
@@ -123,10 +132,10 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
 	if (![myApplication isKindOfClass:[TransitApp class]])
 		NSLog(@"Something wrong, Need to set the application to be TransitApp!!");
-		
+	
 	self.navigationItem.prompt = @"Updating...";
 	[myApplication arrivalsAtStopsAsync:self];
-
+	
 	[stopsTableView reloadData];
 }
 
@@ -138,7 +147,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	{
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", anArrival.stopId];
 		NSString *routeKey = [NSString stringWithFormat:@"route:%@", anArrival.route];
-
+		
 		NSMutableDictionary *aStopOfInterest = [stopsDictionary objectForKey:stopKey];	
 		NSMutableArray *arrivalsOfRouteAtStop = [aStopOfInterest objectForKey:routeKey];
 		if (arrivalsOfRouteAtStop == nil)
@@ -149,14 +158,27 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		[arrivalsOfRouteAtStop addObject:anArrival];
 	}
 	//[self filterData];
+		
+	for (int i=0; i<[stopsOfInterest count]; i++)
+	{
+		BusStop *aStop = [stopsOfInterest objectAtIndex:i];
+		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [aStop stopId]];
+		NSMutableDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
 
-	if (routesOfInterest == nil) {
-		routesOfInterest = [[NSMutableArray alloc] init];	
-	}
-	else {
-		[routesOfInterest removeAllObjects];
-	}
-
+		NSAssert(aStopInDictionary != nil, @"Having a NIL stop in stopsDictionary");
+		NSArray *allKeys = [aStopInDictionary allKeys];
+		NSMutableArray *routesAtAStop = [NSMutableArray array];
+		for (NSString *aRouteKey in allKeys)
+		{
+			if ([aRouteKey rangeOfString:@"stop:info"].length)
+				continue;
+			[routesAtAStop addObject:aRouteKey];
+		}
+		[routesOfInterest addObject:routesAtAStop];		
+		
+	}	
+	
+	/*
 	NSEnumerator *enumerator = [stopsDictionary keyEnumerator];
 	NSString *key;
 	while ((key = [enumerator nextObject])) {
@@ -170,10 +192,10 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 				continue;
 			[routesAtAStop addObject:aRouteKey];
 		}
-		[routesOfInterest addObject:routesAtAStop];
-		
+		[routesOfInterest addObject:routesAtAStop];		
 	}
-
+	 */
+	
 	//UITableView *tableView = (UITableView *) self.view;
 	[stopsTableView reloadData];
 	self.navigationItem.prompt = nil;
@@ -195,11 +217,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	else {
 		[stopsDictionary removeAllObjects];
 	}
-
 	
-	[stopsDictionary removeAllObjects];
-	for (BusStop *aStop in stopsOfInterest)
+	[stopsDictionary removeAllObjects];	
+	for (int i=0; i<[stopsOfInterest count]; i++)
 	{
+		BusStop *aStop = [stopsOfInterest objectAtIndex:i];
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [aStop stopId]];
 		NSMutableDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
 		if (aStopInDictionary == nil)
@@ -209,6 +231,13 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			[stopsDictionary setObject:aStopInDictionary forKey:stopKey];
 		}
 	}
+	
+	if (routesOfInterest == nil) {
+		routesOfInterest = [[NSMutableArray alloc] init];	
+	}
+	else {
+		[routesOfInterest removeAllObjects];
+	}	
 }
 
 - (void) showMapOfAStop: (BusStop *)theStop
@@ -242,7 +271,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		if (anArrival)
 		{
 			RouteActionViewController *routeActionVC = [[RouteActionViewController alloc] initWithNibName:nil bundle:nil];
-		
+			
 			UINavigationController *navigController = [self navigationController];
 			if (navigController)
 			{
@@ -254,7 +283,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			NSLog(@"Get an empty set of arrival!");
 	}
 }
-		
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	if (stopsOfInterest == nil)
@@ -268,14 +297,20 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if ([stopsDictionary count] == 0)
-		return 0;
-	
-	//NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:section] stopId]];
-	//NSDictionary *favoriteStop =  [stopsDictionary  objectForKey:stopKey];
-	//return [favoriteStop count];
-	NSArray *routesAtAStop = [routesOfInterest objectAtIndex:section];
-	return [routesAtAStop count] + 1;
+	@try {
+		if ([stopsDictionary count] == 0)
+			return 0;
+		
+		//This basically mean the arrivals data haven't been updated yet!
+		if ([routesOfInterest count] == 0) 
+			return 1;
+		
+		NSArray *routesAtAStop = [routesOfInterest objectAtIndex:section];
+		return [routesAtAStop count] + 1;
+	}
+	@catch (NSException * e) {
+		NSLog(@"Exception catch in clearArrivals numberOfRowsInSection");
+	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -285,11 +320,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	
 	if ([stopsOfInterest count] == 0)
 		return @"No stops!";
-		
+	
 	BusStop *aStop = [stopsOfInterest objectAtIndex:section];
 	if (aStop == nil)
 		return @"No stops!";
-
+	
 	return [NSString stringWithFormat:@"%@", aStop.name];
 }
 
@@ -303,47 +338,49 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	static NSString *MyIdentifier = @"MyIdentifier";
-	static NSString *MyIdentifier2 = @"MyIdentifier2";
-	
-	if ([indexPath row] >= 1)
-	{
-		ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-											//Assume in dequeResableCellWithIdentifier, autorelease has been called
-		if (cell == nil) 
-		{
-			cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier owner:self] autorelease];
-		}
+	@try {
+		static NSString *MyIdentifier = @"MyIdentifier";
+		static NSString *MyIdentifier2 = @"MyIdentifier2";
 		
-		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:indexPath.section] stopId]];
-		NSDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
-		NSArray *allRouteKeysAtAStop = [routesOfInterest objectAtIndex:indexPath.section];
-		NSString *routeKey = [allRouteKeysAtAStop objectAtIndex:(indexPath.row-1)];
-		NSMutableArray *arrivalsAtOneStopForOneBus = [aStopInDictionary objectForKey:routeKey];
-		//if ([arrivalsAtOneStopForOneBus count] == 0)
-		//{
-		//	BusArrival *aFakeArrival
-		//	[arrivalsAtOneStopForOneBus addObject:aFakeArrival];
-		//}
-		
-		[cell setArrivals:arrivalsAtOneStopForOneBus];
-		return cell;
-	}
-	else
-	{
-		StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
-		if (cell == nil) 
+		if ([indexPath row] >= 1)
 		{
-			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
+			ArrivalCell *cell = (ArrivalCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+			//Assume in dequeResableCellWithIdentifier, autorelease has been called
+			if (cell == nil) 
+			{
+				cell = [[[ArrivalCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier owner:self] autorelease];
+			}
+			
+			NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [[stopsOfInterest objectAtIndex:indexPath.section] stopId]];
+			NSDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
+			NSArray *allRouteKeysAtAStop = [routesOfInterest objectAtIndex:indexPath.section];
+			NSString *routeKey = [allRouteKeysAtAStop objectAtIndex:(indexPath.row-1)];
+			NSMutableArray *arrivalsAtOneStopForOneBus = [aStopInDictionary objectForKey:routeKey];
+			//if ([arrivalsAtOneStopForOneBus count] == 0)
+			//{
+			//	BusArrival *aFakeArrival
+			//	[arrivalsAtOneStopForOneBus addObject:aFakeArrival];
+			//}
+			
+			[cell setArrivals:arrivalsAtOneStopForOneBus];
+			return cell;
 		}
-		[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
-		return cell;
+		else
+		{
+			StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
+			if (cell == nil) 
+			{
+				cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
+			}
+			[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
+			return cell;
+		}
 	}
-	
-	// Configure the cell
-	//return cell;
-}
+	@catch (NSException * e) {
+		NSLog(@"Exception catch in clearArrivals cellForRowAtIndexPath");
+	}
 
+}
 
 @end
 

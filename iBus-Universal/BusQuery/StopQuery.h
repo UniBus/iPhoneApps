@@ -23,5 +23,7 @@
 - (BusStop *) stopOfId: (NSString *) sid;
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) queryStopWithName:(NSString *) stopName;
+- (NSArray *) queryStopWithNames:(NSArray *) stopNames;
+- (NSArray *) queryStopWithIds:(NSArray *) stopIds;
 
 @end

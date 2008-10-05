@@ -10,16 +10,24 @@
 #import "ArrivalQuery.h"
 #import "StopQuery.h"
 
-extern NSString * const UserSavedRecentStopsAndBuses;
-extern NSString * const UserSavedFavoriteStopsAndBuses;
 extern NSString * const UserSavedSearchRange;
 extern NSString * const UserSavedSearchResultsNum;
 extern NSString * const UserApplicationTitle;
+extern NSString * const UserSavedSelectedPage;
+
+extern NSString * const UserCurrentCity;
+extern NSString * const USerCurrentDatabase;
+extern NSString * const UserCurrentWebPrefix;
 
 @interface TransitApp : UIApplication {
 	ArrivalQuery *arrivalQuery;
 	StopQuery    *stopQuery;
 	NSString     *dataFile;
+	
+	NSString	 *currentCity;
+	NSString	 *currentDatabase;
+	NSString	 *currentWebPrefix;
+	
 	BOOL         stopQueryAvailable;
 	BOOL         arrivalQueryAvailable;
 	int          cityId;
@@ -33,13 +41,19 @@ extern NSString * const UserApplicationTitle;
 - (BusStop *) stopOfId:(NSString *) stopId;
 - (NSArray *) queryStopWithPosition:(CGPoint) pos;
 - (NSArray *) queryStopWithName:(NSString *) stopName;
+- (NSArray *) queryStopWithNames:(NSArray *) stopNames;
+- (NSArray *) queryStopWithIds:(NSArray *) stopIds;
 
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
 - (void) arrivalsAtStopsAsync: (id)stopView;
 - (void) scheduleAtStopsAsync: (id)stopView;
 
+- (void) setCurrentCity:(NSString *)city database:(NSString *)db webPrefix:(NSString *)prefix;
+- (NSString *) currentCity;
 - (NSString *) currentDatabase;
 - (NSString *) currentWebServicePrefix;
+- (NSString *) currentDatabaseWithFullPath;
+- (void) citySelected:(id)sender;
 
 @end

@@ -36,10 +36,9 @@
 	self.view = view; 
 	[view release];
 	
-	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-	searchBar.delegate = self;
-	[self.view addSubview:searchBar];
-	[searchBar release];	
+	stopSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+	stopSearchBar.delegate = self;
+	[self.view addSubview:stopSearchBar];
 	
 	CGRect tabRect = self.view.bounds;
 	tabRect = CGRectMake(0, 50, tabRect.size.width, tabRect.size.height-50);
@@ -68,10 +67,19 @@
 {
 	[stopsTableView release];
 	[stopsFound release];
+	[stopSearchBar release];
     [super dealloc];
 }
 
 #pragma mark UISearchBarDelegate
+
+- (void) reset
+{
+	stopSearchBar.text = @"";
+	[stopsFound release];
+	stopsFound = nil;
+	[stopsTableView reloadData];
+}
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
@@ -106,25 +114,28 @@
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
 	[stopsFound release];
 	
-	BOOL acted = NO;
-	NSArray *keywordItems = [searchBar.text componentsSeparatedByString:@":"];
-	if ([keywordItems objectAtIndex:0])
+	BOOL useStopNum = NO;
+	NSArray *keywordItems = [searchBar.text componentsSeparatedByString:@" "];
+	NSString *firstKeyWord = [[keywordItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([firstKeyWord characterAtIndex:0] == '#')
+		useStopNum = YES;
+		
+	NSMutableArray *effectiveKeys = [NSMutableArray array];
+	for (NSString *aKeyWord in keywordItems)
 	{
-		if ([[keywordItems objectAtIndex:0] isEqual: @"id"])
-		{
-			NSMutableArray *results = [NSMutableArray array];
-			for (int i=1; i<[keywordItems count]; i++)
-			{
-				BusStop *aStop = [myApplication stopOfId:[keywordItems objectAtIndex:i]];
-				[results addObject:aStop];
-			}
-			stopsFound = [results retain];
-			acted = YES;
-		}
+		if ([[aKeyWord stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"#"])
+			continue;
+		else if ([[aKeyWord stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])
+			continue;
+		if ([[aKeyWord stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] characterAtIndex:0]=='#')
+			aKeyWord = [aKeyWord substringFromIndex:1];
+		[effectiveKeys addObject:aKeyWord];
 	}
-	
-	if (!acted)
-		stopsFound = [[myApplication queryStopWithName:searchBar.text] retain];
+		
+	if (!useStopNum)
+		stopsFound = [[myApplication queryStopWithNames:effectiveKeys] retain];
+	else
+		stopsFound = [[myApplication queryStopWithIds:effectiveKeys] retain];
 	[stopsTableView reloadData];
 }
 
@@ -165,34 +176,5 @@
 	cell.text = [NSString stringWithFormat:@"[%@] - %@", aStop.stopId, aStop.name];
 	return cell;
 }
-
-
-/*
- - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
- }
- */
-/*
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- }
- if (editingStyle == UITableViewCellEditingStyleInsert) {
- }
- }
- */
-/*
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- return YES;
- }
- */
-/*
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-/*
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- return YES;
- }
- */
 
 @end

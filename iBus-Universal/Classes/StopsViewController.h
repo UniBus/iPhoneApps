@@ -23,6 +23,7 @@
 - (NSArray *) stopsOfInterest;
 - (void) setStopsOfInterest: (NSArray *)stops;
 
+- (void) reset;
 - (void) reload;
 - (void) needsReload;
 - (void) alertOnEmptyStopsOfInterest;

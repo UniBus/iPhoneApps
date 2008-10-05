@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "CitySelectViewController.h"
 #import "TransitApp.h"
 
 extern float searchRange;
@@ -15,7 +16,8 @@ extern BOOL  globalTestMode;
 
 enum SettingTableSections
 {
-	kUIRange_Section = 0,
+	kUICity_Section = 0,
+	kUIRange_Section,
 	kUIRecent_Section,
 	kUIAbout_Section,
 	kUISetting_Section_Num
@@ -40,6 +42,11 @@ enum SettingTableSections
 }
 */
  
+- (void)viewDidAppear:(BOOL)animated
+{
+	[settingView reloadData];
+}
+
 // Implement viewDidLoad if you need to do additional setup after loading the view.
 - (void)viewDidLoad
 {
@@ -56,11 +63,14 @@ enum SettingTableSections
 	
 	NSMutableString *content =[NSMutableString  stringWithString: @"<html> Author: Zhenwang Yao <br><br>"];
 	[content appendString:@"This is an application based on <a href=\"http://code.google.com/transit/spec/transit_feed_specification.html\">Google Transit Feed Specification (GTFS)</a> data. Web service is provided by "];
-	[content appendString:@"<a href=\"http://developer.trimet.org/\">Trimet</a>. </html>"];
+	[content appendString:@"<a href=\"http://developer.trimet.org/\">Trimet</a>."];
 	[content appendString:@"<br><br>Great thanks to them!"];
 	[content appendString:@"<br><br>The author does not guarantee accurancy of the information, and future availability of the service."];
-	[content appendString:@"<br><br>Enjoy!"];
+	[content appendString:@"<br><br>Enjoy!!<br>"];
+	[content appendString:@"</html>"];
 	[aboutWebCell loadHTMLString:content baseURL:nil];
+	
+	self.navigationItem.title = @"Setting";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -122,7 +132,10 @@ enum SettingTableSections
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	return 2;//2;
+	if (section == kUICity_Section)
+		return 1;
+	else
+		return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,7 +143,11 @@ enum SettingTableSections
 	if (indexPath.row == 0)
 	{
 		CGRect cellBound;
-		if ( indexPath.section == kUIRange_Section )
+		if (indexPath.section == kUICity_Section)
+		{
+			return 44;
+		}
+		else if ( indexPath.section == kUIRange_Section )
 		{
 			cellBound = [rangeCell bounds];
 			return cellBound.size.height;
@@ -155,6 +172,9 @@ enum SettingTableSections
 {
 	NSString *title;
 	switch (section) {
+		case kUICity_Section:
+			title = @"Current City";
+			break;
 		case kUIRange_Section:
 			title = @"Search Range";
 			break;
@@ -176,7 +196,19 @@ enum SettingTableSections
 	
 	if (row == 0)
 	{
-		if ( indexPath.section == kUIRange_Section )
+		if (indexPath.section == kUICity_Section)
+		{
+			UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CitySelectionCell"];
+			if (cell == nil)
+			{
+				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
+				cell.font = [UIFont systemFontOfSize:14];
+			}
+			NSAssert([[UIApplication sharedApplication] isKindOfClass:[TransitApp class]], @"Application mismatch!");
+			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
+			return cell;
+		}
+		else if ( indexPath.section == kUIRange_Section )
 			return rangeCell;
 		else if ( indexPath.section == kUIRecent_Section )
 			return recentCell;
@@ -210,6 +242,17 @@ enum SettingTableSections
 	}
 	else
 		return nil;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.section == kUICity_Section)
+	{
+		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
+		selectionVC.delegate = [UIApplication sharedApplication];
+		[[self navigationController] pushViewController:selectionVC animated:YES];
+	}
 }
 
 #pragma mark WebView Delegate Functions

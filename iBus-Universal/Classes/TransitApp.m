@@ -10,31 +10,18 @@
 #import "TransitAppDelegate.h"
 #import "StopsViewController.h"
 #import "RouteScheduleViewController.h"
+#import "CitySelectViewController.h"
 #import "StopQuery.h"
 
-enum _supported_city 
-{
-	kCity_Portland,
-	kCity_Num,	
-};
-
-NSString *cityPath[]=
-{
-	@"portland",
-};
-
-NSString *cityTitles[]=
-{
-	@"Portland, OR",
-};
-
 	
-NSString * const UserSavedRecentStopsAndBuses = @"UserSavedRecentStopsAndBuses";
-NSString * const UserSavedFavoriteStopsAndBuses = @"UserSavedFavoriteStopsAndBuses";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
 NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
-NSString * const UserApplicationTitle = @"iBus";
+NSString * const UserApplicationTitle = @"iBus-Universal";
+
+NSString * const UserCurrentCity = @"UserSavedCurrentCity";
+NSString * const USerCurrentDatabase = @"UserSavedCurrentDatabase";
+NSString * const UserCurrentWebPrefix = @"UserSaveCurrentWebPrefix";
 
 extern float searchRange;
 extern int numberOfResults;
@@ -42,48 +29,21 @@ extern int numberOfResults;
 @interface TransitApp ()
 - (void) initializeDatabase;
 - (void) queryTaskEntry: (id) queryingObj;
+- (void) registerUserDefaults;
 @end
 
 
 @implementation TransitApp
 
 @synthesize stopQueryAvailable, arrivalQueryAvailable;
+
 - (id) init
 {
 	[super init];
 	
-	cityId = kCity_Portland;
-    // The stop data is stored in the application bundle. 
-    //NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSAllApplicationsDirectory, NSUserDomainMask, YES);
-    //NSString *documentsDirectory = [paths objectAtIndex:0];
-	//NSString *documentsDirectory = [[NSBundle mainBundle] resourcePath];
-	//NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
-	//NSString *filename = @"stops.sqlite";
-    //NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
-	[self initializeDatabase];
-	NSString *path = [self currentDatabase];
-	NSLog(@"Opening file: %@", path);
-	dataFile = [path retain];
+	[self registerUserDefaults];
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
-	NSMutableArray *emptyArray = [NSMutableArray array];
-	[defaultValues setObject:emptyArray forKey:UserSavedRecentStopsAndBuses];
-	[defaultValues setObject:emptyArray forKey:UserSavedFavoriteStopsAndBuses];
-	[defaultValues setObject:[NSNumber numberWithFloat:searchRange] forKey:UserSavedSearchRange];
-	[defaultValues setObject:[NSNumber numberWithInt:numberOfResults] forKey:UserSavedSearchResultsNum];
-	[defaultValues setObject:[NSNumber numberWithInt:0] forKey:UserSavedSelectedPage];
-	[defaults registerDefaults:defaultValues];
-	
-	arrivalQuery = [[ArrivalQuery alloc] init];
-	if (arrivalQuery)
-	{
-		arrivalQuery.webServicePrefix = @"http://192.168.1.100/portland";
-		arrivalQueryAvailable = YES;
-	}
 	opQueue = [[NSOperationQueue alloc] init];
-	stopQuery = [StopQuery initWithFile:path];
-	//[self loadDataInBackground];
 	
 	return self;
 }
@@ -97,28 +57,102 @@ extern int numberOfResults;
 	[super dealloc];
 }
 
+//!
+//! Register user saved default data
+//!
+- (void) registerUserDefaults
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+	[defaultValues setObject:[NSNumber numberWithFloat:searchRange] forKey:UserSavedSearchRange];
+	[defaultValues setObject:[NSNumber numberWithInt:numberOfResults] forKey:UserSavedSearchResultsNum];
+	[defaultValues setObject:[NSNumber numberWithInt:0] forKey:UserSavedSelectedPage];
+	[defaultValues setObject:@"" forKey:UserCurrentCity];
+	[defaultValues setObject:@"" forKey:USerCurrentDatabase];
+	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
+	[defaults registerDefaults:defaultValues];
+}
+
 #pragma mark Database operation
+- (void) citySelected:(id)sender
+{
+	NSAssert([sender isKindOfClass:[CitySelectViewController class]], @"Received citySelect: from an unknow object!");
+	
+	CitySelectViewController *cityVC = (CitySelectViewController *)sender;
+	NSAssert (![cityVC.currentCity isEqualToString:@""] && ![cityVC.currentDatabase isEqualToString:@""] && 
+			  ![cityVC.currentURL isEqualToString:@""], @"Selected city info is not set properly!!");
+	
+	NSLog(@"City selected: %@\nDatabase: %@\nWebPrefix: %@", cityVC.currentCity, cityVC.currentDatabase, cityVC.currentURL);
+	
+	[self setCurrentCity:cityVC.currentCity database:cityVC.currentDatabase webPrefix:cityVC.currentURL];	
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	[defaults setObject:cityVC.currentCity forKey:UserCurrentCity];
+	[defaults setObject:cityVC.currentDatabase forKey:USerCurrentDatabase];
+	[defaults setObject:cityVC.currentURL forKey:UserCurrentWebPrefix];
+	
+	@try {
+		[self.delegate performSelector:@selector(cityDidChange)];
+	}
+	@catch (NSException * e) {
+	}
+}
+
 - (void) initializeDatabase
 {
+	NSAssert((currentDatabase != nil), @"Database is not set properly!!");
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"stops.sqlite"];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:currentDatabase];
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:destPath])
 	{
 		NSError *error;
 		// The writable database does not exist, so copy the default to the appropriate location.
-		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"stops.sqlite"];
+		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
 		if (![fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
 			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		else
 			NSLog(@"Database file copy to %@", destPath);
 	}
+	
+	NSLog(@"Open database: %@", destPath);
+	stopQuery = [StopQuery initWithFile:destPath];	
+}
+
+- (void) initializeWebService
+{
+	NSAssert((currentWebPrefix != nil), @"Web service is not set properly!!");
+
+	[arrivalQuery release];
+	
+	arrivalQuery = [[ArrivalQuery alloc] init];
+	if (arrivalQuery)
+	{
+		arrivalQuery.webServicePrefix = currentWebPrefix;
+		arrivalQueryAvailable = YES;
+	}	
+}
+
+- (void) setCurrentCity:(NSString *)city database:(NSString *)db webPrefix:(NSString *)prefix
+{
+	currentCity = [city copy];
+	currentDatabase = [db copy];
+	currentWebPrefix = [prefix copy];
+	[self initializeDatabase];
+	[self initializeWebService];
+}
+
+- (NSString *) currentCity
+{
+	return currentCity;
 }
 
 - (NSString *) currentDatabase
 {
+	return currentDatabase;
 	/*
 	 NSString *documentsDirectory = [[NSBundle mainBundle] resourcePath];
 	 //NSString *filename = [NSString stringWithFormat:@"%@_stops", cityPath[cityId]];
@@ -126,15 +160,24 @@ extern int numberOfResults;
 	 NSString *path = [documentsDirectory stringByAppendingPathComponent:filename];
 	 */
 	
+	
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"stops.sqlite"];
+	//return destPath;
+}
+
+- (NSString *) currentDatabaseWithFullPath
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:@"stops.sqlite"];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:currentDatabase];
 	return destPath;
 }
 
 - (NSString *) currentWebServicePrefix
 {
-	return nil;
+	return currentWebPrefix;
 }
 
 - (BusStop *) getRandomStop
@@ -169,6 +212,22 @@ extern int numberOfResults;
 		return [NSMutableArray array];
 	
 	return [stopQuery queryStopWithName:stopName];
+}
+
+- (NSArray *) queryStopWithIds:(NSArray *) stopIds
+{
+	if (stopQuery == nil)
+		return [NSMutableArray array];
+	
+	return [stopQuery queryStopWithIds:stopIds];
+}
+
+- (NSArray *) queryStopWithNames:(NSArray *) stopNames
+{
+	if (stopQuery == nil)
+		return [NSMutableArray array];
+	
+	return [stopQuery queryStopWithNames:stopNames];
 }
 
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm

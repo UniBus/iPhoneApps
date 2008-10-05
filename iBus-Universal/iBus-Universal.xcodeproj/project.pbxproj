@@ -11,11 +11,13 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 282CCBFD0DB6C98000C4EA27 /* SecondView.xib */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
 		7D127E1D0E8636000068D300 /* StopSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */; };
 		7D127E940E8648E20068D300 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D127E930E8648E20068D300 /* libsqlite3.0.dylib */; };
 		7D127EA10E8649170068D300 /* General.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E9F0E8649170068D300 /* General.c */; };
+		7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */; };
+		7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C80E94AA4500FEA89A /* parseCSV.m */; };
+		7D59CA290E94AF0E00FEA89A /* supportedcities.lst in Resources */ = {isa = PBXBuildFile; fileRef = 7D59CA280E94AF0E00FEA89A /* supportedcities.lst */; };
 		7D767C050E8578E300CEFE8A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C020E8578E300CEFE8A /* MapViewController.m */; };
 		7D767C060E8578E300CEFE8A /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C040E8578E300CEFE8A /* StopsViewController.m */; };
 		7D767C090E85790400CEFE8A /* StopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C080E85790400CEFE8A /* StopCell.m */; };
@@ -28,8 +30,6 @@
 		7D76F46E0E85BAED0040B004 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D76F46D0E85BAED0040B004 /* CoreGraphics.framework */; };
 		7D76F4DE0E85BB310040B004 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D76F4DD0E85BB310040B004 /* SettingsViewController.m */; };
 		7D76F4E00E85BB4B0040B004 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */; };
-		7D76F6420E85C5380040B004 /* portland_stops.arv in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F6400E85C5380040B004 /* portland_stops.arv */; };
-		7D76F6430E85C5380040B004 /* portland_stops.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F6410E85C5380040B004 /* portland_stops.txt */; };
 		7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F64E0E85C5B20040B004 /* mapicon.png */; };
 		7D80D92B0E92A0D3005DA0D5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */; };
 		7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9380E92A134005DA0D5 /* busIcon.png */; };
@@ -40,18 +40,24 @@
 		7D83B0E90E88242000DCB5EC /* DatePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */; };
 		7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */; };
 		7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */; };
-		7D91E4930E86DFCD008CA23D /* stops.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7D91E4920E86DFCD008CA23D /* stops.sqlite */; };
 		7D9EBA9D0E8765C70004E4D4 /* RouteActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */; };
 		7D9EBB290E877DAA0004E4D4 /* RouteScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */; };
+		7DF459F40E9731E0006344D1 /* austin.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EC0E9731E0006344D1 /* austin.sqlite */; };
+		7DF459F50E9731E0006344D1 /* dallas.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459ED0E9731E0006344D1 /* dallas.sqlite */; };
+		7DF459F60E9731E0006344D1 /* denver.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EE0E9731E0006344D1 /* denver.sqlite */; };
+		7DF459F70E9731E0006344D1 /* humboldt.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EF0E9731E0006344D1 /* humboldt.sqlite */; };
+		7DF459F80E9731E0006344D1 /* oc.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F00E9731E0006344D1 /* oc.sqlite */; };
+		7DF459F90E9731E0006344D1 /* sacramento.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F10E9731E0006344D1 /* sacramento.sqlite */; };
+		7DF459FA0E9731E0006344D1 /* sanfrancisco.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */; };
+		7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F30E9731E0006344D1 /* portland.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* TransitAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* TransitAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* iBus-Universal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iBus-Universal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* UniBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		282CCBFD0DB6C98000C4EA27 /* SecondView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecondView.xib; sourceTree = "<group>"; };
 		28A0AB4B0D9B1048005BE974 /* iBus_Universal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iBus_Universal_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -60,6 +66,11 @@
 		7D127E930E8648E20068D300 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7D127E9F0E8649170068D300 /* General.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = General.c; sourceTree = "<group>"; };
 		7D127EA00E8649170068D300 /* General.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
+		7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySelectViewController.h; sourceTree = "<group>"; };
+		7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySelectViewController.m; sourceTree = "<group>"; };
+		7D59C9C70E94AA4500FEA89A /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
+		7D59C9C80E94AA4500FEA89A /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
+		7D59CA280E94AF0E00FEA89A /* supportedcities.lst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = supportedcities.lst; sourceTree = "<group>"; };
 		7D767C010E8578E300CEFE8A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		7D767C020E8578E300CEFE8A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		7D767C030E8578E300CEFE8A /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
@@ -82,8 +93,6 @@
 		7D76F4DC0E85BB310040B004 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		7D76F4DD0E85BB310040B004 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
-		7D76F6400E85C5380040B004 /* portland_stops.arv */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = portland_stops.arv; sourceTree = "<group>"; };
-		7D76F6410E85C5380040B004 /* portland_stops.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = portland_stops.txt; sourceTree = "<group>"; };
 		7D76F64E0E85C5B20040B004 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
 		7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D80D9380E92A134005DA0D5 /* busIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busIcon.png; sourceTree = "<group>"; };
@@ -97,11 +106,18 @@
 		7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
 		7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyViewController.h; sourceTree = "<group>"; };
 		7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyViewController.m; sourceTree = "<group>"; };
-		7D91E4920E86DFCD008CA23D /* stops.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = stops.sqlite; sourceTree = "<group>"; };
 		7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteActionViewController.h; sourceTree = "<group>"; };
 		7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteActionViewController.m; sourceTree = "<group>"; };
 		7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteScheduleViewController.h; sourceTree = "<group>"; };
 		7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteScheduleViewController.m; sourceTree = "<group>"; };
+		7DF459EC0E9731E0006344D1 /* austin.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = austin.sqlite; sourceTree = "<group>"; };
+		7DF459ED0E9731E0006344D1 /* dallas.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = dallas.sqlite; sourceTree = "<group>"; };
+		7DF459EE0E9731E0006344D1 /* denver.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = denver.sqlite; sourceTree = "<group>"; };
+		7DF459EF0E9731E0006344D1 /* humboldt.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = humboldt.sqlite; sourceTree = "<group>"; };
+		7DF459F00E9731E0006344D1 /* oc.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = oc.sqlite; sourceTree = "<group>"; };
+		7DF459F10E9731E0006344D1 /* sacramento.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sacramento.sqlite; sourceTree = "<group>"; };
+		7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sanfrancisco.sqlite; sourceTree = "<group>"; };
+		7DF459F30E9731E0006344D1 /* portland.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = portland.sqlite; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +154,8 @@
 				7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */,
 				7D76F4DC0E85BB310040B004 /* SettingsViewController.h */,
 				7D76F4DD0E85BB310040B004 /* SettingsViewController.m */,
+				7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */,
+				7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */,
 				7D767C010E8578E300CEFE8A /* MapViewController.h */,
 				7D767C020E8578E300CEFE8A /* MapViewController.m */,
 				7D767C030E8578E300CEFE8A /* StopsViewController.h */,
@@ -157,7 +175,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* iBus-Universal.app */,
+				1D6058910D05DD3D006BFB54 /* UniBus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,18 +205,23 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7DF459EC0E9731E0006344D1 /* austin.sqlite */,
+				7DF459ED0E9731E0006344D1 /* dallas.sqlite */,
+				7DF459EE0E9731E0006344D1 /* denver.sqlite */,
+				7DF459EF0E9731E0006344D1 /* humboldt.sqlite */,
+				7DF459F00E9731E0006344D1 /* oc.sqlite */,
+				7DF459F10E9731E0006344D1 /* sacramento.sqlite */,
+				7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */,
+				7DF459F30E9731E0006344D1 /* portland.sqlite */,
+				7D59CA280E94AF0E00FEA89A /* supportedcities.lst */,
 				7D80D9480E92A1F6005DA0D5 /* search.png */,
 				7D80D9460E92A1C1005DA0D5 /* setting.png */,
 				7D80D9380E92A134005DA0D5 /* busIcon.png */,
 				7D80D9390E92A134005DA0D5 /* closest.png */,
-				7D91E4920E86DFCD008CA23D /* stops.sqlite */,
 				7D76F64E0E85C5B20040B004 /* mapicon.png */,
-				7D76F6400E85C5380040B004 /* portland_stops.arv */,
-				7D76F6410E85C5380040B004 /* portland_stops.txt */,
-				7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */,
-				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
-				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */,
 				7D83B0E40E88234100DCB5EC /* DatePickView.xib */,
 			);
 			name = Resources;
@@ -219,6 +242,8 @@
 		7D767C0F0E857B7500CEFE8A /* BusQuery */ = {
 			isa = PBXGroup;
 			children = (
+				7D59C9C70E94AA4500FEA89A /* parseCSV.h */,
+				7D59C9C80E94AA4500FEA89A /* parseCSV.m */,
 				7D767C100E857B8700CEFE8A /* ArrivalQuery.h */,
 				7D767C110E857B8700CEFE8A /* ArrivalQuery.m */,
 				7D767C120E857B8700CEFE8A /* BusArrival.h */,
@@ -236,9 +261,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* iBus-Universal */ = {
+		1D6058900D05DD3D006BFB54 /* UniBus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iBus-Universal" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "UniBus" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -248,9 +273,9 @@
 			);
 			dependencies = (
 			);
-			name = "iBus-Universal";
+			name = UniBus;
 			productName = "iBus-Universal";
-			productReference = 1D6058910D05DD3D006BFB54 /* iBus-Universal.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* UniBus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -265,7 +290,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* iBus-Universal */,
+				1D6058900D05DD3D006BFB54 /* UniBus */,
 			);
 		};
 /* End PBXProject section */
@@ -276,17 +301,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
-				282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */,
 				7D76F4E00E85BB4B0040B004 /* SettingsView.xib in Resources */,
-				7D76F6420E85C5380040B004 /* portland_stops.arv in Resources */,
-				7D76F6430E85C5380040B004 /* portland_stops.txt in Resources */,
 				7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */,
-				7D91E4930E86DFCD008CA23D /* stops.sqlite in Resources */,
 				7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */,
 				7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */,
 				7D80D93B0E92A134005DA0D5 /* closest.png in Resources */,
 				7D80D9470E92A1C1005DA0D5 /* setting.png in Resources */,
 				7D80D9490E92A1F6005DA0D5 /* search.png in Resources */,
+				7D59CA290E94AF0E00FEA89A /* supportedcities.lst in Resources */,
+				7DF459F40E9731E0006344D1 /* austin.sqlite in Resources */,
+				7DF459F50E9731E0006344D1 /* dallas.sqlite in Resources */,
+				7DF459F60E9731E0006344D1 /* denver.sqlite in Resources */,
+				7DF459F70E9731E0006344D1 /* humboldt.sqlite in Resources */,
+				7DF459F80E9731E0006344D1 /* oc.sqlite in Resources */,
+				7DF459F90E9731E0006344D1 /* sacramento.sqlite in Resources */,
+				7DF459FA0E9731E0006344D1 /* sanfrancisco.sqlite in Resources */,
+				7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +346,8 @@
 				7D83B0E90E88242000DCB5EC /* DatePickViewController.m in Sources */,
 				7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */,
 				7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */,
+				7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */,
+				7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +364,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = "iBus-Universal";
+				PRODUCT_NAME = UniBus;
 			};
 			name = Debug;
 		};
@@ -378,7 +410,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iBus-Universal" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "UniBus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,

@@ -16,6 +16,6 @@
 @property (nonatomic, retain) UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
 
-- (void)dataDidFinishLoading:(id)data;
+- (void) citySelected:(id)sender;
 
 @end

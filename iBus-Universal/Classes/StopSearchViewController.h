@@ -11,9 +11,11 @@
 
 @interface StopSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
-	//IBOutlet UISearchBar *stopSearchBar;
+	UISearchBar *stopSearchBar;
 	UITableView *stopsTableView;
 	NSArray *stopsFound;
 }
+
+- (void) reset;
 
 @end

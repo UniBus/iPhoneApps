@@ -112,6 +112,7 @@
 		cell.textAlignment = UITextAlignmentLeft;
 		cell.font = [UIFont systemFontOfSize:12];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		//cell.contentView.backgroundColor = [UIColor blueColor];
 		//cell.indentationLevel = 1;
 		//cell.textColor = [UIColor blueColor];
 		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
