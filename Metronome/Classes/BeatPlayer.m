@@ -5,52 +5,84 @@
 //  Created by Zhenwang Yao on 09/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
-
+#import <AudioToolbox/AudioToolbox.h>
+#import <AudioToolbox/AudioQueue.h>
+#import <AudioToolbox/AudioFile.h>
+#import <AudioToolbox/AudioFileStream.h>
 #import "BeatPlayer.h"
+#import "AudioPlayer.h"
 
 @implementation BeatPlayer
+		
+@synthesize volume;
 
 - (id) init
 {
-	[super init];
-	
-	NSBundle *mainBundle = [NSBundle mainBundle];
-	//NSString *path = [[mainBundle pathForResource:@"up" ofType:@"wav"] retain];
-	
-	NSURL *upbeatURL = [NSURL fileURLWithPath:[mainBundle pathForResource:@"up" ofType:@"wav"] isDirectory:NO];			
-	if ( AudioServicesCreateSystemSoundID((CFURLRef)upbeatURL, &soundUpBeat) != kAudioServicesNoError)
-	{
-		NSLog(@"Couldn't open upbeat.wav");
-		[self release];
-		return nil;
-	}
-	
-	NSURL *downbeatURL = [NSURL fileURLWithPath:[mainBundle pathForResource:@"down" ofType:@"wav"] isDirectory:NO];	
-	if ( AudioServicesCreateSystemSoundID((CFURLRef)downbeatURL, &soundDownBeat) != kAudioServicesNoError )
-	{
-		NSLog(@"Couldn't open downbeat.wav");
-		[self release];
-		return nil;
-	}
-	
+	self = [super init];
+	volume = 1.0;
 	return self;
 }
-									  
+
 - (void) dealloc
 {
-	AudioServicesDisposeSystemSoundID(soundUpBeat);
-	AudioServicesDisposeSystemSoundID(soundDownBeat);
+	[upbeatPlayer release];
+	[downbeatPlayer release];
 	[super dealloc];
+}
+
+- (void) setBeatSoundDown:(NSString *)downName andUp:(NSString *)upName
+{
+	[downbeatURL release];
+	[upbeatURL release];
+
+	NSBundle *mainBundle = [NSBundle mainBundle];
+	downbeatURL = [[NSURL fileURLWithPath:[mainBundle pathForResource:downName ofType:@"wav"] isDirectory:NO] retain];
+	upbeatURL = [[NSURL fileURLWithPath:[mainBundle pathForResource:upName ofType:@"wav"] isDirectory:NO] retain];			
+	
+	[upbeatPlayer release];
+	upbeatPlayer = nil;
+	[downbeatPlayer release];
+	downbeatPlayer = nil;
+}
+
+- (void) setVolume: (float) userVolume
+{
+	volume = userVolume;
+	if (upbeatPlayer)
+		[upbeatPlayer setVolume:volume];
+	if (downbeatPlayer)
+		[downbeatPlayer setVolume:volume];
 }
 
 - (void) playUpBeat
 {
-	AudioServicesPlaySystemSound(soundUpBeat);
+	if (upbeatPlayer == nil)
+	{
+		upbeatPlayer = [[AudioPlayer alloc] initWithURL:upbeatURL];
+		[upbeatPlayer setVolume:self.volume];
+		
+		if (!upbeatPlayer)
+			NSLog(@"Fail creating upbeat player");
+	}
+	//[upbeatPlayer reset];
+	[upbeatPlayer play];
 }
 
 - (void) playDownBeat
 {
-	AudioServicesPlaySystemSound(soundDownBeat);
+
+	if (downbeatPlayer == nil)
+	{
+		downbeatPlayer = [[AudioPlayer alloc] initWithURL:downbeatURL];
+	
+		[downbeatPlayer setVolume:self.volume];
+		if (!downbeatPlayer)
+			NSLog(@"Fail creating downbeat player");	
+	}
+	//[downbeatPlayer reset];
+	[downbeatPlayer play];
+	
 }
+
 
 @end

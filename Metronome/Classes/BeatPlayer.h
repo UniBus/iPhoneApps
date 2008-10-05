@@ -8,12 +8,21 @@
 
 #import <AudioToolbox/AudioServices.h>
 
+@class AudioPlayer;
 @interface BeatPlayer : NSObject {
-	SystemSoundID soundUpBeat;
-	SystemSoundID soundDownBeat;
+	AudioPlayer *upbeatPlayer;
+	AudioPlayer *downbeatPlayer;
+	
+	NSURL *downbeatURL;
+	NSURL *upbeatURL;
+	
+	float volume;
 }
 
+- (void) setBeatSoundDown:(NSString *)downName andUp:(NSString *)upName;
 - (void) playUpBeat;
 - (void) playDownBeat;
+
+@property float volume;
 
 @end

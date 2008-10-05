@@ -7,11 +7,15 @@
 //
 
 #import "MetronomeViewController.h"
+#import "RootViewController.h"
 #import "BeatPlayer.h"
 #import "BeatView.h"
 
 NSString * const MUSDefaultRythm = @"UserDefaultRythm";
 NSString * const MUSDefaultBPM = @"UserDefaultBPM";
+NSString * const MUSDefaultUpbeat = @"UserDefaultUpbeat";
+NSString * const MUSDefaultDownbeat = @"UserDefaultDownbeat";
+NSString * const MUSDefaultVolume = @"UserDefaultVolume";
 
 @interface MetronomeViewController ()
 - (void) initializeArrays;
@@ -33,9 +37,10 @@ struct TempoTerm {
 #define BPM_MIN				40
 #define BPM_MAX				250
 #define NUM_OF_TEMPO_TERM	10
-#define NUM_OF_RYTHM_TERM	5
+#define NUM_OF_RYTHM_TERM	6
 
 int _rythm_name_[] = {
+	1, 4, //"1/4"
 	2, 4, //"2/4"
 	3, 4,
 	4, 4,
@@ -69,28 +74,74 @@ int _tempo_range_[] = {
 	210, 250,
 };
 
+const int globalNumberOfSounds = 13;
+
+NSString *beatSounds[] =
+{
+	@"daa",
+	@"ding",
+	@"dong",
+	@"tradit1",
+	@"tradit2",
+	@"tamborine",
+	@"clap",
+	@"snap",
+	@"stick",
+	@"hihat",
+	@"bassdrum",
+	@"deepkick",
+	@"heavykick",
+};
+
+NSString *beatSoundNames[] =
+{
+	@"Classic sound 1",
+	@"Classic sound 2",
+	@"Classic sound 3",
+	@"Cowbell 1",
+	@"Cowbell 2",
+	@"Tamborine",
+	@"Hand clap",
+	@"Finger Snap",
+	@"Drum Stick",
+	@"High Hat",
+	@"Bass Drum",
+	@"Deep Kick",
+	@"Heavy Kick",
+};
+
 @implementation MetronomeViewController
 
 @synthesize selectedBPM, selectedRythm;
+@synthesize rootViewController;
 
-- (void)dealloc {
-	[myTimer release];
-	[arrayRythm release];
-	[arrayTempo release];
-	[beatPlayer release];
-	[super dealloc];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		// Initialization code
+	}
+	return self;
 }
 
-
-// Implement loadView if you want to create a view hierarchy programmatically
-- (void)viewWillAppear:(BOOL)animated
+- (void) loadUserConfigurationAndBeatPlayer
 {
-	[mySwitch setOn:NO];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	selectedBPM = [defaults integerForKey:MUSDefaultBPM];
 	selectedRythm = [defaults integerForKey:MUSDefaultRythm];
+	downbeatSound = [defaults integerForKey:MUSDefaultDownbeat];
+	upbeatSound = [defaults integerForKey:MUSDefaultUpbeat];
 	rythmUpper = _rythm_name_[2*selectedRythm];
 	rythmLower = _rythm_name_[2*selectedRythm + 1];
+	
+	NSAssert((downbeatSound>=0) && (downbeatSound<globalNumberOfSounds), @"Downbeat audio index error!");
+	NSAssert((upbeatSound>=0) && (upbeatSound<globalNumberOfSounds), @"Upbeat audio index error!");
+
+	if (beatPlayer == nil)
+		beatPlayer = [[BeatPlayer alloc] init];
+	
+	float currentVolume = [defaults floatForKey:MUSDefaultVolume];
+	beatPlayer.volume = currentVolume;
+	[beatPlayer setBeatSoundDown:beatSounds[downbeatSound] andUp:beatSounds[upbeatSound]];
+	
 	myBeat.totalBeat = rythmUpper;	
 	[myBeat setUpbeatImage:[UIImage imageNamed:@"upbeat.png"]];
 	[myBeat setDownbeatImage:[UIImage imageNamed:@"downbeat.png"]];
@@ -100,27 +151,22 @@ int _tempo_range_[] = {
 	[myPicker selectRow:[self findTempoIndexByBPM:selectedBPM] inComponent:COL_TEMPO animated:NO];		
 }
 
-- (void)loadView {	
-	[self initializeArrays];
-	/*
-	 //The following steps have been move to - (void)viewWillAppear();
-	[mySwitch setOn:NO];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	selectedBPM = [defaults integerForKey:MUSDefaultBPM];
-	selectedRythm = [defaults integerForKey:MUSDefaultRythm];
-	[myPicker selectRow:(selectedBPM-BPM_MIN) inComponent:COL_BPM animated:NO];
-	[myPicker selectRow:selectedRythm inComponent:COL_RYTHM animated:NO];
-	[myPicker selectRow:[self findTempoIndexByBPM:selectedBPM] inComponent:COL_TEMPO animated:NO];
-	 */
-	[super loadView];
-}
-
-
 // Implement viewDidLoad if you need to do additional setup after loading the view.
 - (void)viewDidLoad {
+	powerOn = NO;
 	[super viewDidLoad];
+	[self initializeArrays];
+	//[mySwitch2 setImage:[UIImage imageNamed:@"poweroff.png"] forState:UIControlStateNormal];
+	//[mySwitch2 setImage:[UIImage imageNamed:@"poweroff.png"] forState:UIControlStateSelected];
 	myTitle.font = [UIFont fontWithName:@"Zapfino" size:20.0];
+	[self loadUserConfigurationAndBeatPlayer];
 	[self getCurrentTempo];
+}
+
+// Implement loadView if you want to create a view hierarchy programmatically
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self loadUserConfigurationAndBeatPlayer];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -133,6 +179,14 @@ int _tempo_range_[] = {
 	// Release anything that's not essential, such as cached data
 }
 
+- (void)dealloc {
+	[myTimer release];
+	[arrayRythm release];
+	[arrayTempo release];
+	[beatPlayer release];
+	[super dealloc];
+}
+
 #pragma mark UISwitch Functions
 
 - (void)beatingTimeOut:(NSTimer *)aTimer
@@ -141,14 +195,14 @@ int _tempo_range_[] = {
 
 	myBeat.currentBeat = beatCount;
 	if (beatCount)
-		[beatPlayer playDownBeat];
-	else
 		[beatPlayer playUpBeat];
+	else
+		[beatPlayer playDownBeat];
 	
 	beatCount++;
 }
 
-- (IBAction) switchOnOff:(id)sender
+- (void) reset
 {
 	if (myTimer)
 	{
@@ -159,15 +213,9 @@ int _tempo_range_[] = {
 		myBeat.playing = NO;
 	}
 	
-	if (mySwitch.on)
+	if ( powerOn )
 	{
 		NSTimeInterval interval = 60./selectedBPM;
-	
-		if (beatPlayer == nil)
-		{
-			beatPlayer = [[BeatPlayer alloc] init];
-		}
-		
 		myBeat.playing = YES;
 		myTimer = [[NSTimer scheduledTimerWithTimeInterval:interval 
 													target:self 
@@ -176,6 +224,61 @@ int _tempo_range_[] = {
 												   repeats:YES] retain];
 		[myTimer fire];
 	}		
+}
+
+- (IBAction) switchOnOff:(id)sender
+{
+	powerOn = !powerOn;
+
+	if (powerOn)
+		[mySwitch setImage:[UIImage imageNamed:@"poweron.png"] forState: UIControlStateNormal];
+	else
+		[mySwitch setImage:[UIImage imageNamed:@"poweroff.png"] forState: UIControlStateNormal];
+	
+	[self reset];
+}
+
+- (IBAction) settingClicked: (id)sender
+{
+	if (powerOn)
+		[self switchOnOff:mySwitch];
+	
+	[rootViewController toggleView:self];
+}
+
+- (IBAction) volumeChanged:(id)sender
+{
+	if ([sender isKindOfClass:[UISlider class]])
+	{
+		beatPlayer.volume = volumeSlider.value;	
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setFloat:volumeSlider.value forKey:MUSDefaultVolume];
+	}
+}
+
+- (IBAction) volumeClicked:(id)sender
+{	
+	//UISlider *volumeSlider = [[UISlider alloc] initWithFrame: CGRectMake(196, 90, 160, 40)];(10, 300, 300, 20)
+	if (volumeSlider == nil)
+	{
+		[myVolume setImage:[UIImage imageNamed:@"volumeon.png"] forState: UIControlStateNormal];
+		volumeSlider = [[UISlider alloc] initWithFrame: CGRectMake(198, 85, 140, 40)]; 
+		[volumeSlider addTarget:self action:@selector(volumeChanged:) forControlEvents:UIControlEventTouchUpInside];
+		volumeSlider.maximumValue = 1.5;
+		volumeSlider.minimumValue = 0;
+		volumeSlider.value = beatPlayer.volume;
+		CGAffineTransform rotation = CGAffineTransformMakeRotation(-1.57079633);
+		[volumeSlider setTransform:rotation];	
+		[self.view addSubview:volumeSlider];
+	}
+	else
+	{
+		[myVolume setImage:[UIImage imageNamed:@"volumeoff.png"] forState: UIControlStateNormal];
+		[volumeSlider removeFromSuperview];
+		[volumeSlider release];
+		volumeSlider = nil;
+	}
+	
 }
 
 #pragma mark UIPickerView Functions
@@ -327,7 +430,7 @@ int _tempo_range_[] = {
 	[defaults setInteger:selectedBPM forKey:MUSDefaultBPM];
 	[defaults setInteger:selectedRythm forKey:MUSDefaultRythm];
 	
-	[self switchOnOff:mySwitch];
+	[self reset];
 }
 
 @end

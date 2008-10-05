@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class MetronomeViewController;
+@class RootViewController;
 
 @interface MetronomeAppDelegate : NSObject <UIApplicationDelegate> {
 	IBOutlet UIWindow *window;
-	IBOutlet MetronomeViewController *viewController;
+	IBOutlet RootViewController *viewController;
 }
 
 @property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, retain) MetronomeViewController *viewController;
+@property (nonatomic, retain) RootViewController *viewController;
 
 @end
 

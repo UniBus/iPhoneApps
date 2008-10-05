@@ -97,6 +97,7 @@
 	
 	totalBeat = total;
 
+	/*
 	CGFloat yPos = bound.size.height/2.; 
 	CGFloat xDelta = bound.size.width/(total+1);
 	
@@ -109,6 +110,35 @@
 		circlerect.size.height = CIRCLE_RAD*2;
 	
 		[leds addObject:[NSData dataWithBytes:&circlerect length:sizeof(circlerect)]];
+	}
+	 */
+	
+	CGFloat w = bound.size.width;
+	CGFloat h = bound.size.height;
+	
+	CGFloat theta = atan2(w, h);
+	CGFloat radius = sqrt(h*h+w*w)/4/cos(theta);
+	CGFloat cx = w/2;
+	CGFloat cy = h/4 + radius;
+	CGFloat alpha = 4 * (3.1415926/2 - theta);
+	
+	CGFloat deltaAlpha = alpha / (total+1);
+	CGFloat alpha0 = atan2(3*h/4-cy, -w/2);
+	
+	NSLog(@"deltaApha=%f, alpha0=%f, alpha=%f", deltaAlpha, alpha0, alpha);
+	
+	for (int i=0; i<total; i++)
+	{
+		CGRect circlerect;
+		CGFloat alpha_i = alpha0 + (i+1)*deltaAlpha;
+		circlerect.origin.x = radius * cos(alpha_i) + cx;
+		circlerect.origin.y = radius * sin(alpha_i) + cy;
+		
+		circlerect.size.width = CIRCLE_RAD*2;
+		circlerect.size.height = CIRCLE_RAD*2;
+		
+		[leds addObject:[NSData dataWithBytes:&circlerect length:sizeof(circlerect)]];
+		NSLog(@"Coordinate: [%f, %f]", circlerect.origin.x, circlerect.origin.y);
 	}
 	
 	[self setNeedsDisplay];
