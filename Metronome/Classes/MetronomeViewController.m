@@ -74,13 +74,13 @@ int _tempo_range_[] = {
 	210, 250,
 };
 
-const int globalNumberOfSounds = 13;
+const int globalNumberOfSounds = 12;
 
 NSString *beatSounds[] =
 {
-	@"daa",
 	@"ding",
 	@"dong",
+	//@"daa",
 	@"tradit1",
 	@"tradit2",
 	@"tamborine",
@@ -97,7 +97,7 @@ NSString *beatSoundNames[] =
 {
 	@"Classic sound 1",
 	@"Classic sound 2",
-	@"Classic sound 3",
+	//@"Classic sound 3",
 	@"Cowbell 1",
 	@"Cowbell 2",
 	@"Tamborine",

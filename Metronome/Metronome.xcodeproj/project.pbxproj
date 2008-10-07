@@ -7,47 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* MetronomeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */; };
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		2899E5220DE3E06400AC0155 /* MetronomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MetronomeView.xib */; };
-		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28D7ACF80DDB3853001CB0EB /* MetronomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MetronomeViewController.m */; };
-		7D3B0EF20E4E7372002BD25F /* BeatPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3B0EF10E4E7372002BD25F /* BeatPlayer.m */; };
-		7D3B0F730E4EAED0002BD25F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */; };
-		7D4592810E948C5E00189EFC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4592800E948C5E00189EFC /* Default.png */; };
 		7D4592820E948C5E00189EFC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D4592800E948C5E00189EFC /* Default.png */; };
-		7D484FC80E4EC18B000DE071 /* BeatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D484FC70E4EC18B000DE071 /* BeatView.m */; };
-		7D4850790E4EEEC9000DE071 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */; };
 		7D780BAE0E8D35AB0004EB08 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D780BAD0E8D35AB0004EB08 /* RootViewController.m */; };
-		7D780BAF0E8D35AB0004EB08 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D780BAD0E8D35AB0004EB08 /* RootViewController.m */; };
-		7D8094D70E8DF62E000F9B17 /* SoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8094D60E8DF62E000F9B17 /* SoundViewController.m */; };
 		7D8094D80E8DF62E000F9B17 /* SoundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8094D60E8DF62E000F9B17 /* SoundViewController.m */; };
-		7D82241F0E9372C90060BCC5 /* volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D82241E0E9372C90060BCC5 /* volume.png */; };
 		7D8224200E9372C90060BCC5 /* volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D82241E0E9372C90060BCC5 /* volume.png */; };
-		7D82243B0E937BDC0060BCC5 /* volumeoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8224390E937BDC0060BCC5 /* volumeoff.png */; };
-		7D82243C0E937BDC0060BCC5 /* volumeon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D82243A0E937BDC0060BCC5 /* volumeon.png */; };
 		7D82243D0E937BDC0060BCC5 /* volumeoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8224390E937BDC0060BCC5 /* volumeoff.png */; };
 		7D82243E0E937BDC0060BCC5 /* volumeon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D82243A0E937BDC0060BCC5 /* volumeon.png */; };
-		7D8832B70E8CAE51000E0928 /* poweroff.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8832B20E8CAE51000E0928 /* poweroff.png */; };
-		7D8832B80E8CAE51000E0928 /* poweron.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8832B30E8CAE51000E0928 /* poweron.png */; };
 		7D8A1A0D0E8CB8DB00852FDA /* poweroff.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8832B20E8CAE51000E0928 /* poweroff.png */; };
 		7D8A1A0E0E8CB8DB00852FDA /* poweron.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8832B30E8CAE51000E0928 /* poweron.png */; };
-		7D8A1A3A0E8CBE9F00852FDA /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D8A1A390E8CBE9F00852FDA /* SettingView.xib */; };
 		7D8A1A3B0E8CBE9F00852FDA /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D8A1A390E8CBE9F00852FDA /* SettingView.xib */; };
-		7D8A1A400E8CBFB400852FDA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A1A3F0E8CBFB400852FDA /* SettingViewController.m */; };
 		7D8A1A410E8CBFB400852FDA /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A1A3F0E8CBFB400852FDA /* SettingViewController.m */; };
-		7D8B020E0E90C10D0011358E /* bassdrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02030E90C10D0011358E /* bassdrum.wav */; };
-		7D8B020F0E90C10D0011358E /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02040E90C10D0011358E /* clap.wav */; };
-		7D8B02100E90C10D0011358E /* deepkick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02050E90C10D0011358E /* deepkick.wav */; };
-		7D8B02110E90C10D0011358E /* heavykick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02060E90C10D0011358E /* heavykick.wav */; };
-		7D8B02120E90C10D0011358E /* hihat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02070E90C10D0011358E /* hihat.wav */; };
-		7D8B02140E90C10D0011358E /* snap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02090E90C10D0011358E /* snap.wav */; };
-		7D8B02150E90C10D0011358E /* stick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020A0E90C10D0011358E /* stick.wav */; };
-		7D8B02160E90C10D0011358E /* tamborine.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020B0E90C10D0011358E /* tamborine.wav */; };
-		7D8B02170E90C10D0011358E /* tradit1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020C0E90C10D0011358E /* tradit1.wav */; };
-		7D8B02180E90C10D0011358E /* tradit2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020D0E90C10D0011358E /* tradit2.wav */; };
 		7D8B02190E90C10D0011358E /* bassdrum.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02030E90C10D0011358E /* bassdrum.wav */; };
 		7D8B021A0E90C10D0011358E /* clap.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02040E90C10D0011358E /* clap.wav */; };
 		7D8B021B0E90C10D0011358E /* deepkick.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02050E90C10D0011358E /* deepkick.wav */; };
@@ -58,19 +27,12 @@
 		7D8B02210E90C10D0011358E /* tamborine.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020B0E90C10D0011358E /* tamborine.wav */; };
 		7D8B02220E90C10D0011358E /* tradit1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020C0E90C10D0011358E /* tradit1.wav */; };
 		7D8B02230E90C10D0011358E /* tradit2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B020D0E90C10D0011358E /* tradit2.wav */; };
-		7D8B022A0E90C21D0011358E /* daa.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02270E90C21D0011358E /* daa.wav */; };
-		7D8B022B0E90C21D0011358E /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02280E90C21D0011358E /* ding.wav */; };
-		7D8B022C0E90C21D0011358E /* dong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02290E90C21D0011358E /* dong.wav */; };
 		7D8B022D0E90C21D0011358E /* daa.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02270E90C21D0011358E /* daa.wav */; };
 		7D8B022E0E90C21D0011358E /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02280E90C21D0011358E /* ding.wav */; };
 		7D8B022F0E90C21D0011358E /* dong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D8B02290E90C21D0011358E /* dong.wav */; };
-		7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAB0E53BB50004BEF22 /* downbeat.png */; };
-		7DB5BDAE0E53BB50004BEF22 /* upbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAC0E53BB50004BEF22 /* upbeat.png */; };
 		7DB5BDBD0E53BB92004BEF22 /* downbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAB0E53BB50004BEF22 /* downbeat.png */; };
 		7DB5BDBE0E53BB92004BEF22 /* upbeat.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5BDAC0E53BB50004BEF22 /* upbeat.png */; };
-		7DD8E40A0E9067090001E950 /* AudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD8E4080E9067090001E950 /* AudioPlayer.m */; };
 		7DD8E40C0E9067090001E950 /* AudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD8E4080E9067090001E950 /* AudioPlayer.m */; };
-		7DFB4D0D0E4FCD80002C3511 /* metronome.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DFB4D0C0E4FCD80002C3511 /* metronome.png */; };
 		7DFB4D240E500B4A002C3511 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3B0F720E4EAED0002BD25F /* AudioToolbox.framework */; };
 		7DFB4D250E500B4A002C3511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D4850780E4EEEC9000DE071 /* CoreGraphics.framework */; };
 		7DFB4D260E500B4A002C3511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -89,7 +51,6 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* MetronomeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetronomeAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* MetronomeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetronomeAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Metronome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metronome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* MetronomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetronomeView.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -141,17 +102,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				7D3B0F730E4EAED0002BD25F /* AudioToolbox.framework in Frameworks */,
-				7D4850790E4EEEC9000DE071 /* CoreGraphics.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7DFB4D1C0E500ABA002C3511 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,7 +142,6 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Metronome.app */,
 				7DFB4D1E0E500ABA002C3511 /* iTick.app */,
 			);
 			name = Products;
@@ -268,23 +217,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* Metronome */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Metronome" */;
-			buildPhases = (
-				1D60588D0D05DD3D006BFB54 /* Resources */,
-				1D60588E0D05DD3D006BFB54 /* Sources */,
-				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Metronome;
-			productName = Metronome;
-			productReference = 1D6058910D05DD3D006BFB54 /* Metronome.app */;
-			productType = "com.apple.product-type.application";
-		};
 		7DFB4D1D0E500ABA002C3511 /* iTick */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7DFB4D230E500ABA002C3511 /* Build configuration list for PBXNativeTarget "iTick" */;
@@ -314,45 +246,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* Metronome */,
 				7DFB4D1D0E500ABA002C3511 /* iTick */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		1D60588D0D05DD3D006BFB54 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* MetronomeView.xib in Resources */,
-				7DFB4D0D0E4FCD80002C3511 /* metronome.png in Resources */,
-				7DB5BDAD0E53BB50004BEF22 /* downbeat.png in Resources */,
-				7DB5BDAE0E53BB50004BEF22 /* upbeat.png in Resources */,
-				7D8832B70E8CAE51000E0928 /* poweroff.png in Resources */,
-				7D8832B80E8CAE51000E0928 /* poweron.png in Resources */,
-				7D8A1A3A0E8CBE9F00852FDA /* SettingView.xib in Resources */,
-				7D8B020E0E90C10D0011358E /* bassdrum.wav in Resources */,
-				7D8B020F0E90C10D0011358E /* clap.wav in Resources */,
-				7D8B02100E90C10D0011358E /* deepkick.wav in Resources */,
-				7D8B02110E90C10D0011358E /* heavykick.wav in Resources */,
-				7D8B02120E90C10D0011358E /* hihat.wav in Resources */,
-				7D8B02140E90C10D0011358E /* snap.wav in Resources */,
-				7D8B02150E90C10D0011358E /* stick.wav in Resources */,
-				7D8B02160E90C10D0011358E /* tamborine.wav in Resources */,
-				7D8B02170E90C10D0011358E /* tradit1.wav in Resources */,
-				7D8B02180E90C10D0011358E /* tradit2.wav in Resources */,
-				7D8B022A0E90C21D0011358E /* daa.wav in Resources */,
-				7D8B022B0E90C21D0011358E /* ding.wav in Resources */,
-				7D8B022C0E90C21D0011358E /* dong.wav in Resources */,
-				7D82241F0E9372C90060BCC5 /* volume.png in Resources */,
-				7D82243B0E937BDC0060BCC5 /* volumeoff.png in Resources */,
-				7D82243C0E937BDC0060BCC5 /* volumeon.png in Resources */,
-				7D4592810E948C5E00189EFC /* Default.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7DFB4D1A0E500ABA002C3511 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,22 +287,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1D60588E0D05DD3D006BFB54 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* MetronomeAppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* MetronomeViewController.m in Sources */,
-				7D3B0EF20E4E7372002BD25F /* BeatPlayer.m in Sources */,
-				7D484FC80E4EC18B000DE071 /* BeatView.m in Sources */,
-				7D8A1A400E8CBFB400852FDA /* SettingViewController.m in Sources */,
-				7D780BAF0E8D35AB0004EB08 /* RootViewController.m in Sources */,
-				7D8094D70E8DF62E000F9B17 /* SoundViewController.m in Sources */,
-				7DD8E40A0E9067090001E950 /* AudioPlayer.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7DFB4D1B0E500ABA002C3511 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -423,41 +306,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1D6058940D05DD3E006BFB54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Metronome;
-			};
-			name = Debug;
-		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Metronome;
-			};
-			name = Release;
-		};
 		7D4890520E52B60C006C3AF8 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -469,22 +317,6 @@
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B629AC78-54AC-4268-AD12-D7EF17565DD8";
 				SDKROOT = iphoneos2.1;
-			};
-			name = Distribution;
-		};
-		7D4890530E52B60C006C3AF8 /* Distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Metronome_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Metronome;
 			};
 			name = Distribution;
 		};
@@ -593,16 +425,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Metronome" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1D6058940D05DD3E006BFB54 /* Debug */,
-				1D6058950D05DD3E006BFB54 /* Release */,
-				7D4890530E52B60C006C3AF8 /* Distribution */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7DFB4D230E500ABA002C3511 /* Build configuration list for PBXNativeTarget "iTick" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
