@@ -16,8 +16,6 @@
 	double  lastTwoFingerDistance;
 	int     lastNumOfTouches;
 	int		numberOfTouchEventToSkip;
-	BOOL    loaded;
-	BOOL    memoryWarning;
 	double  lastRequestedLat;
 	double  lastRequestedLon;
 }

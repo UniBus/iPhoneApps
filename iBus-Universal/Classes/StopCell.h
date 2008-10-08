@@ -13,8 +13,8 @@
 @interface StopCell : UITableViewCell
 {
 	UILabel      *stopName;
-	UILabel      *stopDesc;
-	UIButton     *mapButton;
+	UITextView   *stopDesc;
+	//UIButton     *mapButton;
 	BusStop      *theStop;
 	UIViewController *ownerView;
 }

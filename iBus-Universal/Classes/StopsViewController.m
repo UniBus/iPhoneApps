@@ -59,7 +59,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 
 - (void)didReceiveMemoryWarning {
-	//[super didReceiveMemoryWarning]; 
+	[super didReceiveMemoryWarning]; 
 	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
 }
@@ -67,6 +67,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void)dealloc 
 {
+	[stopsDictionary removeAllObjects];
 	[stopsDictionary release];
 	[stopsOfInterest release];
 	[routesOfInterest release];
@@ -154,6 +155,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		{
 			arrivalsOfRouteAtStop = [[NSMutableArray alloc] init];
 			[aStopOfInterest setObject:arrivalsOfRouteAtStop forKey:routeKey];
+			[arrivalsOfRouteAtStop release];
 		}
 		[arrivalsOfRouteAtStop addObject:anArrival];
 	}
@@ -229,6 +231,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			aStopInDictionary = [[NSMutableDictionary alloc] init];
 			[aStopInDictionary setObject:aStop forKey:@"stop:info:info"];
 			[stopsDictionary setObject:aStopInDictionary forKey:stopKey];
+			[aStopInDictionary release];
 		}
 	}
 	
@@ -249,6 +252,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	{
 		[navigController pushViewController:mapViewController animated:YES];
 		[mapViewController mapWithLatitude:theStop.latitude Longitude:theStop.longtitude];
+		[mapViewController autorelease];
 	}	
 }
 

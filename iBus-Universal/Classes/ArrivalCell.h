@@ -22,7 +22,7 @@ enum _Arrival_Icon_Type {
 	UILabel        *busSign;
 	UILabel        *arrivalTime1;
 	UILabel        *arrivalTime2;
-	UIButton       *favoriteButton;
+	//UIButton       *favoriteButton;
 	NSMutableArray *theArrivals;
 	UIViewController *ownerView;
 }

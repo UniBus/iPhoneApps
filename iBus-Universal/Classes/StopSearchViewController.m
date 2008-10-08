@@ -14,17 +14,20 @@
 
 
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
+/*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         // Custom initialization
     }
     return self;
 }
+*/
 
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	self.navigationItem.title = @"Search for Stops";
 }
 
@@ -38,6 +41,7 @@
 	
 	stopSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
 	stopSearchBar.delegate = self;
+	stopSearchBar.barStyle = UIBarStyleBlackOpaque;
 	[self.view addSubview:stopSearchBar];
 	
 	CGRect tabRect = self.view.bounds;

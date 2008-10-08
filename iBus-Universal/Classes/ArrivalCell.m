@@ -37,7 +37,6 @@ UIImage *favoriteIconImage = nil;
 	[busSign release];
 	[arrivalTime1 release];
 	[arrivalTime2 release];
-	[favoriteButton release];
 	[super dealloc];
 }
 
@@ -99,17 +98,17 @@ UIImage *favoriteIconImage = nil;
 	[self.contentView addSubview:arrivalTime1];
 	[self.contentView addSubview:arrivalTime2];
 	
-	[busRoute release];
-	[busSign release];
-	[arrivalTime1 release];
-	[arrivalTime2 release];
+	//[busRoute release];
+	//[busSign release];
+	//[arrivalTime1 release];
+	//[arrivalTime2 release];
 	
-	if (favoriteButton)
-	{
-		[favoriteButton addTarget:self action:@selector(favoriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-		[self.contentView addSubview:favoriteButton];
-		[favoriteButton release];
-	}
+	//if (favoriteButton)
+	//{
+	//	[favoriteButton addTarget:self action:@selector(favoriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+	//	[self.contentView addSubview:favoriteButton];
+	//	[favoriteButton release];
+	//}
 	
 	return self;
 }

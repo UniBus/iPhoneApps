@@ -257,6 +257,7 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 - (void)loadView 
 {
 	[super loadView];
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	self.navigationItem.title = @"Favorite Stops";	
 }
 

@@ -150,7 +150,7 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 		[arrival setBusSign:[attributeDict valueForKey:@"bus_sign"]];
 		
 		[arrivalsForStops addObject:arrival];
-		[arrival autorelease];
+		[arrival release];
 	}
 }
 

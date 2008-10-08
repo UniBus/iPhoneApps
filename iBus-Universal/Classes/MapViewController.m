@@ -55,9 +55,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void)didReceiveMemoryWarning 
 {
-	//[self removeMapWebView];
 	[[NSURLCache sharedURLCache] removeAllCachedResponses];
-	memoryWarning = YES;
 	[super didReceiveMemoryWarning]; 
 	// Releases the view if it doesn't have a superview
 	// Release anything that's not essential, such as cached data
@@ -66,6 +64,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void) dealloc
 {
+	[[NSURLCache sharedURLCache] removeAllCachedResponses];
 	[mapWeb removeFromSuperview];
 	[mapWeb release];
 	[super dealloc];
@@ -94,7 +93,6 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:20];  // 20 sec;
 	[mapWeb loadRequest:request];
-	loaded = YES;
 	
 	lastRequestedLat = lat;
 	lastRequestedLon = lon;

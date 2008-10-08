@@ -82,6 +82,7 @@ double UserDefinedLatitudeForComparison = 0.;
 
 - (void) dealloc
 {
+	[stopId release];
 	[name release];
 	[description release];
 	[super dealloc];

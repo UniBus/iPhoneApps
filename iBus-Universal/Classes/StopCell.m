@@ -55,7 +55,7 @@ UIImage *mapIconImage = nil;
 {
 	[stopName release];
 	[stopDesc release];
-	[mapButton release];
+	//[mapButton release];
 	[theStop release];
 	[super dealloc];
 }
@@ -75,16 +75,41 @@ UIImage *mapIconImage = nil;
 	//stopName.highlightedTextColor = [UIColor blackColor];
 	stopName.font = [UIFont systemFontOfSize:12];
 	
+
 	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	UILabel *stopDescLabel = [[[UILabel alloc] initWithFrame:ctrlFrame] autorelease];	
+	stopDescLabel.backgroundColor = [UIColor clearColor];
+	stopDescLabel.opaque = NO;
+	stopDescLabel.lineBreakMode = UILineBreakModeWordWrap;
+	stopDescLabel.textAlignment = UITextAlignmentLeft;
+	stopDescLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+	stopDescLabel.font = [UIFont systemFontOfSize:12];
+	stopDescLabel.text = @"Descript:";
+
+	//ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	ctrlFrame.origin.y -= 5;
+	ctrlFrame.origin.x = POS_TEXT_LEFT + 44;
+	ctrlFrame.size.height = 2 * POS_TEXT_HEIGHT;
+	ctrlFrame.size.width = ctrlFrame.size.width - 44;
+	/*
 	stopDesc = [[UILabel alloc] initWithFrame:ctrlFrame];	
 	stopDesc.backgroundColor = [UIColor clearColor];
 	stopDesc.opaque = NO;
+	stopDesc.lineBreakMode = UILineBreakModeWordWrap;
 	stopDesc.textAlignment = UITextAlignmentLeft;
 	stopDesc.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 	stopDesc.font = [UIFont systemFontOfSize:12];
+	*/
+	stopDesc = [[UITextView alloc] initWithFrame:ctrlFrame];	
+	stopDesc.backgroundColor = [UIColor clearColor];
+	stopDesc.editable = NO;
+	stopDesc.opaque = NO;
+	stopDesc.textAlignment = UITextAlignmentLeft;
+	stopDesc.font = [UIFont systemFontOfSize:12];
+	
 	
 	ctrlFrame = CGRectMake(POS_ICON_LEFT, POS_TEXT_TOP, POS_ICON_SIZE, POS_ICON_SIZE);
-	mapButton = [[[UIButton buttonWithType:UIButtonTypeCustom] retain] initWithFrame:ctrlFrame];
+	UIButton *mapButton = [[UIButton buttonWithType:UIButtonTypeCustom] initWithFrame:ctrlFrame];
 	if (mapIconImage == nil)
 	{
 		NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"mapicon.png"];
@@ -96,13 +121,14 @@ UIImage *mapIconImage = nil;
 	self.opaque = NO;
 	self.selectionStyle = UITableViewCellSelectionStyleNone;
 	
+	[self.contentView addSubview:stopDescLabel];
 	[self.contentView addSubview:stopName];
 	[self.contentView addSubview:stopDesc];
 	[self.contentView addSubview:mapButton];
 	
-	[stopName release];
-	[stopDesc release];
-	[mapButton release];
+	//[stopName release];
+	//[stopDesc release];
+	//[mapButton release];
 	
 	return self;
 }
@@ -130,7 +156,7 @@ UIImage *mapIconImage = nil;
 	[theStop autorelease];
 	theStop = [aStop retain];
 	[stopName setText:[NSString stringWithFormat:@"Stop ID  :%@", theStop.stopId]];
-	[stopDesc setText:[NSString stringWithFormat:@"Stop Info:%@", theStop.description]];
+	[stopDesc setText:[NSString stringWithFormat:@"%@", theStop.description]];
 }
 
 @end

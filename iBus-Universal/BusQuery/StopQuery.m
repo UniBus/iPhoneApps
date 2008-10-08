@@ -67,6 +67,7 @@
 			aStop.longtitude = sqlite3_column_double(statement, 2);
 			aStop.latitude = sqlite3_column_double(statement, 3);
 			aStop.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+			[aStop autorelease];
 		}
 	}
 	else
@@ -227,7 +228,7 @@
 			aStop.longtitude = sqlite3_column_double(statement, 2);
 			aStop.latitude = sqlite3_column_double(statement, 3);
 			aStop.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
-			
+				
 			[results addObject:aStop];
 			[aStop release];
 		}

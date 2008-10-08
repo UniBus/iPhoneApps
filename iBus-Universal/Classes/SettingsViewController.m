@@ -70,6 +70,7 @@ enum SettingTableSections
 	[content appendString:@"</html>"];
 	[aboutWebCell loadHTMLString:content baseURL:nil];
 	
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	self.navigationItem.title = @"Setting";
 }
 

@@ -19,6 +19,7 @@ BOOL  globalTestMode = NO;
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	self.navigationItem.title = @"Nearby Stops";
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	

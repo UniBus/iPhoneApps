@@ -44,7 +44,6 @@ extern int numberOfResults;
 	[self registerUserDefaults];
 	
 	opQueue = [[NSOperationQueue alloc] init];
-	
 	return self;
 }
 
@@ -265,6 +264,7 @@ extern int numberOfResults;
 	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryTaskEntry:) object:stopView];
 	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
 	[opQueue addOperation:theOp];
+	[theOp release];
 }	
 
 - (void) userAlert: (NSString *) msg

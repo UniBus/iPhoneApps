@@ -19,6 +19,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
+	//[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+	
 	// Add the tab bar controller's current view as a subview of the window
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
