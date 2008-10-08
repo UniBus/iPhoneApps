@@ -8,7 +8,6 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,7 +38,9 @@
 			</object>
 			<object class="IBUITabBarController" id="1034742383">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
-				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
+					<int key="IBUIStatusBarStyle">2</int>
+				</object>
 				<object class="IBUINavigationController" key="IBUISelectedViewController" id="691534957">
 					<object class="IBUITabBarItem" key="IBUITabBarItem" id="472764380">
 						<string key="IBUITitle">Settings</string>
@@ -47,7 +48,6 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">setting.png</string>
 						</object>
-						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
 					<object class="IBUINavigationBar" key="IBUINavigationBar" id="170635456">
@@ -62,7 +62,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="481969161">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="130104590">
-								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Item</string>
 							</object>
 							<reference key="IBUIParentViewController" ref="691534957"/>
@@ -76,7 +75,6 @@
 						<string key="IBUITitle">Favorites</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="869703103">
 							<int key="IBUISystemItemIdentifier">1</int>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="385443022">
@@ -105,7 +103,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">search.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="569376398">
@@ -135,7 +132,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">closest.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="506012443">
@@ -559,6 +555,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">TransitAppDelegate</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">citySelected:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
