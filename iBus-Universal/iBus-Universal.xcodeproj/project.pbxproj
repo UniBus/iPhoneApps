@@ -50,6 +50,7 @@
 		7DF459F90E9731E0006344D1 /* sacramento.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F10E9731E0006344D1 /* sacramento.sqlite */; };
 		7DF459FA0E9731E0006344D1 /* sanfrancisco.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */; };
 		7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459F30E9731E0006344D1 /* portland.sqlite */; };
+		7DF6A1630E9CAE60002B9659 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF6A1620E9CAE60002B9659 /* Default.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		7DF459F10E9731E0006344D1 /* sacramento.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sacramento.sqlite; sourceTree = "<group>"; };
 		7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = sanfrancisco.sqlite; sourceTree = "<group>"; };
 		7DF459F30E9731E0006344D1 /* portland.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = portland.sqlite; sourceTree = "<group>"; };
+		7DF6A1620E9CAE60002B9659 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,6 +225,7 @@
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */,
 				7D83B0E40E88234100DCB5EC /* DatePickView.xib */,
+				7DF6A1620E9CAE60002B9659 /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				7DF459F90E9731E0006344D1 /* sacramento.sqlite in Resources */,
 				7DF459FA0E9731E0006344D1 /* sanfrancisco.sqlite in Resources */,
 				7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */,
+				7DF6A1630E9CAE60002B9659 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
