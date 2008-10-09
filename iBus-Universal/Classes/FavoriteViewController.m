@@ -41,6 +41,7 @@ NSMutableDictionary * readFavorite()
 					favoriteStop = [[NSMutableDictionary alloc] init];
 					[favoriteStop setObject:aStop forKey:@"stop:info:info"];
 					[favorites setObject:favoriteStop forKey:stopKey];
+					[favoriteStop release];
 				}
 				
 				//Add bus sign
@@ -54,6 +55,7 @@ NSMutableDictionary * readFavorite()
 				{
 					favoriteRoute = [[NSMutableArray alloc] init];
 					[favoriteStop setObject:favoriteRoute forKey:routeKey]; 
+					[favoriteRoute release];
 				}				
 			}
 		}

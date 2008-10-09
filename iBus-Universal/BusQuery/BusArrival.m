@@ -18,6 +18,8 @@
 
 - (void) dealloc
 {
+	[stopId release];
+	[route release];
 	[arrivalTime release];
 	[busSign release];
 	[super dealloc];

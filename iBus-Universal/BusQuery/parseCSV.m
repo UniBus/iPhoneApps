@@ -200,6 +200,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 					if ((int)(buffer + bufferSize + diff - textp) > 0) {
 						lineBeginning = textp + 1;
 						[csvContent addObject: csvLine];
+						//[csvLine release];
 					}
 					csvLine = [NSMutableArray new];
 				}
@@ -209,6 +210,7 @@ static char *cstrstr(const char *haystack, const char needle) {
 					if ((int)(buffer + bufferSize + diff - textp) > 0) {
 						lineBeginning = textp + 1;
 						[csvContent addObject: csvLine];
+						//[csvLine release];
 					}
 					csvLine = [NSMutableArray new];
 				} 

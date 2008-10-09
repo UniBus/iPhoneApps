@@ -29,8 +29,8 @@
 		7D76F41D0E85B8C50040B004 /* TransitApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D76F41C0E85B8C50040B004 /* TransitApp.m */; };
 		7D76F46E0E85BAED0040B004 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D76F46D0E85BAED0040B004 /* CoreGraphics.framework */; };
 		7D76F4DE0E85BB310040B004 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D76F4DD0E85BB310040B004 /* SettingsViewController.m */; };
-		7D76F4E00E85BB4B0040B004 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */; };
 		7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F64E0E85C5B20040B004 /* mapicon.png */; };
+		7D7B00630E9DC62700DDABDC /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 7D7B00620E9DC62700DDABDC /* about.html */; };
 		7D80D92B0E92A0D3005DA0D5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */; };
 		7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9380E92A134005DA0D5 /* busIcon.png */; };
 		7D80D93B0E92A134005DA0D5 /* closest.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9390E92A134005DA0D5 /* closest.png */; };
@@ -93,8 +93,8 @@
 		7D76F46D0E85BAED0040B004 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7D76F4DC0E85BB310040B004 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		7D76F4DD0E85BB310040B004 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
 		7D76F64E0E85C5B20040B004 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
+		7D7B00620E9DC62700DDABDC /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D80D9380E92A134005DA0D5 /* busIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busIcon.png; sourceTree = "<group>"; };
 		7D80D9390E92A134005DA0D5 /* closest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closest.png; sourceTree = "<group>"; };
@@ -223,9 +223,9 @@
 				7D76F64E0E85C5B20040B004 /* mapicon.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
-				7D76F4DF0E85BB4B0040B004 /* SettingsView.xib */,
 				7D83B0E40E88234100DCB5EC /* DatePickView.xib */,
 				7DF6A1620E9CAE60002B9659 /* Default.png */,
+				7D7B00620E9DC62700DDABDC /* about.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -304,7 +304,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
-				7D76F4E00E85BB4B0040B004 /* SettingsView.xib in Resources */,
 				7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */,
 				7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */,
 				7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */,
@@ -321,6 +320,7 @@
 				7DF459FA0E9731E0006344D1 /* sanfrancisco.sqlite in Resources */,
 				7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */,
 				7DF6A1630E9CAE60002B9659 /* Default.png in Resources */,
+				7D7B00630E9DC62700DDABDC /* about.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,9 +380,35 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = "iBus-Universal";
+				PRODUCT_NAME = UniBus;
 			};
 			name = Release;
+		};
+		7D8C944E0E9DFB1000E4CF76 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "B629AC78-54AC-4268-AD12-D7EF17565DD8";
+				SDKROOT = iphoneos2.0;
+			};
+			name = Distribution;
+		};
+		7D8C944F0E9DFB1000E4CF76 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = UniBus;
+			};
+			name = Distribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -394,6 +420,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "9F21C99C-DB81-4429-8E44-DFBEB9E4D3F1";
 				SDKROOT = iphoneos2.0;
 			};
 			name = Debug;
@@ -419,6 +446,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				7D8C944F0E9DFB1000E4CF76 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -428,6 +456,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				7D8C944E0E9DFB1000E4CF76 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

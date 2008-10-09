@@ -12,16 +12,28 @@
 {
 }
 @end
+@interface SliderCell : UITableViewCell
+{
+	UISlider *slider;
+}
+@property(assign) UISlider *slider;
+@end
 
+@interface WebViewCell : UITableViewCell
+{
+	UIWebView *webView;
+}
+@property(assign) UIWebView *webView;
+@end
 
-@interface SettingsViewController : UIViewController {
-	IBOutlet UITableView *settingView;
-	IBOutlet SearchRangeCell *rangeCell;
-	IBOutlet UITableViewCell *recentCell;
-	IBOutlet UITableViewCell *aboutCell;
-	IBOutlet UIWebView       *aboutWebCell;
-	IBOutlet UISlider        *rangeSlider;
-	IBOutlet UISlider        *recentSlider;
+@interface SettingsViewController : UIViewController <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource> {
+	IBOutlet UITableView	 *settingView;
+	IBOutlet SliderCell		 *rangeCell;
+	IBOutlet SliderCell		 *resultCell;
+	IBOutlet WebViewCell	 *aboutCell;
+	//IBOutlet UIWebView       *aboutWebCell;
+	//IBOutlet UISlider        *rangeSlider;
+	//IBOutlet UISlider        *recentSlider;
 	
 	//float searchRange;
 	//int   numberOfRecentStops;

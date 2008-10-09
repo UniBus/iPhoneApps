@@ -104,6 +104,8 @@ UIImage *mapIconImage = nil;
 	stopDesc.backgroundColor = [UIColor clearColor];
 	stopDesc.editable = NO;
 	stopDesc.opaque = NO;
+	stopDesc.userInteractionEnabled = NO;
+	stopDesc.multipleTouchEnabled = NO;
 	stopDesc.textAlignment = UITextAlignmentLeft;
 	stopDesc.font = [UIFont systemFontOfSize:12];
 	

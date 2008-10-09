@@ -102,7 +102,7 @@
 	}
 	
 	sqlite3_finalize(statement);
-	return aStop;
+	return [aStop autorelease];
 }
 
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm

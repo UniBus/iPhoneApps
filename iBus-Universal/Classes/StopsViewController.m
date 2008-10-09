@@ -315,6 +315,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	@catch (NSException * e) {
 		NSLog(@"Exception catch in clearArrivals numberOfRowsInSection");
 	}
+	return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -383,7 +384,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	@catch (NSException * e) {
 		NSLog(@"Exception catch in clearArrivals cellForRowAtIndexPath");
 	}
-
+	return 0;
 }
 
 @end

@@ -118,6 +118,7 @@ extern int numberOfResults;
 	}
 	
 	NSLog(@"Open database: %@", destPath);
+	[stopQuery release];
 	stopQuery = [StopQuery initWithFile:destPath];	
 }
 
@@ -126,7 +127,6 @@ extern int numberOfResults;
 	NSAssert((currentWebPrefix != nil), @"Web service is not set properly!!");
 
 	[arrivalQuery release];
-	
 	arrivalQuery = [[ArrivalQuery alloc] init];
 	if (arrivalQuery)
 	{

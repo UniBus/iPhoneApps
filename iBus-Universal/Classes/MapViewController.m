@@ -64,8 +64,10 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void) dealloc
 {
+	if (mapWeb.loading)
+		[mapWeb stopLoading];
 	[[NSURLCache sharedURLCache] removeAllCachedResponses];
-	[mapWeb removeFromSuperview];
+	//[mapWeb removeFromSuperview];
 	[mapWeb release];
 	[super dealloc];
 }
