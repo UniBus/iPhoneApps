@@ -39,13 +39,14 @@
 	self.view = view; 
 	[view release];
 	
-	stopSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+	stopSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	stopSearchBar.delegate = self;
 	stopSearchBar.barStyle = UIBarStyleBlackOpaque;
+	stopSearchBar.prompt = @"keywords OR #id";
 	[self.view addSubview:stopSearchBar];
 	
 	CGRect tabRect = self.view.bounds;
-	tabRect = CGRectMake(0, 50, tabRect.size.width, tabRect.size.height-50);
+	tabRect = CGRectMake(0, 44, tabRect.size.width, tabRect.size.height-44);
 	stopsTableView = [[UITableView alloc] initWithFrame:tabRect style:UITableViewStyleGrouped]; 
 	[stopsTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	stopsTableView.dataSource = self;
