@@ -9,16 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @interface CitySelectViewController : UIViewController < UITableViewDataSource,  UITableViewDelegate> {
-	id			delegate;     
-	NSArray		*supportedCities;
-	NSString	*currentCity;
-	NSString	*currentURL;
-	NSString	*currentDatabase;
+	id				delegate;     
+	NSMutableArray	*localCities;
+	NSMutableArray	*onlineCities;
+	NSString		*currentCity;
+	NSString		*currentCityId;
+	NSString		*currentURL;
+	NSString		*currentDatabase;
 }
 
-@property (readonly) NSString *currentCity;
-@property (readonly) NSString *currentURL;
-@property (readonly) NSString *currentDatabase;
+@property (readonly) NSString	*currentCityId;
+@property (readonly) NSString	*currentCity;
+@property (readonly) NSString	*currentURL;
+@property (readonly) NSString	*currentDatabase;
 @property (retain) id delegate;
 
 @end

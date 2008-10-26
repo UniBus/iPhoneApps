@@ -13,20 +13,23 @@
 #import "CitySelectViewController.h"
 #import "StopQuery.h"
 
-	
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
 NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
 NSString * const UserApplicationTitle = @"iBus-Universal";
 
+NSString * const UserCurrentCityId = @"UserSavedCurrentCityId";
 NSString * const UserCurrentCity = @"UserSavedCurrentCity";
 NSString * const USerCurrentDatabase = @"UserSavedCurrentDatabase";
 NSString * const UserCurrentWebPrefix = @"UserSaveCurrentWebPrefix";
+
+NSString * const gtfsInfoDatabase = @"gtfs_info.sqlite";
 
 extern float searchRange;
 extern int numberOfResults;
 
 @interface TransitApp ()
+- (void) initializeGTFSInfoDatabase;
 - (void) initializeDatabase;
 - (void) queryTaskEntry: (id) queryingObj;
 - (void) registerUserDefaults;
@@ -42,6 +45,7 @@ extern int numberOfResults;
 	[super init];
 	
 	[self registerUserDefaults];
+	[self initializeGTFSInfoDatabase];
 	
 	opQueue = [[NSOperationQueue alloc] init];
 	return self;
@@ -83,11 +87,15 @@ extern int numberOfResults;
 	
 	NSLog(@"City selected: %@\nDatabase: %@\nWebPrefix: %@", cityVC.currentCity, cityVC.currentDatabase, cityVC.currentURL);
 	
-	[self setCurrentCity:cityVC.currentCity database:cityVC.currentDatabase webPrefix:cityVC.currentURL];	
+	[self setCurrentCity:cityVC.currentCity 
+				  cityId:cityVC.currentCityId 
+				database:cityVC.currentDatabase 
+			   webPrefix:cityVC.currentURL];	
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	[defaults setObject:cityVC.currentCity forKey:UserCurrentCity];
+	[defaults setObject:cityVC.currentCityId forKey:UserCurrentCityId];
 	[defaults setObject:cityVC.currentDatabase forKey:USerCurrentDatabase];
 	[defaults setObject:cityVC.currentURL forKey:UserCurrentWebPrefix];
 	
@@ -122,6 +130,27 @@ extern int numberOfResults;
 	stopQuery = [StopQuery initWithFile:destPath];	
 }
 
+- (void) initializeGTFSInfoDatabase
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:gtfsInfoDatabase];
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:destPath])
+	{
+		NSError *error;
+		// The writable database does not exist, so copy the default to the appropriate location.
+		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:gtfsInfoDatabase];
+		if (![fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
+			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+		else
+			NSLog(@"Database file copy to %@", destPath);
+	}
+	
+	NSLog(@"Open GTFS_info database: %@", destPath);
+}
+
 - (void) initializeWebService
 {
 	NSAssert((currentWebPrefix != nil), @"Web service is not set properly!!");
@@ -135,9 +164,10 @@ extern int numberOfResults;
 	}	
 }
 
-- (void) setCurrentCity:(NSString *)city database:(NSString *)db webPrefix:(NSString *)prefix
+- (void) setCurrentCity:(NSString *)city cityId:(NSString *)cid database:(NSString *)db webPrefix:(NSString *)prefix
 {
 	currentCity = [city copy];
+	currentCityId = [cid copy];
 	currentDatabase = [db copy];
 	currentWebPrefix = [prefix copy];
 	[self initializeDatabase];
@@ -147,6 +177,11 @@ extern int numberOfResults;
 - (NSString *) currentCity
 {
 	return currentCity;
+}
+
+- (NSString *) currentCityId
+{
+	return currentCityId;
 }
 
 - (NSString *) currentDatabase
@@ -171,6 +206,20 @@ extern int numberOfResults;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *destPath = [documentsDirectory stringByAppendingPathComponent:currentDatabase];
+	return destPath;
+}
+
+- (NSString *) localDatabaseDir
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);   
+	return [paths objectAtIndex:0];
+}
+
+- (NSString *) gtfsInfoDatabase
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *destPath = [documentsDirectory stringByAppendingPathComponent:gtfsInfoDatabase];
 	return destPath;
 }
 

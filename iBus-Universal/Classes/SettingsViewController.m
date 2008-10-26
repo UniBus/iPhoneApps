@@ -8,6 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "CitySelectViewController.h"
+#import "CityUpdateViewController.h"
 #import "TransitApp.h"
 
 #define	RANGE_MAX	2.0
@@ -212,7 +213,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 1;
+		return 2;
 	else
 		return 2;
 }
@@ -240,7 +241,12 @@ enum SettingTableSections
 	}
 	
 	else
-		return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
+	{
+		if (indexPath.section == kUICity_Section)
+			return REGULARCELL_HEIGHT;
+		else
+			return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
+	}
 }
 
 
@@ -279,6 +285,7 @@ enum SettingTableSections
 			{
 				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
 				cell.font = [UIFont systemFontOfSize:14];
+				cell.textAlignment = UITextAlignmentCenter;
 			}
 			NSAssert([[UIApplication sharedApplication] isKindOfClass:[TransitApp class]], @"Application mismatch!");
 			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
@@ -330,26 +337,41 @@ enum SettingTableSections
 	}
 	else if (row == 1)
 	{
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingViewCell"];
-		if (cell == nil)
+		UITableViewCell *cell = nil;
+		if ( indexPath.section == kUICity_Section )
 		{
-			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
-			cell.font = [UIFont systemFontOfSize:12];
-			cell.textAlignment = UITextAlignmentCenter;
-		}
-		if ( indexPath.section == kUIRange_Section )
-		{
-			cell.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
-		}
-		else if ( indexPath.section == kUIRecent_Section)
-		{
-			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
+			cell = [tableView dequeueReusableCellWithIdentifier:@"CityUpdateViewCell"];
+			if (cell == nil)
+			{
+				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
+				cell.font = [UIFont systemFontOfSize:14];
+				cell.textAlignment = UITextAlignmentCenter;
+			}
+			cell.text = [NSString stringWithFormat: @"Online Update", searchRange];
 		}
 		else
-		{		
-			cell.text = @"Copyright @ 2008 Zhenwang Yao";
+		{
+			cell = [tableView dequeueReusableCellWithIdentifier:@"SettingViewCell"];
+			if (cell == nil)
+			{
+				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+				//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+				cell.font = [UIFont systemFontOfSize:12];
+				cell.textAlignment = UITextAlignmentCenter;
+			}
+			if ( indexPath.section == kUIRange_Section )
+			{
+				cell.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
+			}
+			else if ( indexPath.section == kUIRecent_Section)
+			{
+				cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
+			}
+			else
+			{		
+				cell.text = @"Copyright @ 2008 Zhenwang Yao";
+			}
 		}
 		return cell;
 	}
@@ -357,14 +379,21 @@ enum SettingTableSections
 		return nil;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == kUICity_Section)
+	if (indexPath.section != kUICity_Section)
+		return;
+	
+	if (indexPath.row == 0)
 	{
 		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 		selectionVC.delegate = [UIApplication sharedApplication];
 		[[self navigationController] pushViewController:selectionVC animated:YES];
+	}
+	else
+	{
+		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:@"CityUpdateView" bundle:nil];
+		[[self navigationController] pushViewController:updateVC animated:YES];
 	}
 }
 

@@ -24,6 +24,7 @@
 	// Add the tab bar controller's current view as a subview of the window
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
+	NSString *selectedCityId = [defaults objectForKey:UserCurrentCityId];
 	NSString *selectedCity = [defaults objectForKey:UserCurrentCity];
 	NSString *selectedDatabase = [defaults objectForKey:USerCurrentDatabase];
 	NSString *selectedWebPrefix = [defaults objectForKey:UserCurrentWebPrefix];
@@ -41,7 +42,7 @@
 		TransitApp *myApp = (TransitApp *)[UIApplication sharedApplication];
 		NSAssert([myApp isKindOfClass:[TransitApp class]], @"Mismatched UIApplication type!!");
 		
-		[myApp setCurrentCity:selectedCity database:selectedDatabase webPrefix:selectedWebPrefix];
+		[myApp setCurrentCity:selectedCity cityId:selectedCityId database:selectedDatabase webPrefix:selectedWebPrefix];
 		int selectedPage = [defaults integerForKey:UserSavedSelectedPage];
 		if (selectedPage < [tabBarController.viewControllers count])
 			tabBarController.selectedIndex = selectedPage;

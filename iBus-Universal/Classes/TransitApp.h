@@ -15,6 +15,7 @@ extern NSString * const UserSavedSearchResultsNum;
 extern NSString * const UserApplicationTitle;
 extern NSString * const UserSavedSelectedPage;
 
+extern NSString * const UserCurrentCityId;
 extern NSString * const UserCurrentCity;
 extern NSString * const USerCurrentDatabase;
 extern NSString * const UserCurrentWebPrefix;
@@ -25,6 +26,7 @@ extern NSString * const UserCurrentWebPrefix;
 	NSString     *dataFile;
 	
 	NSString	 *currentCity;
+	NSString	 *currentCityId;
 	NSString	 *currentDatabase;
 	NSString	 *currentWebPrefix;
 	
@@ -49,11 +51,14 @@ extern NSString * const UserCurrentWebPrefix;
 - (void) arrivalsAtStopsAsync: (id)stopView;
 - (void) scheduleAtStopsAsync: (id)stopView;
 
-- (void) setCurrentCity:(NSString *)city database:(NSString *)db webPrefix:(NSString *)prefix;
+- (void) setCurrentCity:(NSString *)city cityId:(NSString *)cid database:(NSString *)db webPrefix:(NSString *)prefix;
 - (NSString *) currentCity;
+- (NSString *) currentCityId;
 - (NSString *) currentDatabase;
 - (NSString *) currentWebServicePrefix;
 - (NSString *) currentDatabaseWithFullPath;
+- (NSString *) localDatabaseDir;
+- (NSString *) gtfsInfoDatabase;
 - (void) citySelected:(id)sender;
 
 @end
