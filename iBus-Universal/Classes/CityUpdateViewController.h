@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GTFSCity.h"
 
-@interface CityUpdateViewController : UIViewController <UIActionSheetDelegate>{
+@interface CityUpdateViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *updateTableView;
 	GTFS_City	   *updatingCity;
 	NSMutableArray *newCitiesFromServer;

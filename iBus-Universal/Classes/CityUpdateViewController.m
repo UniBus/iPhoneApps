@@ -52,16 +52,17 @@ enum DownloadState {
 	return self;
 }
 
-/*
 // Implement loadView to create a view hierarchy programmatically.
-- (void)loadView {
-}
-*/
-
-// Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad 
+- (void)loadView 
 {
-	[super viewDidLoad];
+	updateTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame
+												   style:UITableViewStyleGrouped]; 
+	[updateTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
+	updateTableView.delegate = self;
+	updateTableView.dataSource = self;
+	self.view = updateTableView; 
+	[updateTableView release];
+
 	otherCitiesFromServer = [[NSMutableArray alloc] init];
 	newCitiesFromServer = [[NSMutableArray alloc] init];
 	updateCitiesFromServer = [[NSMutableArray alloc] init];
@@ -72,6 +73,13 @@ enum DownloadState {
 	self.navigationItem.title = @"Online Update";	
 }
 
+/*
+// Implement viewDidLoad to do additional setup after loading the view.
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
+}
+*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -590,8 +598,18 @@ enum DownloadState {
 	NSString *destinationFilename;
 	NSString *homeDirectory=NSHomeDirectory();
 	
-	destinationFilename=[[homeDirectory stringByAppendingPathComponent:@"Downloads"]
-						 stringByAppendingPathComponent:filename];
+	//Create $HOME/Download if the directory does not exist.
+	NSString *downloadPath = [homeDirectory stringByAppendingPathComponent:@"Downloads"];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:downloadPath])
+	{
+		if ([fileManager createDirectoryAtPath:downloadPath attributes:nil])
+			NSLog(@"Create path: %@", downloadPath);
+		else
+			NSLog(@"Failed to create path: %@", downloadPath);
+	}
+	
+	destinationFilename=[downloadPath stringByAppendingPathComponent:filename];
 	[download setDestination:destinationFilename allowOverwrite:YES];
 }
 

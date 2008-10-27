@@ -15,6 +15,7 @@
 		7D127E1D0E8636000068D300 /* StopSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */; };
 		7D127E940E8648E20068D300 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D127E930E8648E20068D300 /* libsqlite3.0.dylib */; };
 		7D127EA10E8649170068D300 /* General.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E9F0E8649170068D300 /* General.c */; };
+		7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */; };
 		7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */; };
 		7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C80E94AA4500FEA89A /* parseCSV.m */; };
 		7D59CA290E94AF0E00FEA89A /* supportedcities.lst in Resources */ = {isa = PBXBuildFile; fileRef = 7D59CA280E94AF0E00FEA89A /* supportedcities.lst */; };
@@ -31,6 +32,7 @@
 		7D76F4DE0E85BB310040B004 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D76F4DD0E85BB310040B004 /* SettingsViewController.m */; };
 		7D76F64F0E85C5B20040B004 /* mapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D76F64E0E85C5B20040B004 /* mapicon.png */; };
 		7D7B00630E9DC62700DDABDC /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 7D7B00620E9DC62700DDABDC /* about.html */; };
+		7D80CF180EB3A9FE00291BEF /* GTFSCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D80CF170EB3A9FE00291BEF /* GTFSCity.m */; };
 		7D80D92B0E92A0D3005DA0D5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */; };
 		7D80D93A0E92A134005DA0D5 /* busIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9380E92A134005DA0D5 /* busIcon.png */; };
 		7D80D93B0E92A134005DA0D5 /* closest.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9390E92A134005DA0D5 /* closest.png */; };
@@ -42,6 +44,7 @@
 		7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */; };
 		7D9EBA9D0E8765C70004E4D4 /* RouteActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */; };
 		7D9EBB290E877DAA0004E4D4 /* RouteScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */; };
+		7DCE40A00EB0E42A003FF456 /* gtfs_info.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */; };
 		7DF459F40E9731E0006344D1 /* austin.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EC0E9731E0006344D1 /* austin.sqlite */; };
 		7DF459F50E9731E0006344D1 /* dallas.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459ED0E9731E0006344D1 /* dallas.sqlite */; };
 		7DF459F60E9731E0006344D1 /* denver.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EE0E9731E0006344D1 /* denver.sqlite */; };
@@ -67,6 +70,8 @@
 		7D127E930E8648E20068D300 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7D127E9F0E8649170068D300 /* General.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = General.c; sourceTree = "<group>"; };
 		7D127EA00E8649170068D300 /* General.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
+		7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityUpdateViewController.h; sourceTree = "<group>"; };
+		7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityUpdateViewController.m; sourceTree = "<group>"; };
 		7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySelectViewController.h; sourceTree = "<group>"; };
 		7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySelectViewController.m; sourceTree = "<group>"; };
 		7D59C9C70E94AA4500FEA89A /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
@@ -95,6 +100,8 @@
 		7D76F4DD0E85BB310040B004 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		7D76F64E0E85C5B20040B004 /* mapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapicon.png; sourceTree = "<group>"; };
 		7D7B00620E9DC62700DDABDC /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		7D80CF160EB3A9FE00291BEF /* GTFSCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFSCity.h; sourceTree = "<group>"; };
+		7D80CF170EB3A9FE00291BEF /* GTFSCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFSCity.m; sourceTree = "<group>"; };
 		7D80D92A0E92A0D3005DA0D5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7D80D9380E92A134005DA0D5 /* busIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busIcon.png; sourceTree = "<group>"; };
 		7D80D9390E92A134005DA0D5 /* closest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closest.png; sourceTree = "<group>"; };
@@ -111,6 +118,7 @@
 		7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteActionViewController.m; sourceTree = "<group>"; };
 		7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteScheduleViewController.h; sourceTree = "<group>"; };
 		7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteScheduleViewController.m; sourceTree = "<group>"; };
+		7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = gtfs_info.sqlite; sourceTree = "<group>"; };
 		7DF459EC0E9731E0006344D1 /* austin.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = austin.sqlite; sourceTree = "<group>"; };
 		7DF459ED0E9731E0006344D1 /* dallas.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = dallas.sqlite; sourceTree = "<group>"; };
 		7DF459EE0E9731E0006344D1 /* denver.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = denver.sqlite; sourceTree = "<group>"; };
@@ -170,6 +178,10 @@
 				7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */,
 				7D83B0E70E88242000DCB5EC /* DatePickViewController.h */,
 				7D83B0E80E88242000DCB5EC /* DatePickViewController.m */,
+				7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */,
+				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
+				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
+				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -207,6 +219,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */,
 				7DF459EC0E9731E0006344D1 /* austin.sqlite */,
 				7DF459ED0E9731E0006344D1 /* dallas.sqlite */,
 				7DF459EE0E9731E0006344D1 /* denver.sqlite */,
@@ -321,6 +334,7 @@
 				7DF459FB0E9731E0006344D1 /* portland.sqlite in Resources */,
 				7DF6A1630E9CAE60002B9659 /* Default.png in Resources */,
 				7D7B00630E9DC62700DDABDC /* about.html in Resources */,
+				7DCE40A00EB0E42A003FF456 /* gtfs_info.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +366,8 @@
 				7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */,
 				7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */,
 				7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */,
+				7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */,
+				7D80CF180EB3A9FE00291BEF /* GTFSCity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

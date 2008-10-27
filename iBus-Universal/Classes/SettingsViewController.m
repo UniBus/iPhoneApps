@@ -392,7 +392,7 @@ enum SettingTableSections
 	}
 	else
 	{
-		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:@"CityUpdateView" bundle:nil];
+		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:updateVC animated:YES];
 	}
 }
