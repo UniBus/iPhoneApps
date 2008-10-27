@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h> //</CLLocationManager.h>
-#import "StopsViewController.h"
+//#import "StopsViewController.h"
 
-@interface NearbyViewController : StopsViewController <CLLocationManagerDelegate> {
+@interface NearbyViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
+{
 	CLLocationManager *location;
 	UIActivityIndicatorView *indicator;
+	CGPoint currentPosition;
+	
+	UITableView *stopsTableView;
+	NSArray *stopsFound;
 }
 
 @end

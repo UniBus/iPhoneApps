@@ -134,6 +134,10 @@
 	}
 	
 	sqlite3_finalize(statement);
+	
+	UserDefinedLatitudeForComparison = pos.y;
+	UserDefinedLongitudeForComparison = pos.x;
+	[results sortUsingSelector:@selector(compareByDistance:)];
 	return results;
 }
 

@@ -162,3 +162,48 @@ UIImage *mapIconImage = nil;
 }
 
 @end
+
+
+#define POS_NOTE_HEIGHT		20
+#define POS_NOTE_WIDTH		296
+#define POS_NOTE_LEFT		0
+#define POS_NOTE_TOP		0
+#define NOTE_CELL_HEIGHT	50
+
+@implementation CellWithNote
++ (NSInteger) height
+{
+	return NOTE_CELL_HEIGHT;
+}
+
+- (void) dealloc
+{
+	[noteLabel release];
+	[super dealloc];
+}
+
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+{
+	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
+	if (!self) return nil;
+
+	CGRect ctrlFrame = CGRectMake(POS_NOTE_LEFT, POS_NOTE_TOP, POS_NOTE_WIDTH, POS_NOTE_HEIGHT);
+	noteLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
+	noteLabel.backgroundColor = [UIColor clearColor];
+	noteLabel.opaque = NO;
+	noteLabel.textAlignment = UITextAlignmentRight;
+	noteLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+	noteLabel.font = [UIFont systemFontOfSize:11];
+	
+	[self.contentView addSubview:noteLabel];
+	
+	return self;
+}
+
+- (void) setNote: (NSString *)note
+{
+	noteLabel.text = note;
+}
+
+@end
+

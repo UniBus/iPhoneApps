@@ -26,3 +26,17 @@
 - (IBAction) mapButtonClicked:(id)sender;
 
 @end
+
+
+@interface CellWithNote : UITableViewCell
+{
+	UILabel      *noteLabel;
+}
+
++ (NSInteger) height;
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier;
+- (void) setNote: (NSString *)note;
+
+@end
+
+

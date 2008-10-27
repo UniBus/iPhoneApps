@@ -43,14 +43,19 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	self.view = stopsTableView; 
 	//[stopsTableView release]; Since I will use this all the time.
 	self.navigationItem.title = @"Stop Info";
+	
+	UIBarButtonItem*refreshButton=[[UIBarButtonItem alloc] initWithTitle:@"Refresh"
+																   style:UIBarButtonItemStylePlain 
+																  target:self
+																  action:@selector(refreshClicked:)]; 
+	self.navigationItem.rightBarButtonItem=refreshButton; 	
 }
 
-/*
- If you need to do additional setup after loading the view, override viewDidLoad.
- - (void)viewDidLoad {
- }
- */
-
+// If you need to do additional setup after loading the view, override viewDidLoad.
+- (void)viewDidLoad 
+{
+ 	[self needsReload];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	// Return YES for supported orientations
@@ -73,6 +78,12 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[routesOfInterest release];
 	[stopsTableView release];
 	[super dealloc];
+}
+
+- (void) refreshClicked:(id)sender
+{
+	[routesOfInterest removeAllObjects];
+	[self reload];
 }
 
 - (void) needsReload

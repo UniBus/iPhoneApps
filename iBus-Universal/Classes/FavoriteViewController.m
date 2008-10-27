@@ -263,10 +263,10 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 	self.navigationItem.title = @"Favorite Stops";	
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[self needsReload];
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+	//[self needsReload];
+//}
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
