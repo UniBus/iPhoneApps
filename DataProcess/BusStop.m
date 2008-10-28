@@ -1,116 +1,132 @@
 //
-//  BusStop.m
-//  StopQuery
+//  BusRoute.m
+//  DataProcess
 //
-//  Created by Zhenwang Yao on 15/08/08.
+//  Created by Zhenwang Yao on 28/10/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
+#import <Cocoa/Cocoa.h>
+#import "BusRoute.h"
+#import "parseCSV.h"
+#import <sqlite3.h>
 
-#import "BusStop.h"
-#import "General.h"
+int columnStopId = -1;
+int columnStopName = -1;
+int columnStopLat = -1;
+int columnStopLon = -1;
+int columnStopPos = -1;
+int columnStopDir = -1;
+int columnStopDesc = -1;
 
-double UserDefinedLongitudeForComparison = 0.;
-double UserDefinedLatitudeForComparison = 0.;
+void getStopsColumIndexes(NSArray *header);
+int saveStopsToSqlite(NSArray *routes, NSString *dbName);
 
-#define  Stop_Key_ID     @"ID"
-#define  Stop_Key_LON    @"LON"
-#define  Stop_Key_LAT    @"LAT"
-#define  Stop_Key_NAME   @"NAME"
-#define  Stop_Key_DES    @"Description"
-
-@implementation BusStop
-@synthesize stopId, latitude, longtitude, name, description, flag;
-
-#pragma mark Comparison Tools
-
-- (NSComparisonResult) compareById: (BusStop *) aStop
+int convertStopsToSQLite(NSString *stopFile, NSString *dbName)
 {
-	if (stopId < aStop->stopId)
-		return NSOrderedAscending;
-	else if (stopId > aStop->stopId)
-		return NSOrderedDescending;
-	else
-		return NSOrderedSame;
-}
-
-- (NSComparisonResult) compareByLat: (BusStop *) aStop
-{
-	if (latitude < aStop->latitude)
-		return NSOrderedAscending;
-	else if (latitude > aStop->latitude)
-		return NSOrderedDescending;
-	else
+	NSMutableArray *stopsInCSV;
+	CSVParser *parser = [[CSVParser alloc] init];
+	if ([parser openFile:stopFile] == NO)
 	{
-		if (longtitude < aStop->longtitude)
-			return NSOrderedAscending;
-		else if (longtitude > aStop->longtitude)
-			return NSOrderedDescending;
-		else
-			return NSOrderedSame;
+		NSLog(@"Faile to open file: %@", stopFile);
+		[parser release];
+		return -1;
 	}
+
+	stopsInCSV = [[parser parseFile] retain];
+	getStopsColumIndexes([stopsInCSV objectAtIndex:0]);
+	saveStopsToSqlite(stopsInCSV, dbName);
+		
+	[parser closeFile];	
+	[parser release];
+	
+	return [stopsInCSV count] - 1;
 }
 
-- (NSComparisonResult) compareByLon: (BusStop *) aStop
+
+void getStopsColumIndexes(NSArray *header)
 {
-	if (longtitude < aStop->longtitude)
-		return NSOrderedAscending;
-	else if (longtitude > aStop->longtitude)
-		return NSOrderedDescending;
-	else
+	for (int i=0; i<[header count]; i++)
 	{
-		if (latitude < aStop->latitude)
-			return NSOrderedAscending;
-		else if (latitude > aStop->latitude)
-			return NSOrderedDescending;
-		else
-			return NSOrderedSame;
+		NSString *column = [[header objectAtIndex:i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		if ([column isEqualToString:@"stop_id"])
+			columnStopId = i;
+		else if ([column isEqualToString:@"stop_name"])
+			columnStopName = i;
+		else if ([column isEqualToString:@"stop_desc"])
+			columnStopDesc = i;
+		else if ([column isEqualToString:@"stop_lon"])
+			columnStopLon = i;
+		else if ([column isEqualToString:@"stop_lat"])
+			columnStopLat = i;
+		else if ([column isEqualToString:@"position"])
+			columnStopPos = i;
+		else if ([column isEqualToString:@"direction"])
+			columnStopDir = i;
 	}
-}
-
-- (NSComparisonResult) compareByDistance: (BusStop *) aStop
-{
-	double ownDistance = distance(UserDefinedLatitudeForComparison, UserDefinedLongitudeForComparison, latitude, longtitude);
-	double stopDistance = distance(UserDefinedLatitudeForComparison, UserDefinedLongitudeForComparison, [aStop latitude], [aStop longtitude]);
 	
-	if (ownDistance < stopDistance)
-		return NSOrderedAscending;
-	else if (ownDistance > stopDistance)
-		return NSOrderedDescending;
-	else
-		return NSOrderedSame;
+	if (columnStopId == -1)
+		NSLog(@"Couldn't get Stop ID column");
+	if (columnStopName == -1)
+		NSLog( @"Couldn't get Stop Name column");
+	if (columnStopLon == -1)
+		NSLog(@"Couldn't get Stop Lon column");
+	if (columnStopLat == -1)
+		NSLog(@"Couldn't get Stop Lat column");
 }
 
-- (void) dealloc
+int saveStopsToSqlite(NSArray *routes, NSString *dbName)
 {
-	[name release];
-	[description release];
-	[super dealloc];
-}
+	sqlite3 *database;
+    // Open the database. The database was prepared outside the application.
+    if (sqlite3_open([dbName UTF8String], &database) == SQLITE_OK) 
+	{
+		NSString *sql = @"DROP TABLE IF EXISTS stops";
+		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+			NSLog(@"Error: %s", sqlite3_errmsg(database));
+		
+		sql = @"DROP INDEX IF EXISTS stopsIndex";
+		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+			NSLog(@"Error: %s", sqlite3_errmsg(database));
+		
+		sql = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@", 
+			   @"CREATE TABLE stops (",
+			   @"stop_id CHAR(16) PRIMARY KEY, ",
+			   @"stop_name CHAR(64), ",
+			   @"stop_lat DOUBLE, ",
+			   @"stop_lon DOUBLE, ",
+			   @"stop_desc CHAR(128) ",
+			   @")"];
+		
+		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+			NSLog(@"Error: %s", sqlite3_errmsg(database));
+		
+        for (NSArray *stopString in routes)
+		{
+			NSString *stop_description;
+			if (columnStopDesc != -1)
+				stop_description = [stopString objectAtIndex:columnStopDesc];
+			else if ((columnStopPos != -1) && (columnStopDir != -1))
+				stop_description = [NSString stringWithFormat:@"%@, %@",
+									 [stopString objectAtIndex:columnStopPos],
+									 [stopString objectAtIndex:columnStopDir]];
+			else
+				stop_description = @"";			
 
-#pragma mark Archiver/UnArchiver Functions
+			sql =[NSString stringWithFormat:@"INSERT INTO stops (stop_id, stop_name, stop_lat, stop_lon, stop_desc) VALUES (\"%@\", \"%@\", %f, %f, \"%@\")",				
+				  [stopString objectAtIndex:columnStopId], 
+				  [stopString objectAtIndex:columnStopName], 
+				  [[stopString objectAtIndex:columnStopLat] doubleValue], 
+				  [[stopString objectAtIndex:columnStopLon] doubleValue],
+				  stop_description];
+			if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+				NSLog(@"Error: %s", sqlite3_errmsg(database));
+			// "Finalize" the statement - releases the resources associated with the statement.
 
-- (id) initWithCoder: (NSCoder *) coder
-{
-	[super init];
-	[name autorelease];
-	[description autorelease];
+		}
+	} 
 	
-	stopId = [[coder decodeObjectForKey:Stop_Key_ID] retain];
-	longtitude = [coder decodeDoubleForKey:Stop_Key_LON];
-	latitude = [coder decodeDoubleForKey:Stop_Key_LAT];
-	name = [[coder decodeObjectForKey:Stop_Key_NAME] retain];
-	description = [[coder decodeObjectForKey:Stop_Key_DES] retain];
+	// Even though the open failed, call close to properly clean up resources.
+	sqlite3_close(database);
 	
-	return self;
+	return YES;
 }
-
-- (void) encodeWithCoder: (NSCoder *) coder
-{
-	[coder encodeObject:stopId forKey:Stop_Key_ID];
-	[coder encodeDouble:longtitude forKey:Stop_Key_LON];
-	[coder encodeDouble:latitude forKey:Stop_Key_LAT];
-	[coder encodeObject:name forKey:Stop_Key_NAME];
-	[coder encodeObject:description forKey:Stop_Key_DES];
-}
-
-@end
