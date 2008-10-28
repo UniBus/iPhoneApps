@@ -7,14 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D7E941B0E97288D006E61BB /* StopQuery-CSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E94090E97288D006E61BB /* StopQuery-CSV.m */; };
-		7D7E941C0E97288D006E61BB /* StopQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E940B0E97288D006E61BB /* StopQuery.m */; };
-		7D7E941D0E97288D006E61BB /* ArrivalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E940C0E97288D006E61BB /* ArrivalQuery.m */; };
-		7D7E941E0E97288D006E61BB /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E940D0E97288D006E61BB /* BusStop.m */; };
-		7D7E941F0E97288D006E61BB /* BusArrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E940E0E97288D006E61BB /* BusArrival.m */; };
-		7D7E94210E97288D006E61BB /* General.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E94140E97288D006E61BB /* General.c */; };
 		7D7E94230E97288D006E61BB /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E941A0E97288D006E61BB /* parseCSV.m */; };
 		7D7E94BE0E972B69006E61BB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7E94BD0E972B69006E61BB /* libsqlite3.0.dylib */; };
+		7DA745660EB7002200830018 /* BusRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA745650EB7002200830018 /* BusRoute.m */; };
+		7DA745940EB709B400830018 /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA745930EB709B400830018 /* BusStop.m */; };
+		7DA7459C0EB70D6C00830018 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA7459B0EB70D6C00830018 /* Favorite.m */; };
 		8DD76F9A0486AA7600D96B5E /* DataProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* DataProcess.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* DataProcess.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* DataProcess.1 */; };
@@ -37,21 +34,15 @@
 		08FB7796FE84155DC02AAC07 /* DataProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataProcess.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* DataProcess_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataProcess_Prefix.pch; sourceTree = "<group>"; };
-		7D7E94090E97288D006E61BB /* StopQuery-CSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StopQuery-CSV.m"; sourceTree = "<group>"; };
-		7D7E940A0E97288D006E61BB /* StopQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopQuery.h; sourceTree = "<group>"; };
-		7D7E940B0E97288D006E61BB /* StopQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopQuery.m; sourceTree = "<group>"; };
-		7D7E940C0E97288D006E61BB /* ArrivalQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrivalQuery.m; sourceTree = "<group>"; };
-		7D7E940D0E97288D006E61BB /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
-		7D7E940E0E97288D006E61BB /* BusArrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusArrival.m; sourceTree = "<group>"; };
-		7D7E940F0E97288D006E61BB /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
-		7D7E94100E97288D006E61BB /* BusArrival.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusArrival.h; sourceTree = "<group>"; };
-		7D7E94120E97288D006E61BB /* StopQuery-CSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StopQuery-CSV.h"; sourceTree = "<group>"; };
-		7D7E94140E97288D006E61BB /* General.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = General.c; sourceTree = "<group>"; };
-		7D7E94150E97288D006E61BB /* General.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
 		7D7E94180E97288D006E61BB /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
-		7D7E94190E97288D006E61BB /* ArrivalQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrivalQuery.h; sourceTree = "<group>"; };
 		7D7E941A0E97288D006E61BB /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 		7D7E94BD0E972B69006E61BB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		7DA745640EB7002200830018 /* BusRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusRoute.h; sourceTree = "<group>"; };
+		7DA745650EB7002200830018 /* BusRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusRoute.m; sourceTree = "<group>"; };
+		7DA745920EB709B400830018 /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
+		7DA745930EB709B400830018 /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
+		7DA7459A0EB70D6C00830018 /* Favorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Favorite.h; sourceTree = "<group>"; };
+		7DA7459B0EB70D6C00830018 /* Favorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Favorite.m; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* DataProcess */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DataProcess; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6859EA3029092ED04C91782 /* DataProcess.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = DataProcess.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,22 +74,16 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				7D7E94190E97288D006E61BB /* ArrivalQuery.h */,
-				7D7E940C0E97288D006E61BB /* ArrivalQuery.m */,
-				7D7E94100E97288D006E61BB /* BusArrival.h */,
-				7D7E940E0E97288D006E61BB /* BusArrival.m */,
-				7D7E940F0E97288D006E61BB /* BusStop.h */,
-				7D7E940D0E97288D006E61BB /* BusStop.m */,
-				7D7E94150E97288D006E61BB /* General.h */,
-				7D7E94140E97288D006E61BB /* General.c */,
+				7DA745920EB709B400830018 /* BusStop.h */,
+				7DA745930EB709B400830018 /* BusStop.m */,
 				7D7E94180E97288D006E61BB /* parseCSV.h */,
 				7D7E941A0E97288D006E61BB /* parseCSV.m */,
-				7D7E940A0E97288D006E61BB /* StopQuery.h */,
-				7D7E940B0E97288D006E61BB /* StopQuery.m */,
-				7D7E94120E97288D006E61BB /* StopQuery-CSV.h */,
-				7D7E94090E97288D006E61BB /* StopQuery-CSV.m */,
+				7DA745640EB7002200830018 /* BusRoute.h */,
+				7DA745650EB7002200830018 /* BusRoute.m */,
 				32A70AAB03705E1F00C91783 /* DataProcess_Prefix.pch */,
 				08FB7796FE84155DC02AAC07 /* DataProcess.m */,
+				7DA7459A0EB70D6C00830018 /* Favorite.h */,
+				7DA7459B0EB70D6C00830018 /* Favorite.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -172,13 +157,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9A0486AA7600D96B5E /* DataProcess.m in Sources */,
-				7D7E941B0E97288D006E61BB /* StopQuery-CSV.m in Sources */,
-				7D7E941C0E97288D006E61BB /* StopQuery.m in Sources */,
-				7D7E941D0E97288D006E61BB /* ArrivalQuery.m in Sources */,
-				7D7E941E0E97288D006E61BB /* BusStop.m in Sources */,
-				7D7E941F0E97288D006E61BB /* BusArrival.m in Sources */,
-				7D7E94210E97288D006E61BB /* General.c in Sources */,
 				7D7E94230E97288D006E61BB /* parseCSV.m in Sources */,
+				7DA745660EB7002200830018 /* BusRoute.m in Sources */,
+				7DA745940EB709B400830018 /* BusStop.m in Sources */,
+				7DA7459C0EB70D6C00830018 /* Favorite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +180,7 @@
 				GCC_PREFIX_HEADER = DataProcess_Prefix.pch;
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = DataProcess;
+				_Only_For_Portland_ = YES;
 			};
 			name = Debug;
 		};
@@ -225,6 +208,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
+				_Only_For_Portland_ = 1;
 			};
 			name = Debug;
 		};
