@@ -38,6 +38,7 @@
 		7D80D93B0E92A134005DA0D5 /* closest.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9390E92A134005DA0D5 /* closest.png */; };
 		7D80D9470E92A1C1005DA0D5 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9460E92A1C1005DA0D5 /* setting.png */; };
 		7D80D9490E92A1F6005DA0D5 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D80D9480E92A1F6005DA0D5 /* search.png */; };
+		7D82FEF00EB83F5A0076F988 /* Upgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D82FEEF0EB83F5A0076F988 /* Upgrade.m */; };
 		7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D83B0E40E88234100DCB5EC /* DatePickView.xib */; };
 		7D83B0E90E88242000DCB5EC /* DatePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */; };
 		7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */; };
@@ -107,6 +108,8 @@
 		7D80D9390E92A134005DA0D5 /* closest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closest.png; sourceTree = "<group>"; };
 		7D80D9460E92A1C1005DA0D5 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
 		7D80D9480E92A1F6005DA0D5 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		7D82FEEE0EB83F5A0076F988 /* Upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Upgrade.h; sourceTree = "<group>"; };
+		7D82FEEF0EB83F5A0076F988 /* Upgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Upgrade.m; sourceTree = "<group>"; };
 		7D83B0E40E88234100DCB5EC /* DatePickView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePickView.xib; sourceTree = "<group>"; };
 		7D83B0E70E88242000DCB5EC /* DatePickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickViewController.h; sourceTree = "<group>"; };
 		7D83B0E80E88242000DCB5EC /* DatePickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickViewController.m; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
 				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
 				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
+				7D82FEEE0EB83F5A0076F988 /* Upgrade.h */,
+				7D82FEEF0EB83F5A0076F988 /* Upgrade.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -368,6 +373,7 @@
 				7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */,
 				7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */,
 				7D80CF180EB3A9FE00291BEF /* GTFSCity.m in Sources */,
+				7D82FEF00EB83F5A0076F988 /* Upgrade.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

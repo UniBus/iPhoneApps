@@ -73,20 +73,24 @@
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];	
 }
 
-- (void) setRouteId: (NSString *)route
+- (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
 {
+	[route release];
 	[routeID release];
-	routeID = [route retain];
+	route = [rname retain];
+	routeID = [rid retain];
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
 }
 
-- (void) showInfoOfRoute: (NSString*)route atStop:(NSString *)stop  withSign:(NSString *)sign
+- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)stop  withSign:(NSString *)sign
 {
-	if (route) 
+	if (rname) 
 	{
+		[route release];
 		[routeID release];
-		routeID = [route retain];
+		route = [rname retain];
+		routeID = [rid retain];
 	}
 	if (stop)
 	{

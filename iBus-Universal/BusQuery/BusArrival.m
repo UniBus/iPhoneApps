@@ -20,6 +20,7 @@
 {
 	[stopId release];
 	[route release];
+	[routeId release];
 	[arrivalTime release];
 	[busSign release];
 	[super dealloc];
@@ -74,6 +75,17 @@
 {
 	[route release];
 	route = [route_name copy];
+}
+
+- (NSString *) routeId
+{
+	return routeId;
+}
+
+- (void) setRouteId: (NSString *) route_id
+{
+	[routeId release];
+	routeId = [route_id copy];
 }
 
 - (NSString *) stopId

@@ -21,7 +21,7 @@ NSMutableDictionary * readFavorite()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, route_id, bus_sign FROM favorites"];
+	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, route_id, route_name, bus_sign FROM favorites"];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -29,7 +29,8 @@ NSMutableDictionary * readFavorite()
 		{			
 			NSString *savedStopId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			NSString *savedRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
-			NSString *savedBusSign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			NSString *savedRouteName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			NSString *savedBusSign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
 			
 			BusStop *aStop = [myApplication stopOfId:savedStopId];
 			if (aStop)
@@ -44,8 +45,12 @@ NSMutableDictionary * readFavorite()
 					[favoriteStop release];
 				}
 				
+				//Add route name
+				NSString *routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:name", savedRouteId];				
+				[favoriteStop setObject:savedRouteName forKey:routeInfoKey];
+
 				//Add bus sign
-				NSString *routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:bussign", savedRouteId];				
+				routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:bussign", savedRouteId];				
 				[favoriteStop setObject:savedBusSign forKey:routeInfoKey];
 				
 				//
@@ -83,7 +88,7 @@ BOOL saveToFavorite(BusArrival *anArrival)
 #ifdef DEBUGFULL
 	sqlite3_stmt *statement;
 	sql = [NSString stringWithFormat:@"SELECT stop_id, route_id FROM favorites WHERE stop_id=\"%@\" AND route_id=\"%@\"",
-						anArrival.stopId, anArrival.route];
+						anArrival.stopId, anArrival.routeId];
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
 		if (sqlite3_step(statement) == SQLITE_ROW)
@@ -99,8 +104,8 @@ BOOL saveToFavorite(BusArrival *anArrival)
 	
 #endif
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, bus_sign) VALUES (\"%@\", \"%@\", \"%@\")",
-		   anArrival.stopId, anArrival.route, anArrival.busSign];
+	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, route_name, bus_sign) VALUES (\"%@\", \"%@\", \"%@\", \"%@\")",
+		   anArrival.stopId, anArrival.routeId, anArrival.route, anArrival.busSign];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
 		result = YES;
@@ -359,7 +364,7 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 	for (BusArrival *anArrival in results)
 	{
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", anArrival.stopId];
-		NSString *routeKey = [NSString stringWithFormat:@"route:%@", anArrival.route];
+		NSString *routeKey = [NSString stringWithFormat:@"route:%@", anArrival.routeId];
 		
 		NSMutableArray *arrivals = [[stopsDictionary objectForKey:stopKey] objectForKey:routeKey];
 		if (arrivals)
@@ -402,11 +407,15 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 			//get route
 			NSRange searchResult = [routeKey rangeOfString: @"route:"];
 			NSAssert(searchResult.length != 0 && searchResult.location == 0, @"Wrong data in stopsDictionary");
-			aFakeArrival.route = [routeKey substringFromIndex:(searchResult.location+searchResult.length)];
+			aFakeArrival.routeId = [routeKey substringFromIndex:(searchResult.location+searchResult.length)];
 			
+			//get route name key
+			NSString *routeNameKey = [NSString stringWithFormat:@"stop:info:%@:name", routeKey];
+			NSAssert([aStopInDictionary objectForKey:routeNameKey], @"Couldn't find route name, wrong data in stopsDictionary.");
+			aFakeArrival.route = [aStopInDictionary objectForKey:routeNameKey];
+
 			//get bus sign
-			NSString *busSignKey = [NSString stringWithFormat:@"stop:info:%@:bussign", routeKey];
-			
+			NSString *busSignKey = [NSString stringWithFormat:@"stop:info:%@:bussign", routeKey];			
 			NSAssert([aStopInDictionary objectForKey:busSignKey], @"Couldn't find bus sign, wrong data in stopsDictionary.");
 			aFakeArrival.busSign = [aStopInDictionary objectForKey:busSignKey];
 			[arrivalsAtOneStopForOneBus addObject:aFakeArrival];

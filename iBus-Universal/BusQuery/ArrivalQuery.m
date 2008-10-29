@@ -145,7 +145,8 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 	{
 		BusArrival *arrival = [[BusArrival alloc] init];
 		[arrival setStopId: [attributeDict valueForKey:@"stop_id"]];
-		[arrival setRoute:[attributeDict valueForKey:@"route_id"]];
+		[arrival setRouteId:[attributeDict valueForKey:@"route_id"]];
+		[arrival setRoute:[attributeDict valueForKey:@"route_name"]];
 		[arrival setArrivalTime:[attributeDict valueForKey:@"arrival_time"]];
 		[arrival setBusSign:[attributeDict valueForKey:@"bus_sign"]];
 		

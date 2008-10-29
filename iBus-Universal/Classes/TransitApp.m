@@ -12,6 +12,7 @@
 #import "RouteScheduleViewController.h"
 #import "CitySelectViewController.h"
 #import "StopQuery.h"
+#import "Upgrade.h"
 
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
@@ -31,8 +32,10 @@ extern int numberOfResults;
 @interface TransitApp ()
 - (void) initializeGTFSInfoDatabase;
 - (void) initializeDatabase;
+- (void) initializeWebService;
 - (void) queryTaskEntry: (id) queryingObj;
 - (void) registerUserDefaults;
+- (void) userAlert: (NSString *) msg;
 @end
 
 
@@ -92,18 +95,11 @@ extern int numberOfResults;
 				database:cityVC.currentDatabase 
 			   webPrefix:cityVC.currentURL];	
 	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	[defaults setObject:cityVC.currentCity forKey:UserCurrentCity];
-	[defaults setObject:cityVC.currentCityId forKey:UserCurrentCityId];
-	[defaults setObject:cityVC.currentDatabase forKey:USerCurrentDatabase];
-	[defaults setObject:cityVC.currentURL forKey:UserCurrentWebPrefix];
-	
 	@try {
 		[self.delegate performSelector:@selector(cityDidChange)];
 	}
 	@catch (NSException * e) {
-	}
+	}	
 }
 
 - (void) initializeDatabase
@@ -123,6 +119,17 @@ extern int numberOfResults;
 			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		else
 			NSLog(@"Database file copy to %@", destPath);
+	}
+	else
+	{
+		if (upgradeNeeded(destPath))
+		{
+			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
+			if (upgrade(destPath, srcPath) == NO)
+				[self userAlert: @"Upgade Database error! If the error persists, try online update."];
+			else
+				[self userAlert: @"Database upgraded! You may find some extra routes in your list, please check."];
+		}
 	}
 	
 	NSLog(@"Open database: %@", destPath);
@@ -147,6 +154,15 @@ extern int numberOfResults;
 		else
 			NSLog(@"Database file copy to %@", destPath);
 	}
+	else
+	{
+		if (upgradeNeeded(destPath))
+		{
+			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:gtfsInfoDatabase];
+			copyDatabase(destPath, srcPath);
+			resetCurrentCity(destPath);
+		}
+	}
 	
 	NSLog(@"Open GTFS_info database: %@", destPath);
 }
@@ -170,8 +186,15 @@ extern int numberOfResults;
 	currentCityId = [cid copy];
 	currentDatabase = [db copy];
 	currentWebPrefix = [prefix copy];
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setObject:currentCity forKey:UserCurrentCity];
+	[defaults setObject:currentCityId forKey:UserCurrentCityId];
+	[defaults setObject:currentDatabase forKey:USerCurrentDatabase];
+	[defaults setObject:currentWebPrefix forKey:UserCurrentWebPrefix];
+	
 	[self initializeDatabase];
-	[self initializeWebService];
+	[self initializeWebService];	
 }
 
 - (NSString *) currentCity

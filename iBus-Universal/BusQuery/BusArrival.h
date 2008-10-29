@@ -12,6 +12,7 @@
 	NSString *arrivalTime;
 	NSString *busSign;
 	NSString *route;
+	NSString *routeId;
 	BOOL departed;
 	BOOL flag; 
 }
@@ -30,6 +31,9 @@
 
 - (NSString *) route;
 - (void) setRoute: (NSString *) route_name;
+
+- (NSString *) routeId;
+- (void) setRouteId: (NSString *) route_id;
 
 - (NSString *) stopId;
 - (void) setStopId: (NSString *) stop;

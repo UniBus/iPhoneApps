@@ -8,6 +8,7 @@
 
 #import "CityUpdateViewController.h"
 #import "TransitApp.h"
+#import "Upgrade.h"
 
 #define TIMEOUT_DOWNLOAD	60.0
 
@@ -213,6 +214,9 @@ enum DownloadState {
 
 - (BOOL) copyFavoriteTableFrom:(NSString *)oldDb to:(NSString *)newDb
 {
+	if (upgradeNeeded(oldDb))
+		return upgrade(oldDb, newDb);
+
 	sqlite3 *destDb;
 	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
 		return NO;
