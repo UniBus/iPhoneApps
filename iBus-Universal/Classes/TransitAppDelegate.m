@@ -12,6 +12,8 @@
 #import "StopSearchViewController.h"
 #import "CitySelectViewController.h"
 #import "FavoriteViewController.h"
+#import "SettingsViewController.h"
+#import "CityUpdateViewController.h"
 
 @implementation TransitAppDelegate
 
@@ -33,10 +35,15 @@
 	// This is the first time it run the App.
 	if ([selectedCity isEqualToString:@""] || [selectedDatabase isEqualToString:@""] || [selectedWebPrefix isEqualToString:@""])
 	{
+		
 		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 		selectionVC.delegate = self;
+
+		configController = [[UINavigationController alloc] initWithRootViewController:selectionVC];	
+		configController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+		
 		[window makeKeyWindow];
-		[window addSubview:selectionVC.view];
+		[window addSubview:configController.view];
 	}
 	else
 	{
@@ -85,8 +92,11 @@
 	if (selectedPage < [tabBarController.viewControllers count])
 		tabBarController.selectedIndex = selectedPage;
 	
+	[configController.view removeFromSuperview];
 	[window makeKeyAndVisible];	
 	[window addSubview:tabBarController.view];	
+	[configController release];
+	configController = nil;
 }
 
 - (void) cityDidChange
@@ -114,6 +124,30 @@
 			UIViewController *subVC = [((UINavigationController *)vc).viewControllers objectAtIndex:0];
 			if ([subVC isKindOfClass:[FavoriteViewController class]])
 				[(FavoriteViewController  *)subVC reset];
+		}
+	}
+}
+
+- (void) onlineUpdateRequested:(id)sender
+{
+	if (configController)
+	{
+		[configController popToRootViewControllerAnimated:NO];
+		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+		[configController pushViewController:updateVC animated:YES];
+		return;
+	}
+	
+	for (UIViewController *vc in [tabBarController viewControllers])
+	{
+		if ([vc isKindOfClass:[UINavigationController class]])
+		{
+			UIViewController *subVC = [((UINavigationController *)vc).viewControllers objectAtIndex:0];
+			if ([subVC isKindOfClass:[SettingsViewController class]])
+			{
+				[(UINavigationController *)vc popToRootViewControllerAnimated:NO];
+				[(SettingsViewController *)subVC startOnlineUpdate];
+			}
 		}
 	}
 }

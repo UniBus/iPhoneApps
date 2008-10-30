@@ -9,6 +9,7 @@
 #import "CitySelectViewController.h"
 #import "TransitApp.h"
 #import "GTFSCity.h"
+#import "CityUpdateViewController.h"
 //#import "parseCSV.h"
 
 @interface CitySelectViewController()
@@ -22,9 +23,7 @@
 
 // Implement loadView if you want to create a view hierarchy programmatically
 - (void)loadView 
-{
-	[self retrieveSupportedCities];
-	
+{	
 	UITableView *tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame
 														  style:UITableViewStyleGrouped]; 
 	[tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
@@ -34,6 +33,12 @@
 	[tableView release];
 	
 	self.navigationItem.title = @"Select a City";
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[self retrieveSupportedCities];
+	[(UITableView *)self.view reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -88,8 +93,8 @@
 			city.local = sqlite3_column_int(statement, 7);
 			if (city.local == 1)
 				[localCities addObject:city];
-			else
-				[onlineCities addObject:city];
+			//else
+			//	[onlineCities addObject:city];
 			[city release];
 		}
 	}
@@ -107,11 +112,23 @@
 {
 	if (indexPath.section == 1)
 	{
+		/*
 		// open an alert with just an OK button
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Use Online Update to Download!"
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
-		[alert release];		
+		[alert release];
+		 */
+		
+		@try
+		{
+			if (delegate)
+				[delegate performSelector:@selector(onlineUpdateRequested:) withObject:self];
+		}
+		@catch (NSException *exception)
+		{
+			NSLog(@"didSelectRowAtIndexPath: Caught %@: %@", [exception name], [exception  reason]);
+		}
 		return;
 	}
 	

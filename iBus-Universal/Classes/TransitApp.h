@@ -60,5 +60,6 @@ extern NSString * const UserCurrentWebPrefix;
 - (NSString *) localDatabaseDir;
 - (NSString *) gtfsInfoDatabase;
 - (void) citySelected:(id)sender;
+- (void) onlineUpdateRequested:(id)sender;
 
 @end

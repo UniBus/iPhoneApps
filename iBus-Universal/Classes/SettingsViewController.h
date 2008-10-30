@@ -47,5 +47,6 @@
 - (IBAction) rangeChangedFinial:(id) sender;
 - (IBAction) resultNumChangedFinal:(id) sender;
 
+- (void) startOnlineUpdate;
 @end
 

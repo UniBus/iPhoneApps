@@ -203,6 +203,13 @@ enum SettingTableSections
 	[defaults setInteger:numberOfResults forKey:UserSavedSearchResultsNum];
 }
 
+- (void) startOnlineUpdate
+{
+	CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+	[[self navigationController] pushViewController:updateVC animated:YES];
+}
+
+
 #pragma mark UITableView Delegate Functions
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -392,8 +399,9 @@ enum SettingTableSections
 	}
 	else
 	{
-		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
-		[[self navigationController] pushViewController:updateVC animated:YES];
+		[self startOnlineUpdate];
+		//CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+		//[[self navigationController] pushViewController:updateVC animated:YES];
 	}
 }
 

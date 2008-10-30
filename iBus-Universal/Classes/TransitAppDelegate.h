@@ -11,6 +11,7 @@
 @interface TransitAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 	IBOutlet UIWindow *window;
 	IBOutlet UITabBarController *tabBarController;
+	IBOutlet UINavigationController *configController;
 }
 
 @property (nonatomic, retain) UIWindow *window;
@@ -18,5 +19,6 @@
 
 - (void) citySelected:(id)sender;
 - (void) favoriteDidChange:(id)sender;
+- (void) onlineUpdateRequested:(id)sender;
 
 @end

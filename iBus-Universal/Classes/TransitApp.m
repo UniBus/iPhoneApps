@@ -102,6 +102,15 @@ extern int numberOfResults;
 	}	
 }
 
+- (void) onlineUpdateRequested:(id)sender
+{
+	@try {
+		[self.delegate performSelector:@selector(onlineUpdateRequested:) withObject:sender];
+	}
+	@catch (NSException * e) {
+	}	
+}
+
 - (void) initializeDatabase
 {
 	NSAssert((currentDatabase != nil), @"Database is not set properly!!");
@@ -153,6 +162,11 @@ extern int numberOfResults;
 			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		else
 			NSLog(@"Database file copy to %@", destPath);
+		
+		//This is only for the update from v1.0 to v1.1 only, should be removed later
+		NSString *selectedCity = [[NSUserDefaults standardUserDefaults] objectForKey:UserCurrentCity];
+		if (![selectedCity isEqualToString:@""])
+			resetCurrentCity(destPath);
 	}
 	else
 	{
