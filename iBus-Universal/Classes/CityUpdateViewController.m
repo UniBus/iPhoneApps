@@ -12,7 +12,7 @@
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/updates/";
+const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.1/updates/";
 
 enum CityUpdateSections
 {
