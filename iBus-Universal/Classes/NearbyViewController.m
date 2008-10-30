@@ -57,7 +57,10 @@ BOOL  globalTestMode = NO;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	//[self needsReload];
+	if (needReset)
+		[self needsReload];
+
+	needReset = NO;
 }
 
 - (void) dealloc
@@ -111,6 +114,11 @@ BOOL  globalTestMode = NO;
 		NSLog(@"Choose a spot, long=%lf, latit=%lf", testLon, testLat);
 		return CGPointMake(testLon, testLat);
 	}	
+}
+
+- (void) reset
+{
+	needReset = YES;
 }
 
 - (void) refreshClicked:(id)sender

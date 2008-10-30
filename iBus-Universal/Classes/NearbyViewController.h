@@ -12,12 +12,15 @@
 
 @interface NearbyViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 {
-	CLLocationManager *location;
+	CLLocationManager		*location;
 	UIActivityIndicatorView *indicator;
-	CGPoint currentPosition;
+	CGPoint					currentPosition;
 	
-	UITableView *stopsTableView;
-	NSArray *stopsFound;
+	UITableView				*stopsTableView;
+	NSArray					*stopsFound;
+	BOOL					needReset;
 }
+
+- (void) reset;
 
 @end

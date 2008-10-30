@@ -117,7 +117,7 @@ BOOL saveToFavorite(BusArrival *anArrival)
 	return result;
 }
 
-BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *busSign)
+BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *routeName, NSString *busSign)
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	sqlite3 *database;
@@ -145,7 +145,8 @@ BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *busSign)
 	
 #endif
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, bus_sign) VALUES (\"%@\", \"%@\", \"%@\")", stopId, routeId, (busSign? busSign:@"")];
+	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, route_name, bus_sign) VALUES (\"%@\", \"%@\", \"%@\", \"%@\")",
+		   stopId, routeId, routeName, (busSign? busSign:@"")];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
 		result = YES;
@@ -268,10 +269,13 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 	self.navigationItem.title = @"Favorite Stops";	
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-	//[self needsReload];
-//}
+- (void)viewDidAppear:(BOOL)animated
+{
+	if (needReset)
+		[self needsReload];
+
+	needReset = NO;
+}
  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -294,6 +298,11 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 
 - (void) alertOnEmptyStopsOfInterest
 {
+}
+
+- (void) refreshClicked:(id)sender
+{
+	[self needsReload];
 }
 
 - (void) needsReload

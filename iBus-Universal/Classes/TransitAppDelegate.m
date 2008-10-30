@@ -11,6 +11,7 @@
 #import "StopsViewController.h"
 #import "StopSearchViewController.h"
 #import "CitySelectViewController.h"
+#import "FavoriteViewController.h"
 
 @implementation TransitAppDelegate
 
@@ -101,8 +102,20 @@
 			else if ([subVC isKindOfClass:[StopSearchViewController class]])
 				[(StopSearchViewController  *)subVC reset];
 		}
+	}	
+}
+
+- (void) favoriteDidChange:(id)sender
+{
+	for (UIViewController *vc in [tabBarController viewControllers])
+	{
+		if ([vc isKindOfClass:[UINavigationController class]])
+		{
+			UIViewController *subVC = [((UINavigationController *)vc).viewControllers objectAtIndex:0];
+			if ([subVC isKindOfClass:[FavoriteViewController class]])
+				[(FavoriteViewController  *)subVC reset];
+		}
 	}
-	
 }
 
 @end

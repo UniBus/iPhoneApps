@@ -18,6 +18,7 @@
 	NSArray				*stopsOfInterest;
 	NSMutableDictionary *stopsDictionary;
 	NSMutableArray		*routesOfInterest;
+	BOOL				needReset;
 }
 
 - (NSArray *) stopsOfInterest;

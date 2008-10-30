@@ -107,6 +107,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void) reset
 {
+	needReset = YES;
 }
 
 - (void) clearArrivals

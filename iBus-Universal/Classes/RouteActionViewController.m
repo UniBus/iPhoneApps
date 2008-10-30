@@ -124,6 +124,17 @@
 	[[self navigationController] pushViewController:datePickVC animated:YES];
 }
 
+- (void) notifyApplicationFavoriteChanged
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+	@try {
+		[myApplication.delegate performSelector:@selector(favoriteDidChange:) withObject:self];
+	}
+	@catch (NSException * e) {
+		NSLog(@"didSelectRowAtIndexPath: Caught %@: %@", [e name], [e reason]);
+	}
+}
+
 #pragma mark TableView Delegate Functions
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -136,8 +147,10 @@
 		if (isInFavorite2(stopID, routeID))
 			removeFromFavorite2(stopID, routeID);
 		else
-			saveToFavorite2(stopID, routeID, busSign);
+			saveToFavorite2(stopID, routeID, route, busSign);
 		[tableView reloadData];
+		
+		[self notifyApplicationFavoriteChanged];
 		return;
 	}
 	

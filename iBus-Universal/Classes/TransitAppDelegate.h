@@ -17,5 +17,6 @@
 @property (nonatomic, retain) UITabBarController *tabBarController;
 
 - (void) citySelected:(id)sender;
+- (void) favoriteDidChange:(id)sender;
 
 @end
