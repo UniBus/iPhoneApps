@@ -13,7 +13,7 @@
 
 #define	RANGE_MAX	2.0
 #define	RANGE_MIN	0.1
-#define NUMBER_MAX	15
+#define NUMBER_MAX	25
 #define NUMBER_MIN	1
 
 #define REGULARCELL_HEIGHT	44
@@ -86,8 +86,11 @@ enum SettingTableSections
 	numOfTouches = numOfTouches % 10;
 	if (numOfTouches == 0)
 	{
-		globalTestMode = YES;
-		NSLog(@"Switch to Test mode!!");
+		globalTestMode = !globalTestMode;
+		if (globalTestMode)
+			NSLog(@"Switch to Test mode!!");
+		else
+			NSLog(@"Switch out of Test mode!!");
 	}
 }
 
@@ -429,8 +432,11 @@ enum SettingTableSections
 	numOfTouches = numOfTouches % 10;
 	if (numOfTouches == 0)
 	{
-		globalTestMode = YES;
-		NSLog(@"Switch to Test mode!!");
+		globalTestMode = !globalTestMode;
+		if (globalTestMode)
+			NSLog(@"Switch to Test mode!!");
+		else
+			NSLog(@"Switch out of Test mode!!");
 	}
 }
 
