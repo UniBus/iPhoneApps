@@ -139,6 +139,7 @@ BOOL  globalTestMode = NO;
 			NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
 			[querryResults removeObjectsAtIndexes:rangeToDelete];
 		}
+		[stopsFound release];
 		stopsFound = [querryResults retain];
 		
 		[stopsTableView reloadData];
@@ -195,6 +196,7 @@ BOOL  globalTestMode = NO;
 		NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
 		[querryResults removeObjectsAtIndexes:rangeToDelete];
 	}
+	[stopsFound release];
 	stopsFound = [querryResults retain];
 	
 	if ([stopsFound count] == 0)

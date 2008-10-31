@@ -111,7 +111,8 @@ UIImage *mapIconImage = nil;
 	
 	
 	ctrlFrame = CGRectMake(POS_ICON_LEFT, POS_TEXT_TOP, POS_ICON_SIZE, POS_ICON_SIZE);
-	UIButton *mapButton = [[UIButton buttonWithType:UIButtonTypeCustom] initWithFrame:ctrlFrame];
+	UIButton *mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	mapButton.frame = ctrlFrame;
 	if (mapIconImage == nil)
 	{
 		NSString *iconPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"mapicon.png"];
