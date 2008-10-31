@@ -124,7 +124,8 @@
 			aStop.latitude = sqlite3_column_double(statement, 3);
 			aStop.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
 			
-			[results addObject:aStop];
+			if (distance(aStop.latitude, aStop.longtitude,  pos.y,  pos.x) < distInKm)
+				[results addObject:aStop];
 			[aStop release];
 		}
 	}
