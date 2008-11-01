@@ -98,7 +98,9 @@ BOOL copyDatabase(NSString *currentDb, NSString *newDb)
 
 BOOL upgrade(NSString *currentDb, NSString *newDb)
 {
-	NSString *homeDirectory=NSHomeDirectory();
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *homeDirectory = [paths objectAtIndex:0];
+
 	//Create $HOME/Upgrade if the directory does not exist.
 	NSString *upgradePath = [homeDirectory stringByAppendingPathComponent:@"Upgrade"];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
