@@ -14,6 +14,7 @@
 #import "FavoriteViewController.h"
 #import "SettingsViewController.h"
 #import "CityUpdateViewController.h"
+#import "NearbyViewController.h"
 
 @implementation TransitAppDelegate
 
@@ -111,6 +112,8 @@
 				[(StopsViewController  *)subVC reset];
 			else if ([subVC isKindOfClass:[StopSearchViewController class]])
 				[(StopSearchViewController  *)subVC reset];
+			else if ([subVC isKindOfClass:[NearbyViewController class]])
+				[(NearbyViewController *)subVC reset];
 		}
 	}	
 }
