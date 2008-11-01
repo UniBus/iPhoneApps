@@ -291,9 +291,11 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			UINavigationController *navigController = [self navigationController];
 			if (navigController)
 			{
+				BusStop *associatedStop = [stopsOfInterest objectAtIndex:indexPath.section];
 				[routeActionVC  showInfoOfRoute:anArrival.route 
 										routeId:anArrival.routeId 
-										 atStop:anArrival.stopId 
+										 atStop:associatedStop.name 
+										 stopId:anArrival.stopId 
 									   withSign:anArrival.busSign];	
 				[navigController pushViewController:routeActionVC animated:YES];
 			}
