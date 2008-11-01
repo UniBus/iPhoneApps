@@ -53,6 +53,7 @@ UIImage *favoriteIconImage = nil;
 	//busRoute = [[UILabel alloc] initWithFrame:ctrlFrame];	
 	busRoute = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 	busRoute.frame = ctrlFrame;
+	busRoute.userInteractionEnabled = NO;
 	//busRoute.backgroundColor = [UIColor clearColor];
 	//busRoute.opaque = NO;
 	//busRoute.textAlignment = UITextAlignmentCenter;
