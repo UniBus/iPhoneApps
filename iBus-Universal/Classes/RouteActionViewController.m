@@ -12,6 +12,95 @@
 #import "TransitApp.h"
 #import "FavoriteViewController.h"
 
+@interface RouteAtStopCell : UITableViewCell
+{
+	UILabel *actionLabel;
+	UILabel *stopInfoLabel;
+	UILabel *routeInfoLabel;
+}
+
+- (void) setAction:(NSString *)action;
+- (void) setStopInfo:(NSString *)stopInfo;
+- (void) setRouteInfo:(NSString *)routeInfo;
+
+@end
+
+#define CELL_LABEL_LEFT		20
+#define CELL_LABEL_TOP		0
+#define CELL_LABEL_WIDTH	260
+#define CELL_LABEL_HEIGHT	44
+#define CELL_LABEL_HEIGHT2	22
+
+@implementation RouteAtStopCell
+
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+{
+	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
+	if (!self) return nil;
+	
+	CGRect ctrlFrame = CGRectMake(CELL_LABEL_LEFT, CELL_LABEL_TOP, CELL_LABEL_WIDTH, CELL_LABEL_HEIGHT);
+	actionLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
+	actionLabel.text = @"";
+	actionLabel.font = [UIFont boldSystemFontOfSize:16];
+	actionLabel.textAlignment = UITextAlignmentCenter;
+	actionLabel.userInteractionEnabled = NO;
+	actionLabel.multipleTouchEnabled = NO;
+	actionLabel.opaque = NO;
+	
+	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	ctrlFrame.size.height = CELL_LABEL_HEIGHT2;
+	routeInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
+	routeInfoLabel.text = @"";
+	routeInfoLabel.textColor = [UIColor blueColor];
+	routeInfoLabel.font = [UIFont systemFontOfSize:12];
+	routeInfoLabel.textAlignment = UITextAlignmentCenter;
+	routeInfoLabel.userInteractionEnabled = NO;
+	stopInfoLabel.multipleTouchEnabled = NO;
+	routeInfoLabel.opaque = NO;
+	
+	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	stopInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
+	stopInfoLabel.text = @"";
+	stopInfoLabel.textColor = [UIColor blueColor];
+	stopInfoLabel.font = [UIFont systemFontOfSize:12];
+	stopInfoLabel.textAlignment = UITextAlignmentCenter;
+	stopInfoLabel.userInteractionEnabled = NO;
+	stopInfoLabel.multipleTouchEnabled = NO;
+	stopInfoLabel.opaque = NO;
+	
+	[self.contentView addSubview:actionLabel];
+	[self.contentView addSubview:stopInfoLabel];
+	[self.contentView addSubview:routeInfoLabel];
+	
+	return self;
+}
+
+- (void) setAction:(NSString *)action
+{
+	actionLabel.text = action;
+}
+
+- (void) setStopInfo:(NSString *)stopInfo
+{
+	stopInfoLabel.text = [NSString stringWithFormat:@"Stop: %@", stopInfo];
+}
+
+- (void) setRouteInfo:(NSString *)routeInfo
+{
+	routeInfoLabel.text = [NSString stringWithFormat:@"Route: %@ at", routeInfo];
+}
+
+- (void) dealloc
+{
+	[actionLabel release];
+	[stopInfoLabel release];
+	[routeInfoLabel release];
+	[super dealloc];
+}
+
+@end
+
+
 @implementation RouteActionViewController
 
 /*
@@ -58,6 +147,7 @@
 
 - (void)dealloc {
 	[otherDate release];
+	[stopName release];
 	[stopID release];
 	[routeID release];
 	[routeTableView release]; 	
@@ -65,39 +155,44 @@
 }
 
 #pragma mark Property Setter/Getter
-- (void) setStopId: (NSString *)stop
+- (void) setStopId: (NSString *) sname stopId: (NSString *)sid;
 {
+	[stopName release];
+	stopName = [sname retain];
+	
 	[stopID release];
-	stopID = [stop retain];
+	stopID = [sid retain];
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];	
 }
 
 - (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
 {
-	[route release];
+	[routeName release];
 	[routeID release];
-	route = [rname retain];
+	routeName = [rname retain];
 	routeID = [rid retain];
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
 }
 
-- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)stop  withSign:(NSString *)sign
+//- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)stop  withSign:(NSString *)sign
+- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)sname stopId:(NSString *)sid withSign:(NSString *)sign
 {
-	if (rname) 
+	if (rid) 
 	{
-		[route release];
+		[routeName release];
 		[routeID release];
-		route = [rname retain];
+		routeName = [rname retain];
 		routeID = [rid retain];
 	}
-	if (stop)
+	if (sid)
 	{
+		[stopName release];
 		[stopID release];
-		stopID = [stop retain];
+		stopName = [sname retain];
+		stopID = [sid retain];
 	}
-	
 	if (sign)
 	{
 		[busSign release];
@@ -147,7 +242,7 @@
 		if (isInFavorite2(stopID, routeID))
 			removeFromFavorite2(stopID, routeID);
 		else
-			saveToFavorite2(stopID, routeID, route, busSign);
+			saveToFavorite2(stopID, routeID, routeName, busSign);
 		[tableView reloadData];
 		
 		[self notifyApplicationFavoriteChanged];
@@ -213,29 +308,44 @@
 	return @"";
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSString *MyIdentifier = @"CellIdentifierAtRouteView";
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-	if (cell == nil) 
-	{
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentCenter;
-		//cell.font = [UIFont systemFontOfSize:14];
-		//cell.textColor = [UIColor blueColor];
-		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	}
-	
+	if (indexPath.section == 0)
+		return 100;
+	else
+		return 44;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{	
+	UITableViewCell *cell;
 	if (indexPath.section == 0)
 	{
+		cell = [tableView dequeueReusableCellWithIdentifier:@"RouteAtStopCell"];
+		if (cell == nil) 
+		{
+			cell = [[[RouteAtStopCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"RouteAtStopCell"] autorelease];
+			cell.text = @"";
+		}
+		NSAssert([cell isKindOfClass:[RouteAtStopCell class]], @"TableViewCell type mismatched!");
+		
+		[(RouteAtStopCell *)cell setStopInfo:stopName];
+		[(RouteAtStopCell *)cell setRouteInfo:routeName];
 		if (isInFavorite2(stopID, routeID))
-			cell.text = [NSString stringWithFormat:@"Remove from favorite"];
+			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Remove from favorite"]];
 		else
-			cell.text = [NSString stringWithFormat:@"Add to favorite"];
+			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Add to favorite"]];
 	}
 	else if (indexPath.section == 1)
 	{
+		
+		cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtRouteView"];
+		if (cell == nil) 
+		{
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtRouteView"] autorelease];
+			cell.textAlignment = UITextAlignmentCenter;
+		}
+		
 		if (indexPath.row == 0)
 		{
 			cell.text = @"Today";

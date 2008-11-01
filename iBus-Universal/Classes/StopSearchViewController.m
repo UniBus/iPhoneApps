@@ -52,6 +52,8 @@
 	stopsTableView.dataSource = self;
 	stopsTableView.delegate = self;
 	[self.view addSubview:stopsTableView];
+	
+	//[stopSearchBar becomeFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
