@@ -6,7 +6,6 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "GTFSCity.h"
 
 @interface CityUpdateViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
@@ -23,7 +22,7 @@
 	BOOL			downloadingNewCity;
 	BOOL			overwriteFavorites;
 	NSInteger		downloadState;
-	BOOL			needUpdateForCurrentyCity;
+	NSInteger		statusOfCurrentyCity;
 }
 
 @end

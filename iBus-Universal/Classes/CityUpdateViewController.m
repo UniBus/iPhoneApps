@@ -37,6 +37,12 @@ enum DownloadState {
 	kDownloadStateDownloaded
 };
 
+enum CurrentCityUpdateStatus {
+	kCurrentCityUnselected = 0,
+	kCurrentCityNeedsUpdate,
+	kCurrentCityUpdated,
+};
+
 @interface CityUpdateViewController (private)
 - (NSInteger) checkCityInLocalDb: (NSString *)city lastUpdate:(NSString *)updateDate;
 - (void) checkUpdates;
@@ -262,16 +268,21 @@ enum DownloadState {
 
 	[parser release];
 	
-	needUpdateForCurrentyCity = NO;
+	statusOfCurrentyCity = kCurrentCityUpdated;
 	NSString *appCurrentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];	
-	for (GTFS_City *aCity in updateCitiesFromServer)
-	{
-		if ([aCity.cid isEqualToString:appCurrentCityId])
+	if (appCurrentCityId == nil)
+		statusOfCurrentyCity = kCurrentCityUnselected;
+	else if ([appCurrentCityId isEqualToString:@""])
+		statusOfCurrentyCity = kCurrentCityUnselected;
+	else
+		for (GTFS_City *aCity in updateCitiesFromServer)
 		{
-			needUpdateForCurrentyCity = YES;
-			break;
+			if ([aCity.cid isEqualToString:appCurrentCityId])
+			{
+				statusOfCurrentyCity = kCurrentCityNeedsUpdate;
+				break;
+			}
 		}
-	}
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
@@ -405,7 +416,7 @@ enum DownloadState {
 	switch (indexPath.section) {
 		case kUIUpdate_CurrentCity:
 		{
-			if (!needUpdateForCurrentyCity)
+			if (statusOfCurrentyCity != kCurrentCityNeedsUpdate)
 				return;
 			for (GTFS_City *aCity in updateCitiesFromServer)
 			{
@@ -532,10 +543,12 @@ enum DownloadState {
 	
 	switch (indexPath.section) {
 		case kUIUpdate_CurrentCity:
-			if (!needUpdateForCurrentyCity)
+			if (statusOfCurrentyCity == kCurrentCityUpdated)
 				cell.text = @"Already up to date";
-			else
+			else if (statusOfCurrentyCity == kCurrentCityNeedsUpdate)
 				cell.text = @"New update available";
+			else
+				cell.text = @"Not selected yet!";
 			break;
 		case kUIUpdate_NewCity:
 			if ([newCitiesFromServer count] == 0)
@@ -679,7 +692,7 @@ enum DownloadState {
 	else if ([otherCitiesFromServer indexOfObject:updatingCity] == NSNotFound)
 	{
 		if ([updatingCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
-			needUpdateForCurrentyCity = NO;
+			statusOfCurrentyCity = kCurrentCityUpdated;
 			
 		[self updateCityToLocalGTFSInfo:updatingCity];
 		[otherCitiesFromServer addObject:updatingCity];
