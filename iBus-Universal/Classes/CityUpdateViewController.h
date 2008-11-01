@@ -10,14 +10,15 @@
 
 @interface CityUpdateViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *updateTableView;
-	GTFS_City	   *updatingCity;
-	NSMutableArray *newCitiesFromServer;
-	NSMutableArray *updateCitiesFromServer;
-	NSMutableArray *otherCitiesFromServer;
-	NSURLResponse  *downloadResponse;
+	GTFS_City		*updatingCity;
+	NSMutableArray	*newCitiesFromServer;
+	NSMutableArray	*updateCitiesFromServer;
+	NSMutableArray	*otherCitiesFromServer;
+	NSURLResponse	*downloadResponse;
 	//UIProgressView *downloadProgress;
-	NSURLDownload  *theDownload;
-	UIActionSheet  *downloadActionSheet;
+	NSURLConnection	*theDownload;
+	NSMutableData	*receivedData;
+	UIActionSheet	*downloadActionSheet;
 	NSInteger		bytesReceived;
 	BOOL			downloadingNewCity;
 	BOOL			overwriteFavorites;

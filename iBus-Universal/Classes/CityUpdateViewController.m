@@ -604,20 +604,81 @@ enum CurrentCityUpdateStatus {
 										  timeoutInterval:TIMEOUT_DOWNLOAD];
 	// create the connection with the request
 	// and start loading the data
-	theDownload=[[NSURLDownload alloc] initWithRequest:theRequest delegate:self];
+	theDownload=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!theDownload) {
 		NSLog(@"Fail to initiate download!!");
+		return;
+	}
+	
+	receivedData=[[NSMutableData data] retain];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // this method is called when the server has determined that it
+    // has enough information to create the NSURLResponse
+	
+    // it can be called multiple times, for example in the case of a
+    // redirect, so each time we reset the data.
+    // receivedData is declared as a method instance elsewhere
+
+	bytesReceived=0;
+    [receivedData setLength:0];
+
+	[downloadResponse release];
+	downloadResponse = [response retain];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // append the new data to the receivedData
+    // receivedData is declared as a method instance elsewhere
+    [receivedData appendData:data];
+	
+	long expectedLength=[downloadResponse expectedContentLength];
+	
+	bytesReceived=bytesReceived+[data length];
+	
+	if (expectedLength != NSURLResponseUnknownLength) {
+		// if the expected content length is
+		// available, display percent complete
+		float percentComplete=(bytesReceived/(float)expectedLength)*100.0;
+		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading %.1f %%", percentComplete]];
+		//NSLog(@"Percent complete - %f",percentComplete);
+	} else {
+		// if the expected content length is
+		// unknown just log the progress
+		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading (%d) bytes", bytesReceived]];
+		//NSLog(@"Bytes received - %d",bytesReceived);
 	}	
 }
 
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+- (void)connection:(NSURLConnection *)download  didFailWithError:(NSError *)error
 {
+	// release the connection
+	[download release];
+    [receivedData release];
+	
+	// inform the user
+	NSLog(@"Download failed! Error - %@ %@",
+		  [error localizedDescription],
+		  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)download
+{
+	// release the connection
+	[download release];
+	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
+	
 	NSString *destinationFilename;
-	NSString *homeDirectory=NSHomeDirectory();
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *homeDirectory = [paths objectAtIndex:0];
 	
 	//Create $HOME/Download if the directory does not exist.
 	NSString *downloadPath = [homeDirectory stringByAppendingPathComponent:@"Downloads"];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error;
 	if (![fileManager fileExistsAtPath:downloadPath])
 	{
 		if ([fileManager createDirectoryAtPath:downloadPath attributes:nil])
@@ -626,35 +687,31 @@ enum CurrentCityUpdateStatus {
 			NSLog(@"Failed to create path: %@", downloadPath);
 	}
 	
-	destinationFilename=[downloadPath stringByAppendingPathComponent:filename];
-	[download setDestination:destinationFilename allowOverwrite:YES];
-}
+	//Create the downloaded file
+	destinationFilename=[downloadPath stringByAppendingPathComponent:updatingCity.dbname];
+	if ([fileManager fileExistsAtPath:destinationFilename])
+	{
+		if (![fileManager removeItemAtPath:destinationFilename error:&error])
+		{
+			NSAssert1(0, @"Failed to delete database file with message '%@'.", [error localizedDescription]);
+			return;
+		}
+	}
+	BOOL dataWritten = [receivedData writeToFile:destinationFilename options:NSAtomicWrite error:&error];
+	[receivedData release];
+	if (!dataWritten)
+	{
+		NSLog(@"Failed write downloaded data into file with message '%@'.", [error localizedDescription]);
+		return;
+	}
 
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-	// release the connection
-	[download release];
-	
-	// inform the user
-	NSLog(@"Download failed! Error - %@ %@",
-		  [error localizedDescription],
-		  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-}
-
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-	// release the connection
-	[download release];
-	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
-	
 	// do something with the data
-	NSLog(@"%@",@"downloadDidFinish");
+	NSLog(@"%@",@"download succeeded!");
 	downloadState = kDownloadStateDownloaded;
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	NSString *oldDatabase = [[myApplication localDatabaseDir] stringByAppendingPathComponent:updatingCity.dbname];
-	NSString *newDatabase = [[NSHomeDirectory() stringByAppendingPathComponent:@"Downloads"]
-							 stringByAppendingPathComponent:updatingCity.dbname];
+	NSString *newDatabase = destinationFilename;
 		
 	//Copy favorites table if needed.
 	if ((!downloadingNewCity) && (!overwriteFavorites))
@@ -663,8 +720,6 @@ enum CurrentCityUpdateStatus {
 	}
 	
 	//Copy database file to local directory.
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSError *error;
 	if ([fileManager fileExistsAtPath:oldDatabase])
 	{
 		if (![fileManager removeItemAtPath:oldDatabase error:&error])
@@ -704,50 +759,6 @@ enum CurrentCityUpdateStatus {
 	}
 	updatingCity = nil;
 	[updateTableView reloadData];	
-}
-
-//-(void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-//{
-	// path now contains the destination path
-	// of the download, taking into account any
-	// unique naming caused by -setDestination:allowOverwrite:
-	//NSLog(@"Final file destination: %@",path);
-//}
-
-- (void)setDownloadResponse:(NSURLResponse *)aDownloadResponse
-{
-	[aDownloadResponse retain];
-	[downloadResponse release];
-	downloadResponse = aDownloadResponse;
-}
-
-- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
-{
-	// reset the progress, this might be called multiple times
-	bytesReceived=0;
-	
-	// retain the response to use later
-	[self setDownloadResponse:response];
-}
-
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length
-{
-	long long expectedLength=[downloadResponse expectedContentLength];
-	
-	bytesReceived=bytesReceived+length;
-	
-	if (expectedLength != NSURLResponseUnknownLength) {
-		// if the expected content length is
-		// available, display percent complete
-		float percentComplete=(bytesReceived/(float)expectedLength)*100.0;
-		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading %.1f %%", percentComplete]];
-		//NSLog(@"Percent complete - %f",percentComplete);
-	} else {
-		// if the expected content length is
-		// unknown just log the progress
-		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading (%d) bytes", bytesReceived]];
-		//NSLog(@"Bytes received - %d",bytesReceived);
-	}
 }
 
 @end
