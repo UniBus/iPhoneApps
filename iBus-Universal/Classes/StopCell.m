@@ -193,6 +193,7 @@ UIImage *mapIconImage = nil;
 	noteLabel.backgroundColor = [UIColor clearColor];
 	noteLabel.opaque = NO;
 	noteLabel.textAlignment = UITextAlignmentRight;
+	noteLabel.textColor = [UIColor redColor];
 	noteLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 	noteLabel.font = [UIFont systemFontOfSize:11];
 	
