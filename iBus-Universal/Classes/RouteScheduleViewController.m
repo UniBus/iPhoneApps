@@ -93,7 +93,21 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return @"Whole day schedule";
+	NSDateComponents *comps = [[NSDateComponents alloc] init];
+	[comps setYear:[[dayID substringWithRange:NSMakeRange(0, 4)] intValue]];
+	[comps setMonth:[[dayID substringWithRange:NSMakeRange(4, 2)] intValue]];
+	[comps setDay:[[dayID substringWithRange:NSMakeRange(6, 2)] intValue]];	
+	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+	NSDate *dateOfQuery = [gregorian dateFromComponents:comps];
+	[gregorian release];
+	[comps release];
+
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy-MMM-dd '('EEEE')'"];
+	NSString *newDateString = [formatter stringFromDate:dateOfQuery];
+	[formatter release];
+
+	return [NSString stringWithFormat:@"Schedule On %@", newDateString];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
