@@ -87,7 +87,7 @@
 
 - (void) setRouteInfo:(NSString *)routeInfo
 {
-	routeInfoLabel.text = [NSString stringWithFormat:@"Route: %@ at", routeInfo];
+	routeInfoLabel.text = [NSString stringWithFormat:@"Route: %@", routeInfo];
 }
 
 - (void) dealloc
@@ -330,7 +330,7 @@
 		NSAssert([cell isKindOfClass:[RouteAtStopCell class]], @"TableViewCell type mismatched!");
 		
 		[(RouteAtStopCell *)cell setStopInfo:stopName];
-		[(RouteAtStopCell *)cell setRouteInfo:routeName];
+		[(RouteAtStopCell *)cell setRouteInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
 		if (isInFavorite2(stopID, routeID))
 			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Remove from favorite"]];
 		else
