@@ -137,8 +137,8 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	currentLevel += levelChange;
 	if (currentLevel < 0)
 		currentLevel = 0;
-	else if (currentLevel > 18)
-		currentLevel = 18;
+	else if (currentLevel > 17)
+		currentLevel = 17;
 	
 	[self mapWebExecuteScript:[NSString stringWithFormat:@"map.setZoom(%d);", currentLevel]];
 }
