@@ -89,7 +89,7 @@ BOOL  globalTestMode = NO;
 - (void) alertOnEmptyStopsOfInterest
 {
 	// open an alert with just an OK button
-	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %f Km", searchRange];
+	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %.1f Km", searchRange];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
