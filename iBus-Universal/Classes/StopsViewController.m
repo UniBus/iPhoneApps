@@ -180,9 +180,14 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 		NSMutableDictionary *aStopInDictionary = [stopsDictionary objectForKey:stopKey];
 
 		NSAssert(aStopInDictionary != nil, @"Having a NIL stop in stopsDictionary");
-		NSArray *allKeys = [aStopInDictionary allKeys];
 		NSMutableArray *routesAtAStop = [NSMutableArray array];
+		
+		//NSArray *allKeys = [aStopInDictionary keysSortedByValueUsingSelector:@selector(compare:)];
+		//NSArray *allKeys = [aStopInDictionary allKeys];
+		NSMutableArray *allKeys = [NSMutableArray arrayWithArray:[aStopInDictionary allKeys]];
+		[allKeys sortUsingSelector:@selector(compare:)];
 		for (NSString *aRouteKey in allKeys)
+		//for (NSString *aRouteKey in aStopInDictionary)
 		{
 			if ([aRouteKey rangeOfString:@"stop:info"].length)
 				continue;

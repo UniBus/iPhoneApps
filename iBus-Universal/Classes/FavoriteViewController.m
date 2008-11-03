@@ -21,7 +21,7 @@ NSMutableDictionary * readFavorite()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, route_id, route_name, bus_sign FROM favorites"];
+	NSString *sql = [NSString stringWithFormat:@"SELECT stop_id, route_id, route_name, bus_sign FROM favorites ORDER BY stop_id, route_id"];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -328,7 +328,9 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId)
 			[newStops addObject:aStop];
 		}		
 		
-		NSArray *allKeys = [aStopInDictionary allKeys];
+		//NSArray *allKeys = [aStopInDictionary allKeys];
+		NSMutableArray *allKeys = [NSMutableArray arrayWithArray:[aStopInDictionary allKeys]];
+		[allKeys sortUsingSelector:@selector(compare:)];
 		NSMutableArray *routesAtAStop = [NSMutableArray array];
 		for (NSString *aRouteKey in allKeys)
 		{
