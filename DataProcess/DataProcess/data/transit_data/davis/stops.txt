@@ -1,0 +1,290 @@
+stop_id,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_code
+22000,Hutchison Dr & A St (EB),Buses head EB,38.540031,-121.746053,0,22000
+22001,A St & Hutchison (SB),Buses head SB,38.540490,-121.746012,0,22001
+22002,1st St & C St (EB),Buses head EB,38.541523,-121.742543,0,22002
+22003,1st St & D St (WB),Buses head WB,38.541818,-121.742051,0,22003
+22004,Richards Blvd & Olive Dr (SB),Buses head SB,38.540645,-121.738537,0,22004
+22005,2nd St & B St (EB),Buses head EB,38.542661,-121.743914,0,22005
+22006,C St & 1st St (SB),Buses head SB,38.541913,-121.743090,0,22006
+22007,2nd St & D St (EB),Buses head EB,38.543058,-121.741549,0,22007
+22008,2nd St & D St. (WB),Buses head WB,38.543290,-121.741679,0,22008
+22009,2nd St & F St (WB),Buses head WB,38.543570,-121.739803,0,22009
+22010,2nd St & F St (EB),Buses head EB,38.543315,-121.740126,0,22010
+22011,H St & Amtrak Station (NB),Buses head NB,38.543988,-121.738023,0,22011
+22012,H St Alley & 2nd St (SB),Buses head SB,38.543941,-121.738245,0,22012
+22013,B St & 4th St (NB),Buses head NB,38.545277,-121.744928,0,22013
+22014,B St & 4th St  (SB),Buses head SB,38.545045,-121.745131,0,22014
+22015,3rd St & C St (WB),Buses head WB,38.544213,-121.743911,0,22015
+22016,3rd St & C St (EB),Buses head EB,38.544133,-121.743222,0,22016
+22017,3rd St & E St (WB),Buses head WB,38.544550,-121.741693,0,22017
+22018,3rd St & E St (EB),Buses head EB,38.544507,-121.741143,0,22018
+22019,F St & 4th St  (SB),Buses head SB,38.545691,-121.740698,0,22019
+22020,F St & 4th St  (NB),Buses head NB,38.546296,-121.740677,0,22020
+22021,Russell Blvd & A St (WB),Buses head WB,38.546382,-121.746873,0,22021
+22022,B St & 5th St (NB),Buses head NB,38.547003,-121.745445,0,22022
+22023,B St & 7th St (SB),Buses head SB,38.548927,-121.746168,0,22023
+22024,B St & 7th St (NB),Buses head NB,38.549654,-121.746057,0,22024
+22025,5th St & D St (EB),Buses head EB,38.546886,-121.742982,0,22025
+22026,5th St & D St (WB),Buses head WB,38.546951,-121.743576,0,22026
+22027,F St & 5th Street  (NB),Buses head NB,38.547730,-121.741003,0,22027
+22028,5th St & G St (EB),Buses head EB,38.547395,-121.739607,0,22028
+22029,5th St & I St (WB),Buses head WB,38.548041,-121.738097,0,22029
+22030,3rd St & K St (WB),Buses head WB,38.545749,-121.735093,0,22030
+22031,3rd St & K St (EB),Buses head EB,38.545644,-121.734501,0,22031
+22032,L St & 425 (SB),Buses head SB,38.547739,-121.734336,0,22032
+22033,L St & 4th St (NB),Buses head NB,38.547843,-121.734124,0,22033
+22034,Cowell Blvd & Research Park S Dr (WB),Buses head WB,38.540122,-121.730212,0,22034
+22035,Cowell Blvd & Research Park S Dr (EB),Buses head EB,38.539843,-121.730809,0,22035
+22036,Cowell Blvd & Drew Ave (WB),Buses head WB,38.540044,-121.727536,0,22036
+22037,Cowell Blvd & Drew Ave (EB),Buses head EB,38.539742,-121.726847,0,22037
+22038,Cowell Blvd & Valdora St (WB),Buses head WB,38.540116,-121.725093,0,22038
+22039,Pole Line Rd & Cowell Blvd (SB),Buses head SB,38.542589,-121.725190,0,22039
+22040,Pole Line Rd & Cowell Blvd (NB),Buses head NB,38.542210,-121.724375,0,22040
+22041,Cowell Blvd & Valdora St (EB),Buses head EB,38.540083,-121.724137,0,22041
+22042,Lillard Dr & Farragut Cir (WB),Buses head WB,38.541360,-121.720724,0,22042
+22043,Lillard Dr & Evans Ct (WB),Buses head WB,38.541782,-121.717580,0,22043
+22044,Cowell Blvd & Farragut Cir (EB),Buses head EB,38.542941,-121.722214,0,22044
+22045,Cowell Blvd & Halsey Cir (WB),Buses head WB,38.543240,-121.722534,0,22045
+22048,Cowell Blvd & Drummond Rd (EB),Buses head EB,38.547353,-121.712628,0,22048
+22049,Cowell Blvd & Drummond Rd(Chiles) (WB),Buses head WB,38.547639,-121.712645,0,22049
+22050,Cowell Blvd & 2828 (EB),Buses head EB,38.547668,-121.715588,0,22050
+22051,Cowell Blvd & Ohlone St (EB),Buses head EB,38.547404,-121.706092,0,22051
+22052,Cowell Blvd & Ohlone St (WB),Buses head WB,38.547689,-121.706556,0,22052
+22053,Cowell Blvd & La Vida Way (WB),Buses head WB,38.548228,-121.703051,0,22053
+22054,Cowell Blvd & La Vida (EB),Buses head EB,38.548071,-121.702727,0,22054
+22055,Cowell Blvd & Ensenada Dr (WB),Buses head WB,38.548026,-121.699944,0,22055
+22056,Cowell Blvd & Ensenada Dr (EB),Buses head EB,38.547758,-121.699780,0,22056
+22057,Cowell Blvd & Sunrise Ct (EB),Buses head EB,38.547924,-121.696718,0,22057
+22058,Cowell Blvd & Sunrise (WB),Buses head WB,38.548420,-121.696241,0,22058
+22059,Mace Blvd & Chiles Rd (SB),Buses head SB,38.549739,-121.694573,0,22059
+22060,Mace Blvd & Cowell Blvd (NB),Buses head NB,38.549276,-121.694247,0,22060
+22061,Chiles Rd & Mace Blvd (EB),Buses head EB,38.550766,-121.693476,0,22061
+22062,El Cemonte Ave & Glide Dr (SB),Buses head SB,38.550797,-121.691076,0,22062
+22063,Cowell Blvd & El Cemonte Ave (WB),Buses head WB,38.548964,-121.690089,0,22063
+22064,Cowell Blvd & Mace Blvd (WB),Buses head WB,38.548844,-121.692576,0,22064
+22065,Alhambra Dr & Mace Blvd (WB),Buses head WB,38.558731,-121.697224,0,22065
+22066,Alhambra Dr & Mace Blvd (EB),Buses head EB,38.558545,-121.696975,0,22066
+22067,Alhambra Dr & 5th St (EB),Buses head EB,38.557806,-121.704304,0,22067
+22068,5th St & Alhambra Dr (SB),Buses head SB,38.557391,-121.705255,0,22068
+22069,5th St & Pelz Bike Path Tunnel (WB),Buses head WB,38.554832,-121.709321,0,22069
+22070,5th St & Arroyo Ave (EB),Buses head EB,38.554657,-121.709076,0,22070
+22071,5th St & San Rafael St (WB),Buses head WB,38.552633,-121.716511,0,22071
+22072,5th St & Cantrill (WB),Buses head WB,38.551533,-121.721356,0,22072
+22073,5th St & Cantrill  (EB),Buses head EB,38.551779,-121.719045,0,22073
+22074,5th St & Pole Line Rd (WB),Buses head WB,38.549040,-121.725533,0,22074
+22075,5th St & Pole Line Rd (EB),Buses head EB,38.548741,-121.725653,0,22075
+22076,5th St & Pole Line Rd (EB),Buses head EB,38.548562,-121.727627,0,22076
+22077,5th St & Pole Line Rd (WB),Buses head WB,38.548835,-121.727775,0,22077
+22078,5th St & Davis PW Corp Yard (WB),Buses head WB,38.548896,-121.730801,0,22078
+22079,Covell Blvd & Alhambra Dr (EB),Buses head EB,38.564067,-121.708874,0,22079
+22080,Monarch Ln & Covell Blvd (NB),Buses head NB,38.563431,-121.714439,0,22080
+22081,Monarch Ln & Campbell (SB),Buses head SB,38.562669,-121.714597,0,22081
+22082,Temple Dr & Balsam Pl (WB),Buses head WB,38.561980,-121.716980,0,22082
+22083,Temple Dr & Balsam Pl (EB),Buses head EB,38.561797,-121.717047,0,22083
+22084,Tulip Ln & Cascade Pl (NB),Buses head NB,38.558070,-121.717190,0,22084
+22085,Tulip Ln & Cascade Pl (SB),Buses head SB,38.558094,-121.717368,0,22085
+22086,Loyola Dr & West Regis (EB),Buses head EB,38.557492,-121.726297,0,22086
+22087,Loyola Dr & Whittier Dr (WB),Buses head WB,38.557603,-121.727345,0,22087
+22088,Loyola Dr & Nutmeg Ln (WB),Buses head WB,38.557765,-121.722996,0,22088
+22089,Loyola Dr & Nutmeg Ln (EB),Buses head EB,38.557577,-121.722530,0,22089
+22090,Loyola Dr & East Regis Dr (EB),Buses head EB,38.557715,-121.719998,0,22090
+22091,Loyola Dr & Regis Dr (WB),Buses head WB,38.557892,-121.720210,0,22091
+22092,Pole Line Rd & Claremont Dr (NB),Buses head NB,38.561447,-121.730989,0,22092
+22093,Pole Line Rd & Claremont Dr (SB),Buses head SB,38.560826,-121.731212,0,22093
+22094,Pole Line Rd & 8th St (NB),Buses head NB,38.553648,-121.727161,0,22094
+22095,Chestnut Dr & Drexel Dr (SB),Buses head SB,38.557231,-121.730806,0,22095
+22096,Covell Blvd & Pole Line Rd (EB),Buses head EB,38.562161,-121.731992,0,22096
+22097,Covell Blvd & J St (WB),Buses head WB,38.560745,-121.738078,0,22097
+22098,Covell Blvd & J St (EB),Buses head EB,38.560465,-121.737931,0,22098
+22099,J St & Menlo Dr (SB),Buses head SB,38.559174,-121.739082,0,22099
+22100,J St & Drexel Dr (SB),Buses head SB,38.556975,-121.740771,0,22100
+22101,J St & Alice St (SB),Buses head SB,38.554371,-121.739913,0,22101
+22102,8th St & Chestnut Ln (EB),Buses head EB,38.553291,-121.730341,0,22102
+22103,Chestnut Ln & 8th St (SB),Buses head SB,38.553852,-121.730922,0,22103
+22104,8th St & L St (WB),Buses head WB,38.552666,-121.735440,0,22104
+22105,8th St & L St (EB),Buses head EB,38.552776,-121.734357,0,22105
+22106,Pole Line Rd & Picasso Ave (NB),Buses head NB,38.564258,-121.730716,0,22106
+22107,Donner Ave & Green Meadows (EB),Buses head EB,38.565931,-121.729349,0,22107
+22108,Fremont Ct & Bidwell St (SB),Buses head SB,38.567354,-121.728362,0,22108
+22109,Donner Ave & Pole Line Rd (WB),Buses head WB,38.566089,-121.729523,0,22109
+22110,8th St & J St (WB),Buses head WB,38.551915,-121.738996,0,22110
+22111,8th St & J St (EB),Buses head EB,38.551700,-121.738917,0,22111
+22112,F St & Covell Blvd (NB),Buses head NB,38.560235,-121.744662,0,22112
+22113,F St & Covell Blvd (SB),Buses head SB,38.560114,-121.744958,0,22113
+22114,14th St & F St (WB),Buses head WB,38.556939,-121.743812,0,22114
+22115,F St & 14th St (NB),Buses head NB,38.557187,-121.743296,0,22115
+22116,F St & 12th St (NB),Buses head NB,38.555262,-121.742602,0,22116
+22117,F St & 8th St (NB),Buses head NB,38.551615,-121.741990,0,22117
+22118,8th St & G St (WB),Buses head WB,38.551592,-121.741270,0,22118
+22119,8th St & G St (EB),Buses head EB,38.551422,-121.741270,0,22119
+22120,8th St & D St (WB),Buses head WB,38.551010,-121.744722,0,22120
+22121,8th St & D St (EB),Buses head EB,38.550929,-121.744008,0,22121
+22122,F St & 8th St  (SB),Buses head SB,38.550924,-121.742151,0,22122
+22123,14th St & B St (WB),Buses head WB,38.556086,-121.748155,0,22123
+22124,14th St & B St (EB),Buses head EB,38.555899,-121.747879,0,22124
+22125,14th St & Davis HS (NB),Buses head NB,38.555965,-121.750585,0,22125
+22126,Catalina Dr & Alvarado Ave (NB),Buses head NB,38.562150,-121.750287,0,22126
+22127,Catalina Dr & Grande Ave (NB),Buses head NB,38.566942,-121.754128,0,22127
+22128,Catalina Dr & Cabrillo Ave (NB),Buses head NB,38.564714,-121.752730,0,22128
+22129,Catalina Dr & Corona Dr (WB),Buses head WB,38.568199,-121.757123,0,22129
+22130,Anderson Rd & Valencia Ave (SB),Buses head SB,38.566806,-121.758544,0,22130
+22131,Anderson Rd & Alvarado Ave (SB),Buses head SB,38.562600,-121.758563,0,22131
+22132,Alvarado Ave & Anderson (EB),Buses head EB,38.561968,-121.756989,0,22132
+22133,Alvarado Ave & Del Rey Ct (EB),Buses head EB,38.561596,-121.752895,0,22133
+22134,Alvarado Ave & Anderson (WB),Buses head WB,38.562206,-121.759369,0,22134
+22135,Alvarado Ave & Anderson (EB),Buses head EB,38.561996,-121.759546,0,22135
+22136,Alvarado Ave & Sycamore (WB),Buses head WB,38.562097,-121.763253,0,22136
+22137,Alvarado Ave & Sycamore (EB),Buses head EB,38.561843,-121.762936,0,22137
+22138,Sycamore Ln & Alvarado (SB),Buses head SB,38.562194,-121.764647,0,22138
+22139,Sycamore Ln & Pepperwood Apts (NB),Buses head NB,38.563140,-121.765419,0,22139
+22140,Sycamore Ln & Antelope (NB),Buses head NB,38.564446,-121.765611,0,22140
+22141,Sycamore Ln & Antelope (SB),Buses head SB,38.564357,-121.765854,0,22141
+22142,Sycamore Ln & Chaparral Apts (NB),Buses head NB,38.566309,-121.765557,0,22142
+22143,Sycamore Ln & Chaparral Apts (SB),Buses head SB,38.566025,-121.765840,0,22143
+22144,North Sycamore Loop &  (NB),Buses head NB,38.568246,-121.766986,0,22144
+22145,Oak Ave & Scripps  (SB),Buses head SB,38.557696,-121.752347,0,22145
+22146,14th St & Oak St (EB),Buses head EB,38.555718,-121.751814,0,22146
+22147,14th St & Oak St (WB),Buses head WB,38.555985,-121.752593,0,22147
+22148,Oak Ave & 14th St (SB),Buses head SB,38.555563,-121.752423,0,22148
+22149,Villanova Dr & Reed Dr (WB),Buses head WB,38.556407,-121.756564,0,22149
+22150,Villanova Dr & Anderson Rd (EB),Buses head EB,38.556150,-121.757881,0,22150
+22151,Hanover Dr & Scripps (NB),Buses head NB,38.559552,-121.756172,0,22151
+22152,Hanover Dr & Anderson Rd (EB),Buses head EB,38.559060,-121.757918,0,22152
+22153,Anderson Rd & Villanova Dr (NB),Buses head NB,38.556573,-121.758419,0,22153
+22154,Anderson Rd & Hanover Dr (NB),Buses head NB,38.559455,-121.758402,0,22154
+22155,Anderson Rd & Hanover Dr (SB),Buses head SB,38.558559,-121.758707,0,22155
+22156,Anderson Rd & Villanova Dr (SB),Buses head SB,38.555919,-121.758736,0,22156
+22157,Anderson Rd & Amherst Dr (NB),Buses head NB,38.552670,-121.758497,0,22157
+22158,Anderson Rd & Amherst Dr (SB),Buses head SB,38.552290,-121.758810,0,22158
+22159,Anderson Rd & Russell Blvd (SB),Buses head SB,38.547301,-121.758874,0,22159
+22160,Anderson RD & Russell Blvd (NB),Buses head NB,38.546911,-121.758572,0,22160
+22161,Oak Ave & Antioch Dr (NB),Buses head NB,38.553345,-121.752569,0,22161
+22162,Oak Ave & Antioch Dr (SB),Buses head SB,38.552723,-121.752779,0,22162
+22163,Oak Ave & 8th St (NB),Buses head NB,38.551035,-121.752611,0,22163
+22164,Oak Ave & 8th St (SB),Buses head SB,38.550440,-121.752853,0,22164
+22165,Oak Ave & Russell Blvd (NB),Buses head NB,38.546644,-121.752651,0,22165
+22166,Oak Ave & Russell Blvd (SB),Buses head SB,38.546490,-121.752911,0,22166
+22167,Memorial Union Terminal & Howard Way (NB),Buses head NB,38.543753,-121.749821,0,22167
+22168,Hutchison & Shields Library (WB),Buses head WB,38.539181,-121.749988,0,22168
+22169,Hutchison Dr & Art Building (EB),Buses head EB,38.539195,-121.748375,0,22169
+22172,Cowell Blvd & Mace Blvd (EB),Buses head EB,38.548641,-121.693596,0,22172
+22173,Hutchison Dr & Bioletti Way (EB),Buses head EB,38.539030,-121.755774,0,22173
+22174,Lillard Dr & Evans Ct (EB),Buses head EB,38.541664,-121.717347,0,22174
+22175,La Rue Rd & Orchard (NB),Buses head NB,38.542092,-121.760558,0,22175
+22176,La Rue Rd & The Colleges Apts (SB),Buses head SB,38.541672,-121.760912,0,22176
+22177,Russell Blvd & Sycamore Ln (EB),Buses head EB,38.546197,-121.761999,0,22177
+22178,Russell Blvd & Sycamore Ln (WB),Buses head WB,38.546516,-121.762816,0,22178
+22179,Sycamore & Wake Forest Dr (SB),Buses head SB,38.547621,-121.762121,0,22179
+22180,Wake Forest Dr & Oxford Cir (WB),Buses head WB,38.548108,-121.763983,0,22180
+22181,Wake Forest Dr & Oxford Cir (EB),Buses head EB,38.547890,-121.763945,0,22181
+22182,Wake Forest Dr & 1440 (Castillian) (EB),Buses head EB,38.548686,-121.766622,0,22182
+22183,Wake Forest Dr & 1440 (Castillian) (WB),Buses head WB,38.548808,-121.766401,0,22183
+22184,8th St & Sycamore Ln (WB),Buses head WB,38.550582,-121.764706,0,22184
+22185,Sycamore Ln & 8th St (NB),Buses head NB,38.551057,-121.764406,0,22185
+22186,Sycamore Ln & Villanova Dr (NB),Buses head NB,38.556700,-121.764638,0,22186
+22187,Sycamore Ln & Villanova Dr (SB),Buses head SB,38.555700,-121.765087,0,22187
+22188,Sycamore Ln & Bucknell Dr (NB),Buses head NB,38.555060,-121.764699,0,22188
+22189,Sycamore Ln & Cornell Dr (NB),Buses head NB,38.553595,-121.764760,0,22189
+22190,Sycamore Ln & Cornell Dr (SB),Buses head SB,38.552939,-121.765096,0,22190
+22191,Sycamore Ln & Radcliffe Dr (NB),Buses head NB,38.558306,-121.764570,0,22191
+22192,Sycamore Ln & Notre Dame Dr (SB),Buses head SB,38.558282,-121.764998,0,22192
+22193,Radcliffe Dr & Apple Ln (NB),Buses head NB,38.559299,-121.760480,0,22193
+22194,Drake Dr & Drake Dr  Apts (WB),Buses head WB,38.560089,-121.761237,0,22194
+22195,Sycamore Ln & Drake Dr (SB),Buses head SB,38.559785,-121.763991,0,22195
+22196,Covell Blvd & Sycamore Ln (WB),Buses head WB,38.561014,-121.764640,0,22196
+22197,Covell Blvd & Sycamore Ln (EB),Buses head EB,38.560702,-121.764541,0,22197
+22198,Covell Blvd & Shasta Dr (EB),Buses head EB,38.560720,-121.771723,0,22198
+22199,Covell Blvd & John Jones Rd (WB),Buses head WB,38.561080,-121.770763,0,22199
+22200,Covell Blvd & Shasta Dr (WB),Buses head WB,38.561071,-121.772969,0,22200
+22201,Covell Blvd & Denali Dr (EB),Buses head EB,38.560853,-121.778241,0,22201
+22202,Covell Blvd & West Area Bike Path (EB),Buses head EB,38.560952,-121.781988,0,22202
+22203,Lake Blvd & Covell Blvd (SB),Buses head SB,38.560463,-121.786324,0,22203
+22204,Lake Blvd & Covell Blvd (NB),Buses head NB,38.560424,-121.786037,0,22204
+22205,Lake Blvd & Oyster Bay (SB),Buses head SB,38.557199,-121.786951,0,22205
+22206,Lake Blvd & Wood Circle (NB),Buses head NB,38.558147,-121.786139,0,22206
+22207,Arlington Blvd & Lake Blvd (NB),Buses head NB,38.555228,-121.787009,0,22207
+22208,Arlington Blvd & Lake Blvd (SB),Buses head SB,38.554972,-121.787204,0,22208
+22209,Arlington Blvd & Cabot St (NB),Buses head NB,38.554115,-121.784923,0,22209
+22210,Arlington Blvd & Cabot St (SB),Buses head SB,38.553616,-121.784796,0,22210
+22211,Arlington Blvd & Shasta Dr (SB),Buses head SB,38.553306,-121.781554,0,22211
+22212,Arlington Blvd & Shasta Dr (NB),Buses head NB,38.553847,-121.782082,0,22212
+22214,Humboldt Ave & Arlington Blvd (EB),Buses head EB,38.553323,-121.778954,0,22214
+22216,Humboldt Ave & Imperial  (EB),Buses head EB,38.552756,-121.776013,0,22216
+22217,Humboldt Ave & Arthur St (EB),Buses head EB,38.552806,-121.771111,0,22217
+22220,Arthur St & North Adams St (SB),Buses head SB,38.551606,-121.770476,0,22220
+22221,Arthur St & Alameda Ave (SB),Buses head SB,38.548023,-121.770680,0,22221
+22223,Arlington Blvd & Westernesse Rd (SB),Buses head SB,38.550279,-121.779268,0,22223
+22224,Arlington Blvd & Bucklebury Rd (SB),Buses head SB,38.548774,-121.778798,0,22224
+22225,Russell Blvd & Arthur St (WB),Buses head WB,38.546657,-121.771056,0,22225
+22226,Lake Blvd & Portage Bay (NB),Buses head NB,38.548955,-121.788493,0,22226
+22227,Lake Blvd & Salem Ave (NB),Buses head NB,38.550583,-121.787172,0,22227
+22228,Lake Blvd & 1050 (NB),Buses head NB,38.552810,-121.787346,0,22228
+22229,Russell Blvd & Arlington Farms (WB),Buses head WB,38.546797,-121.785855,0,22229
+22230,Sycamore Ln & University Mall (NB),Buses head NB,38.547509,-121.761669,0,22230
+22232,Cowell Blvd & Research Park N Dr (EB),Buses head EB,38.544974,-121.721763,0,22232
+22233,J St & 8th St (SB),Buses head SB,38.552042,-121.738811,0,22233
+22234,5th St & Pena Dr (EB),Buses head EB,38.552682,-121.715379,0,22234
+22235,Alhambra Dr & Arroyo Ave (EB),Buses head EB,38.557859,-121.699464,0,22235
+22236,Alhambra Dr & Caceres Ct (WB),Buses head WB,38.558080,-121.701258,0,22236
+22237,5th St & Spafford St (EB),Buses head EB,38.553424,-121.712444,0,22237
+22238,5th St & San Sebastian St (WB),Buses head WB,38.553489,-121.712909,0,22238
+22239,Hutchison Dr & Ext Center (WB),Buses head WB,38.538839,-121.762285,0,22239
+22240,Hutchison Dr & Ext Center (EB),Buses head EB,38.537607,-121.763798,0,22240
+22242,Richards Blvd & Olive Dr (NB),Buses head NB,38.540795,-121.738320,0,22242
+22243,Mace Blvd & 2nd St (SB),Buses head SB,38.557259,-121.694340,0,22243
+22244,Mace Blvd & 2nd St (NB),Buses head NB,38.556249,-121.693953,0,22244
+22245,Covell Blvd & Mace Blvd (EB),Buses head EB,38.564796,-121.700030,0,22245
+22247,Montgomery Ave & Danbury St (WB),Buses head WB,38.539175,-121.713233,0,22247
+22248,Almond Ln & Meadowbrook Dr (WB),Buses head WB,38.541481,-121.704445,0,22248
+22249,Moore Blvd & Pole Line Rd (EB),Buses head EB,38.569257,-121.727033,0,22249
+22250,Moore Blvd & Wright Blvd (EB),Buses head EB,38.564589,-121.718803,0,22250
+22251,Mace Blvd & S El Macero Dr (SB),Buses head SB,38.541047,-121.694642,0,22251
+22252,Danbury St & Drummond Ave (NB),Buses head NB,38.540381,-121.713890,0,22252
+22254,Lillard & Drummond (EB),Buses head EB,38.543200,-121.714812,0,22254
+22255,Drummond & Albany (NB),Buses head NB,38.546353,-121.713227,0,22255
+22256,Hutchison & California (WB),Buses head WB,38.539142,-121.753094,0,22256
+22257,Silo Terminal & Center Island (EB),Buses head EB,38.539346,-121.753079,0,22257
+22258,Silo Terminal & North Boarding Area (WB),Buses head WB,38.539329,-121.753685,0,22258
+22259,North Adams & Arthur (WB),Buses head WB,38.551421,-121.770133,0,22259
+22290,Alhambra Dr & Loyola Dr (WB),Buses head WB,38.560161,-121.708768,0,22290
+22291,Alhambra Dr & Loyola Dr (EB),Buses head EB,38.560076,-121.709008,0,22291
+22297,Lillard Dr & Cowell Blvd (EB),Buses head EB,38.541165,-121.722191,0,22297
+22311,Danbury St & Drummond Ave (SB),Buses head SB,38.540231,-121.714114,0,22311
+22334,Moore Blvd & Sargent Ct (WB),Buses head WB,38.564511,-121.719398,0,22334
+22337,Moore Blvd & Pole Line Rd (WB),Buses head WB,38.570068,-121.727580,0,22337
+22341,Drexel Dr & Hemlock Ln (EB),Buses head EB,38.557250,-121.736291,0,22341
+22343,Cowell Blvd & Schmeiser Ave (WB),Buses head WB,38.549829,-121.683760,0,22343
+22344,Glide Dr & Schmeiser Ave (EB),Buses head EB,38.552212,-121.684202,0,22344
+22350,Almond Ln & Deodara St (WB),Buses head WB,38.542026,-121.701299,0,22350
+22351,Almond Ln & Willowbank Rd (WB),Buses head WB,38.541560,-121.706373,0,22351
+22352,Chiles Rd & Mace Blvd (WB),Buses head WB,38.551013,-121.693521,0,22352
+22353,Mace Blvd & El Macero Dr (NB),Buses head NB,38.546546,-121.694227,0,22353
+22354,Mace Blvd & San Marino Dr (NB),Buses head NB,38.543981,-121.694256,0,22354
+22355,Montgomery Ave & Oakside Dr (EB),Buses head EB,38.538699,-121.708436,0,22355
+22356,Adams St & 720 Adams St (NB),Buses head NB,38.549708,-121.769063,0,22356
+22357,Pole Line Rd & Loyola Dr (NB),Buses head NB,38.556918,-121.727290,0,22357
+22358,Glide Dr & Schmeiser Ave (WB),Buses head WB,38.552428,-121.684379,0,22358
+22359,Glide Dr & El Cemonte Ave (WB),Buses head WB,38.551356,-121.690963,0,22359
+22360,Health Sciences Dist Lot 56 &  (SB),Buses head SB,38.535190,-121.764476,0,22360
+22361,Hutchison Dr & Health Sci Dr (WB),Buses head WB,38.537140,-121.765059,0,22361
+22362,Covell Blvd & Pole Line Rd (WB),Buses head WB,38.562652,-121.730240,0,22362
+22363,Covell Blvd & Wright Blvd (WB),Buses head WB,38.563519,-121.718295,0,22363
+22364,Covell Blvd & Wright Blvd (EB),Buses head EB,38.563381,-121.717095,0,22364
+22494,Arlington Blvd & Bucklebury Rd (NB),Buses head NB,38.548880,-121.778511,0,22494
+22495,Arlington Blvd & Calaveras Ave (NB),Buses head NB,38.550708,-121.778964,0,22495
+22496,Glide Dr & El Cemonte Ave (EB),Buses head EB,38.551204,-121.690712,0,22496
+22497,Cowell Blvd & El Cemonte Ave (EB),Buses head EB,38.548811,-121.689966,0,22497
+22498,Cowell Blvd & Schmeiser Ave (EB),Buses head EB,38.549914,-121.683489,0,22498
+22499,Mace Blvd & El Macero Dr (SB),Buses head SB,38.546871,-121.694638,0,22499
+22500,Rosario St & Montgomery Ave (SB),Buses head SB,38.538786,-121.699367,0,22500
+22501,Rosario St & Montgomery Ave (NB),Buses head NB,38.538800,-121.699005,0,22501
+22502,Rosario St & Almond Ln (NB),Buses head NB,38.542347,-121.699479,0,22502
+22503,Rosario St & Almond Ln (SB),Buses head SB,38.542334,-121.699842,0,22503
+22504,Almond Ln & Deodara St (EB),Buses head EB,38.541984,-121.700910,0,22504
+22505,Almond Ln & Meadowbrook Dr (EB),Buses head EB,38.541472,-121.703705,0,22505
+22506,Willowbank Rd & Almond Ln (EB),Buses head EB,38.541340,-121.706411,0,22506
+22507,Willowbank Rd & Montgomery Ave (SB),Buses head SB,38.538891,-121.706838,0,22507
+22508,Willowbank Rd & Montgomery Ave (NB),Buses head NB,38.538861,-121.706385,0,22508
+22509,Montgomery Ave & Oakside  Dr (WB),Buses head WB,38.538898,-121.708539,0,22509
+22511,Mace Blvd & S El Macero Dr (NB),Buses head NB,38.540396,-121.694347,0,22511
+22973,Alhambra Dr & 5th St (WB),Buses head WB,38.558258,-121.705705,0,22973

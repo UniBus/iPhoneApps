@@ -1,0 +1,22 @@
+echo "[*] Remove old database"
+rm ./database/*.sqlite
+
+echo "[*] Importing stops"
+./addstops >result_import.log
+echo "[*] Importing routes"
+./addroutes >>result_import.log
+echo "[*] Adding favorites"
+./addfavorites >>result_import.log
+echo "[*] Adding dbinfo"
+./adddbinfo >>result_import.log
+echo "[*] Importing gtfs-info"
+./addgtfsinfo >>result_import.log
+
+echo "[*] Checking databases"
+./checkstops >result_check.log
+./checkroutes >>result_check.log
+./showdbstopinfo >>result_check.log
+./showdbrouteinfo >>result_check.log
+./showdbfavoriteinfo >>result_check.log
+echo "[*] Done... Check result_import.log and result_check.log for detailed results"
+

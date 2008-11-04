@@ -1,0 +1,7 @@
+fare_id,route_id,origin_id,destination_id,contains_id
+9,8,,,
+3,,14,14,
+3,,12,12,
+3,,11,11,
+3,,10,10,
+4,,,,

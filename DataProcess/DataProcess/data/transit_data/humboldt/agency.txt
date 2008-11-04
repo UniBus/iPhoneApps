@@ -1,0 +1,4 @@
+agency_id,agency_name,agency_url,agency_timezone,agency_phone,agency_ticket_url
+1,"Redwood Transit System","http://www.redwoodtransit.org/","America/Los_Angeles","(707) 443-0826",http://redwoodtransit.org/zencart/
+2,"Eureka Transit Service","http://www.eurekatransit.org/","America/Los_Angeles","(707) 443-0826",http://redwoodtransit.org/zencart/
+3,"Arcata & Mad River Transit System","http://www.arcatatransit.org/","America/Los_Angeles","(707) 822-3775"

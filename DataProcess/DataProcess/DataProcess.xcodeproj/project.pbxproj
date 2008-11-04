@@ -1,0 +1,137 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		7DE33EF40EC0138E0065DF5D /* add_dbinfo.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = add_dbinfo.py; sourceTree = "<group>"; };
+		7DE33EF50EC0138E0065DF5D /* add_favorite.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = add_favorite.py; sourceTree = "<group>"; };
+		7DE33EF60EC0138E0065DF5D /* import_gtfs_info.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = import_gtfs_info.py; sourceTree = "<group>"; };
+		7DE33EF70EC0138E0065DF5D /* import_routes.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = import_routes.py; sourceTree = "<group>"; };
+		7DE33EF80EC0138E0065DF5D /* import_stops.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = import_stops.py; sourceTree = "<group>"; };
+		7DE33EFA0EC01B390065DF5D /* adddbinfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = adddbinfo; sourceTree = "<group>"; };
+		7DE33EFB0EC01B390065DF5D /* addfavorites */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addfavorites; sourceTree = "<group>"; };
+		7DE33EFC0EC01B390065DF5D /* addgtfsinfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addgtfsinfo; sourceTree = "<group>"; };
+		7DE33EFD0EC01B390065DF5D /* addroutes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addroutes; sourceTree = "<group>"; };
+		7DE33EFE0EC01B390065DF5D /* addstops */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addstops; sourceTree = "<group>"; };
+		7DE33EFF0EC01B390065DF5D /* checkroutes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = checkroutes; sourceTree = "<group>"; };
+		7DE33F000EC01B390065DF5D /* checkstops */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = checkstops; sourceTree = "<group>"; };
+		7DE33F030EC01B390065DF5D /* copydbtoUniBus */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = copydbtoUniBus; sourceTree = "<group>"; };
+		7DE33F070EC01B390065DF5D /* showdbfavoriteinfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = showdbfavoriteinfo; sourceTree = "<group>"; };
+		7DE33F080EC01B390065DF5D /* showdbrouteinfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = showdbrouteinfo; sourceTree = "<group>"; };
+		7DE33F090EC01B390065DF5D /* showdbstopinfo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = showdbstopinfo; sourceTree = "<group>"; };
+		7DE33F0A0EC01B390065DF5D /* supportedcities.lst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = supportedcities.lst; sourceTree = "<group>"; };
+		7DE33F410EC022280065DF5D /* refresh_all */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = refresh_all; sourceTree = "<group>"; };
+		7DE33F420EC0243F0065DF5D /* result_check.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = result_check.log; sourceTree = "<group>"; };
+		7DE33F430EC0243F0065DF5D /* result_import.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = result_import.log; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		7DE33EB50EC00F620065DF5D = {
+			isa = PBXGroup;
+			children = (
+				7DE33ECD0EC0134C0065DF5D /* code */,
+				7DE33EF90EC013A90065DF5D /* data */,
+			);
+			sourceTree = "<group>";
+		};
+		7DE33ECD0EC0134C0065DF5D /* code */ = {
+			isa = PBXGroup;
+			children = (
+				7DE33EF80EC0138E0065DF5D /* import_stops.py */,
+				7DE33EF70EC0138E0065DF5D /* import_routes.py */,
+				7DE33EF50EC0138E0065DF5D /* add_favorite.py */,
+				7DE33EF40EC0138E0065DF5D /* add_dbinfo.py */,
+				7DE33EF60EC0138E0065DF5D /* import_gtfs_info.py */,
+			);
+			path = code;
+			sourceTree = "<group>";
+		};
+		7DE33EF90EC013A90065DF5D /* data */ = {
+			isa = PBXGroup;
+			children = (
+				7DE33F150EC01BAF0065DF5D /* database */,
+				7DE33F140EC01BA70065DF5D /* transit_data */,
+				7DE33F410EC022280065DF5D /* refresh_all */,
+				7DE33EFE0EC01B390065DF5D /* addstops */,
+				7DE33EFD0EC01B390065DF5D /* addroutes */,
+				7DE33EFB0EC01B390065DF5D /* addfavorites */,
+				7DE33EFA0EC01B390065DF5D /* adddbinfo */,
+				7DE33EFC0EC01B390065DF5D /* addgtfsinfo */,
+				7DE33F030EC01B390065DF5D /* copydbtoUniBus */,
+				7DE33F000EC01B390065DF5D /* checkstops */,
+				7DE33EFF0EC01B390065DF5D /* checkroutes */,
+				7DE33F090EC01B390065DF5D /* showdbstopinfo */,
+				7DE33F080EC01B390065DF5D /* showdbrouteinfo */,
+				7DE33F070EC01B390065DF5D /* showdbfavoriteinfo */,
+				7DE33F0A0EC01B390065DF5D /* supportedcities.lst */,
+				7DE33F420EC0243F0065DF5D /* result_check.log */,
+				7DE33F430EC0243F0065DF5D /* result_import.log */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		7DE33F140EC01BA70065DF5D /* transit_data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = transit_data;
+			sourceTree = "<group>";
+		};
+		7DE33F150EC01BAF0065DF5D /* database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = database;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		7DE33EB70EC00F620065DF5D /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 7DE33EBA0EC00F620065DF5D /* Build configuration list for PBXProject "DataProcess" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 7DE33EB50EC00F620065DF5D;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		7DE33EB80EC00F620065DF5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		7DE33EB90EC00F620065DF5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7DE33EBA0EC00F620065DF5D /* Build configuration list for PBXProject "DataProcess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DE33EB80EC00F620065DF5D /* Debug */,
+				7DE33EB90EC00F620065DF5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7DE33EB70EC00F620065DF5D /* Project object */;
+}

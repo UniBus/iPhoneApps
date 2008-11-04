@@ -1,0 +1,13 @@
+../code/add_favorite.py ./database/portland.sqlite
+../code/add_favorite.py ./database/sanfrancisco.sqlite
+../code/add_favorite.py ./database/sacramento.sqlite
+../code/add_favorite.py ./database/oc.sqlite
+../code/add_favorite.py ./database/humboldt.sqlite
+../code/add_favorite.py ./database/denver.sqlite
+../code/add_favorite.py ./database/dallas.sqlite
+../code/add_favorite.py ./database/austin.sqlite
+../code/add_favorite.py ./database/york.sqlite
+../code/add_favorite.py ./database/davis.sqlite
+../code/add_favorite.py ./database/riovista.sqlite
+../code/add_favorite.py ./database/perth.sqlite
+

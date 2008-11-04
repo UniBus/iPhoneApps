@@ -1,0 +1,81 @@
+"route_id","agency_id","route_short_name","route_long_name","route_desc","route_type"
+1,1,"1","Pacific Coast Highway",,3
+131,1,"131","Lakeview/Riverdale",,3
+145,1,"145","Santa Ana-Costa Mesa via Raitt/Greenville",,3
+147,1,"147","Brea - Orange",,3
+164,1,"164","Seal Beach-Westminster via Seal Beach/Lampson",,3
+167,1,"167","Anaheim-Irvine via Santiago/Hewes/Bryan",,3
+172,1,"172","Huntington Beach to Costa Mesa",,3
+173,1,"173","Huntington Beach - South Coast Plaza",,3
+175,1,"175","University Center  -  Northwood & Yale",,3
+177,1,"177","Foothill Ranch - L.H.T.C.",,3
+178,1,"178","Huntington Beach-Irvine via Adams/Birch/Campus",,3
+187,1,"187","Laguna Hills-Dana Point via El Toro/Aliso Creek",,3
+188,1,"188","Laguna Hills-Irvine via Moulton/Alton/Ridge Rte",,3
+191,1,"191","San Clemente - Mission Viejo",,3
+193,1,"193","Los Mares, Vera Cruz, Pico",,3
+20,1,"20","Imperial Highway",,3
+206,1,"206","Santa Ana - Lake Forest",,3
+21,1,"21","Buena Park - Huntington Beach",,3
+211,1,"211","Seal Beach - Irvine",,3
+212,1,"212","San Juan Capistrano PNR - Irvine",,3
+213,1,"213","Brea PNR - Irvine",,3
+216,1,"216","Costa Mesa - San Juan Capistrano",,3
+24,1,"24","Malvern - Chapman",,3
+25,1,"25","Fullerton PNR - Huntington Beach",,3
+26,1,"26","Fullerton PNR - Yorba Linda",,3
+29,1,"29","LaHabra-Huntington Beach via Beach",,3
+30,1,"30","Orangethorpe Avenue",,3
+33,1,"33","Magnolia Street",,3
+35,1,"35","Brookhurst Street",,3
+37,1,"37","Euclid Street",,3
+38,1,"38","La Palma Avenue",,3
+410,1,"410","Ana. Cyn. M.L. - N.E. Anaheim Industrial",,3
+411,1,"411","Ana. Cyn. M.L. - N.E. Anaheim Industrial",,3
+42,1,"42","Seal Beach to Orange via Lincoln",,3
+43,1,"43","Harbor Boulevard",,3
+430,1,"430","Anaheim Amtrak - Anaheim Resort Area",,3
+453,1,"453","Orange Transport Center - Main Place",,3
+454,1,"454","Orange Transp Center - The Block",,3
+46,1,"46","Ball Road",,3
+462,1,"462","TDASA - Santa Ana Civic Center",,3
+463,1,"463","TDASA - Edinger/Grand",,3
+464,1,"464","TDASA - South Coast Metro",,3
+47,1,"47","Anaheim/Haster-Fairview",,3
+472,1,"472","Tustin Metrolink - Jamboree/Fairchild - FDA",,3
+473,1,"473","Tustin Metrolink to University Center",,3
+480,1,"480","Irvine Transport Center - Irvine Spectrum",,3
+482,1,"482","Irvine Transp Ctr to Irvine Ctr/Discovery",,3
+490,1,"490","LN Metro-Aliso Creek-Park Plaza via Chet Holifiel",,3
+50,1,"50","Katella Avenue",,3
+51,1,"51","Santa Ana - Costa Mesa",,3
+53,1,"53","Main Street",,3
+54,1,"54","Chapman Avenue",,3
+55,1,"55","Santa Ana - Costa Mesa - Newport Beach",,3
+56,1,"56","Garden Grove Boulevard",,3
+57,1,"57","Brea Mall - Newport Transp. Ctr.",,3
+59,1,"59","Brea-Santa Ana via Kraemer/Glassell/Grand",,3
+60,1,"60","Long Beach-Tustin via 17th/Westminster",,3
+62,1,"62","Hazard-Civic Center",,3
+64,1,"64","Huntington Beach - Tustin via Bolsa/1st",,3
+66,1,"66","McFadden - Walnut",,3
+693,1,"693","Talega",,3
+70,1,"70","Edinger/Moulton",,3
+701,1,"701","Huntington Beach - Los Angeles",,3
+71,1,"71","Newport Beach-Yorba Linda via Tustin/Red Hill",,3
+72,1,"72","Sunset Beach-Tustin via Warner Avenue",,3
+721,1,"721","Fullerton-Los Angeles",,3
+74,1,"74","Fountain Valley-Irvine via Segerstrom/Barranca",,3
+75,1,"75","Jamboree",,3
+757,1,"757","Fairplex PNR Pomona - Santa Ana",,3
+758,1,"758","Irvine Trnsp. Cntr - Chino Transp. Center",,3
+76,1,"76","Huntington Beach-Newport Beach via Talbert",,3
+79,1,"79","Tustin - Newport Beach",,3
+794,1,"794","Riverside/Corona - C Mesa (via S Coast Metro)",,3
+82,1,"82","Mission Viejo - Rancho Santa Margarita",,3
+83,1,"83","Anaheim - Laguna Hills",,3
+85,1,"85","Mission Viejo - Dana Point",,3
+86,1,"86","Costa Mesa - Mission Viejo",,3
+87,1,"87","Laguna Niguel - Rancho Santa Margarita",,3
+89,1,"89","Laguna Beach - Mission Viejo",,3
+91,1,"91","Dana Point-Msn Viejo-Laguna Hills",,3

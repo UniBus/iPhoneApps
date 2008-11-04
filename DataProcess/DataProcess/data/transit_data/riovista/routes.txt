@@ -1,0 +1,7 @@
+agency_id,route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+5,29,"50 W","Route 50 Westbound","",3,,,
+5,30,"50 E","Route 50 Eastbound","",3,,,
+5,31,"52 S","Route 52 Southbound","",3,,,
+5,32,"52 N","Route 52 Northbound","",3,,,
+5,33,"53 W","Route 53 Westbound","",3,,,
+5,34,"53 E","Route 53 Eastbound","",3,,,

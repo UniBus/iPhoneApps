@@ -1,0 +1,13 @@
+../code/import_stops.py ./database/portland.sqlite ./transit_data/portland/stops.txt
+../code/import_stops.py ./database/sanfrancisco.sqlite ./transit_data/sanfrancisco/stops.txt
+../code/import_stops.py ./database/sacramento.sqlite ./transit_data/sacramento/stops.txt 
+../code/import_stops.py ./database/oc.sqlite ./transit_data/oc/stops.txt 
+../code/import_stops.py ./database/humboldt.sqlite ./transit_data/humboldt/stops.txt 
+../code/import_stops.py ./database/denver.sqlite ./transit_data/denver/stops.txt 
+../code/import_stops.py ./database/dallas.sqlite ./transit_data/dallas/stops.txt 
+../code/import_stops.py ./database/austin.sqlite ./transit_data/austin/stops.txt 
+../code/import_stops.py ./database/york.sqlite ./transit_data/york/stops.txt 
+../code/import_stops.py ./database/davis.sqlite ./transit_data/davis/stops.txt 
+../code/import_stops.py ./database/riovista.sqlite ./transit_data/riovista/stops.txt 
+../code/import_stops.py ./database/perth.sqlite ./transit_data/perth/stops.txt 
+

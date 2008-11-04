@@ -1,0 +1,4 @@
+fare_id,price,currency_type,payment_method,transfers,transfer_duration
+a,0.00,USD,0,0,
+b,0.50,USD,0,0,
+c,1.00,USD,0,0,

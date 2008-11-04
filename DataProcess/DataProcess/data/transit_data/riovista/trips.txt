@@ -1,0 +1,16 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id,trip_bikes_allowed
+29,53A29,371A53B29,"Westbound",,,,0
+29,53A29,372A53B29,"Westbound",,,,0
+30,53A29,373A53B29,"Eastbound",,,,0
+29,53A29,374A53B29,"Westbound",,,,0
+29,53A29,375A53B29,"Westbound",,,,0
+29,53A29,376A53B29,"Westbound",,,,0
+30,53A29,377A53B29,"Eastbound",,,,0
+30,53A29,378A53B29,"Eastbound",,,,0
+30,53A29,379A53B29,"Eastbound",,,,0
+31,54A29,380A54B29,"",,,,0
+32,54A29,381A54B29,"",,,,0
+33,55A29,382A55B29,"",,,,0
+34,55A29,383A55B29,"",,,,0
+29,53A29,983A53B29,"Westbound",,,,0
+30,53A29,984A53B29,"Eastbound",,,,0
