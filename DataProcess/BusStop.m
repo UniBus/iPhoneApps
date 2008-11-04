@@ -34,6 +34,7 @@ int convertStopsToSQLite(NSString *stopFile, NSString *dbName)
 
 	stopsInCSV = [[parser parseFile] retain];
 	getStopsColumIndexes([stopsInCSV objectAtIndex:0]);
+	[stopsInCSV removeObjectAtIndex:0];
 	saveStopsToSqlite(stopsInCSV, dbName);
 		
 	[parser closeFile];	
@@ -110,8 +111,11 @@ int saveStopsToSqlite(NSArray *routes, NSString *dbName)
 									 [stopString objectAtIndex:columnStopPos],
 									 [stopString objectAtIndex:columnStopDir]];
 			else
-				stop_description = @"";			
-
+				stop_description = @"";
+			
+			if ([[stop_description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) 
+				stop_description = [stopString objectAtIndex:columnStopName];
+			
 			sql =[NSString stringWithFormat:@"INSERT INTO stops (stop_id, stop_name, stop_lat, stop_lon, stop_desc) VALUES (\"%@\", \"%@\", %f, %f, \"%@\")",				
 				  [stopString objectAtIndex:columnStopId], 
 				  [stopString objectAtIndex:columnStopName], 

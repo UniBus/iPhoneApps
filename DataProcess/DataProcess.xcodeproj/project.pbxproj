@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7D7E94230E97288D006E61BB /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7E941A0E97288D006E61BB /* parseCSV.m */; };
 		7D7E94BE0E972B69006E61BB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D7E94BD0E972B69006E61BB /* libsqlite3.0.dylib */; };
+		7D82FE400EB838DA0076F988 /* DBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D82FE3F0EB838DA0076F988 /* DBInfo.m */; };
+		7D82FF710EB85BFE0076F988 /* GTFSInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D82FF700EB85BFE0076F988 /* GTFSInfo.m */; };
 		7DA745660EB7002200830018 /* BusRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA745650EB7002200830018 /* BusRoute.m */; };
 		7DA745940EB709B400830018 /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA745930EB709B400830018 /* BusStop.m */; };
 		7DA7459C0EB70D6C00830018 /* Favorite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA7459B0EB70D6C00830018 /* Favorite.m */; };
@@ -37,6 +39,10 @@
 		7D7E94180E97288D006E61BB /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
 		7D7E941A0E97288D006E61BB /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 		7D7E94BD0E972B69006E61BB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		7D82FE3F0EB838DA0076F988 /* DBInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBInfo.m; sourceTree = "<group>"; };
+		7D82FE410EB838E70076F988 /* DBInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBInfo.h; sourceTree = "<group>"; };
+		7D82FF6F0EB85BFE0076F988 /* GTFSInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTFSInfo.h; sourceTree = "<group>"; };
+		7D82FF700EB85BFE0076F988 /* GTFSInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTFSInfo.m; sourceTree = "<group>"; };
 		7DA745640EB7002200830018 /* BusRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusRoute.h; sourceTree = "<group>"; };
 		7DA745650EB7002200830018 /* BusRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusRoute.m; sourceTree = "<group>"; };
 		7DA745920EB709B400830018 /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
@@ -84,6 +90,10 @@
 				08FB7796FE84155DC02AAC07 /* DataProcess.m */,
 				7DA7459A0EB70D6C00830018 /* Favorite.h */,
 				7DA7459B0EB70D6C00830018 /* Favorite.m */,
+				7D82FE410EB838E70076F988 /* DBInfo.h */,
+				7D82FE3F0EB838DA0076F988 /* DBInfo.m */,
+				7D82FF6F0EB85BFE0076F988 /* GTFSInfo.h */,
+				7D82FF700EB85BFE0076F988 /* GTFSInfo.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -161,6 +171,8 @@
 				7DA745660EB7002200830018 /* BusRoute.m in Sources */,
 				7DA745940EB709B400830018 /* BusStop.m in Sources */,
 				7DA7459C0EB70D6C00830018 /* Favorite.m in Sources */,
+				7D82FE400EB838DA0076F988 /* DBInfo.m in Sources */,
+				7D82FF710EB85BFE0076F988 /* GTFSInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

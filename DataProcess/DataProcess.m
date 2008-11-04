@@ -2,6 +2,8 @@
 #import "BusStop.h"
 #import "BusRoute.h"
 #import "Favorite.h"
+#import "DBInfo.h"
+#import "GTFSInfo.h"
 
 int main (int argc, const char * argv[]) 
 {
@@ -52,6 +54,30 @@ int main (int argc, const char * argv[])
 			else 
 				parameterError = YES;
 		}
+		else if ([action compare:@"-adddbinfo" options:NSCaseInsensitiveSearch]==NSOrderedSame)
+		{		
+			if (argc == 3)
+			{
+				printf("\n Add dbinfo table into %s\n\n", argv[2]);			
+				NSString *sqlFile = [NSString stringWithUTF8String:argv[2]];
+				addDBInfo(sqlFile);
+			}
+			else 
+				parameterError = YES;
+		}
+		else if ([action compare:@"-addgtfsinfo" options:NSCaseInsensitiveSearch]==NSOrderedSame)
+		{		
+			if (argc == 4)
+			{				
+				printf("\n Converting supported city %s to %s\n\n", argv[2], argv[3]);
+				NSString *srcFile = [NSString stringWithUTF8String:argv[2]];
+				NSString *sqlFile = [NSString stringWithUTF8String:argv[3]];
+				
+				convertCitiesToSQLite(srcFile, sqlFile);
+			}
+			else 
+				parameterError = YES;
+		}		
 		else
 			parameterError = YES;
 	}

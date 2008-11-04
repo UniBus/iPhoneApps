@@ -43,10 +43,10 @@ static char *cstrstr(const char *haystack, const char needle) {
 		retval[stringSize] = '\0';
 	}
 	NSMutableString *tempString = [NSMutableString stringWithCString: retval encoding:encoding];
-	[tempString replaceOccurrencesOfString:@"\"\"" 
-				    withString:@"\"" 
-				       options:0
-				         range:NSMakeRange(0, [tempString length])];
+	//[tempString replaceOccurrencesOfString:@"\"\"" 
+	//			    withString:@"\"" 
+	//			       options:0
+	//			         range:NSMakeRange(0, [tempString length])];
 	free(retval);
 	return [NSString stringWithString: tempString];
 }

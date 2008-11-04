@@ -31,6 +31,7 @@ int convertRoutesToSQLite(NSString *routeFile, NSString *dbName)
 	routesInCSV = [[parser parseFile] retain];
 	
 	getRoutesColumIndexes([routesInCSV objectAtIndex:0]);
+	[routesInCSV removeObjectAtIndex:0];
 	saveRoutesToSqlite(routesInCSV, dbName);
 	
 	[parser closeFile];	
