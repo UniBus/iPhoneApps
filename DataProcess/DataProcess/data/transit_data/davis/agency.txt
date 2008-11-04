@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_phone
-Unitrans,Unitrans (Davis),http://www.unitrans.com,America/Los_Angeles,530-752-BUSS

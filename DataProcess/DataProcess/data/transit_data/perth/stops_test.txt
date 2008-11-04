@@ -1,5 +1,0 @@
-location_type, parent_station, stop_id, stop_code, stop_name, stop_desc, stop_lat, stop_lon
-0,,10000,10000,"Albany Hwy After Armadale Rd","",-32.14796,116.020217222222
-0,,10001,10001,"Albany Hwy After Frys L","",-32.144985,116.018336666667
-0,,10002,10002,"Albany Hwy After Clarence Rd","",-32.1420722222222,116.017182777778
-1,,102,,"Whitfords Stn",,-31.799406952,115.782332213

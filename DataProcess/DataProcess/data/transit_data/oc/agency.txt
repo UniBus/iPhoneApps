@@ -1,2 +1,0 @@
-"agency_id","agency_name","agency_url","agency_timezone"
-1,"Orange County Transportation Authority","http://www.octa.net","America/Los_Angeles"

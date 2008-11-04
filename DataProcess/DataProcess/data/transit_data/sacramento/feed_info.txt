@@ -1,2 +1,0 @@
-feed_publisher_name,feed_publisher_url,feed_timezone,feed_lang,feed_version
-Sacramento Regional Transit,http://www.sacrt.com,America/Los_Angeles,eng,20080521_0934

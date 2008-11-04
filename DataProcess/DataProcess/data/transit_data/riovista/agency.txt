@@ -1,2 +1,0 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_phone
-5,"Rio Vista Delta Breeze","http://www.rio-vista-ca.com/transit/","America/Los_Angeles","(707) 374-2878"

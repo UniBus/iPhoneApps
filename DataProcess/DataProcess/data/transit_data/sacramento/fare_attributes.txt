@@ -1,5 +1,0 @@
-fare_id,price,currency_type,payment_method,transfers
-r, 2.00,USD,0,0
-rx,2.25,USD,0,1
-s, 1.00,USD,0,0
-cc,1.00,USD,0,0
