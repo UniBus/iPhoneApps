@@ -76,7 +76,7 @@ try:
 	addLines = 0;
 	for rowvalues in reader:
 		stop_id = rowvalues['stop_id'] #.strip(), will slow down a lot
-		stop_name = rowvalues['stop_name'].replace('&', '&amp;')
+		stop_name = rowvalues['stop_name'] #.replace('&', '&amp;')
 		stop_lat = rowvalues['stop_lat']
 		stop_lon = rowvalues['stop_lon']
 		try:

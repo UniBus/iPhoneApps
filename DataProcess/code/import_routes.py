@@ -72,8 +72,8 @@ try:
 	addLines = 0;
 	for rowvalues in reader:
 		route_id = rowvalues['route_id'].strip()
-		route_short_name = rowvalues['route_short_name'].replace('&', '&amp;')
-		route_long_name = rowvalues['route_long_name'].replace('&', '&amp;')
+		route_short_name = rowvalues['route_short_name'] #.replace('&', '&amp;')
+		route_long_name = rowvalues['route_long_name'] #.replace('&', '&amp;')
 		
 		#print route_id,route_short_name,route_long_name
 		cursor.execute("""

@@ -5,14 +5,14 @@
 12898|SCHROEDER @ GALVA - S - NS|32.916118|-96.762192|SCHROEDER @ GALVA - S - NS
 12899|SCHROEDER @ GALVA - S - NS|32.912078|-96.762787|SCHROEDER @ GALVA - S - NS
 ================= davis ================
-22000|Hutchison Dr &amp; A St (EB)|38.540031|-121.746053|Buses head EB
-22001|A St &amp; Hutchison (SB)|38.54049|-121.746012|Buses head SB
+22000|Hutchison Dr & A St (EB)|38.540031|-121.746053|Buses head EB
+22001|A St & Hutchison (SB)|38.54049|-121.746012|Buses head SB
 ================= denver ================
-10007|W 100th Ave &amp; Pecos St|39.87864|-105.00615|W 100th Ave &amp; Pecos St
-10008|W 100th Ave &amp; Ura Ln|39.87791|-105.01119|W 100th Ave &amp; Ura Ln
+10007|W 100th Ave & Pecos St|39.87864|-105.00615|W 100th Ave & Pecos St
+10008|W 100th Ave & Ura Ln|39.87791|-105.01119|W 100th Ave & Ura Ln
 ================= humboldt ================
 1289|Spruce Point|40.7419|-124.2|Spruce Point
-1251|Broadway St &amp; McCullen Ave|40.77423|-124.19057|Broadway St & McCullen Ave, Eureka, CA 95501
+1251|Broadway St & McCullen Ave|40.77423|-124.19057|Broadway St & McCullen Ave, Eureka, CA 95501
 ================= oc ================
 10|ANAHEIM-VERMONT|33.82344|-117.90981|ANAHEIM-VERMONT
 1000|KRAEMER-BIRCH|33.9162|-117.86367|KRAEMER-BIRCH
@@ -20,14 +20,14 @@
 10000|Albany Hwy After Armadale Rd|-32.14796|116.020217222222|Albany Hwy After Armadale Rd
 10001|Albany Hwy After Frys L|-32.144985|116.018336666667|Albany Hwy After Frys L
 ================= portland ================
-10|Abernethy &amp; Barclay|45.384749|-122.603202|Southbound stop in Gladstone (Stop ID 10)
-100|SW Allen &amp; Erickson|45.476379|-122.812071|Eastbound stop in Beaverton (Stop ID 100)
+10|Abernethy & Barclay|45.384749|-122.603202|Southbound stop in Gladstone (Stop ID 10)
+100|SW Allen & Erickson|45.476379|-122.812071|Eastbound stop in Beaverton (Stop ID 100)
 ================= riovista ================
-1557|Main St &amp; S Front St|38.1559|-121.6908|Main St &amp; S Front St
+1557|Main St & S Front St|38.1559|-121.6908|Main St & S Front St
 1537|Rio Vista Senior Center|38.1553|-121.6901|This bus stop is located at 25 Main Street
 ================= sacramento ================
-102|OLMSTEAD DR &amp; FAIRBANKS AVE|38.625807|-121.460055|Buses head NB
-103|NORTHGATE BLVD &amp; WINTER GARDEN AVE|38.625807|-121.475353|Buses head NB
+102|OLMSTEAD DR & FAIRBANKS AVE|38.625807|-121.460055|Buses head NB
+103|NORTHGATE BLVD & WINTER GARDEN AVE|38.625807|-121.475353|Buses head NB
 ================= sanfrancisco ================
 LAKE|Lake Merritt BART|37.79760237|-122.2654984|Lake Merritt BART
 MCAR|MacArthur BART|37.82840941|-122.2671871|MacArthur BART
