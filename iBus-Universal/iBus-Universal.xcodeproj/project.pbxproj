@@ -12,6 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		7D04BD6A0EDE5A9000F5A842 /* RouteTripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D04BD690EDE5A9000F5A842 /* RouteTripsViewController.m */; };
+		7D04BDB90EDE67A600F5A842 /* TripQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D04BDB80EDE67A600F5A842 /* TripQuery.m */; };
+		7D04BDE40EDE6ADD00F5A842 /* PhpXmlQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D04BDE30EDE6ADD00F5A842 /* PhpXmlQuery.m */; };
 		7D127E1D0E8636000068D300 /* StopSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E1C0E8636000068D300 /* StopSearchViewController.m */; };
 		7D127E940E8648E20068D300 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D127E930E8648E20068D300 /* libsqlite3.0.dylib */; };
 		7D127EA10E8649170068D300 /* General.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E9F0E8649170068D300 /* General.c */; };
@@ -42,10 +45,17 @@
 		7D83B0E50E88234100DCB5EC /* DatePickView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D83B0E40E88234100DCB5EC /* DatePickView.xib */; };
 		7D83B0E90E88242000DCB5EC /* DatePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B0E80E88242000DCB5EC /* DatePickViewController.m */; };
 		7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */; };
+		7D86E7E70ED53576006FC259 /* TripStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D86E7E60ED53576006FC259 /* TripStopsViewController.m */; };
 		7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */; };
 		7D9EBA9D0E8765C70004E4D4 /* RouteActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */; };
 		7D9EBB290E877DAA0004E4D4 /* RouteScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */; };
+		7DC4E36A0EDF030300C72123 /* StopMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC4E3690EDF030300C72123 /* StopMapViewController.m */; };
+		7DC4E36F0EDF037700C72123 /* TripMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC4E36E0EDF037700C72123 /* TripMapViewController.m */; };
 		7DCE40A00EB0E42A003FF456 /* gtfs_info.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */; };
+		7DCE89590ED3423C0087676B /* RouteSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCE89580ED3423C0087676B /* RouteSearchViewController.m */; };
+		7DCE895C0ED343700087676B /* BusRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCE895B0ED343700087676B /* BusRoute.m */; };
+		7DCE895F0ED345A00087676B /* RouteQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCE895E0ED345A00087676B /* RouteQuery.m */; };
+		7DDB1B500EDE55FA004945AE /* BusTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDB1B4F0EDE55FA004945AE /* BusTrip.m */; };
 		7DF459F40E9731E0006344D1 /* austin.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EC0E9731E0006344D1 /* austin.sqlite */; };
 		7DF459F50E9731E0006344D1 /* dallas.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459ED0E9731E0006344D1 /* dallas.sqlite */; };
 		7DF459F60E9731E0006344D1 /* denver.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DF459EE0E9731E0006344D1 /* denver.sqlite */; };
@@ -66,6 +76,12 @@
 		28A0AB4B0D9B1048005BE974 /* iBus_Universal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iBus_Universal_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7D04BD680EDE5A9000F5A842 /* RouteTripsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteTripsViewController.h; sourceTree = "<group>"; };
+		7D04BD690EDE5A9000F5A842 /* RouteTripsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteTripsViewController.m; sourceTree = "<group>"; };
+		7D04BDB70EDE67A600F5A842 /* TripQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripQuery.h; sourceTree = "<group>"; };
+		7D04BDB80EDE67A600F5A842 /* TripQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripQuery.m; sourceTree = "<group>"; };
+		7D04BDE20EDE6ADD00F5A842 /* PhpXmlQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhpXmlQuery.h; sourceTree = "<group>"; };
+		7D04BDE30EDE6ADD00F5A842 /* PhpXmlQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhpXmlQuery.m; sourceTree = "<group>"; };
 		7D127E1B0E8636000068D300 /* StopSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopSearchViewController.h; sourceTree = "<group>"; };
 		7D127E1C0E8636000068D300 /* StopSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopSearchViewController.m; sourceTree = "<group>"; };
 		7D127E930E8648E20068D300 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -115,13 +131,27 @@
 		7D83B0E80E88242000DCB5EC /* DatePickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickViewController.m; sourceTree = "<group>"; };
 		7D83B3E20E885F4400DCB5EC /* FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteViewController.h; sourceTree = "<group>"; };
 		7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
+		7D86E7E50ED53576006FC259 /* TripStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripStopsViewController.h; sourceTree = "<group>"; };
+		7D86E7E60ED53576006FC259 /* TripStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripStopsViewController.m; sourceTree = "<group>"; };
 		7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyViewController.h; sourceTree = "<group>"; };
 		7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyViewController.m; sourceTree = "<group>"; };
 		7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteActionViewController.h; sourceTree = "<group>"; };
 		7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteActionViewController.m; sourceTree = "<group>"; };
 		7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteScheduleViewController.h; sourceTree = "<group>"; };
 		7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteScheduleViewController.m; sourceTree = "<group>"; };
+		7DC4E3680EDF030300C72123 /* StopMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopMapViewController.h; sourceTree = "<group>"; };
+		7DC4E3690EDF030300C72123 /* StopMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopMapViewController.m; sourceTree = "<group>"; };
+		7DC4E36D0EDF037700C72123 /* TripMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripMapViewController.h; sourceTree = "<group>"; };
+		7DC4E36E0EDF037700C72123 /* TripMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripMapViewController.m; sourceTree = "<group>"; };
 		7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = gtfs_info.sqlite; sourceTree = "<group>"; };
+		7DCE89570ED3423C0087676B /* RouteSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchViewController.h; sourceTree = "<group>"; };
+		7DCE89580ED3423C0087676B /* RouteSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchViewController.m; sourceTree = "<group>"; };
+		7DCE895A0ED343700087676B /* BusRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusRoute.h; sourceTree = "<group>"; };
+		7DCE895B0ED343700087676B /* BusRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusRoute.m; sourceTree = "<group>"; };
+		7DCE895D0ED345A00087676B /* RouteQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteQuery.h; sourceTree = "<group>"; };
+		7DCE895E0ED345A00087676B /* RouteQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteQuery.m; sourceTree = "<group>"; };
+		7DDB1B4E0EDE55FA004945AE /* BusTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusTrip.h; sourceTree = "<group>"; };
+		7DDB1B4F0EDE55FA004945AE /* BusTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusTrip.m; sourceTree = "<group>"; };
 		7DF459EC0E9731E0006344D1 /* austin.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = austin.sqlite; sourceTree = "<group>"; };
 		7DF459ED0E9731E0006344D1 /* dallas.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = dallas.sqlite; sourceTree = "<group>"; };
 		7DF459EE0E9731E0006344D1 /* denver.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = denver.sqlite; sourceTree = "<group>"; };
@@ -153,40 +183,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				7D767C0A0E85791100CEFE8A /* ArrivalCell.h */,
-				7D767C0B0E85791100CEFE8A /* ArrivalCell.m */,
-				7D767C070E85790400CEFE8A /* StopCell.h */,
-				7D767C080E85790400CEFE8A /* StopCell.m */,
-				7D76F41B0E85B8C50040B004 /* TransitApp.h */,
-				7D76F41C0E85B8C50040B004 /* TransitApp.m */,
-				1D3623240D0F684500981E51 /* TransitAppDelegate.h */,
-				1D3623250D0F684500981E51 /* TransitAppDelegate.m */,
-				7D83B3E20E885F4400DCB5EC /* FavoriteViewController.h */,
-				7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */,
-				7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */,
-				7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */,
-				7D76F4DC0E85BB310040B004 /* SettingsViewController.h */,
-				7D76F4DD0E85BB310040B004 /* SettingsViewController.m */,
-				7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */,
-				7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */,
-				7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */,
-				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
-				7D767C010E8578E300CEFE8A /* MapViewController.h */,
-				7D767C020E8578E300CEFE8A /* MapViewController.m */,
-				7D767C030E8578E300CEFE8A /* StopsViewController.h */,
-				7D767C040E8578E300CEFE8A /* StopsViewController.m */,
-				7D127E1B0E8636000068D300 /* StopSearchViewController.h */,
-				7D127E1C0E8636000068D300 /* StopSearchViewController.m */,
-				7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */,
-				7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */,
-				7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */,
-				7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */,
-				7D83B0E70E88242000DCB5EC /* DatePickViewController.h */,
-				7D83B0E80E88242000DCB5EC /* DatePickViewController.m */,
-				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
-				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
-				7D82FEEE0EB83F5A0076F988 /* Upgrade.h */,
-				7D82FEEF0EB83F5A0076F988 /* Upgrade.m */,
+				7D04BD6C0EDE5AC500F5A842 /* App&Delegate */,
+				7D04BD6B0EDE5AB600F5A842 /* Cells */,
+				7D04BD6D0EDE5ADC00F5A842 /* Pages */,
+				7D04BD740EDE5BEB00F5A842 /* Upgrade */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -224,26 +224,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */,
-				7DF459EC0E9731E0006344D1 /* austin.sqlite */,
-				7DF459ED0E9731E0006344D1 /* dallas.sqlite */,
-				7DF459EE0E9731E0006344D1 /* denver.sqlite */,
-				7DF459EF0E9731E0006344D1 /* humboldt.sqlite */,
-				7DF459F00E9731E0006344D1 /* oc.sqlite */,
-				7DF459F10E9731E0006344D1 /* sacramento.sqlite */,
-				7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */,
-				7DF459F30E9731E0006344D1 /* portland.sqlite */,
-				7D59CA280E94AF0E00FEA89A /* supportedcities.lst */,
-				7D80D9480E92A1F6005DA0D5 /* search.png */,
-				7D80D9460E92A1C1005DA0D5 /* setting.png */,
-				7D80D9380E92A134005DA0D5 /* busIcon.png */,
-				7D80D9390E92A134005DA0D5 /* closest.png */,
-				7D76F64E0E85C5B20040B004 /* mapicon.png */,
+				7D04BD880EDE62F600F5A842 /* UI */,
+				7D04BD870EDE62CC00F5A842 /* Databases */,
+				7D04BD860EDE62C400F5A842 /* Icons */,
+				7D04BD890EDE631B00F5A842 /* Others */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
-				7D83B0E40E88234100DCB5EC /* DatePickView.xib */,
-				7DF6A1620E9CAE60002B9659 /* Default.png */,
-				7D7B00620E9DC62700DDABDC /* about.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -260,21 +245,238 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7D04BD6B0EDE5AB600F5A842 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7D767C0A0E85791100CEFE8A /* ArrivalCell.h */,
+				7D767C0B0E85791100CEFE8A /* ArrivalCell.m */,
+				7D767C070E85790400CEFE8A /* StopCell.h */,
+				7D767C080E85790400CEFE8A /* StopCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		7D04BD6C0EDE5AC500F5A842 /* App&Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				7D76F41B0E85B8C50040B004 /* TransitApp.h */,
+				7D76F41C0E85B8C50040B004 /* TransitApp.m */,
+				1D3623240D0F684500981E51 /* TransitAppDelegate.h */,
+				1D3623250D0F684500981E51 /* TransitAppDelegate.m */,
+			);
+			name = "App&Delegate";
+			sourceTree = "<group>";
+		};
+		7D04BD6D0EDE5ADC00F5A842 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				7D04BD730EDE5B7500F5A842 /* General */,
+				7D04BD6E0EDE5AF700F5A842 /* Favorites */,
+				7D04BD710EDE5B3100F5A842 /* StopSearch */,
+				7D04BD720EDE5B3900F5A842 /* RouteSearch */,
+				7D04BD700EDE5B2800F5A842 /* Nearby */,
+				7D04BD6F0EDE5B1600F5A842 /* Settings */,
+			);
+			name = Pages;
+			sourceTree = "<group>";
+		};
+		7D04BD6E0EDE5AF700F5A842 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				7D83B3E20E885F4400DCB5EC /* FavoriteViewController.h */,
+				7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */,
+			);
+			name = Favorites;
+			sourceTree = "<group>";
+		};
+		7D04BD6F0EDE5B1600F5A842 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				7D76F4DC0E85BB310040B004 /* SettingsViewController.h */,
+				7D76F4DD0E85BB310040B004 /* SettingsViewController.m */,
+				7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */,
+				7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */,
+				7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */,
+				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
+				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
+				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		7D04BD700EDE5B2800F5A842 /* Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */,
+				7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */,
+			);
+			name = Nearby;
+			sourceTree = "<group>";
+		};
+		7D04BD710EDE5B3100F5A842 /* StopSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7D127E1B0E8636000068D300 /* StopSearchViewController.h */,
+				7D127E1C0E8636000068D300 /* StopSearchViewController.m */,
+			);
+			name = StopSearch;
+			sourceTree = "<group>";
+		};
+		7D04BD720EDE5B3900F5A842 /* RouteSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7DCE89570ED3423C0087676B /* RouteSearchViewController.h */,
+				7DCE89580ED3423C0087676B /* RouteSearchViewController.m */,
+				7D04BD680EDE5A9000F5A842 /* RouteTripsViewController.h */,
+				7D04BD690EDE5A9000F5A842 /* RouteTripsViewController.m */,
+				7D86E7E50ED53576006FC259 /* TripStopsViewController.h */,
+				7D86E7E60ED53576006FC259 /* TripStopsViewController.m */,
+				7DC4E36D0EDF037700C72123 /* TripMapViewController.h */,
+				7DC4E36E0EDF037700C72123 /* TripMapViewController.m */,
+			);
+			name = RouteSearch;
+			sourceTree = "<group>";
+		};
+		7D04BD730EDE5B7500F5A842 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				7D767C030E8578E300CEFE8A /* StopsViewController.h */,
+				7D767C040E8578E300CEFE8A /* StopsViewController.m */,
+				7D9EBA9B0E8765C70004E4D4 /* RouteActionViewController.h */,
+				7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */,
+				7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */,
+				7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */,
+				7D83B0E70E88242000DCB5EC /* DatePickViewController.h */,
+				7D83B0E80E88242000DCB5EC /* DatePickViewController.m */,
+				7D767C010E8578E300CEFE8A /* MapViewController.h */,
+				7D767C020E8578E300CEFE8A /* MapViewController.m */,
+				7DC4E3680EDF030300C72123 /* StopMapViewController.h */,
+				7DC4E3690EDF030300C72123 /* StopMapViewController.m */,
+			);
+			name = General;
+			sourceTree = "<group>";
+		};
+		7D04BD740EDE5BEB00F5A842 /* Upgrade */ = {
+			isa = PBXGroup;
+			children = (
+				7D82FEEE0EB83F5A0076F988 /* Upgrade.h */,
+				7D82FEEF0EB83F5A0076F988 /* Upgrade.m */,
+			);
+			name = Upgrade;
+			sourceTree = "<group>";
+		};
+		7D04BD860EDE62C400F5A842 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				7DF6A1620E9CAE60002B9659 /* Default.png */,
+				7D80D9480E92A1F6005DA0D5 /* search.png */,
+				7D80D9460E92A1C1005DA0D5 /* setting.png */,
+				7D80D9380E92A134005DA0D5 /* busIcon.png */,
+				7D80D9390E92A134005DA0D5 /* closest.png */,
+				7D76F64E0E85C5B20040B004 /* mapicon.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		7D04BD870EDE62CC00F5A842 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */,
+				7DF459EC0E9731E0006344D1 /* austin.sqlite */,
+				7DF459ED0E9731E0006344D1 /* dallas.sqlite */,
+				7DF459EE0E9731E0006344D1 /* denver.sqlite */,
+				7DF459EF0E9731E0006344D1 /* humboldt.sqlite */,
+				7DF459F00E9731E0006344D1 /* oc.sqlite */,
+				7DF459F10E9731E0006344D1 /* sacramento.sqlite */,
+				7DF459F20E9731E0006344D1 /* sanfrancisco.sqlite */,
+				7DF459F30E9731E0006344D1 /* portland.sqlite */,
+				7D59CA280E94AF0E00FEA89A /* supportedcities.lst */,
+			);
+			name = Databases;
+			sourceTree = "<group>";
+		};
+		7D04BD880EDE62F600F5A842 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				7D83B0E40E88234100DCB5EC /* DatePickView.xib */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		7D04BD890EDE631B00F5A842 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				7D7B00620E9DC62700DDABDC /* about.html */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
+		7D04BD8A0EDE633F00F5A842 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				7D127E9F0E8649170068D300 /* General.c */,
+				7D127EA00E8649170068D300 /* General.h */,
+				7D59C9C70E94AA4500FEA89A /* parseCSV.h */,
+				7D59C9C80E94AA4500FEA89A /* parseCSV.m */,
+				7D04BDE20EDE6ADD00F5A842 /* PhpXmlQuery.h */,
+				7D04BDE30EDE6ADD00F5A842 /* PhpXmlQuery.m */,
+			);
+			name = General;
+			sourceTree = "<group>";
+		};
+		7D04BD8B0EDE634E00F5A842 /* Arrivals */ = {
+			isa = PBXGroup;
+			children = (
+				7D767C120E857B8700CEFE8A /* BusArrival.h */,
+				7D767C130E857B8700CEFE8A /* BusArrival.m */,
+				7D767C100E857B8700CEFE8A /* ArrivalQuery.h */,
+				7D767C110E857B8700CEFE8A /* ArrivalQuery.m */,
+			);
+			name = Arrivals;
+			sourceTree = "<group>";
+		};
+		7D04BD8C0EDE635900F5A842 /* Stops */ = {
+			isa = PBXGroup;
+			children = (
+				7D767C140E857B8700CEFE8A /* BusStop.h */,
+				7D767C150E857B8700CEFE8A /* BusStop.m */,
+				7D767C1E0E857B8700CEFE8A /* StopQuery.h */,
+				7D767C1F0E857B8700CEFE8A /* StopQuery.m */,
+			);
+			name = Stops;
+			sourceTree = "<group>";
+		};
+		7D04BD8D0EDE636500F5A842 /* Routes&Trips */ = {
+			isa = PBXGroup;
+			children = (
+				7DCE895A0ED343700087676B /* BusRoute.h */,
+				7DCE895B0ED343700087676B /* BusRoute.m */,
+				7DCE895D0ED345A00087676B /* RouteQuery.h */,
+				7DCE895E0ED345A00087676B /* RouteQuery.m */,
+			);
+			name = "Routes&Trips";
+			sourceTree = "<group>";
+		};
+		7D04BDBC0EDE686500F5A842 /* Trips */ = {
+			isa = PBXGroup;
+			children = (
+				7DDB1B4E0EDE55FA004945AE /* BusTrip.h */,
+				7DDB1B4F0EDE55FA004945AE /* BusTrip.m */,
+				7D04BDB70EDE67A600F5A842 /* TripQuery.h */,
+				7D04BDB80EDE67A600F5A842 /* TripQuery.m */,
+			);
+			name = Trips;
+			sourceTree = "<group>";
+		};
 		7D767C0F0E857B7500CEFE8A /* BusQuery */ = {
 			isa = PBXGroup;
 			children = (
-				7D59C9C70E94AA4500FEA89A /* parseCSV.h */,
-				7D59C9C80E94AA4500FEA89A /* parseCSV.m */,
-				7D767C100E857B8700CEFE8A /* ArrivalQuery.h */,
-				7D767C110E857B8700CEFE8A /* ArrivalQuery.m */,
-				7D767C120E857B8700CEFE8A /* BusArrival.h */,
-				7D767C130E857B8700CEFE8A /* BusArrival.m */,
-				7D767C140E857B8700CEFE8A /* BusStop.h */,
-				7D767C150E857B8700CEFE8A /* BusStop.m */,
-				7D127E9F0E8649170068D300 /* General.c */,
-				7D127EA00E8649170068D300 /* General.h */,
-				7D767C1E0E857B8700CEFE8A /* StopQuery.h */,
-				7D767C1F0E857B8700CEFE8A /* StopQuery.m */,
+				7D04BD8A0EDE633F00F5A842 /* General */,
+				7D04BD8C0EDE635900F5A842 /* Stops */,
+				7D04BD8B0EDE634E00F5A842 /* Arrivals */,
+				7D04BD8D0EDE636500F5A842 /* Routes&Trips */,
+				7D04BDBC0EDE686500F5A842 /* Trips */,
 			);
 			path = BusQuery;
 			sourceTree = "<group>";
@@ -374,6 +576,16 @@
 				7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */,
 				7D80CF180EB3A9FE00291BEF /* GTFSCity.m in Sources */,
 				7D82FEF00EB83F5A0076F988 /* Upgrade.m in Sources */,
+				7DCE89590ED3423C0087676B /* RouteSearchViewController.m in Sources */,
+				7DCE895C0ED343700087676B /* BusRoute.m in Sources */,
+				7DCE895F0ED345A00087676B /* RouteQuery.m in Sources */,
+				7D86E7E70ED53576006FC259 /* TripStopsViewController.m in Sources */,
+				7DDB1B500EDE55FA004945AE /* BusTrip.m in Sources */,
+				7D04BD6A0EDE5A9000F5A842 /* RouteTripsViewController.m in Sources */,
+				7D04BDB90EDE67A600F5A842 /* TripQuery.m in Sources */,
+				7D04BDE40EDE6ADD00F5A842 /* PhpXmlQuery.m in Sources */,
+				7DC4E36A0EDF030300C72123 /* StopMapViewController.m in Sources */,
+				7DC4E36F0EDF037700C72123 /* TripMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
