@@ -7,17 +7,14 @@
 //
 
 //#import <UIKit/UIKit.h>
+#import "PhpXmlQuery.h"
 
-@interface ArrivalQuery : NSObject {
+@interface ArrivalQuery : PhpXmlQuery {
 	NSMutableArray *arrivalsForStops;
-	NSString *webServicePrefix;
 }
-
-@property (retain) NSString * webServicePrefix;
 
 - (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day;
 - (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop;
 - (NSArray *) queryForStops: (NSArray *) stops;
-- (NSArray *) queryByURL: (NSURL *) url;
 
 @end

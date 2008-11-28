@@ -21,6 +21,5 @@
 }
 
 - (void)mapWithURL:(NSURL *)url;
-- (void)mapWithLatitude: (double)lat Longitude:(double)lon;
 
 @end

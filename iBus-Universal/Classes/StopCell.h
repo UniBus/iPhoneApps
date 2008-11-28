@@ -12,9 +12,7 @@
 
 @interface StopCell : UITableViewCell
 {
-	UILabel      *stopName;
 	UITextView   *stopDesc;
-	//UIButton     *mapButton;
 	BusStop      *theStop;
 	UIViewController *ownerView;
 }

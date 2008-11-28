@@ -9,11 +9,7 @@
 #import "ArrivalQuery.h"
 #import "BusArrival.h"
 
-NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
-
 @implementation ArrivalQuery
-
-@synthesize webServicePrefix;
 
 - (id) init
 {
@@ -35,8 +31,12 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@",
 						   webServicePrefix, stop, route];
 	
-	NSURL *queryURL = [NSURL URLWithString:urlString];
-	return [self queryByURL:queryURL];	
+	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
+	NSURL *queryURL = [NSURL URLWithString:encodedString];
+	
+	[arrivalsForStops removeAllObjects];
+	[self queryByURL:queryURL];	
+	return arrivalsForStops;
 }
 
 - (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day
@@ -44,8 +44,12 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@&day=%@",
 						   webServicePrefix, stop, route, day];
 	
-	NSURL *queryURL = [NSURL URLWithString:urlString];
-	return [self queryByURL:queryURL];	
+	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
+	NSURL *queryURL = [NSURL URLWithString:encodedString];
+	
+	[arrivalsForStops removeAllObjects];
+	[self queryByURL:queryURL];	
+	return arrivalsForStops;
 }
 
 - (NSArray *) queryForStops: (NSArray*) stops
@@ -58,32 +62,18 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 		idListString = [NSString stringWithFormat:@"%@,%@", idListString, [[stops objectAtIndex:i] stopId]];
 	
 	NSString *urlString = [NSString stringWithFormat:@"%@/arrivals.php?stop_id=%@",
-							webServicePrefix, idListString, globalAppID];
+							self.webServicePrefix, idListString];
 	
-	NSURL *queryURL = [NSURL URLWithString:urlString];
-	return [self queryByURL:queryURL];
-}
-
-- (NSArray *) queryByURL: (NSURL *) url
-{
+	//NSString * encodedString = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
+	//																				  (CFStringRef)urlString,
+	//																				  CFSTR(""));
+	//Clearly the above is a better way, but unfortunately,
+	//   current SDK doesn't work for that!!
+	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
+	NSURL *queryURL = [NSURL URLWithString:encodedString];
+	
 	[arrivalsForStops removeAllObjects];
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-    // Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-    [parser setDelegate:self];
-    // Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-    [parser setShouldProcessNamespaces:NO];
-    [parser setShouldReportNamespacePrefixes:NO];
-    [parser setShouldResolveExternalEntities:NO];
-    
-    [parser parse];
-    
-    NSError *parseError = [parser parserError];
-    if (parseError) {
-		NSLog(@"Error: %@", parseError);
-    }
-    
-    [parser release];
-	
+	[self queryByURL:queryURL];
 	return arrivalsForStops;
 }
 
@@ -117,27 +107,6 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 }
 
 #pragma mark XML Delegate Callback Functions
-- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
-{
-	[parser abortParsing];
-	//NSLog(@"Error: %@", parseError);
-
-	/*
-	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Update failed!"
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-	[alert show];	
-	[alert release];	
-	 */
-	
-	[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed!" waitUntilDone:NO];
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser
-{
-	//[arrivalsForStops sortUsingSelector:@selector(compare:)];
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
@@ -153,16 +122,6 @@ NSString const *globalAppID = @"9DC07B30ADE677EC5DE272F8A";
 		[arrivalsForStops addObject:arrival];
 		[arrival release];
 	}
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
-{
-	return;
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
-{
-	return;
 }
 
 @end

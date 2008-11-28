@@ -10,6 +10,8 @@
 #import "TransitAppDelegate.h"
 #import "StopsViewController.h"
 #import "RouteScheduleViewController.h"
+#import "RouteTripsViewController.h"
+#import "TripStopsViewController.h"
 #import "CitySelectViewController.h"
 #import "StopQuery.h"
 #import "Upgrade.h"
@@ -33,7 +35,10 @@ extern int numberOfResults;
 - (void) initializeGTFSInfoDatabase;
 - (void) initializeDatabase;
 - (void) initializeWebService;
-- (void) queryTaskEntry: (id) queryingObj;
+- (void) queryArrivalTaskEntry: (id) queryingObj;
+- (void) queryStopTaskEntry: (id) queryingObj;
+- (void) queryTripsOnRoueTaskEntry: (id) queryingObj;
+- (void) queryStopsOnTripTaskEntry: (id) queryingObj;
 - (void) registerUserDefaults;
 - (void) userAlert: (NSString *) msg;
 @end
@@ -41,7 +46,7 @@ extern int numberOfResults;
 
 @implementation TransitApp
 
-@synthesize stopQueryAvailable, arrivalQueryAvailable;
+@synthesize stopQueryAvailable, arrivalQueryAvailable, routeQueryAvailable;
 
 - (id) init
 {
@@ -60,6 +65,7 @@ extern int numberOfResults;
 	[opQueue autorelease];
 	[arrivalQuery release];
 	[stopQuery release];
+	[routeQuery release];
 	[super dealloc];
 }
 
@@ -77,6 +83,15 @@ extern int numberOfResults;
 	[defaultValues setObject:@"" forKey:USerCurrentDatabase];
 	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
 	[defaults registerDefaults:defaultValues];
+}
+
+- (void) userAlert: (NSString *) msg
+{
+	// open an alert with just an OK button
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:msg
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];		
 }
 
 #pragma mark Database operation
@@ -144,6 +159,8 @@ extern int numberOfResults;
 	NSLog(@"Open database: %@", destPath);
 	[stopQuery release];
 	stopQuery = [StopQuery initWithFile:destPath];	
+	[routeQuery release];
+	routeQuery = [RouteQuery initWithFile:destPath];	
 }
 
 - (void) initializeGTFSInfoDatabase
@@ -191,6 +208,14 @@ extern int numberOfResults;
 	{
 		arrivalQuery.webServicePrefix = currentWebPrefix;
 		arrivalQueryAvailable = YES;
+	}	
+	
+	[tripQuery release];
+	tripQuery = [[TripQuery alloc] init];
+	if (tripQuery)
+	{
+		tripQuery.webServicePrefix = currentWebPrefix;
+		tripQueryAvailable = YES;
 	}	
 }
 
@@ -274,6 +299,41 @@ extern int numberOfResults;
 	return [stopQuery getRandomStop];
 }
 
+#pragma mark Route Querying Functions
+- (BusRoute *) routeOfId:(NSString *) routeId
+{
+	if (routeQuery == nil)
+	{
+		return nil;
+	}	
+	return [routeQuery routeOfId:routeId];
+}
+
+- (NSArray *) queryRouteWithName:(NSString *) routeName
+{
+	if (routeQuery == nil)
+		return [NSMutableArray array];
+	
+	return [routeQuery queryRouteWithName:routeName];
+}
+
+- (NSArray *) queryRouteWithNames:(NSArray *) routeNames
+{
+	if (routeQuery == nil)
+		return [NSMutableArray array];
+	
+	return [routeQuery queryRouteWithNames:routeNames];
+}
+
+- (NSArray *) queryRouteWithIds:(NSArray *) routeIds
+{
+	if (routeQuery == nil)
+		return [NSMutableArray array];
+	
+	return [routeQuery queryRouteWithIds:routeIds];
+}
+
+#pragma mark Stop Querying Functions
 - (BusStop *) stopOfId:(NSString *) anId
 {
 	if (stopQuery == nil)
@@ -324,6 +384,36 @@ extern int numberOfResults;
 	return [stopQuery queryStopWithPosition:pos within:distInKm];
 }
 
+#pragma mark Trip Querying Functions
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId
+{
+	if (tripQuery == nil)
+	{
+		return [NSMutableArray array];
+	}
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [tripQuery queryTripsOnRoute:routeId];
+	self.networkActivityIndicatorVisible = NO;
+	
+	return results;
+}
+
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId
+{
+	if (tripQuery == nil)
+	{
+		return [NSMutableArray array];
+	}
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [tripQuery queryStopsOnTrip:tripId];
+	self.networkActivityIndicatorVisible = NO;
+	
+	return results;
+}
+
+#pragma mark Arrival Query Functions
 - (NSArray *) arrivalsAtStops: (NSArray*) stops
 {
 	if (arrivalQuery == nil)
@@ -338,37 +428,44 @@ extern int numberOfResults;
 	return results;
 }
 
-- (void) scheduleAtStopsAsync: (id)stopView
+#pragma mark Asynchronous query through internet
+- (void) scheduleAtStopsAsync: (id)stopView  //This is in local database, though
 {
-	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryTaskEntry2:) object:stopView];
+	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryStopTaskEntry:) object:stopView];
 	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
 	[opQueue addOperation:theOp];
 }
 
 - (void) arrivalsAtStopsAsync: (id)stopView
 {
-	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryTaskEntry:) object:stopView];
+	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryArrivalTaskEntry:) object:stopView];
 	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
 	[opQueue addOperation:theOp];
 	[theOp release];
 }	
 
-- (void) userAlert: (NSString *) msg
+- (void) tripsOnRouteAtStopsAsync: (id)routeTripView
 {
-	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:msg
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-	[alert show];	
-	[alert release];		
-}
-	
-#pragma mark Arrivals query through internet
+	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryTripsOnRoueTaskEntry:) object:routeTripView];
+	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
+	[opQueue addOperation:theOp];
+	[theOp release];
+}	
+
+- (void) stopsOnTripAtStopsAsync: (id)tripStopView
+{
+	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryStopsOnTripTaskEntry:) object:tripStopView];
+	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
+	[opQueue addOperation:theOp];
+	[theOp release];
+}	
+
 - (void) queryTaskExit: (NSInvocation *) invocation 
 {
 	[invocation invoke];
 }
 
-- (void) queryTaskEntry: (id) queryingObj
+- (void) queryArrivalTaskEntry: (id) queryingObj
 {
 	if (! [queryingObj isKindOfClass:[StopsViewController class]])
 		return;
@@ -378,16 +475,19 @@ extern int numberOfResults;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
+		NSArray *results;
 		if (arrivalQuery == nil)
 		{
-			[queryingObj arrivalsUpdated: [NSMutableArray array]];
+			results = [NSMutableArray array];
 		}
-	
-		self.networkActivityIndicatorVisible = YES;
-		NSArray *results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-		//[NSThread sleepForTimeInterval:3];
-		self.networkActivityIndicatorVisible = NO;
-
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+			//[NSThread sleepForTimeInterval:3];
+			self.networkActivityIndicatorVisible = NO;
+		}
+		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
@@ -400,7 +500,7 @@ extern int numberOfResults;
 	}
 }
 
-- (void) queryTaskEntry2: (id) queryingObj
+- (void) queryStopTaskEntry: (id) queryingObj
 {
 	if (! [queryingObj isKindOfClass:[RouteScheduleViewController class]])
 		return;
@@ -410,15 +510,18 @@ extern int numberOfResults;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
+		NSArray *results;
 		if (arrivalQuery == nil)
 		{
-			[queryingObj arrivalsUpdated: [NSMutableArray array]];
+			results = [NSMutableArray array];
 		}
-		
-		self.networkActivityIndicatorVisible = YES;
-		NSArray *results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
-		self.networkActivityIndicatorVisible = NO;
-		
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+			self.networkActivityIndicatorVisible = NO;
+		}
+				
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
@@ -430,5 +533,80 @@ extern int numberOfResults;
 		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
 	}
 }
+
+- (void) queryTripsOnRoueTaskEntry: (id) queryingObj
+{
+	if (! [queryingObj isKindOfClass:[RouteTripsViewController class]])
+	{
+		NSLog(@"Wrong class is querying TripsOnRoute!!");
+		return;
+	}
+	
+	RouteTripsViewController *routeTripsViewCtrl = (RouteTripsViewController *)queryingObj;
+	
+	//Only allow one single query at a time
+	@synchronized (self)
+	{
+		NSArray *results;
+		if (tripQuery == nil)
+		{
+			results = [NSMutableArray array];
+		}
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+			self.networkActivityIndicatorVisible = NO;
+		}	
+		
+		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(tripsUpdated:)];
+		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+		[invocation setTarget: queryingObj];
+		[invocation setSelector: @selector(tripsUpdated:)];	
+		[invocation setArgument:&results atIndex:2];
+		[invocation retainArguments];
+			
+		//[queryingObj arrivalsUpdated: results];
+		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
+	}
+}
+
+- (void) queryStopsOnTripTaskEntry: (id) queryingObj
+{
+	if (! [queryingObj isKindOfClass:[TripStopsViewController class]])
+	{
+		NSLog(@"Wrong class is querying StopsOnTrip!!");
+		return;
+	}
+	
+	TripStopsViewController *tripStopsViewCtrl = (TripStopsViewController *)queryingObj;
+	
+	//Only allow one single query at a time
+	@synchronized (self)
+	{
+		NSArray *results;
+		if (tripQuery == nil)
+		{
+			results = [NSMutableArray array];
+		}
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			self.networkActivityIndicatorVisible = NO;
+		}	
+		
+		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(stopsUpdated:)];
+		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+		[invocation setTarget: queryingObj];
+		[invocation setSelector: @selector(stopsUpdated:)];	
+		[invocation setArgument:&results atIndex:2];
+		[invocation retainArguments];
+		
+		//[queryingObj arrivalsUpdated: results];
+		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
+	}
+}
+
 
 @end

@@ -82,24 +82,6 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	[mapWeb loadRequest:request];
 }
 
-- (void)mapWithLatitude: (double)lat Longitude:(double)lon
-{
-	//NSString *urlString = [NSString stringWithFormat:@"http://www.wenear.com/iphone-test?width=%f&height=%f", 
-	//					   self.view.frame.size.width, self.view.frame.size.height];
-	NSString *urlString = [NSString stringWithFormat:@"http://zhenwang.yao.googlepages.com/maplet.html?width=%f&height=%f&lat=%f&long=%f", 
-						   self.view.frame.size.width, self.view.frame.size.height, lat, lon];
-	
-	//NSURL *url = [NSURL URLWithString:@"http://zhenwang.yao.googlepages.com/maplet.html"];
-	NSURL *url= [NSURL URLWithString:urlString];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url 
-											 cachePolicy:NSURLRequestUseProtocolCachePolicy
-										 timeoutInterval:20];  // 20 sec;
-	[mapWeb loadRequest:request];
-	
-	lastRequestedLat = lat;
-	lastRequestedLon = lon;
-}
-
 #pragma mark Map Operation
 - (void) mapWebExecuteScript:(NSString *)script
 {

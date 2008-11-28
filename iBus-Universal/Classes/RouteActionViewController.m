@@ -17,6 +17,8 @@
 	UILabel *actionLabel;
 	UILabel *stopInfoLabel;
 	UILabel *routeInfoLabel;
+	UITextView *routeInfoText;
+	UITextView *stopInfoText;
 }
 
 - (void) setAction:(NSString *)action;
@@ -28,8 +30,17 @@
 #define CELL_LABEL_LEFT		20
 #define CELL_LABEL_TOP		0
 #define CELL_LABEL_WIDTH	260
-#define CELL_LABEL_HEIGHT	44
-#define CELL_LABEL_HEIGHT2	22
+#define CELL_LABEL_HEIGHT	40
+
+#define CELL_LABEL_TOP2		30
+#define CELL_LABEL_WIDTH2	60
+#define CELL_LABEL_WIDTH3	200
+
+#define CELL_LABEL_HEIGHT2	30
+#define CELL_LABEL_HEIGHT3	36
+
+#define CELL_LABEL_TOTAL_HEIGHT	120
+#define CELL_REGULAR_HEIGHT		44
 
 @implementation RouteAtStopCell
 
@@ -47,18 +58,37 @@
 	actionLabel.multipleTouchEnabled = NO;
 	actionLabel.opaque = NO;
 	
-	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	ctrlFrame.origin.y = CELL_LABEL_TOP2;
 	ctrlFrame.size.height = CELL_LABEL_HEIGHT2;
+	ctrlFrame.size.width = CELL_LABEL_WIDTH2;
 	routeInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
 	routeInfoLabel.text = @"";
 	routeInfoLabel.textColor = [UIColor blueColor];
 	routeInfoLabel.font = [UIFont systemFontOfSize:12];
 	routeInfoLabel.textAlignment = UITextAlignmentCenter;
 	routeInfoLabel.userInteractionEnabled = NO;
-	stopInfoLabel.multipleTouchEnabled = NO;
+	routeInfoLabel.multipleTouchEnabled = NO;
 	routeInfoLabel.opaque = NO;
+	routeInfoLabel.text = @"Route:";
+	
+	ctrlFrame.origin.x += ctrlFrame.size.width;
+	ctrlFrame.size.height = CELL_LABEL_HEIGHT3;
+	ctrlFrame.size.width = CELL_LABEL_WIDTH3;
+	routeInfoText = [[UITextView alloc] initWithFrame:ctrlFrame];	
+	routeInfoText.backgroundColor = [UIColor clearColor];
+	routeInfoText.editable = NO;
+	routeInfoText.opaque = NO;
+	routeInfoText.userInteractionEnabled = NO;
+	routeInfoText.contentMode = UIViewContentModeTopLeft;
+	routeInfoText.multipleTouchEnabled = NO;
+	routeInfoText.textColor = [UIColor blueColor];
+	routeInfoText.textAlignment = UITextAlignmentLeft;
+	routeInfoText.font = [UIFont systemFontOfSize:12];	
 	
 	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
+	ctrlFrame.origin.x = CELL_LABEL_LEFT;
+	ctrlFrame.size.height = CELL_LABEL_HEIGHT2;
+	ctrlFrame.size.width = CELL_LABEL_WIDTH2;
 	stopInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
 	stopInfoLabel.text = @"";
 	stopInfoLabel.textColor = [UIColor blueColor];
@@ -67,10 +97,27 @@
 	stopInfoLabel.userInteractionEnabled = NO;
 	stopInfoLabel.multipleTouchEnabled = NO;
 	stopInfoLabel.opaque = NO;
+	stopInfoLabel.text = @"Stop:";
 	
+	ctrlFrame.origin.x += ctrlFrame.size.width;
+	ctrlFrame.size.height = CELL_LABEL_HEIGHT3;
+	ctrlFrame.size.width = CELL_LABEL_WIDTH3;
+	stopInfoText = [[UITextView alloc] initWithFrame:ctrlFrame];	
+	stopInfoText.backgroundColor = [UIColor clearColor];
+	stopInfoText.editable = NO;
+	stopInfoText.opaque = NO;
+	stopInfoText.userInteractionEnabled = NO;
+	stopInfoText.contentMode = UIViewContentModeTopLeft;
+	stopInfoText.multipleTouchEnabled = NO;
+	stopInfoText.textColor = [UIColor blueColor];
+	stopInfoText.textAlignment = UITextAlignmentLeft;
+	stopInfoText.font = [UIFont systemFontOfSize:12];	
+
 	[self.contentView addSubview:actionLabel];
 	[self.contentView addSubview:stopInfoLabel];
 	[self.contentView addSubview:routeInfoLabel];
+	[self.contentView addSubview:stopInfoText];
+	[self.contentView addSubview:routeInfoText];
 	
 	return self;
 }
@@ -82,12 +129,12 @@
 
 - (void) setStopInfo:(NSString *)stopInfo
 {
-	stopInfoLabel.text = [NSString stringWithFormat:@"Stop: %@", stopInfo];
+	stopInfoText.text = [NSString stringWithFormat:@"%@", stopInfo];
 }
 
 - (void) setRouteInfo:(NSString *)routeInfo
 {
-	routeInfoLabel.text = [NSString stringWithFormat:@"Route: %@", routeInfo];
+	routeInfoText.text = [NSString stringWithFormat:@"%@", routeInfo];
 }
 
 - (void) dealloc
@@ -95,6 +142,8 @@
 	[actionLabel release];
 	[stopInfoLabel release];
 	[routeInfoLabel release];
+	[stopInfoText release];
+	[routeInfoText release];
 	[super dealloc];
 }
 
@@ -163,7 +212,7 @@
 	[stopID release];
 	stopID = [sid retain];
 	
-	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];	
+	//self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];	
 }
 
 - (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
@@ -173,7 +222,7 @@
 	routeName = [rname retain];
 	routeID = [rid retain];
 	
-	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
+	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];
 }
 
 //- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)stop  withSign:(NSString *)sign
@@ -199,7 +248,7 @@
 		busSign = [sign retain];
 	}
 	
-	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@ @Stop:%@", routeID, stopID];
+	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];
 		
 }
 
@@ -311,9 +360,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0)
-		return 100;
+		return CELL_LABEL_TOTAL_HEIGHT;
 	else
-		return 44;
+		return CELL_REGULAR_HEIGHT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -338,6 +387,8 @@
 	}
 	else if (indexPath.section == 1)
 	{
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		[formatter setDateFormat:@"EEEE"];
 		
 		cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtRouteView"];
 		if (cell == nil) 
@@ -348,25 +399,27 @@
 		
 		if (indexPath.row == 0)
 		{
-			cell.text = @"Today";
+			cell.text = [NSString stringWithFormat:@"Today (%@)", [formatter stringFromDate:[NSDate date]]];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 		}
 		else if (indexPath.row == 1)
 		{
-			cell.text = @"Tomorrow";
+			cell.text = @"Tomorrow ()";
+			cell.text = [NSString stringWithFormat:@"Tomorrow (%@)", [formatter stringFromDate:[[NSDate date] addTimeInterval:24*60*60]]];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 		}
 		else
 		{
-			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-			[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];	
-			
-			cell.text = [dateFormatter stringFromDate:otherDate];//@"Monday";
+			//NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+			//[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+			//[dateFormatter setTimeStyle:NSDateFormatterNoStyle];	
+			[formatter setDateFormat:@"yyyy-MMM-dd '('EEEE')'"];
+			cell.text = [formatter stringFromDate:otherDate];//@"Monday";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.accessoryAction = @selector(pickTheOtherDate:);
 			cell.target = self;
 		}
+		[formatter release];
 	}
 	
 	return cell;

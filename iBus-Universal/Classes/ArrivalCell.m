@@ -144,12 +144,14 @@ UIImage *favoriteIconImage = nil;
 		anArrival = [arrivals objectAtIndex:0];
 		[busSign setText:[NSString stringWithFormat:@"%@", [anArrival busSign]]];		
 		//[busRoute setText:[NSString stringWithFormat:@"%@", [anArrival route]]];
+		int fontSize = 20 - 3 * ((int)([[anArrival route] length]/4));
+		busRoute.font = [UIFont systemFontOfSize:fontSize];
 		[busRoute setTitle:[NSString stringWithFormat:@"%@", [anArrival route]] forState:UIControlStateNormal];
 	}
 	else
 	{
-		[busSign setText:@"Unknown"];		
-		[busSign setText:@"?"];	
+		[busSign setText:@"Unknown"];
+		[busRoute setTitle:@"?" forState:UIControlStateNormal];	
 	}
 	
 	if (anArrival == nil)

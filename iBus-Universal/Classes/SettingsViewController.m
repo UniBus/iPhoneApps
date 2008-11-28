@@ -72,7 +72,7 @@ enum SettingTableSections
 {
 	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
 	webView = [[UIWebView alloc] initWithFrame:CGRectMake(20, 20, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
-	webView.userInteractionEnabled = NO;
+	webView.userInteractionEnabled = YES;
 	webView.multipleTouchEnabled = NO;
 	[self.contentView addSubview:webView];
 	return self;
@@ -136,7 +136,7 @@ enum SettingTableSections
 	//numberOfRecentStops = 2;
 	[super viewDidLoad];
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	self.navigationItem.title = @"Setting";
+	self.navigationItem.title = @"Settings";
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	searchRange = [defaults floatForKey:UserSavedSearchRange];
@@ -259,7 +259,6 @@ enum SettingTableSections
 	}
 }
 
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	NSString *title;
@@ -353,7 +352,7 @@ enum SettingTableSections
 			cell = [tableView dequeueReusableCellWithIdentifier:@"CityUpdateViewCell"];
 			if (cell == nil)
 			{
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
+				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CityUpdateViewCell"] autorelease];
 				cell.font = [UIFont systemFontOfSize:14];
 				cell.textAlignment = UITextAlignmentCenter;
 			}
@@ -391,6 +390,21 @@ enum SettingTableSections
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	static int numOfTouches = 1;
+	if ((indexPath.section == kUIAbout_Section) && (indexPath.row==1))
+	{
+		numOfTouches ++;		
+		numOfTouches = numOfTouches % 10;
+		if (numOfTouches == 0)
+		{
+			globalTestMode = !globalTestMode;
+			if (globalTestMode)
+				NSLog(@"Switch to Test mode!!");
+			else
+				NSLog(@"Switch out of Test mode!!");
+		}
+	}
+	
 	if (indexPath.section != kUICity_Section)
 		return;
 	
@@ -406,6 +420,7 @@ enum SettingTableSections
 		//CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		//[[self navigationController] pushViewController:updateVC animated:YES];
 	}
+	
 }
 
 #pragma mark WebView Delegate Functions
@@ -426,18 +441,6 @@ enum SettingTableSections
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	static int numOfTouches = 1;
-	numOfTouches ++;
-	
-	numOfTouches = numOfTouches % 10;
-	if (numOfTouches == 0)
-	{
-		globalTestMode = !globalTestMode;
-		if (globalTestMode)
-			NSLog(@"Switch to Test mode!!");
-		else
-			NSLog(@"Switch out of Test mode!!");
-	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
