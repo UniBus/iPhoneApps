@@ -26,13 +26,14 @@
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
 {
-	 routeTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
+	routeTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
 	[routeTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	routeTableView.dataSource = self;
 	routeTableView.delegate = self;
 	routeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view = routeTableView; 
 	//[routeTableView release]; 	
+	self.navigationItem.title = @"Whole-day Schedule";
 }
 
 /*
