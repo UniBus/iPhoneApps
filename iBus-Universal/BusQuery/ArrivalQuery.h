@@ -13,6 +13,7 @@
 	NSMutableArray *arrivalsForStops;
 }
 
+- (BOOL) available;
 - (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day;
 - (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop;
 - (NSArray *) queryForStops: (NSArray *) stops;
