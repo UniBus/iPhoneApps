@@ -7,6 +7,7 @@
 //
 
 #import "GTFSCity.h"
+#import "DownloadManager.h"
 
 @interface CityUpdateViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *updateTableView;
@@ -14,16 +15,11 @@
 	NSMutableArray	*newCitiesFromServer;
 	NSMutableArray	*updateCitiesFromServer;
 	NSMutableArray	*otherCitiesFromServer;
-	NSURLResponse	*downloadResponse;
-	//UIProgressView *downloadProgress;
-	NSURLConnection	*theDownload;
-	NSMutableData	*receivedData;
-	UIActionSheet	*downloadActionSheet;
 	NSInteger		bytesReceived;
 	BOOL			downloadingNewCity;
 	BOOL			overwriteFavorites;
-	NSInteger		downloadState;
 	NSInteger		statusOfCurrentyCity;
+	DownloadManager *downloader;
 }
 
 @end

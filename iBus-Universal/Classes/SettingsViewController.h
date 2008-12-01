@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DownloadManager.h"
 
 @interface SearchRangeCell : UITableViewCell
 {
@@ -37,6 +38,7 @@
 	
 	//float searchRange;
 	//int   numberOfRecentStops;
+	DownloadManager			*downloader;
 }
 
 //@property float searchRange;
@@ -46,7 +48,5 @@
 
 - (IBAction) rangeChangedFinial:(id) sender;
 - (IBAction) resultNumChangedFinal:(id) sender;
-
-- (void) startOnlineUpdate;
 @end
 

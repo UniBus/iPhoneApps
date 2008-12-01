@@ -112,23 +112,8 @@
 {
 	if (indexPath.section == 1)
 	{
-		/*
-		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Use Online Update to Download!"
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alert show];	
-		[alert release];
-		 */
-		
-		@try
-		{
-			if (delegate)
-				[delegate performSelector:@selector(onlineUpdateRequested:) withObject:self];
-		}
-		@catch (NSException *exception)
-		{
-			NSLog(@"didSelectRowAtIndexPath: Caught %@: %@", [exception name], [exception  reason]);
-		}
+		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+		[[self navigationController] pushViewController:updateVC animated:YES];		
 		return;
 	}
 	

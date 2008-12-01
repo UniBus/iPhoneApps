@@ -12,7 +12,7 @@
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.1/updates/";
+const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.2/updates/";
 
 enum CityUpdateSections
 {
@@ -30,13 +30,6 @@ enum CityUpdateStatus {
 	kCityNewlyUpdated
 };
 
-enum DownloadState {
-	kDownloadStateIdle,
-	kDownloadStateSelected,
-	kDownloadStateDownloading,
-	kDownloadStateDownloaded
-};
-
 enum CurrentCityUpdateStatus {
 	kCurrentCityUnselected = 0,
 	kCurrentCityNeedsUpdate,
@@ -46,18 +39,10 @@ enum CurrentCityUpdateStatus {
 @interface CityUpdateViewController (private)
 - (NSInteger) checkCityInLocalDb: (NSString *)city lastUpdate:(NSString *)updateDate;
 - (void) checkUpdates;
-- (void)startDownloadingURL:(NSString *) urlString;
+- (void)startDownloadingURL:(NSString *) urlString asFile:(NSString *) fileName;
 @end
 
 @implementation CityUpdateViewController
-
-// Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		// Custom initialization
-	}
-	return self;
-}
 
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
@@ -68,25 +53,15 @@ enum CurrentCityUpdateStatus {
 	updateTableView.delegate = self;
 	updateTableView.dataSource = self;
 	self.view = updateTableView; 
-	[updateTableView release];
 
 	otherCitiesFromServer = [[NSMutableArray alloc] init];
 	newCitiesFromServer = [[NSMutableArray alloc] init];
 	updateCitiesFromServer = [[NSMutableArray alloc] init];
 	[self checkUpdates];
 	[updateTableView reloadData];
-	downloadState = kDownloadStateIdle;
 	
 	self.navigationItem.title = @"Online Update";	
 }
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad 
-{
-	[super viewDidLoad];
-}
-*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -107,7 +82,8 @@ enum CurrentCityUpdateStatus {
 	[newCitiesFromServer release];
 	[updateCitiesFromServer release];
 	[otherCitiesFromServer release];
-	[downloadResponse release];
+	[downloader release];
+	[updateTableView release];
 	[super dealloc];
 }
 
@@ -363,51 +339,19 @@ enum CurrentCityUpdateStatus {
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)theButtonIndex
 {
-	if (theButtonIndex == actionSheet.destructiveButtonIndex) //OK
+	if (theButtonIndex == actionSheet.cancelButtonIndex) 
 	{
-		if (downloadState == kDownloadStateSelected)
-		{
-			NSString *urlString = [NSString stringWithFormat:@"%@%@", GTFSUpdateURL, updatingCity.dbname];
-			[self startDownloadingURL:urlString];
-			downloadState = kDownloadStateDownloading;
-			overwriteFavorites = YES;
-		}
-		else
-			NSAssert(NO, @"Get an OK from ActionSheet, but don't know what to do!!");
-	}
-	else if (theButtonIndex == actionSheet.cancelButtonIndex) 
-	{
-		if (downloadState == kDownloadStateSelected)
-		{
-			downloadState = kDownloadStateIdle;
-			updatingCity = nil;
-		}
-		else if (downloadState == kDownloadStateDownloading)
-		{
-			[theDownload cancel];
-			downloadState = kDownloadStateIdle;
-			updatingCity = nil;
-		}	
-		else
-			NSAssert(NO, @"Get an CANCEL from ActionSheet, but don't know what to do!!");
-	}
-	else if (theButtonIndex == actionSheet.firstOtherButtonIndex) 
-	{
-		if (downloadState == kDownloadStateSelected)
-		{
-			NSString *urlString = [NSString stringWithFormat:@"%@%@", GTFSUpdateURL, updatingCity.dbname];
-			[self startDownloadingURL:urlString];
-			downloadState = kDownloadStateDownloading;
-			overwriteFavorites = NO;
-		}
-		else
-			NSAssert(NO, @"Get an OtherButton from ActionSheet, but don't know what to do!!");
+		updatingCity = nil;	
 	}
 	else
 	{
-		NSAssert(NO, @"Wrong buttonIndex on actionSheet!!");
-	}
-	
+		NSString *urlString = [NSString stringWithFormat:@"%@%@", GTFSUpdateURL, updatingCity.dbname];
+		[self startDownloadingURL:urlString asFile:updatingCity.dbname];
+
+		overwriteFavorites = YES;		
+		if (theButtonIndex == actionSheet.firstOtherButtonIndex) 
+			overwriteFavorites = NO;
+	}	
 }
 
 #pragma mark TableView Delegate Functions
@@ -424,7 +368,6 @@ enum CurrentCityUpdateStatus {
 				{
 					updatingCity = aCity;
 					downloadingNewCity = NO;
-					downloadState = kDownloadStateSelected;
 					[self updateCityToLocal];
 					return;
 				}
@@ -437,7 +380,6 @@ enum CurrentCityUpdateStatus {
 			{
 				updatingCity = [newCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = YES;
-				downloadState = kDownloadStateSelected;
 				[self updateCityToLocal];
 				return;
 			}
@@ -447,7 +389,6 @@ enum CurrentCityUpdateStatus {
 			{
 				updatingCity = [updateCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = NO;
-				downloadState = kDownloadStateSelected;
 				[self updateCityToLocal];
 				return;
 			}
@@ -457,7 +398,6 @@ enum CurrentCityUpdateStatus {
 			{
 				updatingCity = [otherCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = NO;
-				downloadState = kDownloadStateSelected;
 				[self updateCityToLocal];
 				return;
 			}
@@ -518,7 +458,7 @@ enum CurrentCityUpdateStatus {
 			return @"Newly-updated cities";
 			break;
 		case kUIUpdate_AllOtherCity:
-			return @"Other supported cities";
+			return @"Other cities (updated)";
 			break;
 		default:
 			NSAssert(NO, @"Something is wrong: wrong section index!!");
@@ -548,7 +488,7 @@ enum CurrentCityUpdateStatus {
 			else if (statusOfCurrentyCity == kCurrentCityNeedsUpdate)
 				cell.text = @"New update available";
 			else
-				cell.text = @"Not selected yet!";
+				cell.text = @"City not selected yet!";
 			break;
 		case kUIUpdate_NewCity:
 			if ([newCitiesFromServer count] == 0)
@@ -585,130 +525,20 @@ enum CurrentCityUpdateStatus {
 	return cell;
 }
 
-#pragma mark Download Manager
-- (void)startDownloadingURL:(NSString *) urlString
+- (void)startDownloadingURL:(NSString *) urlString asFile:(NSString *) fileName
 {
-	// open a dialog with an OK and cancel button
-	downloadActionSheet = [[UIActionSheet alloc] initWithTitle:@"Downloading (0.0 %%)"
-													  delegate:self
-											 cancelButtonTitle:@"Cancel" 
-										destructiveButtonTitle:nil 
-											 otherButtonTitles:nil];
-	downloadActionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-	[downloadActionSheet showInView:self.view]; // show from our table view (pops up in the middle of the table)
-	[downloadActionSheet release];	
-	
-	// create the request
-	NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
-											  cachePolicy:NSURLRequestUseProtocolCachePolicy
-										  timeoutInterval:TIMEOUT_DOWNLOAD];
-	// create the connection with the request
-	// and start loading the data
-	theDownload=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-	if (!theDownload) {
-		NSLog(@"Fail to initiate download!!");
-		return;
-	}
-	
-	receivedData=[[NSMutableData data] retain];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    // this method is called when the server has determined that it
-    // has enough information to create the NSURLResponse
-	
-    // it can be called multiple times, for example in the case of a
-    // redirect, so each time we reset the data.
-    // receivedData is declared as a method instance elsewhere
-
-	bytesReceived=0;
-    [receivedData setLength:0];
-
-	[downloadResponse release];
-	downloadResponse = [response retain];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    // append the new data to the receivedData
-    // receivedData is declared as a method instance elsewhere
-    [receivedData appendData:data];
-	
-	long expectedLength=[downloadResponse expectedContentLength];
-	
-	bytesReceived=bytesReceived+[data length];
-	
-	if (expectedLength != NSURLResponseUnknownLength) {
-		// if the expected content length is
-		// available, display percent complete
-		float percentComplete=(bytesReceived/(float)expectedLength)*100.0;
-		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading %.1f %%", percentComplete]];
-		//NSLog(@"Percent complete - %f",percentComplete);
-	} else {
-		// if the expected content length is
-		// unknown just log the progress
-		[downloadActionSheet setTitle:[NSString stringWithFormat:@"Downloading (%d) bytes", bytesReceived]];
-		//NSLog(@"Bytes received - %d",bytesReceived);
-	}	
-}
-
-- (void)connection:(NSURLConnection *)download  didFailWithError:(NSError *)error
-{
-	// release the connection
-	[download release];
-    [receivedData release];
-	
-	// inform the user
-	NSLog(@"Download failed! Error - %@ %@",
-		  [error localizedDescription],
-		  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)download
-{
-	// release the connection
-	[download release];
-	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
-	
-	NSString *destinationFilename;
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *homeDirectory = [paths objectAtIndex:0];
-	
-	//Create $HOME/Download if the directory does not exist.
-	NSString *downloadPath = [homeDirectory stringByAppendingPathComponent:@"Downloads"];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSError *error;
-	if (![fileManager fileExistsAtPath:downloadPath])
+	if (downloader == nil)
 	{
-		if ([fileManager createDirectoryAtPath:downloadPath attributes:nil])
-			NSLog(@"Create path: %@", downloadPath);
-		else
-			NSLog(@"Failed to create path: %@", downloadPath);
+		downloader = [[DownloadManager alloc] init];
+		downloader.delegate = self;
+		downloader.hostView = self.view;
 	}
-	
-	//Create the downloaded file
-	destinationFilename=[downloadPath stringByAppendingPathComponent:updatingCity.dbname];
-	if ([fileManager fileExistsAtPath:destinationFilename])
-	{
-		if (![fileManager removeItemAtPath:destinationFilename error:&error])
-		{
-			NSAssert1(0, @"Failed to delete database file with message '%@'.", [error localizedDescription]);
-			return;
-		}
-	}
-	BOOL dataWritten = [receivedData writeToFile:destinationFilename options:NSAtomicWrite error:&error];
-	[receivedData release];
-	if (!dataWritten)
-	{
-		NSLog(@"Failed write downloaded data into file with message '%@'.", [error localizedDescription]);
-		return;
-	}
+	[downloader downloadURL:urlString asFile:fileName];
+}
 
-	// do something with the data
-	NSLog(@"%@",@"download succeeded!");
-	downloadState = kDownloadStateDownloaded;
-	
+#pragma mark Download Deletegate Functions
+- (void)fileDownloaded:(NSString *)destinationFilename
+{	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	NSString *oldDatabase = [[myApplication localDatabaseDir] stringByAppendingPathComponent:updatingCity.dbname];
 	NSString *newDatabase = destinationFilename;
@@ -720,6 +550,8 @@ enum CurrentCityUpdateStatus {
 	}
 	
 	//Copy database file to local directory.
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error;
 	if ([fileManager fileExistsAtPath:oldDatabase])
 	{
 		if (![fileManager removeItemAtPath:oldDatabase error:&error])
@@ -737,7 +569,6 @@ enum CurrentCityUpdateStatus {
 	}	
 	NSLog(@"Copy database to %@", oldDatabase);
 	
-	downloadState = kDownloadStateIdle;
 	if (downloadingNewCity)
 	{
 		[self addCityToLocalGTFSInfo:updatingCity];

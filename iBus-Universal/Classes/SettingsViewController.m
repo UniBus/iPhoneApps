@@ -8,7 +8,6 @@
 
 #import "SettingsViewController.h"
 #import "CitySelectViewController.h"
-#import "CityUpdateViewController.h"
 #import "TransitApp.h"
 
 #define	RANGE_MAX	2.0
@@ -26,7 +25,6 @@
 #define SLIDER_HEIGHT		22
 #define WEBVIEW_WIDTH		260
 #define WEBVIEW_HEIGHT		300
-	
 
 extern float searchRange;
 extern int   numberOfResults;
@@ -206,12 +204,22 @@ enum SettingTableSections
 	[defaults setInteger:numberOfResults forKey:UserSavedSearchResultsNum];
 }
 
-- (void) startOnlineUpdate
+/*
+- (void) startCacheCurrentCity
 {
+	if (downloader == nil)
+	{
+		NSString *currentDbName = [(TransitApp *)[UIApplication sharedApplication] currentDatabase];
+		NSString *urlString = [NSString stringWithFormat:@"%@ol-%@", OfflineURL, currentDbName];
+		downloader = [[DownloadManager alloc] init];
+		downloader.delegate = self;
+		downloader.hostView = self.view;
+		[downloader downloadURL:urlString asFile:currentDbName];
+	}
 	CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 	[[self navigationController] pushViewController:updateVC animated:YES];
 }
-
+*/
 
 #pragma mark UITableView Delegate Functions
 
@@ -223,7 +231,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 2;
+		return 1;
 	else
 		return 2;
 }
@@ -346,46 +354,31 @@ enum SettingTableSections
 	}
 	else if (row == 1)
 	{
-		UITableViewCell *cell = nil;
-		if ( indexPath.section == kUICity_Section )
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingViewCell"];
+		if (cell == nil)
 		{
-			cell = [tableView dequeueReusableCellWithIdentifier:@"CityUpdateViewCell"];
-			if (cell == nil)
-			{
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CityUpdateViewCell"] autorelease];
-				cell.font = [UIFont systemFontOfSize:14];
-				cell.textAlignment = UITextAlignmentCenter;
-			}
-			cell.text = [NSString stringWithFormat: @"Online Update", searchRange];
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+			cell.font = [UIFont systemFontOfSize:12];
+			cell.textAlignment = UITextAlignmentCenter;
+		}
+		if ( indexPath.section == kUIRange_Section )
+		{
+			cell.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
+		}
+		else if ( indexPath.section == kUIRecent_Section)
+		{
+			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
 		}
 		else
-		{
-			cell = [tableView dequeueReusableCellWithIdentifier:@"SettingViewCell"];
-			if (cell == nil)
-			{
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
-				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-				//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
-				cell.font = [UIFont systemFontOfSize:12];
-				cell.textAlignment = UITextAlignmentCenter;
-			}
-			if ( indexPath.section == kUIRange_Section )
-			{
-				cell.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
-			}
-			else if ( indexPath.section == kUIRecent_Section)
-			{
-				cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
-			}
-			else
-			{		
-				cell.text = @"Copyright @ 2008 Zhenwang Yao";
-			}
+		{		
+			cell.text = @"Copyright @ 2008 Zhenwang Yao";
 		}
 		return cell;
 	}
-	else
-		return nil;
+	
+	return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -413,12 +406,6 @@ enum SettingTableSections
 		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 		selectionVC.delegate = [UIApplication sharedApplication];
 		[[self navigationController] pushViewController:selectionVC animated:YES];
-	}
-	else
-	{
-		[self startOnlineUpdate];
-		//CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
-		//[[self navigationController] pushViewController:updateVC animated:YES];
 	}
 	
 }
