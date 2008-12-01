@@ -11,6 +11,7 @@
 #import "StopQuery.h"
 #import "RouteQuery.h"
 #import "TripQuery.h"
+#import "OfflineQuery.h"
 
 extern NSString * const UserSavedSearchRange;
 extern NSString * const UserSavedSearchResultsNum;
@@ -22,11 +23,15 @@ extern NSString * const UserCurrentCity;
 extern NSString * const USerCurrentDatabase;
 extern NSString * const UserCurrentWebPrefix;
 
+extern NSString * const UserSavedAutoSwitchOffline;
+extern NSString * const UserSavedAlwayOffline;
+
 @interface TransitApp : UIApplication {
 	ArrivalQuery *arrivalQuery;
 	StopQuery    *stopQuery;
 	RouteQuery   *routeQuery;
 	TripQuery	 *tripQuery;
+	OfflineQuery *offlineQuery;
 	NSString     *dataFile;
 	
 	NSString	 *currentCity;
@@ -77,6 +82,6 @@ extern NSString * const UserCurrentWebPrefix;
 - (NSString *) localDatabaseDir;
 - (NSString *) gtfsInfoDatabase;
 - (void) citySelected:(id)sender;
-- (void) onlineUpdateRequested:(id)sender;
+//- (void) onlineUpdateRequested:(id)sender;
 
 @end

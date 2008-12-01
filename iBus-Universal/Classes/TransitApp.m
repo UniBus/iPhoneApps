@@ -26,10 +26,15 @@ NSString * const UserCurrentCity = @"UserSavedCurrentCity";
 NSString * const USerCurrentDatabase = @"UserSavedCurrentDatabase";
 NSString * const UserCurrentWebPrefix = @"UserSaveCurrentWebPrefix";
 
+NSString * const UserSavedAutoSwitchOffline = @"UserSavedAutoSwitchOffline";
+NSString * const UserSavedAlwayOffline = @"UserSavedAlwayOffline";
+
 NSString * const gtfsInfoDatabase = @"gtfs_info.sqlite";
 
 extern float searchRange;
 extern int numberOfResults;
+extern BOOL autoSwitchToOffline;
+extern BOOL alwaysOffline;
 
 @interface TransitApp ()
 - (void) initializeGTFSInfoDatabase;
@@ -82,6 +87,8 @@ extern int numberOfResults;
 	[defaultValues setObject:@"" forKey:UserCurrentCity];
 	[defaultValues setObject:@"" forKey:USerCurrentDatabase];
 	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
+	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey:UserSavedAutoSwitchOffline];
+	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAlwayOffline];
 	[defaults registerDefaults:defaultValues];
 }
 
@@ -117,6 +124,7 @@ extern int numberOfResults;
 	}	
 }
 
+/*
 - (void) onlineUpdateRequested:(id)sender
 {
 	@try {
@@ -125,6 +133,7 @@ extern int numberOfResults;
 	@catch (NSException * e) {
 	}	
 }
+*/
 
 - (void) initializeDatabase
 {
@@ -161,6 +170,8 @@ extern int numberOfResults;
 	stopQuery = [StopQuery initWithFile:destPath];	
 	[routeQuery release];
 	routeQuery = [RouteQuery initWithFile:destPath];	
+	[offlineQuery release];
+	offlineQuery = [[OfflineQuery alloc] init];
 }
 
 - (void) initializeGTFSInfoDatabase
@@ -482,10 +493,29 @@ extern int numberOfResults;
 		}
 		else
 		{
-			self.networkActivityIndicatorVisible = YES;
-			results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-			//[NSThread sleepForTimeInterval:3];
-			self.networkActivityIndicatorVisible = NO;
+			if (autoSwitchToOffline)
+			{
+				if ([arrivalQuery available])
+				{
+					self.networkActivityIndicatorVisible = YES;
+					results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+					self.networkActivityIndicatorVisible = NO;
+				}
+				else
+				{
+					results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+				}
+			}
+			else if (alwaysOffline)
+			{
+				results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+			}
+			else
+			{
+				self.networkActivityIndicatorVisible = YES;
+				results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+				self.networkActivityIndicatorVisible = NO;
+			}
 		}
 		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
@@ -517,9 +547,29 @@ extern int numberOfResults;
 		}
 		else
 		{
-			self.networkActivityIndicatorVisible = YES;
-			results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
-			self.networkActivityIndicatorVisible = NO;
+			if (autoSwitchToOffline)
+			{
+				if ([arrivalQuery available])
+				{
+					self.networkActivityIndicatorVisible = YES;
+					results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+					self.networkActivityIndicatorVisible = NO;
+				}
+				else
+				{
+					results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+				}
+			}
+			else if (alwaysOffline)
+			{
+				results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+			}
+			else
+			{
+				self.networkActivityIndicatorVisible = YES;
+				results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+				self.networkActivityIndicatorVisible = NO;
+			}			
 		}
 				
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];

@@ -16,6 +16,9 @@
 #import "CityUpdateViewController.h"
 #import "NearbyViewController.h"
 
+extern BOOL autoSwitchToOffline;
+extern BOOL alwaysOffline;
+
 @implementation TransitAppDelegate
 
 @synthesize window;
@@ -32,6 +35,9 @@
 	NSString *selectedCity = [defaults objectForKey:UserCurrentCity];
 	NSString *selectedDatabase = [defaults objectForKey:USerCurrentDatabase];
 	NSString *selectedWebPrefix = [defaults objectForKey:UserCurrentWebPrefix];
+	
+	autoSwitchToOffline = [defaults boolForKey:UserSavedAutoSwitchOffline];
+	alwaysOffline = [defaults boolForKey:UserSavedAlwayOffline];
 	
 	// This is the first time it run the App.
 	if ([selectedCity isEqualToString:@""] || [selectedDatabase isEqualToString:@""] || [selectedWebPrefix isEqualToString:@""])
@@ -131,6 +137,7 @@
 	}
 }
 
+/*
 - (void) onlineUpdateRequested:(id)sender
 {
 	if (configController)
@@ -150,10 +157,15 @@
 			{
 				[(UINavigationController *)vc popToRootViewControllerAnimated:NO];
 				[(SettingsViewController *)subVC startOnlineUpdate];
+				
+				
+				CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+				[[self navigationController] pushViewController:updateVC animated:YES];
 			}
 		}
 	}
 }
+*/
 
 @end
 

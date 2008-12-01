@@ -19,6 +19,6 @@
 
 - (void) citySelected:(id)sender;
 - (void) favoriteDidChange:(id)sender;
-- (void) onlineUpdateRequested:(id)sender;
+//- (void) onlineUpdateRequested:(id)sender;
 
 @end
