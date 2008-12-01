@@ -13,7 +13,7 @@
 #import "BusStop.h"
 #import "BusArrival.h"
 #import "TransitApp.h"
-#import "MapViewController.h"
+#import "StopMapViewController.h"
 #import "RouteActionViewController.h"
 
 #define kUIStop_Section_Height		([StopCell height])
@@ -262,7 +262,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void) showMapOfAStop: (BusStop *)theStop
 {
-	MapViewController *mapViewController = [[MapViewController alloc] initWithNibName:nil bundle:nil];
+	StopMapViewController *mapViewController = [[StopMapViewController alloc] initWithNibName:nil bundle:nil];
 	
 	UINavigationController *navigController = [self navigationController];
 	if (navigController)
