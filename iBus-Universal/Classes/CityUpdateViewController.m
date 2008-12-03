@@ -54,13 +54,11 @@ enum CurrentCityUpdateStatus {
 	updateTableView.dataSource = self;
 	self.view = updateTableView; 
 
-	otherCitiesFromServer = [[NSMutableArray alloc] init];
-	newCitiesFromServer = [[NSMutableArray alloc] init];
-	updateCitiesFromServer = [[NSMutableArray alloc] init];
 	[self checkUpdates];
 	[updateTableView reloadData];
 	
-	self.navigationItem.title = @"Online Update";	
+	self.navigationItem.title = @"Online Update";
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -85,6 +83,11 @@ enum CurrentCityUpdateStatus {
 	[downloader release];
 	[updateTableView release];
 	[super dealloc];
+}
+
+- (BOOL) updateAvaiable //This is for current city only
+{
+	return (statusOfCurrentyCity == kCurrentCityNeedsUpdate);	
 }
 
 #pragma mark database
@@ -225,6 +228,13 @@ enum CurrentCityUpdateStatus {
 #pragma mark XML query
 - (void) checkUpdates
 {
+	[otherCitiesFromServer release];
+	[newCitiesFromServer release];
+	[updateCitiesFromServer release];
+	otherCitiesFromServer = [[NSMutableArray alloc] init];
+	newCitiesFromServer = [[NSMutableArray alloc] init];
+	updateCitiesFromServer = [[NSMutableArray alloc] init];	
+	
 	NSString *urlString = [NSString stringWithFormat:@"%@cities.php", GTFSUpdateURL];
 	NSURL *queryURL = [NSURL URLWithString:urlString];	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:queryURL];
@@ -569,6 +579,10 @@ enum CurrentCityUpdateStatus {
 	}	
 	NSLog(@"Copy database to %@", oldDatabase);
 	
+	//Delete the downloaded file
+	if (![fileManager removeItemAtPath:newDatabase error:&error])	
+		NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+	
 	if (downloadingNewCity)
 	{
 		[self addCityToLocalGTFSInfo:updatingCity];
@@ -578,7 +592,10 @@ enum CurrentCityUpdateStatus {
 	else if ([otherCitiesFromServer indexOfObject:updatingCity] == NSNotFound)
 	{
 		if ([updatingCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
+		{
 			statusOfCurrentyCity = kCurrentCityUpdated;
+			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+		}
 			
 		[self updateCityToLocalGTFSInfo:updatingCity];
 		[otherCitiesFromServer addObject:updatingCity];

@@ -22,4 +22,7 @@
 	DownloadManager *downloader;
 }
 
+- (void) checkUpdates;
+- (BOOL) updateAvaiable; //This is for current city only
+
 @end
