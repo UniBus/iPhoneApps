@@ -33,6 +33,7 @@
 	[tableView release];
 	
 	self.navigationItem.title = @"Select a City";
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -104,7 +105,45 @@
 	sqlite3_finalize(statement);
 	sqlite3_close(database);	
 }
- 
+
+- (void) deleteAllFilesForCity:(GTFS_City *)aCity
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSError *error;
+	
+	//Delete ${city_id}.sqlite
+	NSString *dbToDelete = [[myApplication localDatabaseDir] stringByAppendingPathComponent:aCity.dbname];
+	if ([fileManager fileExistsAtPath:dbToDelete])
+	{
+		if (![fileManager removeItemAtPath:dbToDelete error:&error])
+			NSAssert1(NO, @"Failed to delete writable database file with message '%@'.", [error localizedDescription]);
+		else
+			NSLog(@"Delete file: %@", dbToDelete);
+	}
+		
+	//Delete ol-${city_id}.sqlite
+	NSString *offLineDbToDelete = [[myApplication localDatabaseDir] stringByAppendingPathComponent:[NSString stringWithFormat:@"ol-%@", aCity.dbname]];
+	if ([fileManager fileExistsAtPath:offLineDbToDelete])
+	{
+		if (![fileManager removeItemAtPath:offLineDbToDelete error:&error])
+			NSAssert1(NO, @"Failed to delete writable database file with message '%@'.", [error localizedDescription]);
+		else
+			NSLog(@"Delete file: %@", offLineDbToDelete);
+	}	
+	
+	//Update gtfs_database, set local to 0	
+	sqlite3 *database;
+	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
+		NSLog(NO, @"Open database Error!");
+	
+	// (id, name, state, country, website, dbname, lastupdate, local)
+	NSString *sql = [NSString stringWithFormat:@"UPDATE cities SET local=0 WHERE id='%@'", aCity.cid];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK)
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+		
+	sqlite3_close(database);	
+}
  
 #pragma mark TableView Delegate Functions
 
@@ -198,5 +237,25 @@
 
 	return cell;
 }
+
+-(BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath 
+{
+	if( indexPath.section == 0 ) 
+		return YES;
+
+	return NO;
+} 
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+	{
+        // Find the book at the deleted row, and remove from application delegate's array.
+		[self deleteAllFilesForCity:[localCities objectAtIndex:indexPath.row]];
+		[localCities removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
 
 @end
