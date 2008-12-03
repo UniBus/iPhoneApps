@@ -29,7 +29,9 @@
 	infoWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
 	[infoWebView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	infoWebView.delegate = self;
-	self.view = infoWebView; 
+	self.view = infoWebView;
+	self.navigationItem.title = @"Information";	
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view.
