@@ -179,7 +179,7 @@ BOOL  globalTestMode = NO;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-	[location stopUpdatingLocation];
+	//[location stopUpdatingLocation];
 	if (indicator)
 	{
 		[indicator removeFromSuperview];
@@ -187,6 +187,7 @@ BOOL  globalTestMode = NO;
 	}
 	
 	currentPosition = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
+	NSLog(@"[%f, %f]", currentPosition.x, currentPosition.y);
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange] ];
 	//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
