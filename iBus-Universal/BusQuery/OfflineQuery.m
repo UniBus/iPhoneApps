@@ -10,6 +10,8 @@
 #import "TransitApp.h"
 #import "BusArrival.h"
 
+#define MAX_QUERY_PERIOD		12
+#define MAX_RECORD_FORAROUTE	2
 @implementation OfflineQuery
 
 @synthesize available;
@@ -35,6 +37,7 @@
 	//Outcomes of this query are a list of service_ids.
 	NSMutableArray *feasibleServiceIds = [NSMutableArray array];
 	NSString *sql = [NSString stringWithFormat: @"SELECT DISTINCT service_id FROM calendar WHERE %@=1", queryDay];
+	NSLog(@"findServiceIds: SQL: %@", sql);
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -50,6 +53,7 @@
 	NSMutableArray *exceptionalServiceIds = [NSMutableArray array];
 	NSMutableArray *additionalServiceIds = [NSMutableArray array];
 	sql = [NSString stringWithFormat: @"SELECT service_id, exception_type FROM calendar_dates WHERE date=%@", queryDate];
+	NSLog(@"findServiceIds: exception: SQL: %@", sql);
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
 		while (sqlite3_step(statement) == SQLITE_ROW)
@@ -85,12 +89,14 @@
 {
 	NSMutableDictionary *allRoutes = [NSMutableDictionary dictionary];
 	NSString *sql = [NSString stringWithFormat:
-					 @"SELECT DISTINCT routes.route_id, routes.route_short_name, routes.route_long_name "
+					 @"SELECT DISTINCT routes.route_id, routes.route_short_name, routes.route_long_name, trips.trip_headsign "
 					 "FROM local.routes as routes, trips, stop_times "
 					 "WHERE routes.route_id=trips.route_id AND "
 					 "      stop_times.trip_id=trips.trip_id AND "
 					 "      stop_times.stop_id='%@' "
-					 "ORDER BY route_short_name, trips.route_id", stopId];
+					 "GROUP BY routes.route_id "
+					 "ORDER BY route_short_name, routes.route_id", stopId];
+	NSLog(@"findRoutesAtStop: SQL: %@", sql);
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -101,6 +107,7 @@
 			[dictForARoute setObject:currentRouteId forKey:@"route_id"];
 			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)] forKey:@"route_short_name"];
 			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)] forKey:@"route_long_name"];
+			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)] forKey:@"trip_headsign"];
 			[allRoutes setObject:dictForARoute forKey:currentRouteId];
 		}
 	}
@@ -112,7 +119,7 @@
 - (NSArray *) findArrivalsAtStop:(NSString *)stop
 {
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"HHmmSS"];
+	[formatter setDateFormat:@"HH:mm:SS"];
 	NSString *queryBeginTimeStr = [formatter stringFromDate:[NSDate date]];
 	[formatter setDateFormat:@"yyyyMMdd"];
 	NSString *queryBeginDateStr = [formatter stringFromDate:[NSDate date]];
@@ -135,7 +142,7 @@
 	}	
 	
 	NSString *sql = [NSString stringWithFormat:@"ATTACH DATABASE '%@' AS local", [myApplication currentDatabaseWithFullPath]];
-	NSLog(@"SQL: %@", sql);
+	NSLog(@"findArrivalsAtStop: attach: SQL: %@", sql);
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		NSLog(@"Error: %s", sqlite3_errmsg(database));	
@@ -156,10 +163,10 @@
 	if ([serviceIds count] > 0)
 	{
 		//reindex the array
-		NSString *calendarPhase = [NSString stringWithFormat:@"trips.service_id IN ('%@', ", [serviceIds objectAtIndex:0]];
+		NSString *calendarPhase = [NSString stringWithFormat:@"trips.service_id IN ('%@'", [serviceIds objectAtIndex:0]];
 		for (int i = 1; i < [serviceIds count]; i++) 
 		{
-			calendarPhase = [calendarPhase stringByAppendingFormat:@", '%@'", [serviceIds objectAtIndex:i]];
+			calendarPhase = [calendarPhase stringByAppendingFormat:@",'%@'", [serviceIds objectAtIndex:i]];
 		}
 		calendarPhase = calendarPhase = [calendarPhase stringByAppendingString:@")"];
 		
@@ -171,24 +178,27 @@
 						 @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time "
 						 "FROM stop_times, trips, local.routes as routes "
 						 "WHERE stop_id='%@' AND "
-						 "stop_times.trip_id=trips.trip_id AND trips.route_id = routes.route_id AND "
+						 "stop_times.trip_id=trips.trip_id AND trips.route_id=routes.route_id AND "
 						 "%@ AND stop_times.arrival_time>='%@' "
 						 "ORDER BY arrival_time", stop, calendarPhase, queryBeginTimeStr];
 		
-		NSLog(@"SQL: %@", sql);
+		NSLog(@"findArrivalsAtStop: SQL: %@", sql);
 		sqlite3_stmt *statement;
 		if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 		{
 			while (sqlite3_step(statement) == SQLITE_ROW)
 			{
+				NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+				NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentRouteId];			
+				if ([[arrivalsByRoutes objectForKey:currentRoute] count] >= MAX_RECORD_FORAROUTE)
+					continue;
+					
 				BusArrival *arrival = [[BusArrival alloc] init];
 				
 				//Stop-info
 				[arrival setStopId: stop];
 				
 				//Route-info
-				NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-				NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentRouteId];			
 				[arrival setRouteId:currentRouteId];
 				if (![[currentRoute objectForKey:@"route_short_name"] isEqualToString:@""])
 					[arrival setRoute:[currentRoute objectForKey:@"route_short_name"]];
@@ -216,6 +226,88 @@
 		sqlite3_finalize(statement);
 	}
 	
+	NSDate *queryEndTime = [[NSDate date] addTimeInterval:MAX_QUERY_PERIOD*60*60];
+	formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyyMMdd"];
+	NSString *queryEndDateStr = [formatter stringFromDate:queryEndTime];
+	if (![queryEndDateStr isEqualToString:queryBeginDateStr])
+	{
+		[formatter setDateFormat:@"HH:mm:SS"];
+		NSString *queryEndTimeStr = [formatter stringFromDate:queryEndTime];
+		[formatter setDateFormat:@"EEEE"];
+		NSString *queryEndDayStr = [formatter stringFromDate:queryEndTime];
+		
+		serviceIds = [self findServiceIds:database ofDate:queryEndDateStr onDay:queryEndDayStr];
+		if ([serviceIds count] > 0)
+		{
+			//reindex the array
+			NSString *calendarPhase = [NSString stringWithFormat:@"trips.service_id IN ('%@'", [serviceIds objectAtIndex:0]];
+			for (int i = 1; i < [serviceIds count]; i++) 
+			{
+				calendarPhase = [calendarPhase stringByAppendingFormat:@",'%@'", [serviceIds objectAtIndex:i]];
+			}
+			calendarPhase = calendarPhase = [calendarPhase stringByAppendingString:@")"];
+			
+			//Query for arrivals
+			//Notes about DISTINCT:
+			//	Add Nov-11-2008, there are some duplication in Milwaukee data.
+			//  IMO, data should be fixed, instead of the code.
+			sql = [NSString stringWithFormat:
+				   @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time "
+				   "FROM stop_times, trips, local.routes as routes "
+				   "WHERE stop_id='%@' AND "
+				   "stop_times.trip_id=trips.trip_id AND trips.route_id=routes.route_id AND "
+				   "%@ AND stop_times.arrival_time<='%@' "
+				   "ORDER BY arrival_time", stop, calendarPhase, queryEndTimeStr];
+			
+			NSLog(@"findArrivalsAtStop: SQL: %@", sql);
+			sqlite3_stmt *statement;
+			if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+			{
+				while (sqlite3_step(statement) == SQLITE_ROW)
+				{
+					NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+					NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentRouteId];			
+					if ([[arrivalsByRoutes objectForKey:currentRoute] count] >= MAX_RECORD_FORAROUTE)
+						continue;
+					
+					BusArrival *arrival = [[BusArrival alloc] init];
+					
+					//Stop-info
+					[arrival setStopId: stop];
+					
+					//Route-info
+					[arrival setRouteId:currentRouteId];
+					if (![[currentRoute objectForKey:@"route_short_name"] isEqualToString:@""])
+						[arrival setRoute:[currentRoute objectForKey:@"route_short_name"]];
+					else
+						[arrival setRoute:[currentRoute objectForKey:@"route_long_name"]];
+					
+					if (![[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)] isEqualToString:@""])
+						[arrival setBusSign:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)]];
+					else if (![[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)] isEqualToString:@""])
+						[arrival setBusSign:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)]];
+					else
+						[arrival setBusSign:[currentRoute objectForKey:@"route_long_name"]];
+					
+					[arrival setArrivalTime:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)]];
+					
+					[[arrivalsByRoutes objectForKey:currentRoute] addObject:arrival];
+					[arrival release];		
+				}
+			}
+			else
+			{
+				NSLog(@"Error: %s", sqlite3_errmsg(database));	
+			}	
+			
+			sqlite3_finalize(statement);
+		}		
+		
+	}
+	[formatter release];
+	
+	
 	for (id routeKey in allRoutesAtStop)
 	{
 		NSDictionary *aRoute = [allRoutesAtStop objectForKey:routeKey];
@@ -229,8 +321,14 @@
 			BusArrival *arrival = [[BusArrival alloc] init];
 			[arrival setStopId:stop];
 			[arrival setRouteId:[aRoute objectForKey:@"route_id"]];
-			[arrival setRoute:[aRoute objectForKey:@"route_short_name"]];
-			[arrival setBusSign:[aRoute objectForKey:@"route_long_name"]];
+			if (![[aRoute objectForKey:@"route_short_name"] isEqualToString:@""])
+				[arrival setRoute:[aRoute objectForKey:@"route_short_name"]];
+			else
+				[arrival setRoute:[aRoute objectForKey:@"route_long_name"]];
+			if (![[aRoute objectForKey:@"trip_headsign"] isEqualToString:@""])
+				[arrival setBusSign:[aRoute objectForKey:@"trip_headsign"]];
+			else
+				[arrival setBusSign:[aRoute objectForKey:@"route_long_name"]];
 			[arrival setArrivalTime:@"-- -- --"];
 						
 			[allArrivals addObject:arrival];
