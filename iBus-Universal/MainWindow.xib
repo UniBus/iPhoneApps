@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="161"/>
+			<integer value="123"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,16 +39,25 @@
 			</object>
 			<object class="IBUITabBarController" id="1034742383">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
+				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
+					<int key="IBUIBarStyle">1</int>
+					<bool key="IBUIPrompted">NO</bool>
+				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
 				</object>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="765138078">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="246062436">
-						<string key="IBUITitle">Offline</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="1028899118">
+					<string key="IBUITitle">Stops</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="352956543">
+						<string key="IBUITitle">Stops</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">stop.png</string>
+						</object>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="224710049">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="569376398">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{320, 44}</string>
@@ -58,12 +67,13 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="414441737">
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="163424265">
+						<object class="IBUIViewController" id="638970362">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="427681466">
 								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Item</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="765138078"/>
+							<reference key="IBUIParentViewController" ref="1028899118"/>
+							<string key="IBUINibName">StopSearchView</string>
 						</object>
 					</object>
 				</object>
@@ -94,40 +104,15 @@
 							</object>
 						</object>
 					</object>
-					<object class="IBUINavigationController" id="1028899118">
-						<string key="IBUITitle">Search</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="352956543">
-							<string key="IBUITitle">Search</string>
-							<object class="NSCustomResource" key="IBUIImage">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">search.png</string>
-							</object>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="569376398">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">256</int>
-							<string key="NSFrameSize">{320, 44}</string>
-							<bool key="IBUIOpaque">NO</bool>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						</object>
-						<object class="NSMutableArray" key="IBUIViewControllers">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIViewController" id="638970362">
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="427681466">
-									<string key="IBUITitle">Item</string>
-								</object>
-								<reference key="IBUIParentViewController" ref="1028899118"/>
-								<string key="IBUINibName">StopSearchView</string>
-							</object>
-						</object>
-					</object>
+					<reference ref="1028899118"/>
 					<object class="IBUINavigationController" id="167125583">
 						<string key="IBUITitle">Route</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="629685695">
 							<string key="IBUITitle">Routes</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">route.png</string>
+							</object>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
@@ -206,10 +191,41 @@
 							</object>
 						</object>
 					</object>
-					<reference ref="765138078"/>
+					<object class="IBUINavigationController" id="765138078">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="246062436">
+							<string key="IBUITitle">Offline</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">offline.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1034742383"/>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="224710049">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{320, 44}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIViewController" id="414441737">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="163424265">
+									<string key="IBUITitle">Item</string>
+								</object>
+								<reference key="IBUIParentViewController" ref="765138078"/>
+							</object>
+						</object>
+					</object>
 					<object class="IBUINavigationController" id="430878795">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="769538610">
 							<string key="IBUITitle">Info</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">info.png</string>
+							</object>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
@@ -234,6 +250,10 @@
 					<object class="IBUINavigationController" id="470907098">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="858865855">
 							<string key="IBUITitle">Update</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">update.png</string>
+							</object>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
@@ -245,7 +265,7 @@
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						</object>
-						<object class="NSArray" key="IBUIViewControllers">
+						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIViewController" id="580394609">
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="512360757">
@@ -676,7 +696,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{436, 365}, {320, 480}}</string>
+					<string>{{439, 307}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>NearbyViewController</string>
@@ -770,6 +790,19 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">OfflineViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>alwaysOfflineTap:</string>
+							<string>automaticSwitchTap:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/OfflineViewController.h</string>
@@ -855,11 +888,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>citySelected:</string>
 							<string>favoriteDidChange:</string>
-							<string>onlineUpdateRequested:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
