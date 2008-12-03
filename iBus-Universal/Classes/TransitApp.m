@@ -13,9 +13,11 @@
 #import "RouteTripsViewController.h"
 #import "TripStopsViewController.h"
 #import "CitySelectViewController.h"
+#import "CityUpdateViewController.h"
 #import "StopQuery.h"
 #import "Upgrade.h"
 
+NSString * const UserSavedTabBarSequence = @"UserSavedTabBarSequence";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
 NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
@@ -89,6 +91,7 @@ extern BOOL alwaysOffline;
 	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
 	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey:UserSavedAutoSwitchOffline];
 	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAlwayOffline];
+	[defaultValues setObject:[NSMutableArray array] forKey:UserSavedTabBarSequence];	
 	[defaults registerDefaults:defaultValues];
 }
 
@@ -657,6 +660,5 @@ extern BOOL alwaysOffline;
 		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
 	}
 }
-
 
 @end
