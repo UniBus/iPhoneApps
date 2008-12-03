@@ -46,6 +46,7 @@ enum OfflineViewSections
 	[tableView release];
 	
 	self.navigationItem.title = @"Offline";	
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
