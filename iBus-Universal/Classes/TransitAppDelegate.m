@@ -268,7 +268,11 @@ NSString *tabBarViewControllerIds[]={
 	
 	CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
 	[cityUpdateVC checkUpdates];
-	if ([cityUpdateVC updateAvaiable])
+	BOOL newCityDbAvailable = [cityUpdateVC updateAvaiable];
+	BOOL newCityOfflineDbAvailable = [cityUpdateVC newOfflineDatabaseAvailable];
+	if (newCityDbAvailable && newCityOfflineDbAvailable)
+		[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
+	else if (newCityDbAvailable || newCityOfflineDbAvailable)
 		[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 	else
 		[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		

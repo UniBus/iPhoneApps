@@ -10,7 +10,7 @@
 
 
 @implementation GTFS_City
-@synthesize cid, cname, cstate, country, website, dbname, lastupdate, local;
+@synthesize cid, cname, cstate, country, website, dbname, lastupdate, oldbtime, local;
 
 - (void)dealloc 
 {
@@ -21,6 +21,7 @@
 	[website release];
 	[dbname release];
 	[lastupdate release];
+	[oldbtime release];
 	[super dealloc];
 }
 

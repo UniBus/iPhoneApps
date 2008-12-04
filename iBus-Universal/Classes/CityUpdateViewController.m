@@ -7,6 +7,7 @@
 //
 
 #import "CityUpdateViewController.h"
+#import "OfflineViewController.h"
 #import "TransitApp.h"
 #import "Upgrade.h"
 
@@ -88,6 +89,11 @@ enum CurrentCityUpdateStatus {
 - (BOOL) updateAvaiable //This is for current city only
 {
 	return (statusOfCurrentyCity == kCurrentCityNeedsUpdate);	
+}
+
+- (BOOL) newOfflineDatabaseAvailable
+{
+	return (statusOfCurrentyCityOfflineDb == kCurrentCityNeedsUpdate);	
 }
 
 #pragma mark database
@@ -228,6 +234,23 @@ enum CurrentCityUpdateStatus {
 #pragma mark XML query
 - (void) checkUpdates
 {
+	NSString *appCurrentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];	
+	if (appCurrentCityId == nil)
+	{
+		statusOfCurrentyCity = kCurrentCityUnselected;
+		statusOfCurrentyCityOfflineDb = kCurrentCityUnselected;
+	}
+	else if ([appCurrentCityId isEqualToString:@""])
+	{
+		statusOfCurrentyCity = kCurrentCityUnselected;
+		statusOfCurrentyCityOfflineDb = kCurrentCityUnselected;
+	}
+	else
+	{
+		statusOfCurrentyCity = kCurrentCityUpdated;
+		statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;
+	}
+		
 	[otherCitiesFromServer release];
 	[newCitiesFromServer release];
 	[updateCitiesFromServer release];
@@ -254,6 +277,7 @@ enum CurrentCityUpdateStatus {
 
 	[parser release];
 	
+	/*
 	statusOfCurrentyCity = kCurrentCityUpdated;
 	NSString *appCurrentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];	
 	if (appCurrentCityId == nil)
@@ -269,6 +293,7 @@ enum CurrentCityUpdateStatus {
 				break;
 			}
 		}
+	 */
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
@@ -291,6 +316,7 @@ enum CurrentCityUpdateStatus {
 		city.website = [attributeDict valueForKey:@"website"];
 		city.dbname = [attributeDict valueForKey:@"dbname"];
 		city.lastupdate = [attributeDict valueForKey:@"lastupdate"];
+		city.oldbtime = [attributeDict valueForKey:@"oldbtime"];
 		
 		NSInteger status = [self checkCityInLocalDb:city.cid lastUpdate:city.lastupdate];
 		if (status == kCityNewlyAdded)
@@ -302,6 +328,25 @@ enum CurrentCityUpdateStatus {
 			[updateCitiesFromServer addObject:city];
 		else
 			[otherCitiesFromServer addObject:city];
+		
+		NSString *appCurrentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];
+		if ([city.cid isEqualToString:appCurrentCityId])
+		{
+			//Obvious current city is impossible to be a "newly-added" city
+			if (status == kCityNewlyUpdated)
+				statusOfCurrentyCity = kCurrentCityNeedsUpdate;
+			
+			NSString *offlineDbTime = offlineDbDownloadTime(appCurrentCityId);
+			if (offlineDbDownloaded(appCurrentCityId))
+			{
+				if ([city.oldbtime compare:offlineDbTime] == NSOrderedDescending)
+					//meaning there is a newer offline database available
+					statusOfCurrentyCityOfflineDb = kCurrentCityNeedsUpdate;
+				else
+					statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;
+			}
+		}
+		
 		[city release];
 	}
 }

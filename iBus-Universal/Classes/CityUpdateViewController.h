@@ -19,10 +19,12 @@
 	BOOL			downloadingNewCity;
 	BOOL			overwriteFavorites;
 	NSInteger		statusOfCurrentyCity;
+	NSInteger		statusOfCurrentyCityOfflineDb;
 	DownloadManager *downloader;
 }
 
 - (void) checkUpdates;
 - (BOOL) updateAvaiable; //This is for current city only
+- (BOOL) newOfflineDatabaseAvailable;
 
 @end

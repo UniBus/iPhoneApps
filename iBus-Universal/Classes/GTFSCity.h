@@ -17,6 +17,7 @@
 	NSString *website;
 	NSString *dbname;
 	NSString *lastupdate;
+	NSString *oldbtime;
 	NSInteger local;
 }
 
@@ -27,6 +28,7 @@
 @property (retain) NSString *website;
 @property (retain) NSString *dbname;
 @property (retain) NSString *lastupdate;
+@property (retain) NSString *oldbtime;
 @property NSInteger			local;
 
 @end

@@ -164,7 +164,9 @@ extern BOOL alwaysOffline;
 			if (upgrade(destPath, srcPath) == NO)
 				[self userAlert: @"Upgade Database error! If the error persists, try online update."];
 			else
-				[self userAlert: @"Database upgraded! You may find some extra routes in your list, please check."];
+				[self userAlert: @"Database upgraded!"];
+				//The following line was for updating from V1.0 to V1.1
+				//[self userAlert: @"Database upgraded! You may find some extra routes in your list, please check."];
 		}
 	}
 	
@@ -204,7 +206,7 @@ extern BOOL alwaysOffline;
 		if (upgradeNeeded(destPath))
 		{
 			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:gtfsInfoDatabase];
-			copyDatabase(destPath, srcPath);
+			upgradeGTFS(destPath, srcPath);
 			resetCurrentCity(destPath);
 		}
 	}

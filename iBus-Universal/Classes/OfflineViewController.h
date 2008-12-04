@@ -8,6 +8,10 @@
 
 #import "DownloadManager.h"
 
+void updateOfflineDbInfoInGTFS(NSString *cityId, int downloaded, NSString *downloadTime);
+BOOL offlineDbDownloaded(NSString *cityId);
+NSString *offlineDbDownloadTime(NSString *cityId);
+
 @interface OfflineViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	DownloadManager	*downloader;
 }
