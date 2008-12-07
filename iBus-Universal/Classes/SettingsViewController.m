@@ -19,22 +19,36 @@
 #define REGULARCELL_WIDTH	314
 
 #define SLIDERCELL_HEIGHT	62
-#define WEBVIEWCELL_HEIGHT	340
-
 #define SLIDER_WIDTH		270
 #define SLIDER_HEIGHT		22
+#define SLIDER_LEFT			14
+#define SLIDER_TOP			20
+
+#define SEGMENTCELL_HEIGHT	84
+#define SEGMENT_WIDTH		90
+#define SEGMENT_HEIGHT		44
+#define SEGMENT_LEFT		200
+#define SEGMENT_TOP			20
+
+#define WEBVIEWCELL_HEIGHT	340
 #define WEBVIEW_WIDTH		260
 #define WEBVIEW_HEIGHT		300
+#define WEBVIEW_LEFT		20
+#define WEBVIEW_TOP			20
 
 extern float searchRange;
 extern int   numberOfResults;
 extern BOOL  globalTestMode;
+extern int   currentUnit;
+
+char *UnitName(int unit);
 
 enum SettingTableSections
 {
 	kUICity_Section = 0,
 	kUIRange_Section,
 	kUIRecent_Section,
+	kUIUnit_Section,
 	kUIAbout_Section,
 	kUISetting_Section_Num
 };
@@ -50,13 +64,30 @@ enum SettingTableSections
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
-	slider = [[UISlider alloc] initWithFrame:CGRectMake(14, 20, SLIDER_WIDTH, SLIDER_HEIGHT)];
+	slider = [[UISlider alloc] initWithFrame:CGRectMake(SLIDER_LEFT, SLIDER_TOP, SLIDER_WIDTH, SLIDER_HEIGHT)];
 	[self.contentView addSubview:slider];
 	return self;
 }
 
 @end
 
+@implementation SegmentCell
+@synthesize segment;
+- (void) dealloc
+{
+	[segment release];
+	[super dealloc];
+}
+
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+{
+	self = [super initWithFrame: CGRectZero reuseIdentifier:reuseIdentifier];	
+	segment = [[UISegmentedControl alloc] initWithFrame:CGRectMake(SEGMENT_LEFT, SEGMENT_TOP, SEGMENT_WIDTH, SEGMENT_HEIGHT)];
+	[self.contentView addSubview:segment];
+	return self;
+}
+
+@end
 
 @implementation WebViewCell
 @synthesize webView;
@@ -69,7 +100,7 @@ enum SettingTableSections
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
-	webView = [[UIWebView alloc] initWithFrame:CGRectMake(20, 20, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
+	webView = [[UIWebView alloc] initWithFrame:CGRectMake(WEBVIEW_LEFT, WEBVIEW_TOP, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
 	webView.userInteractionEnabled = YES;
 	webView.multipleTouchEnabled = NO;
 	[self.contentView addSubview:webView];
@@ -100,18 +131,6 @@ enum SettingTableSections
 
 @implementation SettingsViewController
 
-//@synthesize searchRange, numberOfRecentStops;
-/*
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
-{
-	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
-	{
-		// Initialization code
-	}
-	return self;
-}
-*/
-
 // Implement loadView if you want to create a view hierarchy programmatically
 - (void)loadView
 {
@@ -139,6 +158,7 @@ enum SettingTableSections
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	searchRange = [defaults floatForKey:UserSavedSearchRange];
 	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -175,7 +195,7 @@ enum SettingTableSections
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRange_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
+	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (%s).", searchRange, UnitName(currentUnit)];
 }
 
 - (IBAction) resultNumChanged:(id) sender
@@ -221,6 +241,29 @@ enum SettingTableSections
 }
 */
 
+- (IBAction) unitChanged:(id) sender
+{
+	if (![sender isKindOfClass:[UISegmentedControl class]])
+	{
+		NSAssert(NO, @"Getting an message from a non-UISegmentedController object!");
+		return;
+	}
+	
+	UISegmentedControl *segment = (UISegmentedControl *)sender;	
+	currentUnit = segment.selectedSegmentIndex;
+	
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRange_Section]];
+	[cellToUpdate editAction];
+	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (%s).", searchRange, UnitName(currentUnit)];
+	
+	cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIUnit_Section]];
+	[cellToUpdate editAction];
+	cellToUpdate.text = [NSString stringWithFormat: @"Current distance unit is in %s", UnitName(currentUnit)];			;
+
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setFloat:currentUnit forKey:UserSavedDistanceUnit];
+}
+
 #pragma mark UITableView Delegate Functions
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -252,6 +295,10 @@ enum SettingTableSections
 		{
 			return SLIDERCELL_HEIGHT;
 		}
+		else if ( indexPath.section == kUIUnit_Section )
+		{
+			return SEGMENTCELL_HEIGHT;
+		}
 		else
 		{
 			return WEBVIEWCELL_HEIGHT;
@@ -280,6 +327,9 @@ enum SettingTableSections
 		case kUIRecent_Section:
 			title = @"Search Results";
 			break;
+		case kUIUnit_Section:
+			title = @"Distance Unit";
+			break;			
 		case kUIAbout_Section:
 			title = @"About & Disclaimer";
 			break;
@@ -338,6 +388,20 @@ enum SettingTableSections
 			}
 			return resultCell;
 		}
+		else if ( indexPath.section == kUIUnit_Section )
+		{
+			if (unitCell == nil)
+			{
+				unitCell = [[SegmentCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"unitCell"];
+				[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
+				[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
+				//[unitCell.segment setTitle:@"Km" forSegmentAtIndex:0];
+				//[unitCell.segment setTitle:@"Mi" forSegmentAtIndex:1];
+				[unitCell.segment addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
+				unitCell.selectionStyle = UITableViewCellSelectionStyleNone;
+			}
+			return unitCell;
+		}
 		else
 		{
 			if (aboutCell == nil)
@@ -370,6 +434,10 @@ enum SettingTableSections
 		else if ( indexPath.section == kUIRecent_Section)
 		{
 			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
+		}
+		else if ( indexPath.section == kUIUnit_Section)
+		{
+			cell.text = [NSString stringWithFormat: @"Current distance unit is in %s", UnitName(currentUnit)];					
 		}
 		else
 		{		
