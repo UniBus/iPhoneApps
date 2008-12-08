@@ -103,3 +103,20 @@ float deltaLon(double lat, double lon, double dist)
 {
 	return RAD2DEG * dist / (EARTH_RADIUS * cos(lat*DEG2RAD) );
 }
+
+double UnitToKm(int unit)
+{
+	if (unit == UNIT_MI)
+		return 1.609;
+	else 
+		return 1.0;
+		//NSAssert1(NO, @"Unknow current unit!");
+}
+
+char* UnitName(int unit)
+{
+	if (unit == UNIT_MI)
+		return "Mi";
+	else
+		return "Km";
+}

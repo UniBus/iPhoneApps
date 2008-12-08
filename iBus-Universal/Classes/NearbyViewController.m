@@ -16,6 +16,9 @@
 float searchRange = 0.1;
 int   numberOfResults = 5;
 BOOL  globalTestMode = NO;
+int   currentUnit = UNIT_KM;
+
+char *UnitName(int unit);
 
 @interface NearbyViewController (private)
 - (void) needsReload;
@@ -44,6 +47,7 @@ BOOL  globalTestMode = NO;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	searchRange = [defaults floatForKey:UserSavedSearchRange];
 	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
 	
 	location = [[CLLocationManager alloc] init];
 	location.delegate = self;	
@@ -89,7 +93,7 @@ BOOL  globalTestMode = NO;
 - (void) alertOnEmptyStopsOfInterest
 {
 	// open an alert with just an OK button
-	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %.1f Km", searchRange];
+	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %.1f %s", searchRange, UnitName(currentUnit)];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
@@ -132,7 +136,7 @@ BOOL  globalTestMode = NO;
 	{
 		currentPosition = [self getARandomCoordinate];
 		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-		NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange] ];
+		NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange*UnitToKm(currentUnit)] ];
 		if ([querryResults count] > numberOfResults)
 		{
 			//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
@@ -189,7 +193,7 @@ BOOL  globalTestMode = NO;
 	currentPosition = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
 	NSLog(@"[%f, %f]", currentPosition.x, currentPosition.y);
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange] ];
+	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange*UnitToKm(currentUnit)] ];
 	//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
 	if ([querryResults count] > numberOfResults)
 	{
@@ -226,7 +230,7 @@ BOOL  globalTestMode = NO;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return [NSString stringWithFormat:@"Stops within ~ %.1f Km", searchRange];	
+	return [NSString stringWithFormat:@"Stops within ~ %.1f %s", searchRange, UnitName(currentUnit)];	
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -251,8 +255,8 @@ BOOL  globalTestMode = NO;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
 	cell.text = [NSString stringWithFormat:@"[%@] - %@", aStop.stopId, aStop.name];
-	[cell setNote:[NSString stringWithFormat:@"%.1fkm", 
-				   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x)]];
+	[cell setNote:[NSString stringWithFormat:@"%.1f%s", 
+				   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)]];
 	return cell;
 }
 

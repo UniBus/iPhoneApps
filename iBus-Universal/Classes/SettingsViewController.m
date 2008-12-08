@@ -10,7 +10,7 @@
 #import "CitySelectViewController.h"
 #import "TransitApp.h"
 
-#define	RANGE_MAX	2.0
+#define	RANGE_MAX	5.0
 #define	RANGE_MIN	0.1
 #define NUMBER_MAX	25
 #define NUMBER_MIN	1
@@ -19,16 +19,16 @@
 #define REGULARCELL_WIDTH	314
 
 #define SLIDERCELL_HEIGHT	62
-#define SLIDER_WIDTH		270
+#define SLIDER_WIDTH		180
 #define SLIDER_HEIGHT		22
-#define SLIDER_LEFT			14
+#define SLIDER_LEFT			100
 #define SLIDER_TOP			20
 
-#define SEGMENTCELL_HEIGHT	84
-#define SEGMENT_WIDTH		90
+#define SEGMENTCELL_HEIGHT	62
+#define SEGMENT_WIDTH		100
 #define SEGMENT_HEIGHT		44
-#define SEGMENT_LEFT		200
-#define SEGMENT_TOP			20
+#define SEGMENT_LEFT		180
+#define SEGMENT_TOP			10
 
 #define WEBVIEWCELL_HEIGHT	340
 #define WEBVIEW_WIDTH		260
@@ -46,9 +46,7 @@ char *UnitName(int unit);
 enum SettingTableSections
 {
 	kUICity_Section = 0,
-	kUIRange_Section,
-	kUIRecent_Section,
-	kUIUnit_Section,
+	kUISearch_Section,
 	kUIAbout_Section,
 	kUISetting_Section_Num
 };
@@ -193,9 +191,9 @@ enum SettingTableSections
 	UISlider *slider = (UISlider *)sender;	
 	searchRange = [slider value]; 
 	
-	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRange_Section]];
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (%s).", searchRange, UnitName(currentUnit)];
+	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
 - (IBAction) resultNumChanged:(id) sender
@@ -207,9 +205,9 @@ enum SettingTableSections
 	}
 	UISlider *slider = (UISlider *)sender;
 	numberOfResults = [slider value];
-	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRecent_Section]];
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];
+	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
 - (IBAction) rangeChangedFinial:(id) sender
@@ -252,13 +250,9 @@ enum SettingTableSections
 	UISegmentedControl *segment = (UISegmentedControl *)sender;	
 	currentUnit = segment.selectedSegmentIndex;
 	
-	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIRange_Section]];
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Search closest stops within %.1f (%s).", searchRange, UnitName(currentUnit)];
-	
-	cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIUnit_Section]];
-	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Current distance unit is in %s", UnitName(currentUnit)];			;
+	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setFloat:currentUnit forKey:UserSavedDistanceUnit];
@@ -275,43 +269,38 @@ enum SettingTableSections
 {
 	if (section == kUICity_Section)
 		return 1;
+	else if (section == kUISearch_Section)
+		return 4;
 	else
 		return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.row == 0)
-	{
-		if (indexPath.section == kUICity_Section)
-		{
-			return REGULARCELL_HEIGHT;
-		}
-		else if ( indexPath.section == kUIRange_Section )
-		{
-			return SLIDERCELL_HEIGHT;
-		}
-		else if ( indexPath.section == kUIRecent_Section )
-		{
-			return SLIDERCELL_HEIGHT;
-		}
-		else if ( indexPath.section == kUIUnit_Section )
-		{
-			return SEGMENTCELL_HEIGHT;
-		}
-		else
-		{
-			return WEBVIEWCELL_HEIGHT;
-		}
+	switch (indexPath.section) {
+		case kUICity_Section:
+			return REGULARCELL_HEIGHT;				
+			break;
+		case kUISearch_Section:
+			if ( (indexPath.row == 0) || (indexPath.row == 1) )
+				return SLIDERCELL_HEIGHT;
+			else if (indexPath.row == 2)
+				return SEGMENTCELL_HEIGHT;
+			else 
+				return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
+			break;
+		case kUIAbout_Section:
+			if (indexPath.row == 0)
+				return WEBVIEWCELL_HEIGHT;
+			else
+				return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
+			break;
+		default:
+			break;
 	}
 	
-	else
-	{
-		if (indexPath.section == kUICity_Section)
-			return REGULARCELL_HEIGHT;
-		else
-			return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
-	}
+	NSAssert(NO, @"Unhandled section!");
+	return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -321,19 +310,14 @@ enum SettingTableSections
 		case kUICity_Section:
 			title = @"Current City";
 			break;
-		case kUIRange_Section:
-			title = @"Search Range";
+		case kUISearch_Section:
+			title = @"Search Parameters";
 			break;
-		case kUIRecent_Section:
-			title = @"Search Results";
-			break;
-		case kUIUnit_Section:
-			title = @"Distance Unit";
-			break;			
 		case kUIAbout_Section:
 			title = @"About & Disclaimer";
 			break;
 		default:
+			title = @"";
 			break;
 	}
 	return title;
@@ -341,39 +325,23 @@ enum SettingTableSections
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	NSInteger row = [indexPath row];
-	
-	if (row == 0)
+	UITableViewCell *cell = nil;
+
+	if (indexPath.section == kUICity_Section)
 	{
-		if (indexPath.section == kUICity_Section)
+		NSAssert(indexPath.row==0, @"Unhandled row in kUICity_Section");
+		cell = [tableView dequeueReusableCellWithIdentifier:@"CitySelectionCell"];
+		if (cell == nil)
 		{
-			UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CitySelectionCell"];
-			if (cell == nil)
-			{
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
-				cell.font = [UIFont systemFontOfSize:14];
-				cell.textAlignment = UITextAlignmentCenter;
-			}
-			NSAssert([[UIApplication sharedApplication] isKindOfClass:[TransitApp class]], @"Application mismatch!");
-			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
-			return cell;
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
+			cell.font = [UIFont boldSystemFontOfSize:14];
+			cell.textAlignment = UITextAlignmentCenter;
 		}
-		else if ( indexPath.section == kUIRange_Section )
-		{
-			if (rangeCell == nil)
-			{
-				rangeCell = [[SliderCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"rangeCell"];
-				[rangeCell.slider addTarget:self action:@selector(rangeChanged:) forControlEvents:UIControlEventValueChanged];
-				[rangeCell.slider addTarget:self action:@selector(rangeChangedFinial:) forControlEvents:UIControlEventTouchUpInside];
-				[rangeCell.slider addTarget:self action:@selector(rangeChangedFinial:) forControlEvents:UIControlEventTouchUpOutside];
-				rangeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-				rangeCell.slider.maximumValue = RANGE_MAX;
-				rangeCell.slider.minimumValue = RANGE_MIN;
-				rangeCell.slider.value = searchRange;
-			}
-			return rangeCell;
-		}
-		else if ( indexPath.section == kUIRecent_Section )
+		cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
+	}
+	else if ( indexPath.section == kUISearch_Section )
+	{
+		if ( indexPath.row == 0 )
 		{
 			if (resultCell == nil)
 			{
@@ -385,24 +353,57 @@ enum SettingTableSections
 				resultCell.slider.maximumValue = NUMBER_MAX;
 				resultCell.slider.minimumValue = NUMBER_MIN;
 				resultCell.slider.value = numberOfResults;
+				resultCell.font = [UIFont boldSystemFontOfSize:16];
+				resultCell.text = @"Maximum ";
 			}
-			return resultCell;
+			cell = resultCell;
 		}
-		else if ( indexPath.section == kUIUnit_Section )
+		else if ( indexPath.row == 1 )
+		{	
+			if (rangeCell == nil)
+			{
+				rangeCell = [[SliderCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"rangeCell"];
+				[rangeCell.slider addTarget:self action:@selector(rangeChanged:) forControlEvents:UIControlEventValueChanged];
+				[rangeCell.slider addTarget:self action:@selector(rangeChangedFinial:) forControlEvents:UIControlEventTouchUpInside];
+				[rangeCell.slider addTarget:self action:@selector(rangeChangedFinial:) forControlEvents:UIControlEventTouchUpOutside];
+				rangeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+				rangeCell.slider.maximumValue = RANGE_MAX;
+				rangeCell.slider.minimumValue = RANGE_MIN;
+				rangeCell.slider.value = searchRange;
+				rangeCell.font = [UIFont boldSystemFontOfSize:16];
+				rangeCell.text = @"Range ";
+			}
+			cell = rangeCell;
+		}
+		else if ( indexPath.row == 2 )
 		{
 			if (unitCell == nil)
 			{
 				unitCell = [[SegmentCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"unitCell"];
 				[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
 				[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
-				//[unitCell.segment setTitle:@"Km" forSegmentAtIndex:0];
-				//[unitCell.segment setTitle:@"Mi" forSegmentAtIndex:1];
 				[unitCell.segment addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
+				unitCell.segment.selectedSegmentIndex =currentUnit;
 				unitCell.selectionStyle = UITableViewCellSelectionStyleNone;
+				unitCell.font = [UIFont boldSystemFontOfSize:16];
+				unitCell.text = @"Distance Unit ";
 			}
-			return unitCell;
+			cell = unitCell;
 		}
 		else
+		{
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+			cell.font = [UIFont systemFontOfSize:12];
+			cell.textAlignment = UITextAlignmentCenter;
+			cell.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
+		}
+	}
+	else
+	{
+		NSAssert(indexPath.section == kUIAbout_Section, @"Unhandled section");
+		if (indexPath.row == 0)
 		{
 			if (aboutCell == nil)
 			{
@@ -413,40 +414,19 @@ enum SettingTableSections
 				[aboutCell.webView loadRequest:[NSURLRequest requestWithURL:url]];
 				aboutCell.selectionStyle = UITableViewCellSelectionStyleNone;
 			}
-			return aboutCell;
+			cell = aboutCell;		
 		}
-	}
-	else if (row == 1)
-	{
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingViewCell"];
-		if (cell == nil)
+		else
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
 			cell.font = [UIFont systemFontOfSize:12];
 			cell.textAlignment = UITextAlignmentCenter;
-		}
-		if ( indexPath.section == kUIRange_Section )
-		{
-			cell.text = [NSString stringWithFormat: @"Search closest stops within %.1f (Km).", searchRange];
-		}
-		else if ( indexPath.section == kUIRecent_Section)
-		{
-			cell.text = [NSString stringWithFormat: @"You may see at most %d stop(s) in results", numberOfResults];					
-		}
-		else if ( indexPath.section == kUIUnit_Section)
-		{
-			cell.text = [NSString stringWithFormat: @"Current distance unit is in %s", UnitName(currentUnit)];					
-		}
-		else
-		{		
 			cell.text = @"Copyright @ 2008 Zhenwang Yao";
 		}
-		return cell;
 	}
-	
-	return nil;
+	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -475,7 +455,6 @@ enum SettingTableSections
 		selectionVC.delegate = [UIApplication sharedApplication];
 		[[self navigationController] pushViewController:selectionVC animated:YES];
 	}
-	
 }
 
 #pragma mark WebView Delegate Functions

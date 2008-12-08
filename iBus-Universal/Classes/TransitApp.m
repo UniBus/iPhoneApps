@@ -16,7 +16,9 @@
 #import "CityUpdateViewController.h"
 #import "StopQuery.h"
 #import "Upgrade.h"
+#import "General.h"
 
+NSString * const UserSavedDistanceUnit = @"UserSavedDistanceUnit";
 NSString * const UserSavedTabBarSequence = @"UserSavedTabBarSequence";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
@@ -33,6 +35,7 @@ NSString * const UserSavedAlwayOffline = @"UserSavedAlwayOffline";
 
 NSString * const gtfsInfoDatabase = @"gtfs_info.sqlite";
 
+extern int currentUnit;
 extern float searchRange;
 extern int numberOfResults;
 extern BOOL autoSwitchToOffline;
@@ -91,7 +94,8 @@ extern BOOL alwaysOffline;
 	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
 	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey:UserSavedAutoSwitchOffline];
 	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAlwayOffline];
-	[defaultValues setObject:[NSMutableArray array] forKey:UserSavedTabBarSequence];	
+	[defaultValues setObject:[NSMutableArray array] forKey:UserSavedTabBarSequence];
+	[defaultValues setObject:[NSNumber numberWithInt:UNIT_KM] forKey:UserSavedDistanceUnit];
 	[defaults registerDefaults:defaultValues];
 }
 
@@ -397,7 +401,7 @@ extern BOOL alwaysOffline;
 	{
 		return [NSMutableArray array];
 	}
-	return [stopQuery queryStopWithPosition:pos within:distInKm];
+	return [stopQuery queryStopWithPosition:pos within:distInKm*UnitToKm(currentUnit)];
 }
 
 #pragma mark Trip Querying Functions

@@ -13,11 +13,19 @@
 {
 }
 @end
+
 @interface SliderCell : UITableViewCell
 {
 	UISlider *slider;
 }
 @property(assign) UISlider *slider;
+@end
+
+@interface SegmentCell : UITableViewCell
+{
+	UISegmentedControl *segment;
+}
+@property(assign) UISegmentedControl *segment;
 @end
 
 @interface WebViewCell : UITableViewCell
@@ -32,6 +40,7 @@
 	IBOutlet SliderCell		 *rangeCell;
 	IBOutlet SliderCell		 *resultCell;
 	IBOutlet WebViewCell	 *aboutCell;
+	IBOutlet SegmentCell	 *unitCell;
 	//IBOutlet UIWebView       *aboutWebCell;
 	//IBOutlet UISlider        *rangeSlider;
 	//IBOutlet UISlider        *recentSlider;
@@ -48,5 +57,8 @@
 
 - (IBAction) rangeChangedFinial:(id) sender;
 - (IBAction) resultNumChangedFinal:(id) sender;
+
+- (IBAction) unitChanged:(id) sender;
+
 @end
 

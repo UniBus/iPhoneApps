@@ -262,6 +262,16 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 
 - (void) showMapOfAStop: (BusStop *)theStop
 {
+	if ( (theStop.latitude == 0) || (theStop.longtitude == 0) )
+	{
+		// open an alert with just an OK button
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"The location of the stop is not available!"
+													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+		
+		return;
+	}
 	StopMapViewController *mapViewController = [[StopMapViewController alloc] initWithNibName:nil bundle:nil];
 	
 	UINavigationController *navigController = [self navigationController];
