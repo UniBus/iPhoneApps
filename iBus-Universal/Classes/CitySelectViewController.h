@@ -16,6 +16,7 @@
 	NSString		*currentCityId;
 	NSString		*currentURL;
 	NSString		*currentDatabase;
+	NSInteger		checkMarkedRow;
 }
 
 @property (readonly) NSString	*currentCityId;

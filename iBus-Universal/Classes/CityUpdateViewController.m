@@ -15,6 +15,10 @@
 
 const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.2/updates/";
 
+BOOL  cityUpdateAvaiable = NO;
+BOOL  offlineUpdateAvailable = NO;
+BOOL  offlineDownloaded = NO;
+
 enum CityUpdateSections
 {
 	kUIUpdate_CurrentCity = 0,
@@ -251,6 +255,8 @@ enum CurrentCityUpdateStatus {
 		statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;
 	}
 		
+	cityUpdateAvaiable = NO;
+	offlineUpdateAvailable = NO;
 	[otherCitiesFromServer release];
 	[newCitiesFromServer release];
 	[updateCitiesFromServer release];
@@ -339,12 +345,15 @@ enum CurrentCityUpdateStatus {
 			NSString *offlineDbTime = offlineDbDownloadTime(appCurrentCityId);
 			if (offlineDbDownloaded(appCurrentCityId))
 			{
+				offlineDownloaded = YES;
 				if ([city.oldbtime compare:offlineDbTime] == NSOrderedDescending)
 					//meaning there is a newer offline database available
 					statusOfCurrentyCityOfflineDb = kCurrentCityNeedsUpdate;
 				else
-					statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;
+					statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;				
 			}
+			cityUpdateAvaiable = (statusOfCurrentyCity == kCurrentCityNeedsUpdate);
+			offlineUpdateAvailable = (statusOfCurrentyCityOfflineDb == kCurrentCityNeedsUpdate);
 		}
 		
 		[city release];
