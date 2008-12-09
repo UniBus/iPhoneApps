@@ -50,6 +50,11 @@
 		7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D83B3E30E885F4400DCB5EC /* FavoriteViewController.m */; };
 		7D86E7E70ED53576006FC259 /* TripStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D86E7E60ED53576006FC259 /* TripStopsViewController.m */; };
 		7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */; };
+		7D8C9D920EE5309200D4911C /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C9D8D0EE5309200D4911C /* info.png */; };
+		7D8C9D930EE5309200D4911C /* offline.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C9D8E0EE5309200D4911C /* offline.png */; };
+		7D8C9D940EE5309200D4911C /* route.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C9D8F0EE5309200D4911C /* route.png */; };
+		7D8C9D950EE5309200D4911C /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C9D900EE5309200D4911C /* stop.png */; };
+		7D8C9D960EE5309200D4911C /* update.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D8C9D910EE5309200D4911C /* update.png */; };
 		7D8D68740EE11A44009A5F4E /* OfflineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8D68730EE11A44009A5F4E /* OfflineViewController.m */; };
 		7D8D68810EE14198009A5F4E /* MiscCells.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8D68800EE14198009A5F4E /* MiscCells.m */; };
 		7D8D69F00EE1FB83009A5F4E /* OfflineQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8D69EF0EE1FB83009A5F4E /* OfflineQuery.m */; };
@@ -146,6 +151,11 @@
 		7D86E7E60ED53576006FC259 /* TripStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripStopsViewController.m; sourceTree = "<group>"; };
 		7D88EF640E91D92F00DF4ED4 /* NearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyViewController.h; sourceTree = "<group>"; };
 		7D88EF650E91D92F00DF4ED4 /* NearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyViewController.m; sourceTree = "<group>"; };
+		7D8C9D8D0EE5309200D4911C /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		7D8C9D8E0EE5309200D4911C /* offline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = offline.png; sourceTree = "<group>"; };
+		7D8C9D8F0EE5309200D4911C /* route.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = route.png; sourceTree = "<group>"; };
+		7D8C9D900EE5309200D4911C /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
+		7D8C9D910EE5309200D4911C /* update.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = update.png; sourceTree = "<group>"; };
 		7D8D68720EE11A44009A5F4E /* OfflineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineViewController.h; sourceTree = "<group>"; };
 		7D8D68730EE11A44009A5F4E /* OfflineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineViewController.m; sourceTree = "<group>"; };
 		7D8D687F0EE14198009A5F4E /* MiscCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiscCells.h; sourceTree = "<group>"; };
@@ -298,8 +308,6 @@
 				7D04BD700EDE5B2800F5A842 /* Nearby */,
 				7D04BD6F0EDE5B1600F5A842 /* Settings */,
 				7D768FDE0EDFDDD600FA3DFF /* Info */,
-				7D8D68280EE117D0009A5F4E /* Update */,
-				7D8D68260EE115F6009A5F4E /* OffLine */,
 			);
 			name = Tabs;
 			sourceTree = "<group>";
@@ -322,6 +330,12 @@
 				7D76F4DD0E85BB310040B004 /* SettingsViewController.m */,
 				7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */,
 				7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */,
+				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
+				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
+				7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */,
+				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
+				7D8D68720EE11A44009A5F4E /* OfflineViewController.h */,
+				7D8D68730EE11A44009A5F4E /* OfflineViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -390,6 +404,11 @@
 		7D04BD860EDE62C400F5A842 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7D8C9D8D0EE5309200D4911C /* info.png */,
+				7D8C9D8E0EE5309200D4911C /* offline.png */,
+				7D8C9D8F0EE5309200D4911C /* route.png */,
+				7D8C9D900EE5309200D4911C /* stop.png */,
+				7D8C9D910EE5309200D4911C /* update.png */,
 				7DF6A1620E9CAE60002B9659 /* Default.png */,
 				7D80D9480E92A1F6005DA0D5 /* search.png */,
 				7D80D9460E92A1C1005DA0D5 /* setting.png */,
@@ -513,26 +532,6 @@
 			name = Info;
 			sourceTree = "<group>";
 		};
-		7D8D68260EE115F6009A5F4E /* OffLine */ = {
-			isa = PBXGroup;
-			children = (
-				7D8D68720EE11A44009A5F4E /* OfflineViewController.h */,
-				7D8D68730EE11A44009A5F4E /* OfflineViewController.m */,
-			);
-			name = OffLine;
-			sourceTree = "<group>";
-		};
-		7D8D68280EE117D0009A5F4E /* Update */ = {
-			isa = PBXGroup;
-			children = (
-				7D80CF160EB3A9FE00291BEF /* GTFSCity.h */,
-				7D80CF170EB3A9FE00291BEF /* GTFSCity.m */,
-				7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */,
-				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
-			);
-			name = Update;
-			sourceTree = "<group>";
-		};
 		7D8D69E90EE1F9A8009A5F4E /* OffLine */ = {
 			isa = PBXGroup;
 			children = (
@@ -603,6 +602,11 @@
 				7DF6A1630E9CAE60002B9659 /* Default.png in Resources */,
 				7D7B00630E9DC62700DDABDC /* about.html in Resources */,
 				7DCE40A00EB0E42A003FF456 /* gtfs_info.sqlite in Resources */,
+				7D8C9D920EE5309200D4911C /* info.png in Resources */,
+				7D8C9D930EE5309200D4911C /* offline.png in Resources */,
+				7D8C9D940EE5309200D4911C /* route.png in Resources */,
+				7D8C9D950EE5309200D4911C /* stop.png in Resources */,
+				7D8C9D960EE5309200D4911C /* update.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
