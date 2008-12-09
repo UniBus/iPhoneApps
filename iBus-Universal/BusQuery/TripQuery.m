@@ -90,7 +90,7 @@ enum QueryType {
 			BusTrip *aTrip = [[BusTrip alloc] init];
 			NSString *receivedRouteId = [attributeDict valueForKey:@"route_id"];
 			aTrip.tripId = [attributeDict valueForKey:@"trip_id"];
-			aTrip.direction = [[attributeDict valueForKey:@"direction_id"] intValue];
+			aTrip.direction = [attributeDict valueForKey:@"direction_id"];
 			aTrip.headsign = [attributeDict valueForKey:@"trip_headsign"];
 			
 			NSAssert([receivedRouteId isEqualToString:queryingRoute], @"Query results contain garbage!!");

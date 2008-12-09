@@ -357,7 +357,7 @@
 }
 
 //- (NSArray *) queryRoutesAtAStop:(sqlite3 *)database ofDate:(NSString *)queryDate onDay:(NSString *)queryDay
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day
 {
 	NSDateComponents *comps = [[NSDateComponents alloc] init];
 	[comps setYear:[[day substringWithRange:NSMakeRange(0, 4)] intValue]];
@@ -426,11 +426,12 @@
 	//	Add Nov-11-2008, there are some duplication in Milwaukee data.
 	//  IMO, data should be fixed, instead of the code.	
 	sql = [NSString stringWithFormat:
-		   @"SELECT DISTINCT stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time, routes.route_short_name, routes.route_long_name "
+		   @"SELECT DISTINCT stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time, routes.route_short_name, routes.route_long_name, trips.direction_id "
 		   "FROM stop_times, trips, local.routes as routes "
 		   "WHERE stop_id='%@' AND routes.route_id='%@' AND "
+		   "(trips.direction_id='%@' OR trips.direction_id='') AND "
 		   "stop_times.trip_id=trips.trip_id AND trips.route_id=routes.route_id AND %@ "
-		   "ORDER BY arrival_time", stop, route, calendarPhase];
+		   "ORDER BY arrival_time", stop, route, dir, calendarPhase];
 	
 	NSLog(@"SQL: %@", sql);
 	sqlite3_stmt *statement;
@@ -458,6 +459,7 @@
 				[arrival setBusSign:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)]];
 			
 			[arrival setArrivalTime:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)]];
+			arrival.direction = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 5)];
 			
 			[allArrivals addObject:arrival];
 			[arrival release];		
@@ -469,13 +471,13 @@
 	return allArrivals;
 }
 
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop
 {
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setDateFormat:@"yyyyMMdd"];
 	NSString *queryBeginDateStr = [formatter stringFromDate:[NSDate date]];
 	
-	return [self queryForRoute:route atStop:stop onDay:queryBeginDateStr];
+	return [self queryForRoute:route inDirection:dir atStop:stop onDay:queryBeginDateStr];
 }
 
 

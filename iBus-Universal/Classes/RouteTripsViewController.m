@@ -24,8 +24,8 @@ enum _RouteTripsTableViewSection {
 - (void)loadView 
 {
 	tripsOnRoute = [[NSMutableArray alloc] init];
-	[tripsOnRoute addObject:[NSMutableArray array]]; //for one direction
-	[tripsOnRoute addObject:[NSMutableArray array]]; //for the other direction
+	//[tripsOnRoute addObject:[NSMutableArray array]]; //for one direction
+	//[tripsOnRoute addObject:[NSMutableArray array]]; //for the other direction
 	
 	tripsTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
 	[tripsTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
@@ -72,16 +72,24 @@ enum _RouteTripsTableViewSection {
 #pragma mark Callback Function for tripsOnRoute query
 - (void) tripsUpdated: (NSArray *)results
 {
-	[[tripsOnRoute objectAtIndex:0] removeAllObjects];
-	[[tripsOnRoute objectAtIndex:1] removeAllObjects];
+	[tripsOnRoute removeAllObjects];
+	[tripsOnRoute addObject:[NSMutableArray array]]; //for one direction
+	//[[tripsOnRoute objectAtIndex:0] removeAllObjects];
+	//[[tripsOnRoute objectAtIndex:1] removeAllObjects];
+	if ([results count])
+	{
+		BusTrip *testingTrip = [results objectAtIndex:0];
+		if (![testingTrip.direction isEqualToString:@""])
+			[tripsOnRoute addObject:[NSMutableArray array]]; //for one direction
+	}
 	
 	for (BusTrip *aTrip in results)
 	{
 		NSLog(@"id=%@, headsign=%@", aTrip.tripId, aTrip.headsign);
-		if (aTrip.direction == 0)
-			[[tripsOnRoute objectAtIndex:0] addObject:aTrip];
+		if ([aTrip.direction isEqualToString:@"1"])
+			[[tripsOnRoute objectAtIndex:1] addObject:aTrip];
 		else
-			[[tripsOnRoute objectAtIndex:1] addObject:aTrip];			
+			[[tripsOnRoute objectAtIndex:0] addObject:aTrip];			
 	}
 	
 	[tripsTableView reloadData];
@@ -102,7 +110,7 @@ enum _RouteTripsTableViewSection {
 		return 1;
 	else
 	{
-		NSAssert1([tripsOnRoute count]==2, @"Something wrong with tripOnRoute, should have 2 elements, but it has %d instead!!", [tripsOnRoute count]);
+		NSAssert1([tripsOnRoute count]<=2, @"Something wrong with tripOnRoute, should have at most 2 elements, but it has %d instead!!", [tripsOnRoute count]);
 		return [tripsOnRoute count];
 	}
 }
@@ -111,6 +119,8 @@ enum _RouteTripsTableViewSection {
 {
 	if (tripsOnRoute)
 	{
+		if ([tripsOnRoute count] == 0)
+			return 0;
 		NSArray *tripsInTheDirection = [tripsOnRoute objectAtIndex:section];
 		if (tripsInTheDirection)
 			return [tripsInTheDirection count];

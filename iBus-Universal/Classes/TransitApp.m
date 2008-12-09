@@ -561,22 +561,22 @@ extern BOOL alwaysOffline;
 				if ([arrivalQuery available])
 				{
 					self.networkActivityIndicatorVisible = YES;
-					results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+					results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
 					self.networkActivityIndicatorVisible = NO;
 				}
 				else
 				{
-					results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+					results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
 				}
 			}
 			else if (alwaysOffline)
 			{
-				results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+				results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
 			}
 			else
 			{
 				self.networkActivityIndicatorVisible = YES;
-				results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+				results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
 				self.networkActivityIndicatorVisible = NO;
 			}			
 		}

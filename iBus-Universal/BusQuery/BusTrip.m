@@ -19,6 +19,7 @@
 	[tripId release];
 	[headsign release];
 	[stops release];
+	[direction release];
 	[super dealloc];
 }
 

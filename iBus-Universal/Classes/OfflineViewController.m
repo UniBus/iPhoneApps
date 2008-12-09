@@ -73,7 +73,8 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
 		if (sqlite3_step(statement) == SQLITE_ROW)
-			downloadTime = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			if (sqlite3_column_text(statement, 0))
+				downloadTime = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 	}	
 	sqlite3_finalize(statement);
 	

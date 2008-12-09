@@ -8,6 +8,8 @@
 
 #import "SettingsViewController.h"
 #import "CitySelectViewController.h"
+#import "CityUpdateViewController.h"
+#import "OfflineViewController.h"
 #import "TransitApp.h"
 
 #define	RANGE_MAX	5.0
@@ -40,6 +42,10 @@ extern float searchRange;
 extern int   numberOfResults;
 extern BOOL  globalTestMode;
 extern int   currentUnit;
+
+extern BOOL  cityUpdateAvaiable;
+extern BOOL  offlineUpdateAvailable;
+extern BOOL  offlineDownloaded;
 
 char *UnitName(int unit);
 
@@ -268,7 +274,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 1;
+		return 3;
 	else if (section == kUISearch_Section)
 		return 4;
 	else
@@ -329,15 +335,35 @@ enum SettingTableSections
 
 	if (indexPath.section == kUICity_Section)
 	{
-		NSAssert(indexPath.row==0, @"Unhandled row in kUICity_Section");
+		//NSAssert(indexPath.row==0, @"Unhandled row in kUICity_Section");
 		cell = [tableView dequeueReusableCellWithIdentifier:@"CitySelectionCell"];
 		if (cell == nil)
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
 			cell.font = [UIFont boldSystemFontOfSize:14];
 			cell.textAlignment = UITextAlignmentCenter;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
-		cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
+		if (indexPath.row == 0)
+		{
+			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
+		}
+		else if (indexPath.row == 1)
+		{
+			if (cityUpdateAvaiable)
+				cell.text = @"New update available";
+			else
+				cell.text = @"Already up to date";
+		}
+		else
+		{
+			if (!offlineDownloaded)
+				cell.text = @"Offline viewing available";
+			else if (offlineUpdateAvailable)
+				cell.text = @"New offline data available";
+			else
+				cell.text = @"Offline data up to date";
+		}			
 	}
 	else if ( indexPath.section == kUISearch_Section )
 	{
@@ -454,6 +480,16 @@ enum SettingTableSections
 		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 		selectionVC.delegate = [UIApplication sharedApplication];
 		[[self navigationController] pushViewController:selectionVC animated:YES];
+	}
+	else if (indexPath.row == 1)
+	{
+		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
+		[[self navigationController] pushViewController:updateVC animated:YES];
+	}
+	else
+	{
+		OfflineViewController *offlineVC = [[OfflineViewController alloc] initWithNibName:nil bundle:nil];
+		[[self navigationController] pushViewController:offlineVC animated:YES];
 	}
 }
 

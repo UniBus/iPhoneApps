@@ -10,11 +10,12 @@
 #import "StopsViewController.h"
 
 NSMutableDictionary * readFavorite();
-BOOL saveToFavorite(BusArrival *anArrival);
-BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *routeName, NSString *busSign);
-BOOL removeFromFavorite2(NSString *stopId, NSString *routeId);
-BOOL isInFavorite(BusArrival *anArrival);
-BOOL isInFavorite2(NSString *stopId, NSString *routeId);
+//BOOL saveToFavorite(BusArrival *anArrival);
+//BOOL isInFavorite(BusArrival *anArrival);
+
+BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *routeName, NSString *busSign, NSString *dir);
+BOOL removeFromFavorite2(NSString *stopId, NSString *routeId, NSString *dir);
+BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir);
 
 @interface FavoriteViewController : StopsViewController {
 	//NSMutableDictionary *favorites;

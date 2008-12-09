@@ -8,13 +8,14 @@
 //#import <UIKit/UIKit.h>
 
 @interface BusArrival : NSObject {
-	NSString *stopId;
-	NSString *arrivalTime;
-	NSString *busSign;
-	NSString *route;
-	NSString *routeId;
-	BOOL departed;
-	BOOL flag; 
+	NSString	*stopId;
+	NSString	*arrivalTime;
+	NSString	*busSign;
+	NSString	*route;
+	NSString	*routeId;
+	NSString	*direction;
+	BOOL		departed;
+	BOOL		flag; 
 }
 
 @property BOOL flag;
@@ -31,6 +32,9 @@
 
 - (NSString *) route;
 - (void) setRoute: (NSString *) route_name;
+
+- (NSString *) direction;
+- (void) setDirection: (NSString *) dir;
 
 - (NSString *) routeId;
 - (void) setRouteId: (NSString *) route_id;

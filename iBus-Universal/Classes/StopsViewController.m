@@ -159,7 +159,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	for (BusArrival *anArrival in results)
 	{
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", anArrival.stopId];
-		NSString *routeKey = [NSString stringWithFormat:@"route:%@", anArrival.routeId];
+		NSString *routeKey = [NSString stringWithFormat:@"route:%@:dir_%@", anArrival.routeId, anArrival.direction];
 		
 		NSMutableDictionary *aStopOfInterest = [stopsDictionary objectForKey:stopKey];	
 		NSMutableArray *arrivalsOfRouteAtStop = [aStopOfInterest objectForKey:routeKey];
@@ -308,7 +308,8 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			{
 				BusStop *associatedStop = [stopsOfInterest objectAtIndex:indexPath.section];
 				[routeActionVC  showInfoOfRoute:anArrival.route 
-										routeId:anArrival.routeId 
+										routeId:anArrival.routeId
+									  direction:anArrival.direction
 										 atStop:associatedStop.name 
 										 stopId:anArrival.stopId 
 									   withSign:anArrival.busSign];	

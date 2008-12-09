@@ -21,6 +21,8 @@
 
 extern BOOL autoSwitchToOffline;
 extern BOOL alwaysOffline;
+extern BOOL cityUpdateAvaiable;
+extern BOOL offlineUpdateAvailable;
 
 NSString *tabBarViewControllerIds[]={
 	@"FavoriteViewController",
@@ -28,9 +30,9 @@ NSString *tabBarViewControllerIds[]={
 	@"RouteSearchViewController",
 	@"NearbyViewController",
 	@"SettingsViewController",
-	@"CityUpdateViewController",
-	@"OfflineViewController",
 	@"InfoViewController",
+	//@"CityUpdateViewController",
+	//@"OfflineViewController",
 };
 
 @implementation TransitAppDelegate
@@ -57,11 +59,11 @@ NSString *tabBarViewControllerIds[]={
 		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[4]])
 			aClass = [SettingsViewController class];
 		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[5]])
-			aClass = [CityUpdateViewController class];
-		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[6]])
-			aClass = [OfflineViewController class];
-		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[7]])
 			aClass = [InfoViewController class];
+		//else if ([aViewCtrlName isEqual:tabBarViewControllerIds[6]])
+		//	aClass = [CityUpdateViewController class];
+		//else if ([aViewCtrlName isEqual:tabBarViewControllerIds[7]])
+		//	aClass = [OfflineViewController class];
 		
 		for (int index=currentIndex; index<[newViewControllerSequence count]; index++)
 		{
@@ -164,12 +166,12 @@ NSString *tabBarViewControllerIds[]={
 			[tabBarVCSequence addObject:tabBarViewControllerIds[3]];
 		else if ([aViewCtrl.topViewController isKindOfClass:[SettingsViewController class] ])
 			[tabBarVCSequence addObject:tabBarViewControllerIds[4]];
-		else if ([aViewCtrl.topViewController isKindOfClass:[CityUpdateViewController class] ])
-			[tabBarVCSequence addObject:tabBarViewControllerIds[5]];
-		else if ([aViewCtrl.topViewController isKindOfClass:[OfflineViewController class] ])
-			[tabBarVCSequence addObject:tabBarViewControllerIds[6]];
 		else if ([aViewCtrl.topViewController isKindOfClass:[InfoViewController class] ])
-			[tabBarVCSequence addObject:tabBarViewControllerIds[7]];		
+			[tabBarVCSequence addObject:tabBarViewControllerIds[5]];		
+		//else if ([aViewCtrl.topViewController isKindOfClass:[CityUpdateViewController class] ])
+		//	[tabBarVCSequence addObject:tabBarViewControllerIds[6]];
+		//else if ([aViewCtrl.topViewController isKindOfClass:[OfflineViewController class] ])
+		//	[tabBarVCSequence addObject:tabBarViewControllerIds[7]];
 	}
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -268,11 +270,14 @@ NSString *tabBarViewControllerIds[]={
 	
 	CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
 	[cityUpdateVC checkUpdates];
-	BOOL newCityDbAvailable = [cityUpdateVC updateAvaiable];
-	BOOL newCityOfflineDbAvailable = [cityUpdateVC newOfflineDatabaseAvailable];
-	if (newCityDbAvailable && newCityOfflineDbAvailable)
+	
+	//After calling the above function, the following two global variables will be updated:
+	//	- cityUpdateAvaiable;
+	//	- offlineUpdateAvailable;
+	
+	if (cityUpdateAvaiable && offlineUpdateAvailable)
 		[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
-	else if (newCityDbAvailable || newCityOfflineDbAvailable)
+	else if (cityUpdateAvaiable || offlineUpdateAvailable)
 		[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 	else
 		[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		

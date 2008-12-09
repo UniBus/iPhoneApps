@@ -12,10 +12,15 @@
 #import "CityUpdateViewController.h"
 //#import "parseCSV.h"
 
+enum CitySelectionSection {
+	kUISection_Local = 0,
+	kUISection_Online,
+	kUISection_Num
+};
+
 @interface CitySelectViewController()
 - (void) retrieveSupportedCities;
 @end
-
 
 @implementation CitySelectViewController
 
@@ -149,7 +154,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 1)
+	if (indexPath.section == kUISection_Online)
 	{
 		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:updateVC animated:YES];		
@@ -162,6 +167,12 @@
 	currentCity = [[NSString stringWithFormat:@"%@, %@, %@", selectedCity.cname, selectedCity.cstate, selectedCity.country] retain];
 	currentURL = selectedCity.website;
 	currentDatabase = selectedCity.dbname;
+	
+	UITableViewCell *cellToUpdate = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: checkMarkedRow inSection:kUISection_Local]];
+	cellToUpdate.accessoryType = UITableViewCellAccessoryNone;
+	cellToUpdate = [tableView cellForRowAtIndexPath:indexPath];
+	cellToUpdate.accessoryType = UITableViewCellAccessoryCheckmark;
+	checkMarkedRow = indexPath.row;
 	
 	//NSLog(@"City: %@", currentCity);
 	//NSLog(@"URL : %@", currentURL);
@@ -184,7 +195,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if (section == 0)
+	if (section == kUISection_Local)
 	{
 		if ([localCities count] == 0)
 			return 1;
@@ -202,7 +213,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == 0)
+	if (section == kUISection_Local)
 		return @"Cities on your device";
 	else
 		return @"More cities on-line";
@@ -211,7 +222,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	NSMutableArray *currentArray = nil;
-	if (indexPath.section == 0)
+	if (indexPath.section == kUISection_Local)
 		currentArray = localCities;
 	else
 		currentArray = onlineCities;
@@ -227,12 +238,20 @@
 	
 	if ([currentArray count] ==0)
 	{
-		cell.text = @"Check out Online update for more!";
+		cell.text = @"Downloads & Updates";
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	else
 	{	
 		GTFS_City *selectedCity = [currentArray objectAtIndex:indexPath.row];
 		cell.text = [NSString stringWithFormat:@"%@, %@, %@", selectedCity.cname, selectedCity.cstate, selectedCity.country];
+		if ([selectedCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
+		{
+			cell.accessoryType = UITableViewCellAccessoryCheckmark;	
+			checkMarkedRow = indexPath.row;
+		}
+		else
+			cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 
 	return cell;
@@ -240,7 +259,7 @@
 
 -(BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath 
 {
-	if( indexPath.section == 0 ) 
+	if( indexPath.section == kUISection_Local) 
 		return YES;
 
 	return NO;

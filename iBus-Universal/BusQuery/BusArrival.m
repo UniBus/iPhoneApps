@@ -23,6 +23,7 @@
 	[routeId release];
 	[arrivalTime release];
 	[busSign release];
+	[direction release];
 	[super dealloc];
 }
 
@@ -75,6 +76,17 @@
 {
 	[route release];
 	route = [route_name copy];
+}
+
+- (NSString *) direction
+{
+	return direction;
+}
+
+- (void) setDirection: (NSString *) dir
+{
+	[direction release];
+	direction = dir;
 }
 
 - (NSString *) routeId

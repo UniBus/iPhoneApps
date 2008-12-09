@@ -11,7 +11,7 @@
 
 @implementation RouteScheduleViewController
 
-@synthesize stopID, routeID, dayID;
+@synthesize stopID, routeID, dayID, direction;
 
 /*
  // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.

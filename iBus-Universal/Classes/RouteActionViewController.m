@@ -215,18 +215,20 @@
 	//self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];	
 }
 
-- (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
+//- (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
+- (void) setRoute: (NSString *) rname routeId: (NSString *)rid direction:(NSString *) dir;
 {
 	[routeName release];
 	[routeID release];
 	routeName = [rname retain];
 	routeID = [rid retain];
+	direction = dir;
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];
 }
 
 //- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)stop  withSign:(NSString *)sign
-- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)sname stopId:(NSString *)sid withSign:(NSString *)sign
+- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid direction:(NSString *) dir atStop:(NSString *)sname stopId:(NSString *)sid withSign:(NSString *)sign
 {
 	if (rid) 
 	{
@@ -234,6 +236,11 @@
 		[routeID release];
 		routeName = [rname retain];
 		routeID = [rid retain];
+	}
+	if (dir)
+	{
+		[direction release];
+		direction = [dir retain];
 	}
 	if (sid)
 	{
@@ -288,10 +295,10 @@
 	
 	if (indexPath.section == 0)
 	{
-		if (isInFavorite2(stopID, routeID))
-			removeFromFavorite2(stopID, routeID);
+		if (isInFavorite2(stopID, routeID, direction))
+			removeFromFavorite2(stopID, routeID, direction);
 		else
-			saveToFavorite2(stopID, routeID, routeName, busSign);
+			saveToFavorite2(stopID, routeID, routeName, busSign, direction);
 		[tableView reloadData];
 		
 		[self notifyApplicationFavoriteChanged];
@@ -302,6 +309,7 @@
 	RouteScheduleViewController *routeScheduleVC = [[RouteScheduleViewController alloc] initWithNibName:nil bundle:nil];
 	routeScheduleVC.stopID = stopID;
 	routeScheduleVC.routeID = routeID;	
+	routeScheduleVC.direction = direction;
 	[[self navigationController] pushViewController:routeScheduleVC animated:YES];
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
@@ -380,7 +388,7 @@
 		
 		[(RouteAtStopCell *)cell setStopInfo:stopName];
 		[(RouteAtStopCell *)cell setRouteInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
-		if (isInFavorite2(stopID, routeID))
+		if (isInFavorite2(stopID, routeID, direction))
 			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Remove from favorite"]];
 		else
 			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Add to favorite"]];

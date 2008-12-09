@@ -14,6 +14,7 @@
 	NSString *stopID;
 	NSString *routeID;
 	NSString *dayID;
+	NSString *direction;
 	NSMutableArray *arrivals;
 	UITableView *routeTableView;
 }
@@ -21,6 +22,7 @@
 @property (retain) NSString * stopID;
 @property (retain) NSString * routeID;
 @property (retain) NSString * dayID;
+@property (retain) NSString * direction;
 
 - (void) arrivalsUpdated: (NSArray *)results;
 

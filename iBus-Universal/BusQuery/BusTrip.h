@@ -16,14 +16,14 @@ double UserDefinedLatitudeForComparison;
 @interface BusTrip : NSObject {
 	NSString		*tripId;
 	NSString		*headsign;
-	NSInteger		direction;
+	NSString		*direction;
 	NSMutableArray	*stops;
 } BusTrip;
 
 @property (retain) NSString *tripId;
 @property (retain) NSString *headsign;
 @property (retain) NSMutableArray *stops;
-@property NSInteger direction;
+@property (retain) NSString *direction;
 
 @end
 

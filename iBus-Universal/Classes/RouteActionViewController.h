@@ -15,12 +15,13 @@
 	NSString *routeName;
 	NSString *routeID;
 	NSString *busSign;
+	NSString *direction;
 	NSDate   *otherDate;
 	UITableView *routeTableView;
 }
 
 - (void) setStopId: (NSString *) sname stopId: (NSString *)sid;
-- (void) setRoute: (NSString *) rname routeId: (NSString *)rid;
-- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid atStop:(NSString *)sname stopId:(NSString *)sid withSign:(NSString *)sign;
+- (void) setRoute: (NSString *) rname routeId: (NSString *)rid direction:(NSString *) dir;
+- (void) showInfoOfRoute: (NSString*)rname routeId:(NSString *)rid direction:(NSString *) dir atStop:(NSString *)sname stopId:(NSString *)sid withSign:(NSString *)sign;
 
 @end
