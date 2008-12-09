@@ -16,8 +16,6 @@
 	double  lastTwoFingerDistance;
 	int     lastNumOfTouches;
 	int		numberOfTouchEventToSkip;
-	double  lastRequestedLat;
-	double  lastRequestedLon;
 }
 
 - (void)mapWithURL:(NSURL *)url;

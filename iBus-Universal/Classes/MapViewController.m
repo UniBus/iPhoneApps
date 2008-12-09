@@ -100,15 +100,18 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void) moveMapByOffset:(CGPoint)offset
 {
-    int centerX = ((int)[self.view bounds].size.width) >> 1;
-    int centerY = ((int)[self.view bounds].size.height) >> 1;
+    //int centerX = ((int)[self.view bounds].size.width) >> 1;
+    //int centerY = ((int)[self.view bounds].size.height) >> 1;
+	int centerX = 160;
+	int centerY = 240;
 
     NSString *script = [NSString stringWithFormat:
 	 @"var newCenterPixel = new GPoint(%d, %d);"
-	 "var newCenterLatLng = map.fromContainerPixelToLatLng(newCenterPixel);"
+	 "var newCenterLatLng = map.fromDivPixelToLatLng(newCenterPixel);"
 	 "map.setCenter(newCenterLatLng);", 
 	 (int)(centerX - offset.x), (int)(centerY - offset.y)];
 	
+	NSLog(@"Moved: [deltax, deltay]=[%f, %f]", offset.x, offset.y);
 	[self mapWebExecuteScript:script];
 }
 
@@ -133,6 +136,12 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 						"map.setCenter(newpoint);", 
 						lat, lon];
 	
+	[self mapWebExecuteScript:script];
+}
+
+- (void) resetMapCenter
+{
+    NSString *script = @"resetCenter();";	
 	[self mapWebExecuteScript:script];
 }
 
@@ -208,7 +217,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	if ([touches count] == 3)
 	{
 		//Reset the center
-		[self centerMarkerAtLatitude:lastRequestedLat Longitude:lastRequestedLon];
+		[self resetMapCenter];
 	}	
 	else if ([touches count] == 2)
 	{
@@ -266,7 +275,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 	
 	if ([touch tapCount] == 3) 
 	{
-		[self centerMarkerAtLatitude:lastRequestedLat Longitude:lastRequestedLon];
+		[self resetMapCenter];
 	}
 }
 
