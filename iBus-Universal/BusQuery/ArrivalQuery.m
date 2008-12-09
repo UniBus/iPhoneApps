@@ -41,10 +41,10 @@
 
 #pragma mark Stop Querys
 
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop
 {
-	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@",
-						   webServicePrefix, stop, route];
+	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@&direction_id=%@",
+						   webServicePrefix, stop, route, dir];
 	
 	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
 	NSURL *queryURL = [NSURL URLWithString:encodedString];
@@ -54,10 +54,11 @@
 	return arrivalsForStops;
 }
 
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day
+//- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day
 {
-	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@&day=%@",
-						   webServicePrefix, stop, route, day];
+	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&direction_id=%@&route_id=%@&day=%@",
+						   webServicePrefix, stop, dir, route, day];
 	
 	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
 	NSURL *queryURL = [NSURL URLWithString:encodedString];
@@ -133,6 +134,7 @@
 		[arrival setRoute:[attributeDict valueForKey:@"route_name"]];
 		[arrival setArrivalTime:[attributeDict valueForKey:@"arrival_time"]];
 		[arrival setBusSign:[attributeDict valueForKey:@"bus_sign"]];
+		[arrival setDirection:[attributeDict valueForKey:@"direction_id"]];
 		
 		[arrivalsForStops addObject:arrival];
 		[arrival release];

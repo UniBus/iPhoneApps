@@ -14,8 +14,8 @@
 }
 
 - (BOOL) available;
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day;
-- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop;
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day;
+- (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop;
 - (NSArray *) queryForStops: (NSArray *) stops;
 
 @end
