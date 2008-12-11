@@ -5,11 +5,33 @@
 //  Created by Zhenwang Yao on 17/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "PhpXmlQuery.h"
+#import "TransitApp.h"
 
 @implementation PhpXmlQuery
 
 @synthesize webServicePrefix;
+
+- (BOOL) available
+{
+	NSURL *targetingUrl = [NSURL URLWithString:webServicePrefix];
+	SCNetworkReachabilityFlags        flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[targetingUrl host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (!gotFlags) 
+        return NO;
+	
+    if ( !(flags & kSCNetworkReachabilityFlagsReachable))
+		return NO;
+	
+    if (flags & kSCNetworkReachabilityFlagsConnectionRequired) 
+		return NO;
+    
+	return YES;
+    //return flags & kSCNetworkReachabilityFlagsReachable;
+}
 
 - (BOOL) queryByURL: (NSURL *) url
 {

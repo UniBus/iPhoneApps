@@ -12,6 +12,7 @@
 
 @property (retain) NSString * webServicePrefix;
 
+- (BOOL) available;
 - (BOOL) queryByURL: (NSURL *) url;
 
 @end
