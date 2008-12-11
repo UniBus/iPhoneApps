@@ -86,7 +86,7 @@ void resetCurrentCity(NSString *newDb)
 }
 
 #pragma mark Upgrade $(city).sqlite database
-BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
+BOOL upgradeFavorites_V10TOV11(NSString *currentDb, NSString *newDb)
 {
 	sqlite3 *destDb;
 	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
@@ -114,6 +114,104 @@ BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 	sqlite3_close(destDb);	
 	return result;	
 }
+
+BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
+{
+	sqlite3 *destDb;
+	
+	//Check current version of database.	
+	if (sqlite3_open([currentDb UTF8String], &destDb) != SQLITE_OK) 
+		return NO;	
+	NSString *currentDbVersion = @"1.0";
+	NSString *sql = @"SELECT parameter, value FROM dbinfo WHERE parameter='db_version'";
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(destDb, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		if (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			currentDbVersion = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+		}
+	}
+	else
+		NSLog(@"There must be no dbinfo, use default verion, which is v1.0");			
+	sqlite3_finalize(statement);
+	sqlite3_close(destDb);
+
+	//Upgrading based on current version.
+	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = YES;
+	 sql = [NSString stringWithFormat:@"ATTACH DATABASE '%@' AS src", currentDb];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	if ([currentDbVersion isEqualToString:@"1.0"])
+	{
+		sql = [NSString stringWithFormat:@"INSERT INTO favorites "
+		   "SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, routes.route_long_name as bus_sign, '' as direction_id "
+		   "FROM routes, src.favorites "
+		   "WHERE routes.route_short_name=src.favorites.route_id"
+		   ];
+		NSLog(@"Update from 1.0: SQL: %@", sql);
+	}
+	else
+	{
+		sql = [NSString stringWithFormat:@"INSERT INTO favorites SELECT stop_id, route_id, route_name, '' as direction_id, bus_sign FROM src.favorites"];
+		NSLog(@"Update from 1.1: SQL: %@", sql);
+	}
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sqlite3_close(destDb);	
+	return result;
+}
+
+BOOL upgradeFavorites2(NSString *currentDb, NSString *newDb)
+{
+	sqlite3 *destDb;	
+	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = YES;
+	NSString *sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS favorites", currentDb];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS favorites ("
+									@"stop_id CHAR(16), "
+									@"route_id CHAR(32), "
+									@"route_name CHAR(32), "
+									@"direction_id CHAR(4), "
+									@"bus_sign CHAR(128) "
+									@")"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+
+	sql = [NSString stringWithFormat:@"UPDATE dbinfo SET value='1.2' WHERE parameter='db_version'"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sqlite3_close(destDb);	
+	
+	return upgradeFavorites(currentDb, newDb);
+}
+
 
 BOOL copyDatabase(NSString *currentDb, NSString *newDb)
 {
@@ -153,6 +251,7 @@ BOOL copyDatabase(NSString *currentDb, NSString *newDb)
 //
 BOOL upgrade(NSString *currentDb, NSString *newDb)
 {
+	BOOL result = YES;
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *homeDirectory = [paths objectAtIndex:0];
 
@@ -170,12 +269,27 @@ BOOL upgrade(NSString *currentDb, NSString *newDb)
 	NSArray *dbPathComponets = [newDb pathComponents];
 	NSString *dbName = [dbPathComponets objectAtIndex:[dbPathComponets count]-1];
 	NSString *tmpDbPathForUpgrade = [upgradePath stringByAppendingPathComponent:dbName];
-	copyDatabase(tmpDbPathForUpgrade, newDb);
-
-	if (upgradeFavorites(currentDb, tmpDbPathForUpgrade) == NO)
-		return NO;
+	if ([fileManager fileExistsAtPath:newDb])
+	{
+		copyDatabase(tmpDbPathForUpgrade, newDb);
+		if (upgradeFavorites(currentDb, tmpDbPathForUpgrade) == NO)
+		{
+			NSLog(@"upgradeFavorites(x,x) error!");
+			result = NO;
+		}
+	}
+	else
+	{
+		copyDatabase(tmpDbPathForUpgrade, currentDb);
+		if (upgradeFavorites2(currentDb, tmpDbPathForUpgrade) == NO)
+		{
+			NSLog(@"upgradeFavorites(x,x) error!");
+			result = NO;
+		}
+	}
 	
-	return copyDatabase(currentDb, tmpDbPathForUpgrade);
+	copyDatabase(currentDb, tmpDbPathForUpgrade);
+	return result;
 }
 
 #pragma mark Upgrade GTFS_info database
@@ -194,16 +308,21 @@ BOOL upgradeCities(NSString *currentDb, NSString *newDb)
 	}
 	
 	//This is only valid for updating from V1.1 to V1.2
-	sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO "
-		   "cities(id, name, state, country, website, dbname, lastupdate, local) "
-		   "SELECT * FROM src.cities "
+	/*
+	sql = [NSString stringWithFormat:@"INSERT OR IGNORE INTO "
+		   "cities(id, name, state, country, website, dbname, lastupdate, local, oldbdownloaded, oldbtime) "
+		   "SELECT *, 0, '' FROM src.cities "
 		   ];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;
 		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
 	}
-	sql = [NSString stringWithFormat:@"UPDATE cities SET oldbdownloaded=0"];
+	 */
+	sql = [NSString stringWithFormat:@"REPLACE INTO cities(id, name, state, country, website, dbname, lastupdate, local, oldbdownloaded, oldbtime) "
+		   @"SELECT cities.id, cities.name, cities.state, cities.country, cities.website, cities.dbname, oldcities.lastupdate, oldcities.local, cities.oldbdownloaded, cities.oldbtime "
+		   @"       FROM cities, src.cities as oldcities "
+		   @"       WHERE cities.id=oldcities.id AND oldcities.local=1"];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;
@@ -216,6 +335,7 @@ BOOL upgradeCities(NSString *currentDb, NSString *newDb)
 
 BOOL upgradeGTFS(NSString *currentDb, NSString *newDb)
 {
+	BOOL result = YES;
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *homeDirectory = [paths objectAtIndex:0];
 	
@@ -236,9 +356,13 @@ BOOL upgradeGTFS(NSString *currentDb, NSString *newDb)
 	copyDatabase(tmpDbPathForUpgrade, newDb);
 	
 	if (upgradeCities(currentDb, tmpDbPathForUpgrade) == NO)
-		return NO;
+	{
+		NSLog(@"updateCities(x, x) error!");
+		result = NO;
+	}
 	
-	return copyDatabase(currentDb, tmpDbPathForUpgrade);	
+	copyDatabase(currentDb, tmpDbPathForUpgrade);	
+	return result;
 }
 
 
