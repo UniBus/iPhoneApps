@@ -12,6 +12,15 @@
 #import "StopCell.h"
 #import "ArrivalCell.h"
 
+//Return Values: a Dictionary
+// - [stop:$sid1]
+//       - [stop:info:info]
+//       - [stop:info:route:%rid1:dir_:name]
+//       - [stop:info:route:%rid1:dir_:bussign]
+//       - [stop:info:route:%rid1:dir_:]
+//              - an empty array
+// - repeat
+//
 NSMutableDictionary * readFavorite()
 {
 	NSMutableDictionary *favorites =[[NSMutableDictionary alloc] init];
@@ -195,7 +204,7 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 {
 	[super loadView];
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	self.navigationItem.title = @"Favorite Stops";	
+	self.navigationItem.title = @"Favorites";	
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -272,13 +281,20 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 	
 	//Here is something critcal, don't use
 	//	self.stopsOfInterest = newStops;	
-	//instead to avoid stopsDictionary being updated, manipulator stopOfInterest Directlry
+	//instead to avoid stopsDictionary being updated, manipulate stopOfInterest Directlry
 	[stopsOfInterest release];
 	stopsOfInterest = [newStops retain];
 	
 	[self reload];
 }
 
+//FavoriteViewController override this function of StopsViewController
+// - In StopsViewController,
+//     * all arrivals associated with a stop will be deleted
+//     * after this function all arrival/route info will be deleted from dictionary.
+// - In FavoriteViewController,
+//     * only arrival arrays are delete, and route info [stop:route:$first_route:dir_$dir] is kept.
+//
 - (void) clearArrivals
 {
 	NSEnumerator *enumerator = [stopsDictionary keyEnumerator];
@@ -301,6 +317,8 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 - (void) arrivalsUpdated: (NSArray *)results
 {
 	[self clearArrivals];
+	//NSMutableArray *routeKeysToDelete = [NSMutableArray array];
+	//NSMutableArray *stopKeysToDelete = [NSMutableArray array];
 	for (BusArrival *anArrival in results)
 	{
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", anArrival.stopId];
@@ -309,7 +327,65 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 		NSMutableArray *arrivals = [[stopsDictionary objectForKey:stopKey] objectForKey:routeKey];
 		if (arrivals)
 			[arrivals addObject:anArrival];
+		else if (![anArrival.direction isEqualToString:@""])
+		{
+			//The following is for a couple of reasons:
+			//  - Some cities current do not have direction information, in the future
+			//    when this changes, stops should be able to show up.
+			//  - Upgrading from Ver1.1 to Ver1.2 and higher.
+			//    Ver1.1 did not consider direction!
+			routeKey = [NSString stringWithFormat:@"route:%@:dir_", anArrival.routeId];
+			arrivals = [[stopsDictionary objectForKey:stopKey] objectForKey:routeKey];
+			if (arrivals)
+			{
+				//Prepare for deletion later:
+				//[stopKeysToDelete addObject:stopKey];
+				//[routeKeysToDelete addObject:routeKey];
+				
+				//Add the new direction into stopsDictionary
+				NSMutableDictionary *favoriteStop = [stopsDictionary objectForKey:stopKey];
+				NSString *newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:name", anArrival.routeId, anArrival.direction];				
+				[favoriteStop setObject:anArrival.route forKey:newRouteInfoKey];
+				newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:bussign", anArrival.routeId, anArrival.direction];				
+				[favoriteStop setObject:anArrival.busSign forKey:newRouteInfoKey];
+				NSString *newRouteKey = [NSString stringWithFormat:@"route:%@:dir_%@", anArrival.routeId, anArrival.direction];
+				NSMutableArray *favoriteRoute = [NSMutableArray arrayWithObject:anArrival];
+				[favoriteStop setObject:favoriteRoute forKey:newRouteKey]; 
+					
+				//Need to update routesOfInterest
+				int index = [stopsOfInterest indexOfObject:[favoriteStop objectForKey:@"stop:info:info"]];
+				[[routesOfInterest objectAtIndex:index] addObject:newRouteKey];
+				
+				//Update Favorites table in database;
+				//Notes that by saving a route with direction, the function will automatic delete the corresponding saved route without direction.
+				saveToFavorite2(anArrival.stopId, anArrival.routeId, anArrival.route, anArrival.busSign, anArrival.direction);
+			}
+		}
 	}
+	
+	//Notes: This is delete for simplicity.
+	//	I was thinking of updating favorite list right away, but it seems tedious.
+	//  So instead, I just clean up favorite list by calling savetoFavorite2 as above,
+	//  and then as user refresh the list, it get clean up.
+	/*
+	if ([stopKeysToDelete count])
+	{
+		//deleting should be done here, instead of inside the loop, because
+		// in some case same route in two directions may pass the same stop!
+		for (int i=0; i<[stopKeysToDelete count]; i++)
+		{
+			NSMutableDictionary *stopToDelete = [stopsDictionary objectForKey:[stopKeysToDelete objectAtIndex:i]];
+			//A key may be deleted twice, but that's ok. it does nothing for the second deletion.
+			[stopToDelete removeObjectForKey:[routeKeysToDelete objectAtIndex:i]];
+			//Notes: This is simplified way:
+			//	I didn't delete other entries associated with the route, [stop:info:route:name/bussign].
+			//  But I don't think that is a problem, by deleting the routeKey, those entries will never been accessed,
+			//  and after refresh, they will all been cleaned up.
+			
+			int index = [stopsOfInterest indexOfObject:[stopToDelete objectForKey:@"stop:info:info"]];
+			[[routesOfInterest objectAtIndex:index] removeObjectIdenticalTo:[routeKeysToDelete objectAtIndex:i]];
+		}
+	}*/
 	
 	//UITableView *tableView = (UITableView *) self.view;
 	[stopsTableView reloadData];
