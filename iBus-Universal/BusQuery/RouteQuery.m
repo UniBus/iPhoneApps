@@ -55,7 +55,7 @@
 - (BusRoute *) routeOfId: (NSString *) anId
 {
 	BusRoute *aRoute = nil;
-	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name FROM routes WHERE route_id=\"%@\"", anId];
+	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name, route_type FROM routes WHERE route_id=\"%@\"", anId];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -65,6 +65,7 @@
 			aRoute.routeId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			aRoute.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
 			aRoute.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			aRoute.type = sqlite3_column_int(statement, 3);
 		}
 	}
 	else
@@ -76,10 +77,31 @@
 	return [aRoute autorelease];
 }
 
+- (NSInteger) typeOfRoute: (NSString *) routeId
+{
+	int type = -1;
+	NSString *sql = [NSString stringWithFormat:@"SELECT route_type FROM routes WHERE route_id='%@' ", routeId];
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		if (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			type = sqlite3_column_int(statement, 0);
+		}
+	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}	
+	sqlite3_finalize(statement);
+	
+	return type;
+}
+
 - (NSArray *) queryRouteWithName:(NSString *) routeName
 {
 	NSMutableArray *results = [NSMutableArray array];
-	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name FROM routes WHERE route_short_name LIKE \"%c%@%c\" OR route_long_name LIKE \"%c%@%c\" ", '%', routeName, '%', '%', routeName, '%'];
+	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name, route_type FROM routes WHERE route_short_name LIKE \"%c%@%c\" OR route_long_name LIKE \"%c%@%c\" ", '%', routeName, '%', '%', routeName, '%'];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -89,6 +111,7 @@
 			aRoute.routeId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			aRoute.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
 			aRoute.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			aRoute.type = sqlite3_column_int(statement, 3);
 			
 			[results addObject:aRoute];
 			[aRoute release];
@@ -115,7 +138,7 @@
 			queryString = [NSString stringWithFormat:@"%@ AND (route_short_name LIKE \"%c%@%c\"  OR route_long_name LIKE \"%c%@%c\") ", queryString, '%', aKey, '%', '%', aKey, '%'];
 	}
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name FROM routes WHERE %@", queryString];
+	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name, route_type FROM routes WHERE %@", queryString];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -125,6 +148,7 @@
 			aRoute.routeId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			aRoute.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
 			aRoute.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			aRoute.type = sqlite3_column_int(statement, 3);
 			
 			[results addObject:aRoute];
 			[aRoute release];
@@ -151,7 +175,7 @@
 			queryString = [NSString stringWithFormat:@"%@ OR route_id=\"%@\" ", queryString, aKey];
 	}
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name FROM routes WHERE %@", queryString];
+	NSString *sql = [NSString stringWithFormat:@"SELECT route_id, route_short_name, route_long_name, route_type FROM routes WHERE %@", queryString];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -161,6 +185,7 @@
 			aRoute.routeId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			aRoute.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
 			aRoute.description = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			aRoute.type = sqlite3_column_int(statement, 3);
 				
 			[results addObject:aRoute];
 			[aRoute release];

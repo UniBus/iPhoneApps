@@ -10,7 +10,7 @@
 #import "General.h"
 
 @implementation BusRoute
-@synthesize routeId, name, description, flag;
+@synthesize routeId, name, description, type, flag;
 
 #pragma mark Comparison Tools
 

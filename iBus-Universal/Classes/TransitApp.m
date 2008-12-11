@@ -166,7 +166,7 @@ extern BOOL alwaysOffline;
 		{
 			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
 			if (upgrade(destPath, srcPath) == NO)
-				[self userAlert: @"Upgade Database error! If the error persists, try online update."];
+				[self userAlert: @"Upgade Database incompleted! Please download new data for the city from Settings."];
 			else
 				[self userAlert: @"Database upgraded!"];
 				//The following line was for updating from V1.0 to V1.1
@@ -328,6 +328,15 @@ extern BOOL alwaysOffline;
 		return nil;
 	}	
 	return [routeQuery routeOfId:routeId];
+}
+
+- (NSInteger) typeOfRoute:(NSString *) routeId
+{
+	if (routeQuery == nil)
+	{
+		return -1;
+	}	
+	return [routeQuery typeOfRoute:routeId];
 }
 
 - (NSArray *) queryRouteWithName:(NSString *) routeName

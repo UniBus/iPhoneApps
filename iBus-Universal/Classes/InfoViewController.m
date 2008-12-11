@@ -37,7 +37,7 @@
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidAppear:(BOOL)animated
 {
-	NSString *urlString = [NSString stringWithFormat:@"%@/info.html", [(TransitApp *)[UIApplication sharedApplication] currentWebServicePrefix]];
+	NSString *urlString = [NSString stringWithFormat:@"%@/localinfo.php", [(TransitApp *)[UIApplication sharedApplication] currentWebServicePrefix]];
 	if (urlString)
 	{
 		NSURL *url = [NSURL URLWithString:urlString];	

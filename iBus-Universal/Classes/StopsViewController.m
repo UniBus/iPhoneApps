@@ -19,16 +19,6 @@
 #define kUIStop_Section_Height		([StopCell height])
 #define kUIArrival_Section_Height	([ArrivalCell height])
 
-#pragma mark UserDefaults for Recent-List and Favorite-List
-
-void addStopAndBusToUserDefaultList(BusStop *aStop, BusArrival *anArrival, NSString *UserDefaults)
-{
-}
-
-void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSString *UserDefaults)
-{
-}
-
 @implementation StopsViewController
 
 // Implement loadView if you want to create a view hierarchy programmatically

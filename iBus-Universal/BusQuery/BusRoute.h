@@ -17,12 +17,14 @@ double UserDefinedLatitudeForComparison;
 	NSString *routeId;
 	NSString *name;
 	NSString *description;
+	NSInteger type;
 	BOOL     flag;
 } BusRoute;
 
 @property (retain) NSString *routeId;
 @property (retain) NSString *name;
 @property (retain) NSString *description;
+@property NSInteger type;
 @property BOOL flag;
 
 @end

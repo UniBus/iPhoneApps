@@ -19,6 +19,7 @@
 - (BOOL) openRouteFile: (NSString *)routeFile;
 
 //Query
+- (NSInteger) typeOfRoute: (NSString *) routeId;
 - (BusRoute *) routeOfId: (NSString *) sid;
 - (NSArray *) queryRouteWithName:(NSString *) routeName;
 - (NSArray *) queryRouteWithNames:(NSArray *) routeNames;

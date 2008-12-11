@@ -54,6 +54,7 @@ extern NSString * const UserSavedAlwayOffline;
 @property BOOL routeQueryAvailable;
 
 - (BusRoute *) routeOfId:(NSString *) routeId;
+- (NSInteger) typeOfRoute:(NSString *) routeId;
 - (NSArray *) queryRouteWithName:(NSString *) routeName;
 - (NSArray *) queryRouteWithNames:(NSArray *) routeNames;
 - (NSArray *) queryRouteWithIds:(NSArray *) routeIds;

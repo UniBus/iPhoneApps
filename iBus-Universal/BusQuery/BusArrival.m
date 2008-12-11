@@ -86,7 +86,7 @@
 - (void) setDirection: (NSString *) dir
 {
 	[direction release];
-	direction = dir;
+	direction = [dir copy];
 }
 
 - (NSString *) routeId

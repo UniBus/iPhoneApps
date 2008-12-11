@@ -12,142 +12,141 @@
 #import "TransitApp.h"
 #import "FavoriteViewController.h"
 
-@interface RouteAtStopCell : UITableViewCell
+@interface StopsViewHeader : UIView
 {
-	UILabel *actionLabel;
-	UILabel *stopInfoLabel;
-	UILabel *routeInfoLabel;
-	UITextView *routeInfoText;
-	UITextView *stopInfoText;
+	UIImageView	*icon;
+	UILabel		*labelStop;
+	UILabel		*labelRoute;
 }
 
-- (void) setAction:(NSString *)action;
+- (void) setType:(int)type;
 - (void) setStopInfo:(NSString *)stopInfo;
 - (void) setRouteInfo:(NSString *)routeInfo;
 
 @end
 
-#define CELL_LABEL_LEFT		20
-#define CELL_LABEL_TOP		0
-#define CELL_LABEL_WIDTH	260
-#define CELL_LABEL_HEIGHT	40
+#define HEADER_TOTAL_WIDTH	300
+#define HEADER_TOTAL_HEIGHT	90
 
-#define CELL_LABEL_TOP2		30
-#define CELL_LABEL_WIDTH2	60
-#define CELL_LABEL_WIDTH3	200
+#define HEADER_ICON_LEFT	5
+#define HEADER_ICON_TOP		5
+#define HEADER_ICON_WIDTH	80
+#define HEADER_ICON_HEIGHT	80
 
-#define CELL_LABEL_HEIGHT2	30
-#define CELL_LABEL_HEIGHT3	36
+#define HEADER_ROUTE_LEFT	90
+#define HEADER_ROUTE_TOP	0
+#define HEADER_ROUTE_WIDTH	220
+#define HEADER_ROUTE_HEIGHT	45
 
-#define CELL_LABEL_TOTAL_HEIGHT	120
-#define CELL_REGULAR_HEIGHT		44
+#define HEADER_STOP_LEFT	90
+#define HEADER_STOP_TOP		45
+#define HEADER_STOP_WIDTH	220
+#define HEADER_STOP_HEIGHT	45
 
-@implementation RouteAtStopCell
+enum TransitRouteType {
+	kTransitRouteTypeTram = 0,
+	kTransitRouteTypeSubway,
+	kTransitRouteTypeRail,
+	kTransitRouteTypeBus,
+	kTransitRouteTypeFerry,
+	kTransitRouteTypeCableCar,
+	kTransitRouteTypeGondola,
+	kTransitRouteTypeFunicular,	
+};
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+@implementation StopsViewHeader
+
+- (id)initWithFrame:(CGRect)frame
 {
-	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
+	self = [super initWithFrame: frame];	
 	if (!self) return nil;
 	
-	CGRect ctrlFrame = CGRectMake(CELL_LABEL_LEFT, CELL_LABEL_TOP, CELL_LABEL_WIDTH, CELL_LABEL_HEIGHT);
-	actionLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
-	actionLabel.text = @"";
-	actionLabel.font = [UIFont boldSystemFontOfSize:16];
-	actionLabel.textAlignment = UITextAlignmentCenter;
-	actionLabel.userInteractionEnabled = NO;
-	actionLabel.multipleTouchEnabled = NO;
-	actionLabel.opaque = NO;
+	CGRect ctrlFrame = CGRectMake(HEADER_ICON_LEFT, HEADER_ICON_TOP, HEADER_ICON_WIDTH, HEADER_ICON_HEIGHT);
+	icon = [[UIImageView alloc] initWithFrame:ctrlFrame];	
 	
-	ctrlFrame.origin.y = CELL_LABEL_TOP2;
-	ctrlFrame.size.height = CELL_LABEL_HEIGHT2;
-	ctrlFrame.size.width = CELL_LABEL_WIDTH2;
-	routeInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
-	routeInfoLabel.text = @"";
-	routeInfoLabel.textColor = [UIColor blueColor];
-	routeInfoLabel.font = [UIFont systemFontOfSize:12];
-	routeInfoLabel.textAlignment = UITextAlignmentCenter;
-	routeInfoLabel.userInteractionEnabled = NO;
-	routeInfoLabel.multipleTouchEnabled = NO;
-	routeInfoLabel.opaque = NO;
-	routeInfoLabel.text = @"Route:";
+	ctrlFrame.origin.x = HEADER_ROUTE_LEFT;
+	ctrlFrame.origin.y = HEADER_ROUTE_TOP;
+	ctrlFrame.size.height = HEADER_ROUTE_HEIGHT;
+	ctrlFrame.size.width = HEADER_ROUTE_WIDTH;
+	labelRoute = [[UITextView alloc] initWithFrame:ctrlFrame];
+	labelRoute.textColor = [UIColor blackColor];
+	labelRoute.backgroundColor = [UIColor clearColor];
+	labelRoute.font = [UIFont boldSystemFontOfSize:14];
+	labelRoute.textAlignment = UITextAlignmentLeft;
+	labelRoute.userInteractionEnabled = NO;
+	labelRoute.multipleTouchEnabled = NO;
+	labelRoute.text = @"";
+		
+	ctrlFrame.origin.x = HEADER_STOP_LEFT;
+	ctrlFrame.origin.y = HEADER_STOP_TOP;
+	ctrlFrame.size.height = HEADER_STOP_HEIGHT;
+	ctrlFrame.size.width = HEADER_STOP_WIDTH;
+	labelStop = [[UITextView alloc] initWithFrame:ctrlFrame];
+	labelStop.textColor = [UIColor blackColor];
+	labelStop.backgroundColor = [UIColor clearColor];
+	labelStop.font = [UIFont systemFontOfSize:14];
+	labelStop.textAlignment = UITextAlignmentLeft;
+	labelStop.userInteractionEnabled = NO;
+	labelStop.multipleTouchEnabled = NO;
+	labelStop.text = @"";
 	
-	ctrlFrame.origin.x += ctrlFrame.size.width;
-	ctrlFrame.size.height = CELL_LABEL_HEIGHT3;
-	ctrlFrame.size.width = CELL_LABEL_WIDTH3;
-	routeInfoText = [[UITextView alloc] initWithFrame:ctrlFrame];	
-	routeInfoText.backgroundColor = [UIColor clearColor];
-	routeInfoText.editable = NO;
-	routeInfoText.opaque = NO;
-	routeInfoText.userInteractionEnabled = NO;
-	routeInfoText.contentMode = UIViewContentModeTopLeft;
-	routeInfoText.multipleTouchEnabled = NO;
-	routeInfoText.textColor = [UIColor blueColor];
-	routeInfoText.textAlignment = UITextAlignmentLeft;
-	routeInfoText.font = [UIFont systemFontOfSize:12];	
-	
-	ctrlFrame.origin.y = ctrlFrame.origin.y + ctrlFrame.size.height;
-	ctrlFrame.origin.x = CELL_LABEL_LEFT;
-	ctrlFrame.size.height = CELL_LABEL_HEIGHT2;
-	ctrlFrame.size.width = CELL_LABEL_WIDTH2;
-	stopInfoLabel = [[UILabel alloc] initWithFrame:ctrlFrame];	
-	stopInfoLabel.text = @"";
-	stopInfoLabel.textColor = [UIColor blueColor];
-	stopInfoLabel.font = [UIFont systemFontOfSize:12];
-	stopInfoLabel.textAlignment = UITextAlignmentCenter;
-	stopInfoLabel.userInteractionEnabled = NO;
-	stopInfoLabel.multipleTouchEnabled = NO;
-	stopInfoLabel.opaque = NO;
-	stopInfoLabel.text = @"Stop:";
-	
-	ctrlFrame.origin.x += ctrlFrame.size.width;
-	ctrlFrame.size.height = CELL_LABEL_HEIGHT3;
-	ctrlFrame.size.width = CELL_LABEL_WIDTH3;
-	stopInfoText = [[UITextView alloc] initWithFrame:ctrlFrame];	
-	stopInfoText.backgroundColor = [UIColor clearColor];
-	stopInfoText.editable = NO;
-	stopInfoText.opaque = NO;
-	stopInfoText.userInteractionEnabled = NO;
-	stopInfoText.contentMode = UIViewContentModeTopLeft;
-	stopInfoText.multipleTouchEnabled = NO;
-	stopInfoText.textColor = [UIColor blueColor];
-	stopInfoText.textAlignment = UITextAlignmentLeft;
-	stopInfoText.font = [UIFont systemFontOfSize:12];	
-
-	[self.contentView addSubview:actionLabel];
-	[self.contentView addSubview:stopInfoLabel];
-	[self.contentView addSubview:routeInfoLabel];
-	[self.contentView addSubview:stopInfoText];
-	[self.contentView addSubview:routeInfoText];
+	[self addSubview:icon];
+	[self addSubview:labelStop];
+	[self addSubview:labelRoute];
 	
 	return self;
 }
 
-- (void) setAction:(NSString *)action
+- (void) setType:(int)type
 {
-	actionLabel.text = action;
+	//icon.text = action;
+	switch (type) {
+		case kTransitRouteTypeBus:
+			icon.image = [UIImage imageNamed:@"typebusicon.png"];
+			break;
+
+		case kTransitRouteTypeFerry:
+			icon.image = [UIImage imageNamed:@"typeferryicon.png"];
+			break;
+
+		case kTransitRouteTypeSubway:
+		case kTransitRouteTypeRail:
+			icon.image = [UIImage imageNamed:@"typetrainicon.png"];
+			break;
+			
+		case kTransitRouteTypeTram:
+		case kTransitRouteTypeCableCar:
+		case kTransitRouteTypeGondola:
+		case kTransitRouteTypeFunicular:			
+			icon.image = [UIImage imageNamed:@"typetramicon.png"];
+			break;
+			
+		default:
+			icon.image = [UIImage imageNamed:@"typebusicon.png"];
+			break;
+	}
 }
 
 - (void) setStopInfo:(NSString *)stopInfo
 {
-	stopInfoText.text = [NSString stringWithFormat:@"%@", stopInfo];
+	labelStop.text = [NSString stringWithFormat:@"%@", stopInfo];
 }
 
 - (void) setRouteInfo:(NSString *)routeInfo
 {
-	routeInfoText.text = [NSString stringWithFormat:@"%@", routeInfo];
+	labelRoute.text = [NSString stringWithFormat:@"%@", routeInfo];
 }
 
 - (void) dealloc
 {
-	[actionLabel release];
-	[stopInfoLabel release];
-	[routeInfoLabel release];
-	[stopInfoText release];
-	[routeInfoText release];
+	[labelStop release];
+	[labelRoute release];
+	[icon release];
 	[super dealloc];
 }
 
 @end
+
 
 
 @implementation RouteActionViewController
@@ -169,6 +168,15 @@
 	[routeTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	routeTableView.dataSource = self;
 	routeTableView.delegate = self;
+	
+	StopsViewHeader *header = [[StopsViewHeader alloc] initWithFrame:CGRectMake(0, 0, HEADER_TOTAL_WIDTH, HEADER_TOTAL_HEIGHT)];
+	[header setType:routeType];
+	[header setStopInfo:stopName];
+	[header setRouteInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
+
+	routeTableView.tableHeaderView = header;
+	[header release];
+
 	self.view = routeTableView; 
 	
 	//[self showInfoOfRoute:@"33" atStop:@"10324"];
@@ -225,6 +233,9 @@
 	routeID = [rid retain];
 	direction = dir;
 	
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+	routeType = [myApplication typeOfRoute:rid];
+	
 	self.navigationItem.title = [NSString stringWithFormat:@"Route:%@", routeName];
 }
 
@@ -237,6 +248,8 @@
 		[routeID release];
 		routeName = [rname retain];
 		routeID = [rid retain];
+		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+		routeType = [myApplication typeOfRoute:routeID];
 	}
 	if (dir)
 	{
@@ -366,6 +379,7 @@
 	return @"";
 }
 
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0)
@@ -373,39 +387,30 @@
 	else
 		return CELL_REGULAR_HEIGHT;
 }
+ */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {	
-	UITableViewCell *cell;
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtRouteView"];
+	if (cell == nil) 
+	{
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtRouteView"] autorelease];
+		cell.textAlignment = UITextAlignmentCenter;
+	}
+	
 	if (indexPath.section == 0)
 	{
-		cell = [tableView dequeueReusableCellWithIdentifier:@"RouteAtStopCell"];
-		if (cell == nil) 
-		{
-			cell = [[[RouteAtStopCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"RouteAtStopCell"] autorelease];
-			cell.text = @"";
-		}
-		NSAssert([cell isKindOfClass:[RouteAtStopCell class]], @"TableViewCell type mismatched!");
-		
-		[(RouteAtStopCell *)cell setStopInfo:stopName];
-		[(RouteAtStopCell *)cell setRouteInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
 		if (isInFavorite2(stopID, routeID, direction))
-			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Remove from favorite"]];
+			cell.text = @"Remove from favorite";
 		else
-			[(RouteAtStopCell *)cell setAction:[NSString stringWithFormat:@"Add to favorite"]];
+			cell.text = @"Add to favorite";
+		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 	else if (indexPath.section == 1)
 	{
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateFormat:@"EEEE"];
-		
-		cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtRouteView"];
-		if (cell == nil) 
-		{
-			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtRouteView"] autorelease];
-			cell.textAlignment = UITextAlignmentCenter;
-		}
-		
+				
 		if (indexPath.row == 0)
 		{
 			cell.text = [NSString stringWithFormat:@"Today (%@)", [formatter stringFromDate:[NSDate date]]];
@@ -413,7 +418,6 @@
 		}
 		else if (indexPath.row == 1)
 		{
-			cell.text = @"Tomorrow ()";
 			cell.text = [NSString stringWithFormat:@"Tomorrow (%@)", [formatter stringFromDate:[[NSDate date] addTimeInterval:24*60*60]]];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 		}

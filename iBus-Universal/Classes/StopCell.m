@@ -13,11 +13,11 @@
 UIImage *mapIconImage = nil;
 
 #define POS_ICON_SIZE		50
-#define POS_ICON_LEFT		10
+#define POS_ICON_LEFT		240
 #define POS_ICON_TOP		10
 #define POS_TEXT_HEIGHT		50
-#define POS_TEXT_WIDTH		200
-#define POS_TEXT_LEFT		70
+#define POS_TEXT_WIDTH		220
+#define POS_TEXT_LEFT		10
 #define POS_TEXT_TOP		5
 
 @implementation StopCell
@@ -75,7 +75,7 @@ UIImage *mapIconImage = nil;
 	stopDesc.textAlignment = UITextAlignmentLeft;
 	stopDesc.font = [UIFont systemFontOfSize:12];
 	
-	ctrlFrame = CGRectMake(POS_ICON_LEFT, POS_TEXT_TOP, POS_ICON_SIZE, POS_ICON_SIZE);
+	ctrlFrame = CGRectMake(POS_ICON_LEFT, POS_ICON_TOP, POS_ICON_SIZE, POS_ICON_SIZE);
 	UIButton *mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	mapButton.frame = ctrlFrame;
 	if (mapIconImage == nil)
