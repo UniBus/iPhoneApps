@@ -14,6 +14,7 @@ NSString *offlineDbDownloadTime(NSString *cityId);
 
 @interface OfflineViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	DownloadManager	*downloader;
+	UITableView		*offlineTableView;
 }
 
 - (IBAction) automaticSwitchTap:(id)sender;

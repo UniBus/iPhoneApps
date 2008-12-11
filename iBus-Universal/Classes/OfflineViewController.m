@@ -96,12 +96,11 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 	autoSwitchToOffline = [defaults boolForKey:UserSavedAutoSwitchOffline];
 	alwaysOffline = [defaults boolForKey:UserSavedAlwayOffline];	
 	
-	UITableView *tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
-	[tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
-	tableView.delegate = self;
-	tableView.dataSource = self;
-	self.view = tableView; 
-	[tableView release];
+	 offlineTableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
+	[offlineTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
+	offlineTableView.delegate = self;
+	offlineTableView.dataSource = self;
+	self.view = offlineTableView; 
 	
 	self.navigationItem.title = @"Offline";	
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -122,8 +121,21 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 
 - (void)dealloc 
 {
+	[offlineTableView release];
 	[downloader release];
 	[super dealloc];
+}
+
+- (void) updateSwitchEnabled
+{
+	//Disable alwayOff setting
+	CellWithSwitch *cellToUpdate = (CellWithSwitch *) [offlineTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIOffline_Setting]];
+	if ([cellToUpdate isKindOfClass:[CellWithSwitch class]])
+	{
+		[cellToUpdate.userSwitch setEnabled:(autoSwitchToOffline==NO)];
+	}
+	else
+		NSAssert(NO, @"Didn't get the right row, check the indexPath");
 }
 
 - (IBAction) automaticSwitchTap:(id)sender
@@ -131,6 +143,7 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 	autoSwitchToOffline = ((UISwitch *)sender).on;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setFloat:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
+	[self updateSwitchEnabled];
 }
 
 - (IBAction) alwaysOfflineTap:(id)sender
@@ -226,6 +239,7 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 			cell.switchOn = alwaysOffline;
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(alwaysOfflineTap:) forControlEvents:UIControlEventValueChanged];
+			[cell.userSwitch setEnabled:(autoSwitchToOffline==NO)];
 			cell.text = @"Always offline";
 		}
 		return cell;
