@@ -221,6 +221,7 @@ extern BOOL alwaysOffline;
 - (void) initializeWebService
 {
 	NSAssert((currentWebPrefix != nil), @"Web service is not set properly!!");
+	NSLog(@"Current Webservice: %@", currentWebPrefix);
 
 	[arrivalQuery release];
 	arrivalQuery = [[ArrivalQuery alloc] init];
@@ -500,31 +501,33 @@ extern BOOL alwaysOffline;
 		{
 			results = [NSMutableArray array];
 		}
-		else
+		else if (autoSwitchToOffline)
 		{
-			if (autoSwitchToOffline)
-			{
-				if ([arrivalQuery available])
-				{
-					self.networkActivityIndicatorVisible = YES;
-					results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-					self.networkActivityIndicatorVisible = NO;
-				}
-				else
-				{
-					results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-				}
-			}
-			else if (alwaysOffline)
-			{
-				results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
-			}
-			else
+			if ([arrivalQuery available])
 			{
 				self.networkActivityIndicatorVisible = YES;
 				results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
 				self.networkActivityIndicatorVisible = NO;
 			}
+			else if ([offlineQuery available])
+			{
+				results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+			}
+			else
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed, and offline data not available!" waitUntilDone:NO];
+		}
+		else if (alwaysOffline)
+		{
+			if ([offlineQuery available])
+				results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+			else
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
+		}
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
+			self.networkActivityIndicatorVisible = NO;
 		}
 		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
@@ -554,32 +557,36 @@ extern BOOL alwaysOffline;
 		{
 			results = [NSMutableArray array];
 		}
-		else
+		else if (autoSwitchToOffline)
 		{
-			if (autoSwitchToOffline)
+			if ([arrivalQuery available])
 			{
-				if ([arrivalQuery available])
-				{
-					self.networkActivityIndicatorVisible = YES;
-					results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
-					self.networkActivityIndicatorVisible = NO;
-				}
-				else
-				{
-					results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
-				}
+				self.networkActivityIndicatorVisible = YES;
+				results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+				self.networkActivityIndicatorVisible = NO;
 			}
-			else if (alwaysOffline)
+			else if ([offlineQuery available])
 			{
 				results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
 			}
 			else
 			{
-				self.networkActivityIndicatorVisible = YES;
-				results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
-				self.networkActivityIndicatorVisible = NO;
-			}			
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed, and offline data not available!" waitUntilDone:NO];
+			}
 		}
+		else if (alwaysOffline)
+		{
+			if  ([offlineQuery available])
+				results = [offlineQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+			else
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
+		}
+		else
+		{
+			self.networkActivityIndicatorVisible = YES;
+			results = [arrivalQuery queryForRoute:routeScheduleViewCtrl.routeID inDirection:routeScheduleViewCtrl.direction atStop:routeScheduleViewCtrl.stopID onDay:routeScheduleViewCtrl.dayID];
+			self.networkActivityIndicatorVisible = NO;
+		}			
 				
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -610,6 +617,30 @@ extern BOOL alwaysOffline;
 		if (tripQuery == nil)
 		{
 			results = [NSMutableArray array];
+		}
+		else if (autoSwitchToOffline)
+		{
+			if ([tripQuery available])
+			{
+				self.networkActivityIndicatorVisible = YES;
+				results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+				self.networkActivityIndicatorVisible = NO;
+			}
+			else if ([offlineQuery available])
+			{
+				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+			}
+			else
+			{
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed, and offline data not available!" waitUntilDone:NO];
+			}
+		}
+		else if (alwaysOffline)
+		{
+			if  ([offlineQuery available])
+				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+			else
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
 		}
 		else
 		{
@@ -648,12 +679,36 @@ extern BOOL alwaysOffline;
 		{
 			results = [NSMutableArray array];
 		}
+		else if (autoSwitchToOffline)
+		{
+			if ([tripQuery available])
+			{
+				self.networkActivityIndicatorVisible = YES;
+				results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+				self.networkActivityIndicatorVisible = NO;
+			}
+			else if ([offlineQuery available])
+			{
+				results = [offlineQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			}
+			else
+			{
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed, and offline data not available!" waitUntilDone:NO];
+			}
+		}
+		else if (alwaysOffline)
+		{
+			if  ([offlineQuery available])
+				results = [offlineQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			else
+				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
+		}
 		else
 		{
 			self.networkActivityIndicatorVisible = YES;
 			results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
 			self.networkActivityIndicatorVisible = NO;
-		}	
+		}
 		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(stopsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];

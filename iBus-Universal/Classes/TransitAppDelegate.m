@@ -5,7 +5,7 @@
 //  Created by Zhenwang Yao on 20/09/08.
 //  Copyright __MyCompanyName__ 2008. All rights reserved.
 //
-
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "TransitAppDelegate.h"
 #import "TransitApp.h"
 #import "StopsViewController.h"
@@ -263,25 +263,34 @@ NSString *tabBarViewControllerIds[]={
 }
 */
 
-
+extern NSString *GTFSUpdateURL;
 - (void) checkForUpdate
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
 	CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
-	[cityUpdateVC checkUpdates];
 	
-	//After calling the above function, the following two global variables will be updated:
-	//	- cityUpdateAvaiable;
-	//	- offlineUpdateAvailable;
+	NSURL *targetingUrl = [NSURL URLWithString:GTFSUpdateURL];
+	SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[targetingUrl host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (gotFlags && (flags & kSCNetworkReachabilityFlagsReachable) && !(flags & kSCNetworkReachabilityFlagsConnectionRequired)) 
+	{
+		[cityUpdateVC checkUpdates];
+		
+		//After calling the above function, the following two global variables will be updated:
+		//	- cityUpdateAvaiable;
+		//	- offlineUpdateAvailable;
+		
+		if (cityUpdateAvaiable && offlineUpdateAvailable)
+			[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
+		else if (cityUpdateAvaiable || offlineUpdateAvailable)
+			[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
+		else
+			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		
+	}
 	
-	if (cityUpdateAvaiable && offlineUpdateAvailable)
-		[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
-	else if (cityUpdateAvaiable || offlineUpdateAvailable)
-		[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
-	else
-		[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		
-
 	[pool release];
 }
 
