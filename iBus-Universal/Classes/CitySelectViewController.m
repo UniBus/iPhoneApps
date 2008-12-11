@@ -234,6 +234,7 @@ enum CitySelectionSection {
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		cell.textAlignment = UITextAlignmentCenter;
+		cell.font = [UIFont boldSystemFontOfSize:14];
 	}
 	
 	if ([currentArray count] ==0)
