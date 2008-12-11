@@ -16,7 +16,7 @@
 	//NSString *urlString = [NSString stringWithFormat:@"http://zhenwang.yao.googlepages.com/maplet.html?width=%f&height=%f&lat=%f&long=%f", 
 	//					   self.view.frame.size.width, self.view.frame.size.height, lat, lon];
 	NSString *currentWebSite = [(TransitApp *)[UIApplication sharedApplication] currentWebServicePrefix];
-	NSString *urlString = [NSString stringWithFormat:@"%@maplet.html?lat=%f&long=%f", 
+	NSString *urlString = [NSString stringWithFormat:@"%@stopmap.php?lat=%f&long=%f", 
 						  currentWebSite, lat, lon];
 	
 	
