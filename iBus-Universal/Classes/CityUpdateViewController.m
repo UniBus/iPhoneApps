@@ -209,9 +209,6 @@ enum CurrentCityUpdateStatus {
 
 - (BOOL) copyFavoriteTableFrom:(NSString *)oldDb to:(NSString *)newDb
 {
-	if (upgradeNeeded(oldDb))
-		return upgrade(oldDb, newDb);
-
 	sqlite3 *destDb;
 	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
 		return NO;
@@ -540,7 +537,7 @@ enum CurrentCityUpdateStatus {
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		cell.textAlignment = UITextAlignmentCenter;
-		//cell.font = [UIFont systemFontOfSize:14];
+		cell.font = [UIFont boldSystemFontOfSize:14];
 		//cell.textColor = [UIColor blueColor];
 		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -610,6 +607,9 @@ enum CurrentCityUpdateStatus {
 	//Copy favorites table if needed.
 	if ((!downloadingNewCity) && (!overwriteFavorites))
 	{
+		if (upgradeNeeded(oldDatabase))
+			upgrade(oldDatabase, newDatabase);
+		
 		[self copyFavoriteTableFrom:oldDatabase to:newDatabase];
 	}
 	
