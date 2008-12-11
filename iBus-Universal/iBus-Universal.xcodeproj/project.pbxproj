@@ -307,7 +307,6 @@
 				7D04BD720EDE5B3900F5A842 /* RouteSearch */,
 				7D04BD700EDE5B2800F5A842 /* Nearby */,
 				7D04BD6F0EDE5B1600F5A842 /* Settings */,
-				7D768FDE0EDFDDD600FA3DFF /* Info */,
 			);
 			name = Tabs;
 			sourceTree = "<group>";
@@ -336,6 +335,8 @@
 				7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */,
 				7D8D68720EE11A44009A5F4E /* OfflineViewController.h */,
 				7D8D68730EE11A44009A5F4E /* OfflineViewController.m */,
+				7D768FDF0EDFDE2000FA3DFF /* InfoViewController.h */,
+				7D768FE00EDFDE2000FA3DFF /* InfoViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -521,15 +522,6 @@
 				7D8D69E90EE1F9A8009A5F4E /* OffLine */,
 			);
 			path = BusQuery;
-			sourceTree = "<group>";
-		};
-		7D768FDE0EDFDDD600FA3DFF /* Info */ = {
-			isa = PBXGroup;
-			children = (
-				7D768FDF0EDFDE2000FA3DFF /* InfoViewController.h */,
-				7D768FE00EDFDE2000FA3DFF /* InfoViewController.m */,
-			);
-			name = Info;
 			sourceTree = "<group>";
 		};
 		7D8D69E90EE1F9A8009A5F4E /* OffLine */ = {
