@@ -43,7 +43,7 @@
 	routeSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	routeSearchBar.delegate = self;
 	routeSearchBar.barStyle = UIBarStyleBlackOpaque;
-	routeSearchBar.prompt = @"keywords OR #id";
+	routeSearchBar.prompt = @"keywords";
 	[self.view addSubview:routeSearchBar];
 	
 	CGRect tabRect = self.view.bounds;

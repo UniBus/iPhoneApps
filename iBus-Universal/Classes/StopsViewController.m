@@ -110,6 +110,10 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	needReset = YES;
 }
 
+//Delete all arrivals/and route information information:
+// - After this fuction, there is only stop info,
+//   and the arrival/route associte with the stop is an empty one.
+//
 - (void) clearArrivals
 {
 	@try{
@@ -122,7 +126,7 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 			NSArray *allKeys = [routeAtStop allKeys];
 			for (NSString *aRouteKey in allKeys)
 			{
-				if ([aRouteKey rangeOfString:@"stop:info"].length)
+				if ([aRouteKey rangeOfString:@"stop:info:"].length)
 					continue;
 				[routeAtStop removeObjectForKey:aRouteKey];
 			}		
@@ -152,6 +156,18 @@ void removeStopAndBusFromUserDefaultList(int aStopId, NSString *aBusSign, NSStri
 	[stopsTableView reloadData];
 }
 
+//Expected stopsDictionary structure:
+// - [stop:$first_stop]
+//       - [stop:info:info]
+//       - [stop:route:$first_route:dir_$dir]
+//               - arrival array
+//       - [stop:route:$second_route:dir_$dir]
+//               - arrival array
+// - [stop:$second_stop]
+//       - [stop:info:info]
+//       - [stop:route:$first_route:dir_$dir]
+//               - arrival array
+//
 - (void) arrivalsUpdated: (NSArray *)results
 {
 	[self clearArrivals];

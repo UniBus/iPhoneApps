@@ -220,6 +220,7 @@
 {
 	[routeName release];
 	[routeID release];
+	[direction release];
 	routeName = [rname retain];
 	routeID = [rid retain];
 	direction = dir;
