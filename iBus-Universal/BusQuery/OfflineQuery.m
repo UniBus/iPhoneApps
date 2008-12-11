@@ -9,6 +9,7 @@
 #import "OfflineQuery.h"
 #import "TransitApp.h"
 #import "BusArrival.h"
+#import "BusTrip.h"
 
 #define MAX_QUERY_PERIOD		12
 #define MAX_RECORD_FORAROUTE	2
@@ -130,17 +131,15 @@
 	//NSString *queryBeginTimeStr = @"090000";//date('H:i:s', $beginTime);
 	//NSString *queryBeginDateStr = @"20081129";//date('Ymd', $beginTime);
 	//NSString *queryBeginDayStr = @"Saturday";//date('l', $beginTime);
-	
-	NSMutableArray *allArrivals = [NSMutableArray array];		
-	TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
-	NSString *offlineDbName = [NSString stringWithFormat:@"%@/ol-%@", [myApplication localDatabaseDir], [myApplication currentDatabase]];
+	NSMutableArray *allArrivals = [NSMutableArray array];
 	sqlite3 *database;
-    if (sqlite3_open([offlineDbName UTF8String], &database) != SQLITE_OK) 
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
 	{
 		NSLog(@"Error: %s", sqlite3_errmsg(database));	
 		return allArrivals;
 	}	
 	
+	TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
 	NSString *sql = [NSString stringWithFormat:@"ATTACH DATABASE '%@' AS local", [myApplication currentDatabaseWithFullPath]];
 	NSLog(@"findArrivalsAtStop: attach: SQL: %@", sql);
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
@@ -380,15 +379,14 @@
 	//NSString *queryBeginDayStr = @"Saturday";//date('l', $beginTime);
 	
 	NSMutableArray *allArrivals = [NSMutableArray array];		
-	TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
-	NSString *offlineDbName = [NSString stringWithFormat:@"%@/ol-%@", [myApplication localDatabaseDir], [myApplication currentDatabase]];
 	sqlite3 *database;
-    if (sqlite3_open([offlineDbName UTF8String], &database) != SQLITE_OK) 
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
 	{
 		NSLog(@"Error: %s", sqlite3_errmsg(database));
 		return allArrivals;
 	}
 	
+	TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
 	NSString *sql = [NSString stringWithFormat:@"ATTACH DATABASE '%@' AS local", [myApplication currentDatabaseWithFullPath]];
 	NSLog(@"SQL: %@", sql);
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
@@ -480,5 +478,68 @@
 	return [self queryForRoute:route inDirection:dir atStop:stop onDay:queryBeginDateStr];
 }
 
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId
+{
+	NSMutableArray *allTrips = [NSMutableArray array];		
+	sqlite3 *database;
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+		return allTrips;
+	}
+	
+	//Check if there is any feasible service id in calendar
+	//Outcomes of this query are a list of service_ids.
+	NSString *sql = [NSString stringWithFormat: @"SELECT trip_id, direction_id, trip_headsign FROM trips "
+					 "WHERE route_id='%@' "
+					 "GROUP BY direction_id, trip_headsign",
+					 routeId];
+	NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			BusTrip *aTrip = [[BusTrip alloc] init];
+			aTrip.tripId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			aTrip.direction = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			aTrip.headsign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			
+			[allTrips addObject:aTrip];
+		}
+	}
+	sqlite3_finalize(statement);
+	
+	sqlite3_close(database);	
+	return allTrips;
+}
+
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId
+{
+	NSMutableArray *allStops = [NSMutableArray array];		
+	sqlite3 *database;
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+		return allStops;
+	}
+	
+	//Check if there is any feasible service id in calendar
+	//Outcomes of this query are a list of service_ids.
+	NSString *sql = [NSString stringWithFormat: @"SELECT stop_id FROM stop_times WHERE trip_id='%@' ", tripId];
+	NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			[allStops addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
+		}
+	}
+	sqlite3_finalize(statement);
+	
+	sqlite3_close(database);	
+	return allStops;
+}
 
 @end

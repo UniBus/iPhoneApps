@@ -14,9 +14,14 @@
 }
 
 @property BOOL available;
+- (BOOL) available;
+- (NSString *) offlineDbName;
 
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day;
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop;
 - (NSArray *) queryForStops: (NSArray *) stops;
+
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId;
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId;
 
 @end
