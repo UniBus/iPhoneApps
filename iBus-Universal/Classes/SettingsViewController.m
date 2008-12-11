@@ -10,6 +10,7 @@
 #import "CitySelectViewController.h"
 #import "CityUpdateViewController.h"
 #import "OfflineViewController.h"
+#import "InfoViewController.h"
 #import "TransitApp.h"
 
 #define	RANGE_MAX	5.0
@@ -274,7 +275,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 3;
+		return 4;
 	else if (section == kUISearch_Section)
 		return 4;
 	else
@@ -344,6 +345,7 @@ enum SettingTableSections
 			cell.textAlignment = UITextAlignmentCenter;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
+		cell.textColor = [UIColor blackColor];
 		if (indexPath.row == 0)
 		{
 			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
@@ -351,19 +353,29 @@ enum SettingTableSections
 		else if (indexPath.row == 1)
 		{
 			if (cityUpdateAvaiable)
+			{
+				cell.textColor = [UIColor redColor];
 				cell.text = @"New update available";
+			}
 			else
 				cell.text = @"Already up to date";
 		}
-		else
+		else if (indexPath.row == 2)
 		{
 			if (!offlineDownloaded)
 				cell.text = @"Offline viewing available";
 			else if (offlineUpdateAvailable)
+			{
+				cell.textColor = [UIColor redColor];
 				cell.text = @"New offline data available";
+			}
 			else
 				cell.text = @"Offline data up to date";
 		}			
+		else
+		{
+			cell.text = @"Information";
+		}
 	}
 	else if ( indexPath.section == kUISearch_Section )
 	{
@@ -486,10 +498,15 @@ enum SettingTableSections
 		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:updateVC animated:YES];
 	}
-	else
+	else if (indexPath.row == 2)
 	{
 		OfflineViewController *offlineVC = [[OfflineViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:offlineVC animated:YES];
+	}
+	else
+	{
+		InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
+		[[self navigationController] pushViewController:infoVC animated:YES];
 	}
 }
 
