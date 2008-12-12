@@ -41,6 +41,7 @@ enum DownloadState {
 	{
 		[theDownload cancel];
 		downloadState = kDownloadStateIdle;
+		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	}	
 }
 
@@ -59,6 +60,7 @@ enum DownloadState {
 		return;
 	}
 	
+	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 	downloadState = kDownloadStateDownloading;	
 	if (hostView)
 	{
@@ -126,6 +128,7 @@ enum DownloadState {
 	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
 	downloadState = kDownloadStateIdle;
 	
+	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	// inform the user
 	[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Download failed!" waitUntilDone:NO];
 	NSLog(@"Download failed! Error - %@ %@",
@@ -187,6 +190,7 @@ enum DownloadState {
 	}
 	
 	downloadState = kDownloadStateIdle;
+	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 #pragma mark Download Interface
