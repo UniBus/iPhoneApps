@@ -9,12 +9,13 @@
 #import "OfflineViewController.h"
 #import "TransitApp.h"
 #import "MiscCells.h"
+#import "Upgrade.h"
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *OfflineURL = @"http://zyao.servehttp.com:5144/ver1.2/offline/";	
+const NSString *OfflineURL = @"http://zyao.servehttp.com:5144/ver1.2/offline/cache.php";	
 
-BOOL autoSwitchToOffline = YES;
+BOOL autoSwitchToOffline = NO;
 BOOL alwaysOffline = NO;
 
 enum OfflineViewSections
@@ -158,8 +159,9 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 {
 	if (indexPath.section == kUIOffline_Cache) 
 	{
-		NSString *currentDbName = [(TransitApp *)[UIApplication sharedApplication] currentDatabase];
-		NSString *urlString = [NSString stringWithFormat:@"%@ol-%@", OfflineURL, currentDbName];
+		TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
+		NSString *currentDbName = [NSString stringWithFormat:@"ol-%@", [myApplication currentDatabase]];
+		NSString *urlString = [NSString stringWithFormat:@"%@?%@", OfflineURL, [myApplication currentCityId]];
 		
 		[self startDownloadingURL:urlString asFile:currentDbName];
 		return;
@@ -264,7 +266,13 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 - (void)fileDownloaded:(NSString *)destinationFilename
 {	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
-
+	
+	if (!isValidDatabase(destinationFilename))
+	{
+		[myApplication performSelectorOnMainThread:@selector(userAlert:) withObject:@"Download data invalid!" waitUntilDone:NO];
+		return;
+	}
+	
 	NSString *offlineDbName = [NSString stringWithFormat:@"ol-%@", [myApplication currentDatabase]];
 	NSString *oldOfflineDb = [[myApplication localDatabaseDir] stringByAppendingPathComponent:offlineDbName];
 	NSString *downloadedOfflineDb = destinationFilename;
@@ -282,12 +290,12 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 		NSLog(@"Delete file: %@", oldOfflineDb);
 	}
 	
-	if (![fileManager copyItemAtPath:downloadedOfflineDb toPath:oldOfflineDb error:&error])	
+	if (![fileManager moveItemAtPath:downloadedOfflineDb toPath:oldOfflineDb error:&error])	
 	{
 		NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		return;
 	}	
-	NSLog(@"Copy database to %@", oldOfflineDb);
+	NSLog(@"Move database from %@", downloadedOfflineDb);
 	
 	//Update database
 	NSString *currentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];

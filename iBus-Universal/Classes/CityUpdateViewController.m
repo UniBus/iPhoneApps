@@ -601,6 +601,14 @@ enum CurrentCityUpdateStatus {
 - (void)fileDownloaded:(NSString *)destinationFilename
 {	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+
+	//First needs to check if the downloaded database is valid.
+	if (!isValidDatabase(destinationFilename))
+	{
+		[myApplication performSelectorOnMainThread:@selector(userAlert:) withObject:@"Download data invalid!" waitUntilDone:NO];
+		return;
+	}
+	
 	NSString *oldDatabase = [[myApplication localDatabaseDir] stringByAppendingPathComponent:updatingCity.dbname];
 	NSString *newDatabase = destinationFilename;
 		
@@ -626,17 +634,13 @@ enum CurrentCityUpdateStatus {
 		NSLog(@"Delete file: %@", oldDatabase);
 	}
 	
-	if (![fileManager copyItemAtPath:newDatabase toPath:oldDatabase error:&error])	
+	if (![fileManager moveItemAtPath:newDatabase toPath:oldDatabase error:&error])	
 	{
 		NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		return;
 	}	
-	NSLog(@"Copy database to %@", oldDatabase);
-	
-	//Delete the downloaded file
-	if (![fileManager removeItemAtPath:newDatabase error:&error])	
-		NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
-	
+	NSLog(@"Move database from %@", newDatabase);
+		
 	if (downloadingNewCity)
 	{
 		[self addCityToLocalGTFSInfo:updatingCity];
