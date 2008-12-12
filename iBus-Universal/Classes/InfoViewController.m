@@ -24,8 +24,7 @@
 
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
-{
-	
+{	
 	infoWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
 	[infoWebView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	infoWebView.delegate = self;
