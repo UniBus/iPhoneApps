@@ -33,6 +33,7 @@ enum _RouteTripsTableViewSection {
 	tripsTableView.delegate = self;
 	self.view = tripsTableView;
 	self.navigationItem.title = @"Directions";
+	self.navigationItem.prompt = @"Updating...";
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
 	if (![myApplication isKindOfClass:[TransitApp class]])
@@ -93,6 +94,7 @@ enum _RouteTripsTableViewSection {
 	}
 	
 	[tripsTableView reloadData];
+	self.navigationItem.prompt = nil;
 }
 
 #pragma mark TableView Delegate Functions

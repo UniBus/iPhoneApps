@@ -34,6 +34,7 @@
 	self.view = routeTableView; 
 	//[routeTableView release]; 	
 	self.navigationItem.title = @"Whole-day Schedule";
+	self.navigationItem.prompt = @"Updating...";
 }
 
 /*
@@ -71,6 +72,7 @@
 
 	self.navigationItem.prompt = nil;
 	[routeTableView reloadData];
+	self.navigationItem.prompt = nil;
 }
 
 #pragma mark TableView Delegate Functions

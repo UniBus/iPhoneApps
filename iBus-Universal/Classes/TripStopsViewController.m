@@ -32,6 +32,7 @@ enum _TripStopsTableViewSection {
 	stopsTableView.delegate = self;
 	self.view = stopsTableView; 
 	self.navigationItem.title = @"Stops";
+	self.navigationItem.prompt = @"Updating...";
 	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
 	if (![myApplication isKindOfClass:[TransitApp class]])
@@ -79,6 +80,7 @@ enum _TripStopsTableViewSection {
 	}
 	
 	[stopsTableView reloadData];
+	self.navigationItem.prompt = nil;
 }
 
 #pragma mark TableView Delegate Functions
