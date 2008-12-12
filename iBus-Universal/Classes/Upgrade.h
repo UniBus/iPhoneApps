@@ -17,3 +17,5 @@ BOOL upgrade(NSString *currentDb, NSString *newDb);
 
 BOOL upgradeCities(NSString *currentDb, NSString *newDb);
 BOOL upgradeGTFS(NSString *currentDb, NSString *newDb);
+
+BOOL isValidDatabase(NSString *dbName);
