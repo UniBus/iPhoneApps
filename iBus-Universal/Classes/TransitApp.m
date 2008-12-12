@@ -92,7 +92,7 @@ extern BOOL alwaysOffline;
 	[defaultValues setObject:@"" forKey:UserCurrentCity];
 	[defaultValues setObject:@"" forKey:USerCurrentDatabase];
 	[defaultValues setObject:@"" forKey:UserCurrentWebPrefix];
-	[defaultValues setObject:[NSNumber numberWithBool:YES] forKey:UserSavedAutoSwitchOffline];
+	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAutoSwitchOffline];
 	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAlwayOffline];
 	[defaultValues setObject:[NSMutableArray array] forKey:UserSavedTabBarSequence];
 	[defaultValues setObject:[NSNumber numberWithInt:UNIT_KM] forKey:UserSavedDistanceUnit];
@@ -505,12 +505,10 @@ extern BOOL alwaysOffline;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
-		NSArray *results;
-		if (arrivalQuery == nil)
-		{
-			results = [NSMutableArray array];
-		}
-		else if (autoSwitchToOffline)
+		NSArray *results = nil;
+		NSAssert(arrivalQuery != nil, @"Something is wrong, haven't initialized properly!");
+
+		if (autoSwitchToOffline)
 		{
 			if ([arrivalQuery available])
 			{
@@ -523,7 +521,9 @@ extern BOOL alwaysOffline;
 				results = [offlineQuery queryForStops:stopsViewCtrl.stopsOfInterest];
 			}
 			else
+			{
 				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Update failed, and offline data not available!" waitUntilDone:NO];
+			}
 		}
 		else if (alwaysOffline)
 		{
@@ -538,7 +538,10 @@ extern BOOL alwaysOffline;
 			results = [arrivalQuery queryForStops:stopsViewCtrl.stopsOfInterest];
 			self.networkActivityIndicatorVisible = NO;
 		}
-		
+
+		if (results == nil)
+			results = [NSMutableArray array];
+
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
@@ -561,12 +564,10 @@ extern BOOL alwaysOffline;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
-		NSArray *results;
-		if (arrivalQuery == nil)
-		{
-			results = [NSMutableArray array];
-		}
-		else if (autoSwitchToOffline)
+		NSArray *results = nil;		
+		NSAssert(arrivalQuery != nil, @"Something is wrong, haven't initialized properly!");
+
+		if (autoSwitchToOffline)
 		{
 			if ([arrivalQuery available])
 			{
@@ -597,6 +598,9 @@ extern BOOL alwaysOffline;
 			self.networkActivityIndicatorVisible = NO;
 		}			
 				
+		if (results == nil)
+			results = [NSMutableArray array];
+		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(arrivalsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
@@ -623,11 +627,9 @@ extern BOOL alwaysOffline;
 	@synchronized (self)
 	{
 		NSArray *results;
-		if (tripQuery == nil)
-		{
-			results = [NSMutableArray array];
-		}
-		else if (autoSwitchToOffline)
+		NSAssert(tripQuery != nil, @"Something is wrong, haven't initialized properly!");
+
+		if (autoSwitchToOffline)
 		{
 			if ([tripQuery available])
 			{
@@ -657,7 +659,9 @@ extern BOOL alwaysOffline;
 			results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
 			self.networkActivityIndicatorVisible = NO;
 		}	
-		
+		if (results == nil)
+			results = [NSMutableArray array];
+
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(tripsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
@@ -684,11 +688,9 @@ extern BOOL alwaysOffline;
 	@synchronized (self)
 	{
 		NSArray *results;
-		if (tripQuery == nil)
-		{
-			results = [NSMutableArray array];
-		}
-		else if (autoSwitchToOffline)
+		NSAssert(tripQuery != nil, @"Something is wrong, haven't initialized properly!");
+
+		if (autoSwitchToOffline)
 		{
 			if ([tripQuery available])
 			{
@@ -718,6 +720,8 @@ extern BOOL alwaysOffline;
 			results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
 			self.networkActivityIndicatorVisible = NO;
 		}
+		if (results == nil)
+			results = [NSMutableArray array];
 		
 		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(stopsUpdated:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
