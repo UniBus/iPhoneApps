@@ -180,7 +180,7 @@
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
-	cell.text = [NSString stringWithFormat:@"[%@] - %@", aStop.stopId, aStop.name];
+	cell.text = [NSString stringWithFormat:@"%@", aStop.name];
 	return cell;
 }
 

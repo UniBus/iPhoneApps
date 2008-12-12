@@ -177,7 +177,7 @@
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusRoute *aRoute = [routesFound objectAtIndex:indexPath.row];
-	cell.text = [NSString stringWithFormat:@"[%@] - %@ - %@", aRoute.routeId, aRoute.name, aRoute.description];
+	cell.text = [NSString stringWithFormat:@"%@ - %@", aRoute.name, aRoute.description];
 	return cell;
 }
 
