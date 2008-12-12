@@ -90,13 +90,13 @@
 {
 	NSMutableDictionary *allRoutes = [NSMutableDictionary dictionary];
 	NSString *sql = [NSString stringWithFormat:
-					 @"SELECT DISTINCT routes.route_id, routes.route_short_name, routes.route_long_name, trips.trip_headsign "
+					 @"SELECT DISTINCT routes.route_id, routes.route_short_name, routes.route_long_name, trips.trip_headsign, trips.direction_id "
 					 "FROM local.routes as routes, trips, stop_times "
 					 "WHERE routes.route_id=trips.route_id AND "
 					 "      stop_times.trip_id=trips.trip_id AND "
 					 "      stop_times.stop_id='%@' "
-					 "GROUP BY routes.route_id "
-					 "ORDER BY route_short_name, routes.route_id", stopId];
+					 "GROUP BY routes.route_id, direction_id "
+					 "ORDER BY route_short_name, routes.route_id, direction_id", stopId];
 	NSLog(@"findRoutesAtStop: SQL: %@", sql);
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
@@ -105,11 +105,15 @@
 		{
 			NSMutableDictionary *dictForARoute = [NSMutableDictionary dictionary];
 			NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			NSString *currentDirectionId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
 			[dictForARoute setObject:currentRouteId forKey:@"route_id"];
+			[dictForARoute setObject:currentDirectionId forKey:@"direction_id"];
 			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)] forKey:@"route_short_name"];
 			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)] forKey:@"route_long_name"];
 			[dictForARoute setObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)] forKey:@"trip_headsign"];
-			[allRoutes setObject:dictForARoute forKey:currentRouteId];
+			
+			NSString *currentKey = [NSString stringWithFormat:@"%@_dir_%@", currentRouteId, currentDirectionId];			
+			[allRoutes setObject:dictForARoute forKey:currentKey];
 		}
 	}
 	sqlite3_finalize(statement);
@@ -174,7 +178,7 @@
 		//	Add Nov-11-2008, there are some duplication in Milwaukee data.
 		//  IMO, data should be fixed, instead of the code.
 		sql = [NSString stringWithFormat:
-						 @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time "
+						 @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time, trips.direction_id "
 						 "FROM stop_times, trips, local.routes as routes "
 						 "WHERE stop_id='%@' AND "
 						 "stop_times.trip_id=trips.trip_id AND trips.route_id=routes.route_id AND "
@@ -188,7 +192,9 @@
 			while (sqlite3_step(statement) == SQLITE_ROW)
 			{
 				NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-				NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentRouteId];			
+				NSString *currentDirectionId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+				NSString *currentKey = [NSString stringWithFormat:@"%@_dir_%@", currentRouteId, currentDirectionId];
+				NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentKey];			
 				if ([[arrivalsByRoutes objectForKey:currentRoute] count] >= MAX_RECORD_FORAROUTE)
 					continue;
 					
@@ -199,6 +205,7 @@
 				
 				//Route-info
 				[arrival setRouteId:currentRouteId];
+				[arrival setDirection:currentDirectionId];
 				if (![[currentRoute objectForKey:@"route_short_name"] isEqualToString:@""])
 					[arrival setRoute:[currentRoute objectForKey:@"route_short_name"]];
 				else
@@ -252,7 +259,7 @@
 			//	Add Nov-11-2008, there are some duplication in Milwaukee data.
 			//  IMO, data should be fixed, instead of the code.
 			sql = [NSString stringWithFormat:
-				   @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time "
+				   @"SELECT DISTINCT routes.route_id, stop_times.stop_headsign, trips.trip_headsign, stop_times.arrival_time, trips.direction_id "
 				   "FROM stop_times, trips, local.routes as routes "
 				   "WHERE stop_id='%@' AND "
 				   "stop_times.trip_id=trips.trip_id AND trips.route_id=routes.route_id AND "
@@ -266,7 +273,9 @@
 				while (sqlite3_step(statement) == SQLITE_ROW)
 				{
 					NSString *currentRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-					NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentRouteId];			
+					NSString *currentDirectionId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
+					NSString *currentKey = [NSString stringWithFormat:@"%@_dir_%@", currentRouteId, currentDirectionId];
+					NSDictionary *currentRoute = [allRoutesAtStop objectForKey:currentKey];			
 					if ([[arrivalsByRoutes objectForKey:currentRoute] count] >= MAX_RECORD_FORAROUTE)
 						continue;
 					
@@ -277,6 +286,7 @@
 					
 					//Route-info
 					[arrival setRouteId:currentRouteId];
+					[arrival setDirection:currentDirectionId];
 					if (![[currentRoute objectForKey:@"route_short_name"] isEqualToString:@""])
 						[arrival setRoute:[currentRoute objectForKey:@"route_short_name"]];
 					else
@@ -329,6 +339,7 @@
 			else
 				[arrival setBusSign:[aRoute objectForKey:@"route_long_name"]];
 			[arrival setArrivalTime:@"-- -- --"];
+			[arrival setDirection:@""];
 						
 			[allArrivals addObject:arrival];
 			[arrival release];		
