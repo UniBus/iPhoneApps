@@ -15,6 +15,7 @@
 //Return Values: a Dictionary
 // - [stop:$sid1]
 //       - [stop:info:info]
+//       - [stop:info:route:%rid1:dir_:id]
 //       - [stop:info:route:%rid1:dir_:name]
 //       - [stop:info:route:%rid1:dir_:bussign]
 //       - [stop:info:route:%rid1:dir_:]
@@ -56,7 +57,11 @@ NSMutableDictionary * readFavorite()
 				}
 				
 				//Add route name
-				NSString *routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:name", savedRouteId, savedRouteDirectId];				
+				NSString *routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:id", savedRouteId, savedRouteDirectId];				
+				[favoriteStop setObject:savedRouteId forKey:routeInfoKey];
+				
+				//Add route name
+				routeInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:name", savedRouteId, savedRouteDirectId];				
 				[favoriteStop setObject:savedRouteName forKey:routeInfoKey];
 
 				//Add bus sign
@@ -151,6 +156,28 @@ BOOL removeFromFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 #endif
 	
 	sql = [NSString stringWithFormat:@"DELETE from favorites WHERE stop_id='%@' AND route_id='%@' AND direction_id='%@'", stopId, routeId, dir];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
+	{
+		result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	
+	sqlite3_close(database);
+	return result;
+}
+
+BOOL removeAStopFromFavorite(NSString *stopId)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = nil;
+		
+	sql = [NSString stringWithFormat:@"DELETE from favorites WHERE stop_id='%@'", stopId];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
 		result = YES;
@@ -319,8 +346,11 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 	[self clearArrivals];
 	//NSMutableArray *routeKeysToDelete = [NSMutableArray array];
 	//NSMutableArray *stopKeysToDelete = [NSMutableArray array];
+	//NSLog(@"Favrite: arrivalsUpdated....");
+
 	for (BusArrival *anArrival in results)
 	{
+		//NSLog(@"Favrite: listing results....");
 		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", anArrival.stopId];
 		NSString *routeKey = [NSString stringWithFormat:@"route:%@:dir_%@", anArrival.routeId, anArrival.direction];
 		
@@ -344,7 +374,9 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 				
 				//Add the new direction into stopsDictionary
 				NSMutableDictionary *favoriteStop = [stopsDictionary objectForKey:stopKey];
-				NSString *newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:name", anArrival.routeId, anArrival.direction];				
+				NSString *newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:id", anArrival.routeId, anArrival.direction];				
+				[favoriteStop setObject:anArrival.routeId forKey:newRouteInfoKey];
+				newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:name", anArrival.routeId, anArrival.direction];				
 				[favoriteStop setObject:anArrival.route forKey:newRouteInfoKey];
 				newRouteInfoKey = [NSString stringWithFormat:@"stop:info:route:%@:dir_%@:bussign", anArrival.routeId, anArrival.direction];				
 				[favoriteStop setObject:anArrival.busSign forKey:newRouteInfoKey];
@@ -388,6 +420,7 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 	}*/
 	
 	//UITableView *tableView = (UITableView *) self.view;
+	//NSLog(@"Favrite: reloadData....");
 	[stopsTableView reloadData];
 	self.navigationItem.prompt = nil;
 }
@@ -421,9 +454,11 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 			aFakeArrival.stopId = [[stopsOfInterest objectAtIndex:indexPath.section] stopId];
 			
 			//get route
-			NSRange searchResult = [routeKey rangeOfString: @"route:"];
-			NSAssert(searchResult.length != 0 && searchResult.location == 0, @"Wrong data in stopsDictionary");
-			aFakeArrival.routeId = [routeKey substringFromIndex:(searchResult.location+searchResult.length)];
+			//NSRange searchResult = [routeKey rangeOfString: @"route:"];
+			//NSAssert(searchResult.length != 0 && searchResult.location == 0, @"Wrong data in stopsDictionary");
+			//aFakeArrival.routeId = [routeKey substringFromIndex:(searchResult.location+searchResult.length)];
+			NSString *routeIdKey = [NSString stringWithFormat:@"stop:info:%@:id", routeKey];
+			aFakeArrival.routeId = [aStopInDictionary objectForKey:routeIdKey];
 			
 			//get route name key
 			NSString *routeNameKey = [NSString stringWithFormat:@"stop:info:%@:name", routeKey];
@@ -434,6 +469,8 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 			NSString *busSignKey = [NSString stringWithFormat:@"stop:info:%@:bussign", routeKey];			
 			NSAssert([aStopInDictionary objectForKey:busSignKey], @"Couldn't find bus sign, wrong data in stopsDictionary.");
 			aFakeArrival.busSign = [aStopInDictionary objectForKey:busSignKey];
+			
+			aFakeArrival.direction = @"";
 			[arrivalsAtOneStopForOneBus addObject:aFakeArrival];
 			[aFakeArrival release];
 		}
@@ -454,6 +491,61 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 	
 	// Configure the cell
 	//return cell;
+}
+
+
+-(BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath 
+{
+	return YES;
+} 
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // If row is deleted, remove it from the list.
+    if (editingStyle != UITableViewCellEditingStyleDelete)
+		return;
+	
+	if (indexPath.row == 0) //deleting a stop
+	{
+		//delete stopsDictionary, stopsOfInteger, and routesOfInterest
+		BusStop *stopToDelete = [stopsOfInterest objectAtIndex:indexPath.section];
+		removeAStopFromFavorite(stopToDelete.stopId);
+
+		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [stopToDelete stopId]];
+		[stopsDictionary removeObjectForKey:stopKey];
+		[stopsOfInterest removeObjectAtIndex:indexPath.section];
+		[routesOfInterest removeObjectAtIndex:indexPath.section];		
+		[tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];			
+	}		
+	else
+	{
+		//delete stopsDictionary, stopsOfInteger, and routesOfInterest
+		BusStop *stopToDelete = [stopsOfInterest objectAtIndex:indexPath.section];
+		NSMutableArray *routesToDelete = [routesOfInterest objectAtIndex:indexPath.section]; 
+		NSString *stopKey = [NSString stringWithFormat:@"stop:%@", [stopToDelete stopId]];
+		if ([routesToDelete count] == 1)
+		{
+			removeAStopFromFavorite(stopToDelete.stopId);
+			[stopsDictionary removeObjectForKey:stopKey];
+			[stopsOfInterest removeObjectAtIndex:indexPath.section];
+			[routesOfInterest removeObjectAtIndex:indexPath.section];			
+			[tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:YES];			
+		}
+		else
+		{			
+			//Notes: the way it works in favorite gurantee there is alway something in there,
+			//   even if it is a fake one.
+			NSString *routeKeyToDelete = [routesToDelete objectAtIndex:(indexPath.row -1)];
+			NSArray *arrivalsToDelete = [[stopsDictionary objectForKey:stopKey] objectForKey:routeKeyToDelete];
+			BusArrival *theArrivalToDelete = [arrivalsToDelete objectAtIndex:0];
+			removeFromFavorite2(stopToDelete.stopId, theArrivalToDelete.routeId, theArrivalToDelete.direction);
+			[routesToDelete removeObjectAtIndex:(indexPath.row-1)];			
+
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];			
+		}
+	}
+	
+	if ([stopsDictionary count] == 0)
+		[tableView reloadData];
 }
 
 

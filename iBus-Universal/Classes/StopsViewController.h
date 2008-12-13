@@ -15,7 +15,7 @@
 
 @interface StopsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 	UITableView			*stopsTableView;
-	NSArray				*stopsOfInterest;
+	NSMutableArray		*stopsOfInterest;
 	NSMutableDictionary *stopsDictionary;
 	NSMutableArray		*routesOfInterest;
 	BOOL				needReset;

@@ -5,6 +5,11 @@
 //  Created by Zhenwang Yao on 19/09/08.
 //  Copyright __MyCompanyName__ 2008. All rights reserved.
 //
+//Notes: This ViewController may be initiated in two different places:
+// (i)  the first time the app runs
+// (ii) tap on select city in settings.
+//In these two cases, their delegate are different.
+//
 
 #import "CitySelectViewController.h"
 #import "TransitApp.h"

@@ -11,7 +11,8 @@
 @interface DownloadManager : NSObject <UIActionSheetDelegate> {
 	NSURLResponse	*downloadResponse;
 	NSURLConnection	*theDownload;
-	NSMutableData	*receivedData;
+	//NSMutableData	*receivedData;
+	NSFileHandle    *fileReceiving;
 	UIActionSheet	*downloadActionSheet;
 	NSInteger		bytesReceived;
 	NSInteger		downloadState;

@@ -184,6 +184,20 @@ NSString *tabBarViewControllerIds[]={
 	[super dealloc];
 }
 
+//Notes: There are citySelected: in both TransitApp and TransitAppDelegate.
+//   and the differences are:
+//
+//   - [TansitApp citySelected] take care of the following:
+//      * database initialization
+//      * UI refresh, reset all Tabs
+//
+//   - [TansitAppDelegate citySelected] should only be called at first run running the App:
+//      * when the CitySelectionView is initialized on startup.
+// 
+// In this function here for TransitAppDelegate, you can see:
+//   it calls [TransitApp citySelected], and inside that function
+//            [TransitAppDelegate cityChanged] will be called.
+//
 - (void) citySelected:(id)sender
 {
 	TransitApp *myApp = (TransitApp *)[UIApplication sharedApplication];
@@ -214,6 +228,8 @@ NSString *tabBarViewControllerIds[]={
 				[(StopsViewController  *)subVC reset];
 			else if ([subVC isKindOfClass:[StopSearchViewController class]])
 				[(StopSearchViewController  *)subVC reset];
+			else if ([subVC isKindOfClass:[RouteSearchViewController class]])
+				[(RouteSearchViewController  *)subVC reset];
 			else if ([subVC isKindOfClass:[NearbyViewController class]])
 				[(NearbyViewController *)subVC reset];
 		}

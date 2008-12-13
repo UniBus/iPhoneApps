@@ -647,22 +647,29 @@ enum CurrentCityUpdateStatus {
 		[otherCitiesFromServer addObject:updatingCity];
 		[newCitiesFromServer removeObject:updatingCity];
 	}
-	else if ([otherCitiesFromServer indexOfObject:updatingCity] == NSNotFound)
+	else
 	{
 		if ([updatingCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
 		{
 			statusOfCurrentyCity = kCurrentCityUpdated;
-			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+			cityUpdateAvaiable = NO;
+			if (offlineUpdateAvailable)
+				[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
+			else
+				[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
+			//To engage the new database.
+			[myApplication performSelector:@selector(resetCurrentCity)];
 		}
 			
 		[self updateCityToLocalGTFSInfo:updatingCity];
-		[otherCitiesFromServer addObject:updatingCity];
-		[updateCitiesFromServer removeObject:updatingCity];
+		if ([otherCitiesFromServer indexOfObject:updatingCity] == NSNotFound)
+		{
+			[otherCitiesFromServer addObject:updatingCity];
+			[updateCitiesFromServer removeObject:updatingCity];
+		}
 	}
-	else
-	{
-		[self updateCityToLocalGTFSInfo:updatingCity];
-	}
+
 	updatingCity = nil;
 	[updateTableView reloadData];	
 }

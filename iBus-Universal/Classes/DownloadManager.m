@@ -29,6 +29,7 @@ enum DownloadState {
 
 - (void) dealloc
 {
+	[localFileName release];
 	[downloadResponse release];
 	[super dealloc];
 }
@@ -75,7 +76,7 @@ enum DownloadState {
 		[downloadActionSheet release];	
 	}
 	
-	receivedData=[[NSMutableData data] retain];
+	//receivedData=[[NSMutableData data] retain];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -87,9 +88,8 @@ enum DownloadState {
     // redirect, so each time we reset the data.
     // receivedData is declared as a method instance elsewhere
 	
-	bytesReceived=0;
-    [receivedData setLength:0];
-	
+    //[receivedData setLength:0];
+	bytesReceived=0;	
 	[downloadResponse release];
 	downloadResponse = [response retain];
 }
@@ -98,7 +98,8 @@ enum DownloadState {
 {
     // append the new data to the receivedData
     // receivedData is declared as a method instance elsewhere
-    [receivedData appendData:data];
+    //[receivedData appendData:data];
+	[fileReceiving writeData:data];
 	
 	long expectedLength=[downloadResponse expectedContentLength];
 	
@@ -122,9 +123,11 @@ enum DownloadState {
 {
 	// release the connection
 	[download release];
-    [receivedData release];
+	[fileReceiving closeFile];
+	[fileReceiving release];
+    //[receivedData release];
+	//receivedData = nil;
 	download = nil;
-	receivedData = nil;
 	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
 	downloadState = kDownloadStateIdle;
 	
@@ -143,6 +146,40 @@ enum DownloadState {
 	download = nil;
 	[downloadActionSheet dismissWithClickedButtonIndex:-1 animated:NO];
 	
+	[fileReceiving closeFile];
+	[fileReceiving release];
+	
+	//BOOL dataWritten = [receivedData writeToFile:destinationFilename options:NSAtomicWrite error:&error];
+	//[receivedData release];
+	//receivedData = nil;
+	//if (!dataWritten)
+	//{
+	//	NSLog(@"Failed write downloaded data into file with message '%@'.", [error localizedDescription]);
+	//	return;
+	//}
+	
+	// do something with the data
+	NSLog(@"%@",@"download succeeded!");
+	downloadState = kDownloadStateDownloaded;
+	
+	@try 
+	{
+		[delegate performSelector:@selector(fileDownloaded:) withObject: localFileName];
+	}
+	@catch (NSException * e) 
+	{
+		NSLog(@"Failed to call fileDownload: delegate function!");
+	}
+	
+	downloadState = kDownloadStateIdle;
+	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+}
+
+#pragma mark Download Interface
+- (void) downloadURL:(NSString *) urlString asFile:(NSString *) fileName
+{
+	NSAssert(downloadState==kDownloadStateIdle, @"Having finish previous download!");
+	
 	//Create $HOME/Download if the directory does not exist.
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *homeDirectory = [paths objectAtIndex:0];	
@@ -158,46 +195,19 @@ enum DownloadState {
 	}
 	
 	//Create the downloaded file
-	NSString *destinationFilename=[downloadPath stringByAppendingPathComponent:localFileName];
-	if ([fileManager fileExistsAtPath:destinationFilename])
+	[localFileName release];
+	localFileName=[[downloadPath stringByAppendingPathComponent:fileName] retain];
+	if ([fileManager fileExistsAtPath:localFileName])
 	{
-		if (![fileManager removeItemAtPath:destinationFilename error:&error])
+		if (![fileManager removeItemAtPath:localFileName error:&error])
 		{
 			NSAssert1(0, @"Failed to delete database file with message '%@'.", [error localizedDescription]);
 			return;
 		}
 	}
-	BOOL dataWritten = [receivedData writeToFile:destinationFilename options:NSAtomicWrite error:&error];
-	[receivedData release];
-	receivedData = nil;
-	if (!dataWritten)
-	{
-		NSLog(@"Failed write downloaded data into file with message '%@'.", [error localizedDescription]);
-		return;
-	}
+	[fileManager createFileAtPath:localFileName contents:[NSData data] attributes:nil];
 	
-	// do something with the data
-	NSLog(@"%@",@"download succeeded!");
-	downloadState = kDownloadStateDownloaded;
-	
-	@try 
-	{
-		[delegate performSelector:@selector(fileDownloaded:) withObject: destinationFilename];
-	}
-	@catch (NSException * e) 
-	{
-		NSLog(@"Failed to call fileDownload: delegate function!");
-	}
-	
-	downloadState = kDownloadStateIdle;
-	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-}
-
-#pragma mark Download Interface
-- (void) downloadURL:(NSString *) urlString asFile:(NSString *) fileName
-{
-	NSAssert(downloadState==kDownloadStateIdle, @"Having finish previous download!");
-	localFileName = fileName;
+	fileReceiving = [[NSFileHandle fileHandleForWritingAtPath:localFileName] retain];
 	[self startDownloadingURL:urlString];
 }
 

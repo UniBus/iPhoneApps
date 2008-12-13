@@ -85,6 +85,7 @@ extern NSString * const UserSavedAlwayOffline;
 - (NSString *) localDatabaseDir;
 - (NSString *) gtfsInfoDatabase;
 - (void) citySelected:(id)sender;
+- (void) resetCurrentCity;
 //- (void) onlineUpdateRequested:(id)sender;
 
 @end

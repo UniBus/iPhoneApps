@@ -18,6 +18,9 @@ const NSString *OfflineURL = @"http://zyao.servehttp.com:5144/ver1.2/offline/cac
 BOOL autoSwitchToOffline = NO;
 BOOL alwaysOffline = NO;
 
+extern BOOL  offlineUpdateAvailable;
+extern BOOL  offlineDownloaded;
+
 enum OfflineViewSections
 {
 	kUIOffline_Cache = 0,
@@ -303,6 +306,9 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 	[formatter setDateFormat:@"yyyyMMdd"];
 	NSString *downloadTime = [formatter stringFromDate:[NSDate date]];
 	updateOfflineDbInfoInGTFS(currentCityId, 1, downloadTime);
+	
+	offlineUpdateAvailable = NO;
+	offlineDownloaded = YES;
 }
 
 @end

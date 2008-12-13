@@ -109,10 +109,12 @@ extern BOOL alwaysOffline;
 }
 
 #pragma mark Database operation
+//Notes: There are citySelected: in both TransitApp and TransitAppDelegate.
+//   and the difference, please refer to [TransitAppDelegate citySelected]:
+//
 - (void) citySelected:(id)sender
 {
 	NSAssert([sender isKindOfClass:[CitySelectViewController class]], @"Received citySelect: from an unknow object!");
-	
 	CitySelectViewController *cityVC = (CitySelectViewController *)sender;
 	NSAssert (![cityVC.currentCity isEqualToString:@""] && ![cityVC.currentDatabase isEqualToString:@""] && 
 			  ![cityVC.currentURL isEqualToString:@""], @"Selected city info is not set properly!!");
@@ -166,7 +168,7 @@ extern BOOL alwaysOffline;
 		{
 			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
 			if (upgrade(destPath, srcPath) == NO)
-				[self userAlert: @"Upgade Database incompleted! Please download new data for the city from Settings."];
+				[self userAlert: @"Upgrading database incompleted! Please download new data for the city from Settings."];
 			else
 				[self userAlert: @"Database upgraded!"];
 				//The following line was for updating from V1.0 to V1.1
@@ -237,6 +239,17 @@ extern BOOL alwaysOffline;
 	{
 		tripQuery.webServicePrefix = currentWebPrefix;
 		tripQueryAvailable = YES;
+	}	
+}
+
+- (void) resetCurrentCity
+{
+	[self initializeDatabase];	
+
+	@try {
+		[self.delegate performSelector:@selector(cityDidChange)];
+	}
+	@catch (NSException * e) {
 	}	
 }
 

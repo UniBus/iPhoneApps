@@ -60,15 +60,18 @@ BOOL upgradeNeeded(NSString *currengDb)
 
 void resetCurrentCity(NSString *newDb)
 {
-	sqlite3 *database;
-	if (sqlite3_open([newDb UTF8String], &database) != SQLITE_OK) 
-		NSLog(NO, @"Open database Error!");
-	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	NSString *selectedCity = [defaults objectForKey:UserCurrentCity];
+	if ([selectedCity isEqualToString:@""]) //city hasn't been selected yet!
+		return;
+		
 	NSArray *cityNameComps = [selectedCity componentsSeparatedByString:@", "];
 	assert([cityNameComps count] == 3);
 	
+	sqlite3 *database;
+	if (sqlite3_open([newDb UTF8String], &database) != SQLITE_OK) 
+		NSLog(NO, @"Open database Error!");
+		
 	// (id, name, state, country, website, dbname, lastupdate, local)
 	NSString *sql = [NSString stringWithFormat:@"SELECT id, name, state, country, website, dbname FROM cities WHERE name='%@' AND state='%@' AND country='%@'", 
 					 [cityNameComps objectAtIndex:0],
@@ -172,7 +175,7 @@ BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 	if ([currentDbVersion isEqualToString:@"1.0"])
 	{
 		sql = [NSString stringWithFormat:@"INSERT INTO favorites "
-		   "SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, routes.route_long_name as bus_sign, '' as direction_id "
+		   "SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, '' as direction_id,  routes.route_long_name as bus_sign "
 		   "FROM routes, src.favorites "
 		   "WHERE routes.route_short_name=src.favorites.route_id"
 		   ];

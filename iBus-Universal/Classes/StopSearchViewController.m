@@ -175,8 +175,8 @@
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		cell.textAlignment = UITextAlignmentLeft;
-		cell.font = [UIFont systemFontOfSize:14];
-		cell.textColor = [UIColor blueColor];
+		cell.font = [UIFont boldSystemFontOfSize:14];
+		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
