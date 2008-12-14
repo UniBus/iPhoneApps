@@ -43,6 +43,10 @@
 	[window makeKeyAndVisible];
 }
 
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	[application setIdleTimerDisabled:NO];
+}
 /*
 - (void)applicationWillTerminate:(UIApplication *)application
 {

@@ -231,9 +231,15 @@ NSString *beatSoundNames[] =
 	powerOn = !powerOn;
 
 	if (powerOn)
+	{
 		[mySwitch setImage:[UIImage imageNamed:@"poweron.png"] forState: UIControlStateNormal];
+		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+	}
 	else
+	{
 		[mySwitch setImage:[UIImage imageNamed:@"poweroff.png"] forState: UIControlStateNormal];
+		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+	}
 	
 	[self reset];
 }
