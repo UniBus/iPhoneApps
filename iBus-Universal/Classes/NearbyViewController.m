@@ -249,12 +249,12 @@ char *UnitName(int unit);
 	{
 		cell = [[[CellWithNote alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		cell.textAlignment = UITextAlignmentLeft;
-		cell.font = [UIFont systemFontOfSize:14];
-		cell.textColor = [UIColor blueColor];
+		cell.font = [UIFont boldSystemFontOfSize:14];
+		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
-	cell.text = [NSString stringWithFormat:@"[%@] - %@", aStop.stopId, aStop.name];
+	cell.text = [NSString stringWithFormat:@"%@", aStop.name];
 	[cell setNote:[NSString stringWithFormat:@"%.1f%s", 
 				   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)]];
 	return cell;
