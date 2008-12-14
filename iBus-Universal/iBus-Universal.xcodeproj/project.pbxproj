@@ -23,6 +23,10 @@
 		7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C80E94AA4500FEA89A /* parseCSV.m */; };
 		7D59CA290E94AF0E00FEA89A /* supportedcities.lst in Resources */ = {isa = PBXBuildFile; fileRef = 7D59CA280E94AF0E00FEA89A /* supportedcities.lst */; };
 		7D61AD110EE06FDB0023BCC4 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D61AD100EE06FDB0023BCC4 /* DownloadManager.m */; };
+		7D762D600EF19F6C00018CBA /* typetrainicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D762D5F0EF19F6C00018CBA /* typetrainicon.png */; };
+		7D762D690EF1A47D00018CBA /* typebusicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D762D660EF1A47D00018CBA /* typebusicon.png */; };
+		7D762D6A0EF1A47D00018CBA /* typeferryicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D762D670EF1A47D00018CBA /* typeferryicon.png */; };
+		7D762D6B0EF1A47D00018CBA /* typetramicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D762D680EF1A47D00018CBA /* typetramicon.png */; };
 		7D767C050E8578E300CEFE8A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C020E8578E300CEFE8A /* MapViewController.m */; };
 		7D767C060E8578E300CEFE8A /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C040E8578E300CEFE8A /* StopsViewController.m */; };
 		7D767C090E85790400CEFE8A /* StopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D767C080E85790400CEFE8A /* StopCell.m */; };
@@ -98,6 +102,10 @@
 		7D127E930E8648E20068D300 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		7D127E9F0E8649170068D300 /* General.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = General.c; sourceTree = "<group>"; };
 		7D127EA00E8649170068D300 /* General.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
+		7D2B8BEC0EF3B2EA00818326 /* Memorandum.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Memorandum.docx; sourceTree = "<group>"; };
+		7D2B8BED0EF3B2EA00818326 /* Release Checklist.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Release Checklist.docx"; sourceTree = "<group>"; };
+		7D2B8BEE0EF3B2EA00818326 /* Test Checklist.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Test Checklist.docx"; sourceTree = "<group>"; };
+		7D2B8BF00EF3B2EA00818326 /* To_Do_List.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = To_Do_List.docx; sourceTree = "<group>"; };
 		7D2F88AB0EAF12E0008FCA45 /* CityUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityUpdateViewController.h; sourceTree = "<group>"; };
 		7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityUpdateViewController.m; sourceTree = "<group>"; };
 		7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySelectViewController.h; sourceTree = "<group>"; };
@@ -107,6 +115,10 @@
 		7D59CA280E94AF0E00FEA89A /* supportedcities.lst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = supportedcities.lst; sourceTree = "<group>"; };
 		7D61AD0F0EE06FDB0023BCC4 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		7D61AD100EE06FDB0023BCC4 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
+		7D762D5F0EF19F6C00018CBA /* typetrainicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typetrainicon.png; sourceTree = "<group>"; };
+		7D762D660EF1A47D00018CBA /* typebusicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typebusicon.png; sourceTree = "<group>"; };
+		7D762D670EF1A47D00018CBA /* typeferryicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typeferryicon.png; sourceTree = "<group>"; };
+		7D762D680EF1A47D00018CBA /* typetramicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typetramicon.png; sourceTree = "<group>"; };
 		7D767C010E8578E300CEFE8A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		7D767C020E8578E300CEFE8A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		7D767C030E8578E300CEFE8A /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
@@ -230,6 +242,7 @@
 		29B97314FDCFA39411CA2CEA /* iBus-Universal */ = {
 			isa = PBXGroup;
 			children = (
+				7D2B8BEB0EF3B2A400818326 /* document */,
 				7D767C0F0E857B7500CEFE8A /* BusQuery */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -405,6 +418,10 @@
 		7D04BD860EDE62C400F5A842 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7D762D660EF1A47D00018CBA /* typebusicon.png */,
+				7D762D670EF1A47D00018CBA /* typeferryicon.png */,
+				7D762D680EF1A47D00018CBA /* typetramicon.png */,
+				7D762D5F0EF19F6C00018CBA /* typetrainicon.png */,
 				7D8C9D8D0EE5309200D4911C /* info.png */,
 				7D8C9D8E0EE5309200D4911C /* offline.png */,
 				7D8C9D8F0EE5309200D4911C /* route.png */,
@@ -511,6 +528,17 @@
 			name = Trips;
 			sourceTree = "<group>";
 		};
+		7D2B8BEB0EF3B2A400818326 /* document */ = {
+			isa = PBXGroup;
+			children = (
+				7D2B8BEC0EF3B2EA00818326 /* Memorandum.docx */,
+				7D2B8BED0EF3B2EA00818326 /* Release Checklist.docx */,
+				7D2B8BEE0EF3B2EA00818326 /* Test Checklist.docx */,
+				7D2B8BF00EF3B2EA00818326 /* To_Do_List.docx */,
+			);
+			path = document;
+			sourceTree = "<group>";
+		};
 		7D767C0F0E857B7500CEFE8A /* BusQuery */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +627,10 @@
 				7D8C9D940EE5309200D4911C /* route.png in Resources */,
 				7D8C9D950EE5309200D4911C /* stop.png in Resources */,
 				7D8C9D960EE5309200D4911C /* update.png in Resources */,
+				7D762D600EF19F6C00018CBA /* typetrainicon.png in Resources */,
+				7D762D690EF1A47D00018CBA /* typebusicon.png in Resources */,
+				7D762D6A0EF1A47D00018CBA /* typeferryicon.png in Resources */,
+				7D762D6B0EF1A47D00018CBA /* typetramicon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
