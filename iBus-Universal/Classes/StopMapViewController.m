@@ -22,10 +22,12 @@
 	
 	//NSURL *url = [NSURL URLWithString:@"http://zhenwang.yao.googlepages.com/maplet.html"];
 	NSURL *url= [NSURL URLWithString:urlString];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url 
-											 cachePolicy:NSURLRequestUseProtocolCachePolicy
-										 timeoutInterval:20];  // 20 sec;
-	[mapWeb loadRequest:request];
+	
+	[super mapWithURL:url];
+	//NSURLRequest *request = [NSURLRequest requestWithURL:url 
+	//										 cachePolicy:NSURLRequestUseProtocolCachePolicy
+	//									 timeoutInterval:20];  // 20 sec;
+	//[mapWeb loadRequest:request];
 }
 
 @end

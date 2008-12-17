@@ -639,7 +639,7 @@ extern BOOL alwaysOffline;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
-		NSArray *results;
+		NSArray *results = nil;
 		NSAssert(tripQuery != nil, @"Something is wrong, haven't initialized properly!");
 
 		if (autoSwitchToOffline)
@@ -700,7 +700,7 @@ extern BOOL alwaysOffline;
 	//Only allow one single query at a time
 	@synchronized (self)
 	{
-		NSArray *results;
+		NSArray *results = nil;
 		NSAssert(tripQuery != nil, @"Something is wrong, haven't initialized properly!");
 
 		if (autoSwitchToOffline)

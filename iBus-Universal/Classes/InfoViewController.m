@@ -5,9 +5,10 @@
 //  Created by Zhenwang Yao on 28/11/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
-
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "InfoViewController.h"
 #import "TransitApp.h"
+#import "NoNetworkView.h"
 
 @implementation InfoViewController
 
@@ -21,6 +22,23 @@
 }
 */
 
+- (BOOL) available:(NSURL *)targetingUrl
+{
+	SCNetworkReachabilityFlags        flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[targetingUrl host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (!gotFlags) 
+        return NO;
+	
+    if ( !(flags & kSCNetworkReachabilityFlagsReachable))
+		return NO;
+	
+    if (flags & kSCNetworkReachabilityFlagsConnectionRequired) 
+		return NO;
+    
+	return YES;
+}
 
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
@@ -31,10 +49,26 @@
 	self.view = infoWebView;
 	self.navigationItem.title = @"Information";	
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	
+	NSString *urlString = [NSString stringWithFormat:@"%@/localinfo.php", [(TransitApp *)[UIApplication sharedApplication] currentWebServicePrefix]];
+	if (urlString)
+	{
+		NSURL *url = [NSURL URLWithString:urlString];
+		if([self available:url])
+			[infoWebView loadRequest:[NSURLRequest requestWithURL:url]];
+		else
+		{
+			UIView *noNetworkView = [[NoNetworkView alloc] initWithFrame:[UIScreen mainScreen].bounds]; 
+			[noNetworkView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
+			noNetworkView.multipleTouchEnabled = NO;
+			[self.view addSubview:noNetworkView]; 
+			[noNetworkView release];			
+		}
+	}	
 }
 
 // Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewDidLoad
 {
 	NSString *urlString = [NSString stringWithFormat:@"%@/localinfo.php", [(TransitApp *)[UIApplication sharedApplication] currentWebServicePrefix]];
 	if (urlString)

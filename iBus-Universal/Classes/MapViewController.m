@@ -5,9 +5,10 @@
 //  Created by Zhenwang Yao on 27/08/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
-
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "MapViewController.h"
 #import "TransitApp.h"
+#import "NoNetworkView.h"
 
 #define NUM_TOUCH_SKIP		5
 #define DIST_THRESHOLD_MOVE	20
@@ -26,6 +27,24 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 @end
 
 @implementation MapViewController
+
+- (BOOL) available:(NSURL *)targetingUrl
+{
+	SCNetworkReachabilityFlags        flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[targetingUrl host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (!gotFlags) 
+        return NO;
+	
+    if ( !(flags & kSCNetworkReachabilityFlagsReachable))
+		return NO;
+	
+    if (flags & kSCNetworkReachabilityFlagsConnectionRequired) 
+		return NO;
+    
+	return YES;
+}
 
 - (void)loadView 
 {
@@ -76,10 +95,21 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 
 - (void)mapWithURL:(NSURL *)url
 {	
-	NSURLRequest *request = [NSURLRequest requestWithURL:url 
+	if ([self available:url])
+	{
+		NSURLRequest *request = [NSURLRequest requestWithURL:url 
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:20];  // 20 sec;
-	[mapWeb loadRequest:request];
+		[mapWeb loadRequest:request];
+	}
+	else
+	{
+		UIView *noNetworkView = [[NoNetworkView alloc] initWithFrame:[UIScreen mainScreen].bounds]; 
+		[noNetworkView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
+		noNetworkView.multipleTouchEnabled = NO;
+		[self.view addSubview:noNetworkView]; 
+		[noNetworkView release];
+	}
 }
 
 #pragma mark Map Operation

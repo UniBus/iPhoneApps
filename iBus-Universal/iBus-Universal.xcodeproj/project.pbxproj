@@ -64,6 +64,8 @@
 		7D8D69F00EE1FB83009A5F4E /* OfflineQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8D69EF0EE1FB83009A5F4E /* OfflineQuery.m */; };
 		7D9EBA9D0E8765C70004E4D4 /* RouteActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */; };
 		7D9EBB290E877DAA0004E4D4 /* RouteScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */; };
+		7DA113E40EF8EBEC00CEB9F4 /* wireless.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DA113E30EF8EBEC00CEB9F4 /* wireless.png */; };
+		7DA113EE0EF8F10100CEB9F4 /* NoNetworkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA113ED0EF8F10100CEB9F4 /* NoNetworkView.m */; };
 		7DC4E36A0EDF030300C72123 /* StopMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC4E3690EDF030300C72123 /* StopMapViewController.m */; };
 		7DC4E36F0EDF037700C72123 /* TripMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC4E36E0EDF037700C72123 /* TripMapViewController.m */; };
 		7DCE40A00EB0E42A003FF456 /* gtfs_info.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7DCE409F0EB0E42A003FF456 /* gtfs_info.sqlite */; };
@@ -178,6 +180,9 @@
 		7D9EBA9C0E8765C70004E4D4 /* RouteActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteActionViewController.m; sourceTree = "<group>"; };
 		7D9EBB270E877DAA0004E4D4 /* RouteScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteScheduleViewController.h; sourceTree = "<group>"; };
 		7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteScheduleViewController.m; sourceTree = "<group>"; };
+		7DA113E30EF8EBEC00CEB9F4 /* wireless.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wireless.png; sourceTree = "<group>"; };
+		7DA113EC0EF8F10100CEB9F4 /* NoNetworkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoNetworkView.h; sourceTree = "<group>"; };
+		7DA113ED0EF8F10100CEB9F4 /* NoNetworkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoNetworkView.m; sourceTree = "<group>"; };
 		7DC4E3680EDF030300C72123 /* StopMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopMapViewController.h; sourceTree = "<group>"; };
 		7DC4E3690EDF030300C72123 /* StopMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopMapViewController.m; sourceTree = "<group>"; };
 		7DC4E36D0EDF037700C72123 /* TripMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripMapViewController.h; sourceTree = "<group>"; };
@@ -398,6 +403,8 @@
 				7D9EBB280E877DAA0004E4D4 /* RouteScheduleViewController.m */,
 				7D83B0E70E88242000DCB5EC /* DatePickViewController.h */,
 				7D83B0E80E88242000DCB5EC /* DatePickViewController.m */,
+				7DA113EC0EF8F10100CEB9F4 /* NoNetworkView.h */,
+				7DA113ED0EF8F10100CEB9F4 /* NoNetworkView.m */,
 				7D767C010E8578E300CEFE8A /* MapViewController.h */,
 				7D767C020E8578E300CEFE8A /* MapViewController.m */,
 				7DC4E3680EDF030300C72123 /* StopMapViewController.h */,
@@ -418,6 +425,7 @@
 		7D04BD860EDE62C400F5A842 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7DA113E30EF8EBEC00CEB9F4 /* wireless.png */,
 				7D762D660EF1A47D00018CBA /* typebusicon.png */,
 				7D762D670EF1A47D00018CBA /* typeferryicon.png */,
 				7D762D680EF1A47D00018CBA /* typetramicon.png */,
@@ -631,6 +639,7 @@
 				7D762D690EF1A47D00018CBA /* typebusicon.png in Resources */,
 				7D762D6A0EF1A47D00018CBA /* typeferryicon.png in Resources */,
 				7D762D6B0EF1A47D00018CBA /* typetramicon.png in Resources */,
+				7DA113E40EF8EBEC00CEB9F4 /* wireless.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +689,7 @@
 				7D8D68740EE11A44009A5F4E /* OfflineViewController.m in Sources */,
 				7D8D68810EE14198009A5F4E /* MiscCells.m in Sources */,
 				7D8D69F00EE1FB83009A5F4E /* OfflineQuery.m in Sources */,
+				7DA113EE0EF8F10100CEB9F4 /* NoNetworkView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
