@@ -69,6 +69,7 @@ UIImage *mapIconImage = nil;
 	stopDesc = [[UITextView alloc] initWithFrame:ctrlFrame];	
 	stopDesc.backgroundColor = [UIColor clearColor];
 	stopDesc.editable = NO;
+	stopDesc.scrollEnabled = NO;
 	stopDesc.opaque = NO;
 	stopDesc.userInteractionEnabled = NO;
 	stopDesc.multipleTouchEnabled = NO;
@@ -87,7 +88,7 @@ UIImage *mapIconImage = nil;
 	[mapButton addTarget:self action:@selector(mapButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 	
 	self.opaque = NO;
-	self.selectionStyle = UITableViewCellSelectionStyleNone;
+	//self.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	[self.contentView addSubview:stopDesc];
 	[self.contentView addSubview:mapButton];
@@ -107,6 +108,12 @@ UIImage *mapIconImage = nil;
 	return theStop;
 }
 
+//Historical notes:
+//	- Why "UITextView" instead of "UITextField"
+//    UITextField only support one line of text!!
+//  - Why text in UITextView dispear!!
+//	  [stopDesc scrollRangeToVisible:NSMakeRange(0, 1)]; need to be called
+//
 - (void) setStop:(id) aStop
 {
 	if (![aStop isKindOfClass:[BusStop class]])
@@ -117,7 +124,9 @@ UIImage *mapIconImage = nil;
 	
 	[theStop autorelease];
 	theStop = [aStop retain];
-	[stopDesc setText:[NSString stringWithFormat:@"%@", theStop.description]];
+	stopDesc.text = [NSString stringWithFormat:@"%@", theStop.description];
+	[stopDesc scrollRangeToVisible:NSMakeRange(0, 1)];
+	//NSLog(@"Set stop text for stop_id=%@: %@", theStop.stopId, theStop.description);
 }
 
 @end

@@ -508,6 +508,7 @@ enum SettingTableSections
 		InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:infoVC animated:YES];
 	}
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark WebView Delegate Functions

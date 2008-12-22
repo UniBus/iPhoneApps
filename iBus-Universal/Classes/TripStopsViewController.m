@@ -111,6 +111,7 @@ enum _TripStopsTableViewSection {
 		
 		[[self navigationController] pushViewController:stopsVC animated:YES];	
 	}
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

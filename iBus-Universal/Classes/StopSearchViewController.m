@@ -157,6 +157,7 @@
 	[stopsVC reload];
 	
 	[[self navigationController] pushViewController:stopsVC animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -168,7 +169,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	static NSString *MyIdentifier = @"MyIdentifier";
+	NSString *MyIdentifier = @"MyIdentifier";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	if (cell == nil) 

@@ -430,8 +430,8 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	static NSString *MyIdentifier = @"MyIdentifier";
-	static NSString *MyIdentifier2 = @"MyIdentifier2";
+	NSString *MyIdentifier = @"MyIdentifier";
+	NSString *MyIdentifier2 = @"MyIdentifier2";
 	
 	if ([indexPath row] >= 1)
 	{
@@ -480,11 +480,16 @@ BOOL isInFavorite2(NSString *stopId, NSString *routeId, NSString *dir)
 	}
 	else
 	{
+		StopCell *cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
+		/* 
+		//Notes: Due to what I believe to be a bug of UITextView,
+		//       if I use the following code, the textView may not be updated properly.
 		StopCell *cell = (StopCell *)[tableView dequeueReusableCellWithIdentifier:MyIdentifier2];
 		if (cell == nil) 
 		{
 			cell = [[[StopCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier2 owner:self] autorelease];
 		}
+		 */
 		[cell setStop:[stopsOfInterest objectAtIndex:[indexPath section]]];
 		return cell;
 	}

@@ -221,6 +221,7 @@ char *UnitName(int unit);
 	[stopsVC reload];
 	
 	[[self navigationController] pushViewController:stopsVC animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -242,7 +243,7 @@ char *UnitName(int unit);
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	static NSString *MyIdentifier = @"MyIdentifierCellWithNote";
+	NSString *MyIdentifier = @"MyIdentifierCellWithNote";
 	
 	CellWithNote *cell = (CellWithNote *) [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	if (cell == nil) 

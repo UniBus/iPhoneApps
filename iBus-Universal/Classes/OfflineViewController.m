@@ -167,7 +167,8 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 		NSString *urlString = [NSString stringWithFormat:@"%@?%@", OfflineURL, [myApplication currentCityId]];
 		
 		[self startDownloadingURL:urlString asFile:currentDbName];
-		return;
+		
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}
 	
 	return;

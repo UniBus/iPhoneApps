@@ -163,6 +163,7 @@ enum CitySelectionSection {
 	{
 		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:updateVC animated:YES];		
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 		return;
 	}
 	

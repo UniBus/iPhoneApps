@@ -421,19 +421,18 @@ enum CurrentCityUpdateStatus {
 	switch (indexPath.section) {
 		case kUIUpdate_CurrentCity:
 		{
-			if (statusOfCurrentyCity != kCurrentCityNeedsUpdate)
-				return;
-			for (GTFS_City *aCity in updateCitiesFromServer)
+			if (statusOfCurrentyCity == kCurrentCityNeedsUpdate)
 			{
-				if ([aCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
+				for (GTFS_City *aCity in updateCitiesFromServer)
 				{
-					updatingCity = aCity;
-					downloadingNewCity = NO;
-					[self updateCityToLocal];
-					return;
+					if ([aCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
+					{
+						updatingCity = aCity;
+						downloadingNewCity = NO;
+						[self updateCityToLocal];
+					}
 				}
 			}
-			NSAssert(NO, @"Couldn't find current city in update list!!");
 			break;
 		}
 		case kUIUpdate_NewCity:
@@ -442,7 +441,6 @@ enum CurrentCityUpdateStatus {
 				updatingCity = [newCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = YES;
 				[self updateCityToLocal];
-				return;
 			}
 			break;
 		case kUIUpdate_UpdatedCity:
@@ -451,7 +449,6 @@ enum CurrentCityUpdateStatus {
 				updatingCity = [updateCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = NO;
 				[self updateCityToLocal];
-				return;
 			}
 			break;
 		case kUIUpdate_AllOtherCity:
@@ -460,13 +457,13 @@ enum CurrentCityUpdateStatus {
 				updatingCity = [otherCitiesFromServer objectAtIndex:indexPath.row];
 				downloadingNewCity = NO;
 				[self updateCityToLocal];
-				return;
 			}
 			break;
 		default:
 			NSAssert(NO, @"Something is wrong: wrong section index!!");
 			break;
 	}
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

@@ -106,6 +106,7 @@
 			break;
 	}
 	[self datePicked:self];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

@@ -325,6 +325,8 @@
 		else
 			NSLog(@"Get an empty set of arrival!");
 	}
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -383,8 +385,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	@try {
-		static NSString *MyIdentifier = @"MyIdentifier";
-		static NSString *MyIdentifier2 = @"MyIdentifier2";
+		NSString *MyIdentifier = @"StopsViewControllerCell";
+		NSString *MyIdentifier2 = @"StopsViewControllerCell2";
 		
 		if ([indexPath row] >= 1)
 		{

@@ -154,6 +154,7 @@
 	RouteTripsViewController *routeTripsVC = [[RouteTripsViewController alloc] initWithNibName:nil bundle:nil];
 	routeTripsVC.theRoute = [routesFound objectAtIndex:indexPath.row];
 	[[self navigationController] pushViewController:routeTripsVC animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -165,7 +166,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	static NSString *MyIdentifier = @"MyIdentifier";
+	NSString *MyIdentifier = @"MyIdentifier";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	if (cell == nil) 

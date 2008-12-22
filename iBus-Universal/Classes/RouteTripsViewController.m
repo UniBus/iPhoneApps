@@ -103,7 +103,8 @@ enum _RouteTripsTableViewSection {
 {
 	TripStopsViewController *tripStopsVC = [[TripStopsViewController alloc] initWithNibName:nil bundle:nil];
 	tripStopsVC.theTrip = [[tripsOnRoute objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-	[[self navigationController] pushViewController:tripStopsVC animated:YES];	
+	[[self navigationController] pushViewController:tripStopsVC animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 

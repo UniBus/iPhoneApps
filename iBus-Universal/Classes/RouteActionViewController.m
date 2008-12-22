@@ -304,8 +304,7 @@ enum TransitRouteType {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 0)
-		[tableView deselectRowAtIndexPath:indexPath animated:NO];
+	//if (indexPath.section == 0)
 	
 	if (indexPath.section == 0)
 	{
@@ -316,44 +315,47 @@ enum TransitRouteType {
 		[tableView reloadData];
 		
 		[self notifyApplicationFavoriteChanged];
-		return;
 	}
-	
-	//section == 1;
-	RouteScheduleViewController *routeScheduleVC = [[RouteScheduleViewController alloc] initWithNibName:nil bundle:nil];
-	routeScheduleVC.stopID = stopID;
-	routeScheduleVC.routeID = routeID;	
-	routeScheduleVC.direction = direction;
-	[[self navigationController] pushViewController:routeScheduleVC animated:YES];
-	
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
-	if (![myApplication isKindOfClass:[TransitApp class]])
-	{
-		NSLog(@"Something wrong, Need to set the application to be TransitApp!!");
-		return;
-	}
-	
-	NSCalendar *current = [NSCalendar currentCalendar];
-	NSInteger calendarUint = NSMonthCalendarUnit | NSDayCalendarUnit | NSYearCalendarUnit;
-	if ((indexPath.section == 1) && (indexPath.row == 2))
-	{
-		NSDateComponents *components = [current components:calendarUint fromDate:otherDate];
-		routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
-	}
-	else if ((indexPath.section == 1) && (indexPath.row == 1))
-	{
-		NSDate *currentTime = [[NSDate date] addTimeInterval:24*60*60];
-		NSDateComponents *components = [current components:calendarUint fromDate:currentTime];
-		routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
-	}
-	else if((indexPath.section == 1) && (indexPath.row == 0)) 
-	{
-		NSDate *currentTime = [NSDate date];
-		NSDateComponents *components = [current components:calendarUint fromDate:currentTime];
-		routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
-	}
+	else
+	{	
+		//section == 1;
+		RouteScheduleViewController *routeScheduleVC = [[RouteScheduleViewController alloc] initWithNibName:nil bundle:nil];
+		routeScheduleVC.stopID = stopID;
+		routeScheduleVC.routeID = routeID;	
+		routeScheduleVC.direction = direction;
+		[[self navigationController] pushViewController:routeScheduleVC animated:YES];
 		
-	[myApplication scheduleAtStopsAsync:routeScheduleVC];	
+		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+		if (![myApplication isKindOfClass:[TransitApp class]])
+		{
+			NSLog(@"Something wrong, Need to set the application to be TransitApp!!");
+			return;
+		}
+		
+		NSCalendar *current = [NSCalendar currentCalendar];
+		NSInteger calendarUint = NSMonthCalendarUnit | NSDayCalendarUnit | NSYearCalendarUnit;
+		if ((indexPath.section == 1) && (indexPath.row == 2))
+		{
+			NSDateComponents *components = [current components:calendarUint fromDate:otherDate];
+			routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
+		}
+		else if ((indexPath.section == 1) && (indexPath.row == 1))
+		{
+			NSDate *currentTime = [[NSDate date] addTimeInterval:24*60*60];
+			NSDateComponents *components = [current components:calendarUint fromDate:currentTime];
+			routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
+		}
+		else if((indexPath.section == 1) && (indexPath.row == 0)) 
+		{
+			NSDate *currentTime = [NSDate date];
+			NSDateComponents *components = [current components:calendarUint fromDate:currentTime];
+			routeScheduleVC.dayID = [NSString stringWithFormat:@"%d%02d%02d", [components year], [components month], [components day]];
+		}
+			
+		[myApplication scheduleAtStopsAsync:routeScheduleVC];	
+	}
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
