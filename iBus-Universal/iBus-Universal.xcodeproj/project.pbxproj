@@ -20,7 +20,6 @@
 		7D127EA10E8649170068D300 /* General.c in Sources */ = {isa = PBXBuildFile; fileRef = 7D127E9F0E8649170068D300 /* General.c */; };
 		7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */; };
 		7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */; };
-		7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C80E94AA4500FEA89A /* parseCSV.m */; };
 		7D59CA290E94AF0E00FEA89A /* supportedcities.lst in Resources */ = {isa = PBXBuildFile; fileRef = 7D59CA280E94AF0E00FEA89A /* supportedcities.lst */; };
 		7D61AD110EE06FDB0023BCC4 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D61AD100EE06FDB0023BCC4 /* DownloadManager.m */; };
 		7D762D600EF19F6C00018CBA /* typetrainicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D762D5F0EF19F6C00018CBA /* typetrainicon.png */; };
@@ -112,8 +111,6 @@
 		7D2F88AC0EAF12E0008FCA45 /* CityUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityUpdateViewController.m; sourceTree = "<group>"; };
 		7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySelectViewController.h; sourceTree = "<group>"; };
 		7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySelectViewController.m; sourceTree = "<group>"; };
-		7D59C9C70E94AA4500FEA89A /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
-		7D59C9C80E94AA4500FEA89A /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
 		7D59CA280E94AF0E00FEA89A /* supportedcities.lst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = supportedcities.lst; sourceTree = "<group>"; };
 		7D61AD0F0EE06FDB0023BCC4 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		7D61AD100EE06FDB0023BCC4 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
@@ -482,10 +479,8 @@
 		7D04BD8A0EDE633F00F5A842 /* General */ = {
 			isa = PBXGroup;
 			children = (
-				7D127E9F0E8649170068D300 /* General.c */,
 				7D127EA00E8649170068D300 /* General.h */,
-				7D59C9C70E94AA4500FEA89A /* parseCSV.h */,
-				7D59C9C80E94AA4500FEA89A /* parseCSV.m */,
+				7D127E9F0E8649170068D300 /* General.c */,
 				7D04BDE20EDE6ADD00F5A842 /* PhpXmlQuery.h */,
 				7D04BDE30EDE6ADD00F5A842 /* PhpXmlQuery.m */,
 			);
@@ -670,7 +665,6 @@
 				7D83B3E40E885F4400DCB5EC /* FavoriteViewController.m in Sources */,
 				7D88EF660E91D92F00DF4ED4 /* NearbyViewController.m in Sources */,
 				7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */,
-				7D59C9C90E94AA4500FEA89A /* parseCSV.m in Sources */,
 				7D2F88AD0EAF12E0008FCA45 /* CityUpdateViewController.m in Sources */,
 				7D80CF180EB3A9FE00291BEF /* GTFSCity.m in Sources */,
 				7D82FEF00EB83F5A0076F988 /* Upgrade.m in Sources */,
