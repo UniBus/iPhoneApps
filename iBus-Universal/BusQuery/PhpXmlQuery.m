@@ -3,8 +3,19 @@
 //  StopQuery
 //
 //  Created by Zhenwang Yao on 17/08/08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
+/*! \class PhpXmlQuery
+ *
+ * \brief XML query base class. 
+ *
+ * This class is designed to be inherited, as there is no actual parsing of XML data.
+ * To sub class from PhpXmlQuery, the only thing you need to do to have XML handing capability 
+ *   is to override the delegate function.
+ *      - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName ....
+ *
+ */
+
 #import <SystemConfiguration/SCNetworkReachability.h>
 #import "PhpXmlQuery.h"
 #import "TransitApp.h"
@@ -13,6 +24,14 @@
 
 @synthesize webServicePrefix;
 
+/*!
+ * \brief Check if the network is available.
+ *
+ * \return 
+ *		- YES, if available.
+ *		- NO, otherwise.
+ * \todo The [PhpXmlQuery available] should be moved to TransitApp.
+ */
 - (BOOL) available
 {
 	NSURL *targetingUrl = [NSURL URLWithString:webServicePrefix];
@@ -33,6 +52,17 @@
     //return flags & kSCNetworkReachabilityFlagsReachable;
 }
 
+/*!
+ * \brief Initiate a XML query by requesting a URL
+ *
+ * \param[in] url The given URL.
+ * \return 
+ *		- YES, if the url has been successfully requested.
+ *		- NO, otherwise.
+ *
+ * \note After the url has been request, other asynchronous functions will be called.
+ *		which is defined as XML delegate callback functions.
+ */
 - (BOOL) queryByURL: (NSURL *) url
 {
     NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:url];

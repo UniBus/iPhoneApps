@@ -3,8 +3,21 @@
 //  StopQuery
 //
 //  Created by Zhenwang Yao on 17/08/08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
+/*! \class ArrivalQuery
+ *
+ * \brief XML query/paser for bus arrivals. 
+ *
+ * The returning XML is of the following format:
+ * \code 
+ *   <resultSet city="Portland" queryTime="01:41:07">
+ *     <arrival stop_id="10324" route_id="33" route_name="33" bus_sign="Oregon City TC" direction_id="0" arrival_time="08:44:00"/>
+ *     <arrival stop_id="10324" route_id="33" route_name="33" bus_sign="Oregon City TC" direction_id="0" arrival_time="09:49:00"/>
+ *     <arrival stop_id="10324" route_id="99" route_name="99" bus_sign="McLoughlin Express" direction_id="0" arrival_time="--:--:--"/>
+ *   </resultSet>
+ * \endcode
+ */
 
 #import "ArrivalQuery.h"
 #import "BusArrival.h"
@@ -25,7 +38,15 @@
 }
 
 #pragma mark Stop Querys
-
+/*!
+ * \brief Return TODAY's whole-day schedule for the given [route, direction] at the given stop.
+ *
+ * \param route The given route (route_id).
+ * \param dir The given direction (direction_id).
+ * \param stop The given stop (stop_id).
+ * \return 
+ *		An array of arrivals. Empty array, in case there is no bus running for today.
+ */
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop
 {
 	NSString *urlString = [NSString stringWithFormat:@"%@/schedules.php?stop_id=%@&route_id=%@&direction_id=%@",
@@ -39,6 +60,16 @@
 	return arrivalsForStops;
 }
 
+/*!
+ * \brief Return whole-day schedule of the given day for the given [route, direction] at the given stop.
+ *
+ * \param route The given route (route_id).
+ * \param dir The given direction (direction_id).
+ * \param stop The given stop (stop_id).
+ * \param day The given day (in form of 'YYYYMMDD').
+ * \return 
+ *		An array of arrivals. Empty array, in case there is no bus running for today.
+ */
 //- (NSArray *) queryForRoute: (NSString *)route atStop:(NSString *)stop onDay:(NSString *)day
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day
 {
@@ -53,6 +84,16 @@
 	return arrivalsForStops;
 }
 
+/*!
+ * \brief Return all arrivals at the given stops.
+ *
+ * \param stop An array of given stops (stop_ids). 
+ * \return 
+ *		An array of arrivals. Empty array, in case there is no bus running possibly stops at these stops.
+ * \remark
+ *      In current design, all buses possibly passing a stop will be listed under the stop, even if there
+ *         is no arrivals during the query period, under which case, the arrival is faked as "-- -- --".
+ */
 - (NSArray *) queryForStops: (NSArray*) stops
 {
 	if ([stops count] == 0)
@@ -78,6 +119,14 @@
 	return arrivalsForStops;
 }
 
+/*!
+ * \brief Get schedule/arrivals for just one stop.
+ *
+ * Based on the previous query results, retrieve arrivals/schedule for one single stop.
+ *
+ * \todo
+ *      Apparently this function has no use. Delete this function.
+ */
 - (NSArray *) scheduleForStop:(NSString *) stopId
 {
 	int numOfArrivals = [arrivalsForStops count];
@@ -108,6 +157,12 @@
 }
 
 #pragma mark XML Delegate Callback Functions
+/*!
+ * \brief Parse the returning XML.
+ *
+ * See the above XML format.
+ *
+ */
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {

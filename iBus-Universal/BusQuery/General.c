@@ -3,21 +3,23 @@
  *  StopQuery
  *
  *  Created by Zhenwang Yao on 16/08/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
+ *  Copyright 2008 Zhenwang Yao. All rights reserved.
  *
  */
 
 #include "General.h"
 #include <math.h>
 #include <stdio.h>
-/*************************************************************************
+
+#define PI				3.141592654
+#define EARTH_RADIUS	6370.997// unit=Km, if using mile radius = 3958.754
+#define DEG2RAD			(PI/180.0)
+#define RAD2DEG			(180.0/PI)
+
+/*! 
+ * \brief Compute distance between two coordinate.
  *
- *N  distance
- *
- *::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
- *
- *   Purpose:
- *P
+ * This function was modified from some code segment I found on the Internet. 
  *    This function computes the distance between two points on the
  *    surface of the (spherical) earth.  The points are specified in
  *    geographic coordinates (lat1,lon1) and (lat2,lon2).  The algorithm
@@ -26,55 +28,27 @@
  *    Geometrically, the function computes the arc distance dtheta on
  *    the sphere between two points A and B by the following formula:
  *
- *              cos dtheta = (sin a sin b) + (cos a cos b cos p)
+ *           \f[\cos(\Delta\theta) = (\sin a \sin b) + (\cos a \cos b \cos p)\f]
  *
  *              where:
- *
- *                 dtheta = arc distance between A and B
- *                 a = latitude of A
- *                 b = latitude of B
- *                 p = degrees of longitude between A and B
+ *                 - \f$\Delta\theta\f$ = arc distance between A and B
+ *                 - a = latitude of A
+ *                 - b = latitude of B
+ *                 - p = degrees of longitude between A and B
  *
  *    Once the arc distance is determined, it is converted into miles by
  *    taking the ratio between the circumference of the earth (2*PI*R) and
  *    the number of degrees in a circle (360):
- *
- *        distance in miles (d)            arc distance in degrees (dtheta)
- *   ------------------------------   =    --------------------------------
- *   earth's circumference in miles        earth's circumference in degrees
- *
- *                                    or
- *
- *    d = (dtheta * (2*PI*R)) / 360  =>
- *    d = (dtheta*PI*R)/180
+ *		
+ *			\f[\textrm{distance} = \Delta\theta \cdot({\textrm{earth's circumference}})\f]
  *
  *   The calculated distance is also referred to as the Great Circle.
  *
- *E
- *::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ * \param (lat1, lon1) The coordinate of the first position.
+ * \param (lat2, lon2) The coordinate of the first position.
+ * \return distance between the two given coordinates.
  *
- *   Parameters:
- *A
- *    lat1  <input> == (double) latitude of point A.
- *    lon1  <input> == (double) longitude of point A.
- *    lat2  <input> == (double) latitude of point B.
- *    lon2  <input> == (double) longitude of point B.
- *    units <input> == (int) flag to indicate output distance units.
- *                          0 -> Miles, 1 -> Kilometers
- *E
- *::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
- *
- *   History:
- *H
- *    Barry Michaels   November 1990   Original Version   DOS Turbo C
- *    Added kilometers option - May 1991 - BJM
- *E
- *************************************************************************/
-#define PI				3.141592654
-#define EARTH_RADIUS	6370.997// unit=Km, if using mile radius = 3958.754
-#define DEG2RAD			(PI/180.0)
-#define RAD2DEG			(180.0/PI)
-
+ */
 float distance( double lat1, double lon1, double lat2, double lon2)
 {
 	double a,b,p,dtheta,d;
@@ -92,6 +66,14 @@ float distance( double lat1, double lon1, double lat2, double lon2)
 	return d;
 }
 
+/*! 
+ * \brief Compute distance in latitude to achieve the given distance, on the same longitude.
+ *
+ * \param dist desired distance
+ * \param lat This is actually no use.
+ * \param lon This is actually no use, either.
+ * \return distance in latitude to achieve the given distance
+ */
 float deltaLat(double lat, double lon, double dist)
 {
 	//printf("acos(%f) = %f", dist / (EARTH_RADIUS * lon*DEG2RAD), acos(dist / (EARTH_RADIUS * lon*DEG2RAD) ));
@@ -99,11 +81,27 @@ float deltaLat(double lat, double lon, double dist)
 	return RAD2DEG * (dist / EARTH_RADIUS );
 }
 
+/*! 
+ * \brief Compute distance in latitude to achieve the given distance, on the same longitude.
+ *
+ * \param dist Desired distance
+ * \param lat Along the same latitude.
+ * \param lon This is actually no use, either.
+ * \return distance in longitude to achieve the given distance
+ */
 float deltaLon(double lat, double lon, double dist)
 {
 	return RAD2DEG * dist / (EARTH_RADIUS * cos(lat*DEG2RAD) );
 }
 
+/*!
+ * \brief Unit conversion.
+ *
+ * \param unit 
+ *		- UNIT_MI mile
+ *		- UNIT_KM km
+ * \return Actual distance in KM
+ */
 double UnitToKm(int unit)
 {
 	if (unit == UNIT_MI)
@@ -113,6 +111,14 @@ double UnitToKm(int unit)
 		//NSAssert1(NO, @"Unknow current unit!");
 }
 
+/*! 
+ * \brief Unit naming.
+ *
+ * \param unit 
+ *		- UNIT_MI mile
+ *		- UNIT_KM km
+ * \return Name of the given unit.
+ */
 char* UnitName(int unit)
 {
 	if (unit == UNIT_MI)
