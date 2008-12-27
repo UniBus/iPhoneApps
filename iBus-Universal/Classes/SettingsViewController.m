@@ -3,7 +3,7 @@
 //  Settings
 //
 //  Created by Zhenwang Yao on 18/08/08.
-//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//  Copyright Zhenwang Yao. 2008. All rights reserved.
 //
 
 #import "SettingsViewController.h"

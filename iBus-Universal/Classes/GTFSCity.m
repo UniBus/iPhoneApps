@@ -3,7 +3,7 @@
 //  iBus-Universal
 //
 //  Created by Zhenwang Yao on 25/10/08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
 
 #import "GTFSCity.h"

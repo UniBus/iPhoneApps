@@ -3,7 +3,7 @@
 //  CitySelect
 //
 //  Created by Zhenwang Yao on 19/09/08.
-//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//  Copyright Zhenwang Yao. 2008. All rights reserved.
 //
 //Notes: This ViewController may be initiated in two different places:
 // (i)  the first time the app runs

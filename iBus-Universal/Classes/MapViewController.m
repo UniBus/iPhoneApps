@@ -3,7 +3,7 @@
 //  iPhoneTransit
 //
 //  Created by Zhenwang Yao on 27/08/08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
 #import <SystemConfiguration/SCNetworkReachability.h>
 #import "MapViewController.h"
