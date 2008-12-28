@@ -13,8 +13,14 @@
 	NSMutableArray *arrivalsForStops;
 }
 
+/** @name Search/query for arrivals
+ *
+ *  These functions query bus arrival schedules.
+ */
+//@{
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop onDay:(NSString *)day;
 - (NSArray *) queryForRoute: (NSString *)route inDirection:(NSString *)dir atStop:(NSString *)stop;
 - (NSArray *) queryForStops: (NSArray *) stops;
+//@}
 
 @end

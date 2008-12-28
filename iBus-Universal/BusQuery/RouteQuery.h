@@ -10,6 +10,10 @@
 #import <sqlite3.h>
 #import "BusRoute.h"
 
+///Search/query for stops in the routes table.
+/*!
+ * \ingroup gtfsquery
+ */ 
 @interface RouteQuery : NSObject{
 	sqlite3 *database;
 }
@@ -18,11 +22,16 @@
 + (id) initWithFile:(NSString *) routeFile;
 - (BOOL) openRouteFile: (NSString *)routeFile;
 
-//Query
+/** @name Search/query for routes and trips
+ *
+ *  These functions query routes and related information, and their names are pretty self-explainatory.
+ */
+//@{
 - (NSInteger) typeOfRoute: (NSString *) routeId;
 - (BusRoute *) routeOfId: (NSString *) sid;
 - (NSArray *) queryRouteWithName:(NSString *) routeName;
 - (NSArray *) queryRouteWithNames:(NSArray *) routeNames;
 - (NSArray *) queryRouteWithIds:(NSArray *) routeIds;
+//@}
 
 @end

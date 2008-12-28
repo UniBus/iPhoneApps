@@ -6,6 +6,21 @@
 //  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
 
+/*! \class OfflineQuery
+ *
+ * \brief Offline query for arrivals and trips. 
+ *	
+ *	The ArrivalQuery class query arrivals, and TripQuery class query
+ *		trips, both in an online fashion.
+ *	To support offline browsing, this class replace ArrivalQuery/TripQuery,
+ *		when network is not available or user manually switch to offline browing.
+ *	
+ * \todo Now that I have all these queries in one single class, I am thinking
+ *		should I merge online arrivals/trips queries into one single class.
+ *
+ * \ingroup gtfsquery
+ */ 
+
 #import "OfflineQuery.h"
 #import "TransitApp.h"
 #import "BusArrival.h"

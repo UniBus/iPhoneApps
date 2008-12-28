@@ -19,6 +19,11 @@
 
 @implementation StopQuery
 
+/*!
+ * \brief Initialization, open a sqlite database
+ * \param stopFile sqlite database file name
+ * \return The object. 
+ */
 + (id) initWithFile:(NSString *) stopFile
 {
 	StopQuery *newObj;
@@ -51,7 +56,14 @@
 }
 
 #pragma mark Query operations
-
+/*!
+ * \brief To get a random bus stop.
+ *
+ * \return 
+ *		A random BusStop, or nil in case no stop found.
+ * \remark
+ *		This function is only used in test mode of Nearby function.
+ */
 - (BusStop *) getRandomStop
 {
 	BusStop *aStop = nil;
@@ -79,6 +91,13 @@
 	return aStop;
 }
 
+/*!
+ * \param anId The given stop id.
+ * \return 
+ *		A BusStop, or nil in case no stop found.
+ * \remark
+ *		stop_id is the primary key the stops table.
+ */
 - (BusStop *) stopOfId: (NSString *) anId
 {
 	BusStop *aStop = nil;
@@ -105,6 +124,12 @@
 	return [aStop autorelease];
 }
 
+/*!
+ * \param pos The given position.
+ * \param distInKm The distance range.
+ * \return 
+ *		An array of BusStop. Empty array, in case no stops found.
+ */
 - (NSArray *) queryStopWithPosition:(CGPoint) pos within:(double)distInKm
 {
 	NSMutableArray *results = [NSMutableArray array];
@@ -142,6 +167,11 @@
 	return results;
 }
 
+/*!
+ * \param stopName The given stop name.
+ * \return 
+ *		An array of BusStop. Empty array, in case no stops found.
+ */
 - (NSArray *) queryStopWithName:(NSString *) stopName
 {
 	NSMutableArray *results = [NSMutableArray array];
@@ -171,6 +201,11 @@
 	return results;
 }
 
+/*!
+ * \param stopNames The given set of stop name keywords.
+ * \return 
+ *		An array of BusStop. Empty array, in case no stops found.
+ */
 - (NSArray *) queryStopWithNames:(NSArray *) stopNames
 {
 	NSMutableArray *results = [NSMutableArray array];
@@ -209,6 +244,11 @@
 	return results;
 }
 
+/*!
+ * \param stopIds The given set of stop ids.
+ * \return 
+ *		An array of BusStop. Empty array, in case no stops found.
+ */
 - (NSArray *) queryStopWithIds:(NSArray *) stopIds
 {
 	NSMutableArray *results = [NSMutableArray array];

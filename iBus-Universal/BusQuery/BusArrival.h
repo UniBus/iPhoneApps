@@ -7,15 +7,21 @@
 //
 //#import <UIKit/UIKit.h>
 
+///Bus arrival
+/*! 
+ * \todo The setup of this class should be similar to BusStop, use properties instead of functions.
+ *
+ * \ingroup gtfsdata 
+ */
 @interface BusArrival : NSObject {
-	NSString	*stopId;
-	NSString	*arrivalTime;
-	NSString	*busSign;
-	NSString	*route;
-	NSString	*routeId;
-	NSString	*direction;
-	BOOL		departed;
-	BOOL		flag; 
+	NSString	*stopId;		/*!<stop id*/
+	NSString	*arrivalTime;	/*!< arrival time*/
+	NSString	*busSign;		/*!<bus sign*/
+	NSString	*route;			/*!<route short name*/
+	NSString	*routeId;		/*!<route id*/
+	NSString	*direction;		/*!<route long name*/
+	BOOL		departed;		/*!<if departed or not*/
+	BOOL		flag;			/*!<flag=YES, a fake arrival*/
 }
 
 @property BOOL flag;

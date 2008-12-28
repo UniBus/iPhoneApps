@@ -23,8 +23,13 @@
 	DownloadManager *downloader;
 }
 
+/** @name Check updates without showing the view.
+ *  These functions check update without showing the view, and can be done in background.
+ */
+//@{
 - (void) checkUpdates;
 - (BOOL) updateAvaiable; //This is for current city only
 - (BOOL) newOfflineDatabaseAvailable;
+//@}
 
 @end

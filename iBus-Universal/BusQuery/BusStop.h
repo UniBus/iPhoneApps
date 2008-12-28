@@ -9,23 +9,38 @@
 //#import <Cocoa/Cocoa.h>
 
 //There should be better option than defining such global variables
-
 double UserDefinedLongitudeForComparison;
 double UserDefinedLatitudeForComparison;
 
+/**
+ * \defgroup gtfsdata GTFS data
+ *
+ * These classes defines different tansit class that conform to GTFS feed specification.
+ */
+
+/*! \brief Bus stop 
+ *
+ * \ingroup gtfsdata
+ */
 @interface BusStop : NSObject {
-	NSString *stopId;
-	double longtitude;
-	double latitude;
-	NSString *name;
-	NSString *description;
-	BOOL     flag;
+	NSString *stopId;		/*!<Stop id */
+	double longtitude;		/*!<Stop longitude */
+	double latitude;		/*!<Stop latitude */
+	NSString *name;			/*!<Stop name*/
+	NSString *description;	/*!<Stop description */
+	BOOL     flag;			/*!<flag=YES, a fake stop */
 } BusStop;
 
+/** @name Comparison functions for sorting.
+ *
+ *  These functions compare self with anohter given stop.
+ */
+//@{
 - (NSComparisonResult) compareByLon: (BusStop *)aStop;
 - (NSComparisonResult) compareByLat: (BusStop *)aStop;
 - (NSComparisonResult) compareById: (BusStop *)aStop;
 - (NSComparisonResult) compareByDistance: (BusStop *)aStop;
+//@}
 
 @property (retain) NSString *stopId;
 @property double longtitude;

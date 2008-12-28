@@ -5,6 +5,12 @@
 //  Created by Zhenwang Yao on 17/08/08.
 //  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
+/**
+ * \defgroup gtfsquery GTFS query
+ *
+ * These classes query information based on GTFS data or GTFS server.
+ */
+
 /*! \class ArrivalQuery
  *
  * \brief XML query/paser for bus arrivals. 
@@ -17,6 +23,9 @@
  *     <arrival stop_id="10324" route_id="99" route_name="99" bus_sign="McLoughlin Express" direction_id="0" arrival_time="--:--:--"/>
  *   </resultSet>
  * \endcode
+ *
+ * \ingroup xmlquery
+ * \ingroup gtfsquery
  */
 
 #import "ArrivalQuery.h"
@@ -87,7 +96,7 @@
 /*!
  * \brief Return all arrivals at the given stops.
  *
- * \param stop An array of given stops (stop_ids). 
+ * \param stops An array of given stops (stop_ids). 
  * \return 
  *		An array of arrivals. Empty array, in case there is no bus running possibly stops at these stops.
  * \remark

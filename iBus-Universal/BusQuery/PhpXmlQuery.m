@@ -5,6 +5,12 @@
 //  Created by Zhenwang Yao on 17/08/08.
 //  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
+/**
+ * \defgroup xmlquery XML query
+ *
+ * These classes query server for some information, and parse the return XML-formated page.
+ */
+
 /*! \class PhpXmlQuery
  *
  * \brief XML query base class. 
@@ -14,6 +20,7 @@
  *   is to override the delegate function.
  *      - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName ....
  *
+ * \ingroup xmlquery
  */
 
 #import <SystemConfiguration/SCNetworkReachability.h>

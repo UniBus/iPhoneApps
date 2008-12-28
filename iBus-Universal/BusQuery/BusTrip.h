@@ -8,16 +8,15 @@
 //#import <UIKit/UIKit.h>
 //#import <Cocoa/Cocoa.h>
 
-//There should be better option than defining such global variables
-
-double UserDefinedLongitudeForComparison;
-double UserDefinedLatitudeForComparison;
-
+/// Bus trip
+/*!
+ * \ingroup gtfsdata 
+ */
 @interface BusTrip : NSObject {
-	NSString		*tripId;
-	NSString		*headsign;
-	NSString		*direction;
-	NSMutableArray	*stops;
+	NSString		*tripId;		/*!< trip id */
+	NSString		*headsign;		/*!< head sign */
+	NSString		*direction;		/*!< direction */
+	NSMutableArray	*stops;			/*!< stops along the trip */
 } BusTrip;
 
 @property (retain) NSString *tripId;

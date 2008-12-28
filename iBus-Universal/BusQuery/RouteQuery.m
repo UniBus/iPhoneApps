@@ -5,17 +5,9 @@
 //  Created by Zhenwang Yao on 21/08/08.
 //  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
-
 #import "RouteQuery.h"
 #import "BusRoute.h"
 #import "General.h"
-
-#define CSV_COL_STOP_ID		0
-#define CSV_COL_STOP_NAME	1
-#define CSV_COL_STOP_LAT	3
-#define CSV_COL_STOP_LON	4
-#define CSV_COL_STOP_POS	9
-#define CSV_COL_STOP_DIR	10
 
 @implementation RouteQuery
 
