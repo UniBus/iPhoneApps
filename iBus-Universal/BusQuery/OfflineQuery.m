@@ -354,7 +354,7 @@
 			else
 				[arrival setBusSign:[aRoute objectForKey:@"route_long_name"]];
 			[arrival setArrivalTime:@"-- -- --"];
-			[arrival setDirection:@""];
+			[arrival setDirection:[aRoute objectForKey:@"direction_id"]];
 						
 			[allArrivals addObject:arrival];
 			[arrival release];		
