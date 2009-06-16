@@ -94,6 +94,7 @@
 	// only show the status bar's cancel button while in edit mode
 	searchBar.showsCancelButton = YES;
 	
+	searchBar.prompt = @"";	
 	// flush and save the current list content in case the user cancels the search later
 }
 
@@ -113,6 +114,8 @@
 	//If cancelled, then do nothing.
 	[searchBar resignFirstResponder];
 	searchBar.text = @"";
+	
+	searchBar.prompt = @"keywords";
 }
 
 // called when Search (in our case "Done") button pressed
