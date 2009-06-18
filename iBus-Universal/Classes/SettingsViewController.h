@@ -41,6 +41,7 @@
 	IBOutlet SliderCell		 *resultCell;
 	IBOutlet WebViewCell	 *aboutCell;
 	IBOutlet SegmentCell	 *unitCell;
+	IBOutlet SegmentCell     *timeCell;
 	//IBOutlet UIWebView       *aboutWebCell;
 	//IBOutlet UISlider        *rangeSlider;
 	//IBOutlet UISlider        *recentSlider;
@@ -59,6 +60,7 @@
 - (IBAction) resultNumChangedFinal:(id) sender;
 
 - (IBAction) unitChanged:(id) sender;
+- (IBAction) timeFormatChanged:(id) sender;
 
 @end
 

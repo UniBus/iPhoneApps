@@ -8,6 +8,11 @@
 
 #import "RouteScheduleViewController.h"
 #import "BusArrival.h"
+#import "StopsViewController.h"   
+/* \todo This is for the time format related stuff, 
+ *       maybe there is a better place to put these time related functions,
+ *       variable and marcros.
+ */
 
 @implementation RouteScheduleViewController
 
@@ -115,7 +120,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 30;
+	return 34;
 }	
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -138,7 +143,11 @@
 	BusArrival *anArrival = [arrivals objectAtIndex:indexPath.row];
 	if (indexPath.row % 2)
 		cell.backgroundView.backgroundColor = [UIColor redColor];
-	cell.text = [NSString stringWithFormat:@"[%@] - %@", [anArrival arrivalTime], [anArrival busSign]];
+	
+	if (currentTimeFormat == TIME_12H)
+		cell.text = [NSString stringWithFormat:@"[%@] - %@", RawTo12H([anArrival arrivalTime]), [anArrival busSign]];
+	else 
+		cell.text = [NSString stringWithFormat:@"[%@] - %@", RawTo24H([anArrival arrivalTime]), [anArrival busSign]];	
 	
 	return cell;
 }

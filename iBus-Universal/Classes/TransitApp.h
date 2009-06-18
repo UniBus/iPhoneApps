@@ -13,6 +13,7 @@
 #import "TripQuery.h"
 #import "OfflineQuery.h"
 
+extern NSString * const UserSavedTimeFormat;
 extern NSString * const UserSavedDistanceUnit;
 extern NSString * const UserSavedTabBarSequence;
 extern NSString * const UserSavedSearchRange;

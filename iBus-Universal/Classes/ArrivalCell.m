@@ -156,36 +156,40 @@ UIImage *favoriteIconImage = nil;
 	
 	if (anArrival == nil)
 	{
-		[arrivalTime1 setText:@"-- -- --"];
-		[arrivalTime2 setText:@"-- -- --"];
+		[arrivalTime1 setText:@"--:--"];
+		[arrivalTime2 setText:@"--:--"];
 		return;
 	}
 	
 	if (anArrival.flag)
 	{
-		[arrivalTime1 setText:@"-- -- --"];
-		[arrivalTime2 setText:@"-- -- --"];
+		[arrivalTime1 setText:@"--:--"];
+		[arrivalTime2 setText:@"--:--"];
 	}
-	else if (anArrival.departed)
-		[arrivalTime1 setText:[anArrival arrivalTime]];
-	//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
 	else
-		[arrivalTime1 setText:[anArrival arrivalTime]];
-	//[arrivalTime1 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
+	{
+		/* Notes that the arrival time got from server may be in 
+		 *   the format of: --:--:--
+		 */
+		//[arrivalTime1 setText:[anArrival arrivalTime]];
+		if (currentTimeFormat == TIME_12H)
+			[arrivalTime1 setText:RawTo12H([anArrival arrivalTime])];
+		else 
+			[arrivalTime1 setText:RawTo24H([anArrival arrivalTime])];
+	}
 	
 	if ([arrivals count] >= 2)
 	{
 		anArrival = [arrivals objectAtIndex:1];
-		if (anArrival.departed)
-			[arrivalTime2 setText:[anArrival arrivalTime]];
-		//[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"(departed) %H:%M:%S" timeZone:nil locale:nil]];
-		else
-			[arrivalTime2 setText:[anArrival arrivalTime]];
-		//[arrivalTime2 setText:[[anArrival arrivalTime] descriptionWithCalendarFormat:@"%H:%M:%S" timeZone:nil locale:nil]];
+		//[arrivalTime1 setText:[anArrival arrivalTime]];
+		if (currentTimeFormat == TIME_12H)
+			[arrivalTime2 setText:RawTo12H([anArrival arrivalTime])];
+		else 
+			[arrivalTime2 setText:RawTo24H([anArrival arrivalTime])];
 	}
 	else
 	{
-		[arrivalTime2 setText:@"-- -- --"];
+		[arrivalTime2 setText:@"--:--"];
 	}
 }
 

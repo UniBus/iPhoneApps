@@ -6,7 +6,6 @@
  *  Copyright 2008 Zhenwang Yao. All rights reserved.
  *
  */
-
 #include "General.h"
 #include <math.h>
 #include <stdio.h>

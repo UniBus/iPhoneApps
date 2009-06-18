@@ -33,3 +33,9 @@
 - (void) showMapOfAStop:(BusStop *)theStop;
 
 @end
+
+#define TIME_24H    0
+#define TIME_12H    1
+NSString* RawTo24H(NSString* raw);
+NSString* RawTo12H(NSString* raw);
+extern int currentTimeFormat;

@@ -43,6 +43,7 @@ extern float searchRange;
 extern int   numberOfResults;
 extern BOOL  globalTestMode;
 extern int   currentUnit;
+extern int   currentTimeFormat;
 
 extern BOOL  cityUpdateAvaiable;
 extern BOOL  offlineUpdateAvailable;
@@ -53,6 +54,7 @@ char *UnitName(int unit);
 enum SettingTableSections
 {
 	kUICity_Section = 0,
+	kUIGeneral_Section,
 	kUISearch_Section,
 	kUIAbout_Section,
 	kUISetting_Section_Num
@@ -139,6 +141,12 @@ enum SettingTableSections
 // Implement loadView if you want to create a view hierarchy programmatically
 - (void)loadView
 {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	searchRange = [defaults floatForKey:UserSavedSearchRange];
+	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
+	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
+	currentTimeFormat = [defaults integerForKey:UserSavedTimeFormat];
+	
 	settingView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped]; 
 	[settingView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	settingView.dataSource = self;
@@ -158,12 +166,7 @@ enum SettingTableSections
 	//numberOfRecentStops = 2;
 	[super viewDidLoad];
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	self.navigationItem.title = @"Settings";
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	searchRange = [defaults floatForKey:UserSavedSearchRange];
-	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
-	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
+	self.navigationItem.title = @"Settings";	
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -262,8 +265,26 @@ enum SettingTableSections
 	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	[defaults setFloat:currentUnit forKey:UserSavedDistanceUnit];
+	[defaults setInteger:currentUnit forKey:UserSavedDistanceUnit];
 }
+
+- (IBAction) timeFormatChanged:(id) sender
+{
+	if (![sender isKindOfClass:[UISegmentedControl class]])
+	{
+		NSAssert(NO, @"Getting an message from a non-UISegmentedController object!");
+		return;
+	}
+	
+	UISegmentedControl *segment = (UISegmentedControl *)sender;	
+	if (currentTimeFormat == segment.selectedSegmentIndex)
+		return;
+	
+	currentTimeFormat = segment.selectedSegmentIndex;		
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setInteger:currentTimeFormat forKey:UserSavedTimeFormat];
+}
+
 
 #pragma mark UITableView Delegate Functions
 
@@ -276,6 +297,8 @@ enum SettingTableSections
 {
 	if (section == kUICity_Section)
 		return 4;
+	else if (section == kUIGeneral_Section)
+		return 1;
 	else if (section == kUISearch_Section)
 		return 4;
 	else
@@ -287,6 +310,9 @@ enum SettingTableSections
 	switch (indexPath.section) {
 		case kUICity_Section:
 			return REGULARCELL_HEIGHT;				
+			break;
+		case kUIGeneral_Section:
+			return SEGMENTCELL_HEIGHT;
 			break;
 		case kUISearch_Section:
 			if ( (indexPath.row == 0) || (indexPath.row == 1) )
@@ -316,6 +342,9 @@ enum SettingTableSections
 	switch (section) {
 		case kUICity_Section:
 			title = @"Current City";
+			break;
+		case kUIGeneral_Section:
+			title = @"General Parameters";
 			break;
 		case kUISearch_Section:
 			title = @"Search Parameters";
@@ -376,6 +405,21 @@ enum SettingTableSections
 		{
 			cell.text = @"Information";
 		}
+	}
+	else if ( indexPath.section == kUIGeneral_Section )
+	{
+		if (timeCell == nil)
+		{
+			timeCell = [[SegmentCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
+			timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+			timeCell.font = [UIFont boldSystemFontOfSize:16];
+			timeCell.text = @"Time format ";
+			[timeCell.segment insertSegmentWithTitle:@"24H" atIndex:0 animated:NO];
+			[timeCell.segment insertSegmentWithTitle:@"12H" atIndex:1 animated:NO];				
+			[timeCell.segment addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
+			timeCell.segment.selectedSegmentIndex =currentTimeFormat;
+		}
+		cell = timeCell;
 	}
 	else if ( indexPath.section == kUISearch_Section )
 	{

@@ -19,6 +19,68 @@
 #define kUIStop_Section_Height		([StopCell height])
 #define kUIArrival_Section_Height	([ArrivalCell height])
 
+int currentTimeFormat;
+
+/*!
+ * \brief Convert raw time to 24H format.
+ *
+ * \param raw 
+ *        Raw time format, HH:MM:SS, when time runs after midnight,
+ *        it may be things like: 25:10:00
+ *
+ * \return 24 hour format, as HH:MM
+ */
+NSString* RawTo24H(NSString* raw)
+{
+	int hour = [[raw substringToIndex:2] intValue];
+	int min = [[raw substringWithRange:NSMakeRange(3, 2)] intValue];
+	
+	if (hour >= 24)
+		hour = hour - 24;
+	
+	return [NSString stringWithFormat:@"%02d:%02d", hour, min];
+}
+
+/*!
+ * \brief Convert raw time to 12H format.
+ *
+ * \param raw 
+ *        Raw time format, HH:MM:SS, when time runs after midnight,
+ *        it may be things like: 25:10:00
+ *
+ * \return 12 hour format, as HH:MM am
+ */
+NSString* RawTo12H(NSString* raw)
+{
+	int hour = [[raw substringToIndex:2] intValue];
+	int min = [[raw substringWithRange:NSMakeRange(3, 2)] intValue];
+	
+	bool am = true;
+	if (hour >= 24)
+	{
+		am = true;
+		hour -= 24;
+	}
+	else if (hour >= 12)
+	{
+		am = false;
+		hour -= 12;
+	}
+	
+	/*
+	if (hour > 12)
+		hour = hour - 12;
+	if (hour > 12)
+		hour = hour -12;
+	*/
+	
+	if (am)
+		return [NSString stringWithFormat:@"%02d:%02d am", hour, min];
+	else
+		return [NSString stringWithFormat:@"%02d:%02d pm", hour, min];
+}
+
+
 @implementation StopsViewController
 
 // Implement loadView if you want to create a view hierarchy programmatically
@@ -39,6 +101,7 @@
 																  target:self
 																  action:@selector(refreshClicked:)]; 
 	self.navigationItem.rightBarButtonItem=refreshButton; 	
+	currentTimeFormat = [[NSUserDefaults standardUserDefaults] integerForKey:UserSavedTimeFormat];
 }
 
 // If you need to do additional setup after loading the view, override viewDidLoad.

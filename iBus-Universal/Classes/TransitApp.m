@@ -18,6 +18,7 @@
 #import "Upgrade.h"
 #import "General.h"
 
+NSString * const UserSavedTimeFormat = @"UserSavedTimeFormat";
 NSString * const UserSavedDistanceUnit = @"UserSavedDistanceUnit";
 NSString * const UserSavedTabBarSequence = @"UserSavedTabBarSequence";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
@@ -35,6 +36,7 @@ NSString * const UserSavedAlwayOffline = @"UserSavedAlwayOffline";
 
 NSString * const gtfsInfoDatabase = @"gtfs_info.sqlite";
 
+extern int currentTimeFormat;
 extern int currentUnit;
 extern float searchRange;
 extern int numberOfResults;
@@ -96,6 +98,7 @@ extern BOOL alwaysOffline;
 	[defaultValues setObject:[NSNumber numberWithBool:NO] forKey:UserSavedAlwayOffline];
 	[defaultValues setObject:[NSMutableArray array] forKey:UserSavedTabBarSequence];
 	[defaultValues setObject:[NSNumber numberWithInt:UNIT_KM] forKey:UserSavedDistanceUnit];
+	[defaultValues setObject:[NSNumber numberWithInt:TIME_24H] forKey:UserSavedTimeFormat];
 	[defaults registerDefaults:defaultValues];
 }
 
