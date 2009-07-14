@@ -224,10 +224,12 @@ char *UnitName(int unit);
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return [CellWithNote height];
 }
+ */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -245,19 +247,25 @@ char *UnitName(int unit);
 {
 	NSString *MyIdentifier = @"MyIdentifierCellWithNote";
 	
-	CellWithNote *cell = (CellWithNote *) [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+	UITableViewCell *cell = (UITableViewCell *) [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+	
 	if (cell == nil) 
 	{
-		cell = [[[CellWithNote alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentLeft;
-		cell.font = [UIFont boldSystemFontOfSize:14];
+		//cell = [[[CellWithNote alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		//cell.textLabel.adjustsFontSizeToFitWidth = YES;
+		cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
+		[cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth]; 
+		//cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
-	cell.text = [NSString stringWithFormat:@"%@", aStop.name];
-	[cell setNote:[NSString stringWithFormat:@"%.1f%s", 
-				   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.name];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1f%s", distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)];
+	//[cell setNote:[NSString stringWithFormat:@"%.1f%s", 
+	//			   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)]];
 	return cell;
 }
 

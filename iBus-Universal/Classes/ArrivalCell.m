@@ -9,6 +9,7 @@
 #import "ArrivalCell.h"
 #import "StopsViewController.h"
 #import "BusArrival.h"
+#import "General.h"
 
 #define POS_ROUTE_WIDTH		50
 #define POS_ROUTE_HEIGHT	50

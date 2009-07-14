@@ -11,33 +11,15 @@
 #import "CityUpdateViewController.h"
 #import "OfflineViewController.h"
 #import "InfoViewController.h"
+#import "AboutViewController.h"
 #import "TransitApp.h"
+#import "StopsViewController.h"
+#import "General.h"
 
 #define	RANGE_MAX	5.0
 #define	RANGE_MIN	0.1
 #define NUMBER_MAX	25
 #define NUMBER_MIN	1
-
-#define REGULARCELL_HEIGHT	44
-#define REGULARCELL_WIDTH	314
-
-#define SLIDERCELL_HEIGHT	62
-#define SLIDER_WIDTH		180
-#define SLIDER_HEIGHT		22
-#define SLIDER_LEFT			100
-#define SLIDER_TOP			20
-
-#define SEGMENTCELL_HEIGHT	62
-#define SEGMENT_WIDTH		100
-#define SEGMENT_HEIGHT		44
-#define SEGMENT_LEFT		180
-#define SEGMENT_TOP			10
-
-#define WEBVIEWCELL_HEIGHT	340
-#define WEBVIEW_WIDTH		260
-#define WEBVIEW_HEIGHT		300
-#define WEBVIEW_LEFT		20
-#define WEBVIEW_TOP			20
 
 extern float searchRange;
 extern int   numberOfResults;
@@ -54,87 +36,11 @@ char *UnitName(int unit);
 enum SettingTableSections
 {
 	kUICity_Section = 0,
-	kUIGeneral_Section,
 	kUISearch_Section,
-	kUIAbout_Section,
+	kUIGeneral_Section,
+	//kUIAbout_Section,
 	kUISetting_Section_Num
 };
-
-@implementation SliderCell
-@synthesize slider;
-- (void) dealloc
-{
-	[slider release];
-	[super dealloc];
-}
-
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
-{
-	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
-	slider = [[UISlider alloc] initWithFrame:CGRectMake(SLIDER_LEFT, SLIDER_TOP, SLIDER_WIDTH, SLIDER_HEIGHT)];
-	[self.contentView addSubview:slider];
-	return self;
-}
-
-@end
-
-@implementation SegmentCell
-@synthesize segment;
-- (void) dealloc
-{
-	[segment release];
-	[super dealloc];
-}
-
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
-{
-	self = [super initWithFrame: CGRectZero reuseIdentifier:reuseIdentifier];	
-	segment = [[UISegmentedControl alloc] initWithFrame:CGRectMake(SEGMENT_LEFT, SEGMENT_TOP, SEGMENT_WIDTH, SEGMENT_HEIGHT)];
-	[self.contentView addSubview:segment];
-	return self;
-}
-
-@end
-
-@implementation WebViewCell
-@synthesize webView;
-- (void) dealloc
-{
-	[webView release];
-	[super dealloc];
-}
-
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
-{
-	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
-	webView = [[UIWebView alloc] initWithFrame:CGRectMake(WEBVIEW_LEFT, WEBVIEW_TOP, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
-	webView.userInteractionEnabled = YES;
-	webView.multipleTouchEnabled = NO;
-	[self.contentView addSubview:webView];
-	return self;
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	static int numOfTouches = 1;
-	numOfTouches ++;
-	
-	numOfTouches = numOfTouches % 10;
-	if (numOfTouches == 0)
-	{
-		globalTestMode = !globalTestMode;
-		if (globalTestMode)
-			NSLog(@"Switch to Test mode!!");
-		else
-			NSLog(@"Switch out of Test mode!!");
-	}
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-}
-
-@end
 
 @implementation SettingsViewController
 
@@ -251,14 +157,17 @@ enum SettingTableSections
 
 - (IBAction) unitChanged:(id) sender
 {
-	if (![sender isKindOfClass:[UISegmentedControl class]])
+	if (![sender isKindOfClass:[UISwitch class]])
 	{
-		NSAssert(NO, @"Getting an message from a non-UISegmentedController object!");
+		NSAssert(NO, @"Getting an message from a non-UISwitch object!");
 		return;
 	}
 	
-	UISegmentedControl *segment = (UISegmentedControl *)sender;	
-	currentUnit = segment.selectedSegmentIndex;
+	UISwitch *theSwitch = (UISwitch *)sender;
+	if (theSwitch.on)
+		currentUnit = UNIT_MI;
+	else
+		currentUnit = UNIT_KM;
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
@@ -270,17 +179,18 @@ enum SettingTableSections
 
 - (IBAction) timeFormatChanged:(id) sender
 {
-	if (![sender isKindOfClass:[UISegmentedControl class]])
+	if (![sender isKindOfClass:[UISwitch class]])
 	{
-		NSAssert(NO, @"Getting an message from a non-UISegmentedController object!");
+		NSAssert(NO, @"Getting an message from a non-UISwitch object!");
 		return;
 	}
 	
-	UISegmentedControl *segment = (UISegmentedControl *)sender;	
-	if (currentTimeFormat == segment.selectedSegmentIndex)
-		return;
+	UISwitch *theSwitch = (UISwitch *)sender;
+	if (theSwitch.on)
+		currentTimeFormat = TIME_24H;
+	else
+		currentTimeFormat = TIME_12H;
 	
-	currentTimeFormat = segment.selectedSegmentIndex;		
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setInteger:currentTimeFormat forKey:UserSavedTimeFormat];
 }
@@ -298,7 +208,7 @@ enum SettingTableSections
 	if (section == kUICity_Section)
 		return 4;
 	else if (section == kUIGeneral_Section)
-		return 1;
+		return 2;
 	else if (section == kUISearch_Section)
 		return 4;
 	else
@@ -312,22 +222,24 @@ enum SettingTableSections
 			return REGULARCELL_HEIGHT;				
 			break;
 		case kUIGeneral_Section:
-			return SEGMENTCELL_HEIGHT;
+			return REGULARCELL_HEIGHT;				
 			break;
 		case kUISearch_Section:
 			if ( (indexPath.row == 0) || (indexPath.row == 1) )
-				return SLIDERCELL_HEIGHT;
+				return REGULARCELL_HEIGHT;
 			else if (indexPath.row == 2)
-				return SEGMENTCELL_HEIGHT;
+				return REGULARCELL_HEIGHT;
 			else 
 				return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
 			break;
+		/*
 		case kUIAbout_Section:
 			if (indexPath.row == 0)
 				return WEBVIEWCELL_HEIGHT;
 			else
 				return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
 			break;
+		*/
 		default:
 			break;
 	}
@@ -344,14 +256,16 @@ enum SettingTableSections
 			title = @"Current City";
 			break;
 		case kUIGeneral_Section:
-			title = @"General Parameters";
+			title = @"General";
 			break;
 		case kUISearch_Section:
-			title = @"Search Parameters";
+			title = @"Nearby Search";
 			break;
+		/*
 		case kUIAbout_Section:
 			title = @"About & Disclaimer";
 			break;
+		*/
 		default:
 			title = @"";
 			break;
@@ -373,6 +287,7 @@ enum SettingTableSections
 			cell.font = [UIFont boldSystemFontOfSize:14];
 			cell.textAlignment = UITextAlignmentCenter;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			//cell.accessoryView.
 		}
 		cell.textColor = [UIColor blackColor];
 		if (indexPath.row == 0)
@@ -408,18 +323,34 @@ enum SettingTableSections
 	}
 	else if ( indexPath.section == kUIGeneral_Section )
 	{
-		if (timeCell == nil)
+		if (indexPath.row == 0)
 		{
-			timeCell = [[SegmentCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
-			timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-			timeCell.font = [UIFont boldSystemFontOfSize:16];
-			timeCell.text = @"Time format ";
-			[timeCell.segment insertSegmentWithTitle:@"24H" atIndex:0 animated:NO];
-			[timeCell.segment insertSegmentWithTitle:@"12H" atIndex:1 animated:NO];				
-			[timeCell.segment addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
-			timeCell.segment.selectedSegmentIndex =currentTimeFormat;
+			if (timeCell == nil)
+			{
+				timeCell = [[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
+				timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
+				timeCell.font = [UIFont boldSystemFontOfSize:14];
+				timeCell.label.text = @"24-Hour Time";
+				timeCell.switchOn = (currentTimeFormat == TIME_24H);
+				[timeCell.userSwitch addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
+			}
+			cell = timeCell;
 		}
-		cell = timeCell;
+		else if (indexPath.row == 1)
+		{
+			//NSAssert(indexPath.row==0, @"Unhandled row in kUICity_Section");
+			cell = [tableView dequeueReusableCellWithIdentifier:@"SettingAboutCell"];
+			if (cell == nil)
+			{
+				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingAboutCell"] autorelease]; 
+				cell.font = [UIFont boldSystemFontOfSize:14];
+				cell.textAlignment = UITextAlignmentLeft;
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				//cell.accessoryView.
+			}
+			cell.textColor = [UIColor blackColor];
+			cell.text = @"About UniBus";
+		}
 	}
 	else if ( indexPath.section == kUISearch_Section )
 	{
@@ -435,8 +366,8 @@ enum SettingTableSections
 				resultCell.slider.maximumValue = NUMBER_MAX;
 				resultCell.slider.minimumValue = NUMBER_MIN;
 				resultCell.slider.value = numberOfResults;
-				resultCell.font = [UIFont boldSystemFontOfSize:16];
-				resultCell.text = @"Maximum ";
+				resultCell.font = [UIFont boldSystemFontOfSize:14];
+				resultCell.label.text = @"Maximum stops";
 			}
 			cell = resultCell;
 		}
@@ -452,8 +383,8 @@ enum SettingTableSections
 				rangeCell.slider.maximumValue = RANGE_MAX;
 				rangeCell.slider.minimumValue = RANGE_MIN;
 				rangeCell.slider.value = searchRange;
-				rangeCell.font = [UIFont boldSystemFontOfSize:16];
-				rangeCell.text = @"Range ";
+				rangeCell.font = [UIFont boldSystemFontOfSize:14];
+				rangeCell.label.text = @"Search range ";
 			}
 			cell = rangeCell;
 		}
@@ -461,14 +392,14 @@ enum SettingTableSections
 		{
 			if (unitCell == nil)
 			{
-				unitCell = [[SegmentCell alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"unitCell"];
-				[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
-				[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
-				[unitCell.segment addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
-				unitCell.segment.selectedSegmentIndex =currentUnit;
-				unitCell.selectionStyle = UITableViewCellSelectionStyleNone;
-				unitCell.font = [UIFont boldSystemFontOfSize:16];
-				unitCell.text = @"Distance Unit ";
+				unitCell = [[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"unitCell"];
+				//[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
+				//[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
+				//unitCell.segment.selectedSegmentIndex =currentUnit;
+				unitCell.font = [UIFont boldSystemFontOfSize:14];
+				unitCell.label.text = @"Mile as distance unit";
+				[unitCell.userSwitch addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
+				unitCell.switchOn = (currentUnit == UNIT_MI);
 			}
 			cell = unitCell;
 		}
@@ -484,7 +415,8 @@ enum SettingTableSections
 	}
 	else
 	{
-		NSAssert(indexPath.section == kUIAbout_Section, @"Unhandled section");
+		NSAssert(FALSE, @"Unhandled section");
+		/*
 		if (indexPath.row == 0)
 		{
 			if (aboutCell == nil)
@@ -507,6 +439,7 @@ enum SettingTableSections
 			cell.textAlignment = UITextAlignmentCenter;
 			cell.text = @"Copyright @ 2008 Zhenwang Yao";
 		}
+		*/
 	}
 	return cell;
 }
@@ -514,7 +447,7 @@ enum SettingTableSections
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static int numOfTouches = 1;
-	if ((indexPath.section == kUIAbout_Section) && (indexPath.row==1))
+	if ((indexPath.section == kUISearch_Section) && (indexPath.row==3))
 	{
 		numOfTouches ++;		
 		numOfTouches = numOfTouches % 10;
@@ -526,6 +459,15 @@ enum SettingTableSections
 			else
 				NSLog(@"Switch out of Test mode!!");
 		}
+	}
+	
+	if ((indexPath.section == kUIGeneral_Section) && (indexPath.row == 1))
+	{
+		AboutViewController *aboutVC = [[AboutViewController alloc] initWithNibName:nil bundle:nil];
+		//aboutVC.delegate = [UIApplication sharedApplication];
+		[[self navigationController] pushViewController:aboutVC animated:YES];
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
+		return;
 	}
 	
 	if (indexPath.section != kUICity_Section)

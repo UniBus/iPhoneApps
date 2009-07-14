@@ -8,7 +8,9 @@
 
 #import "RouteScheduleViewController.h"
 #import "BusArrival.h"
-#import "StopsViewController.h"   
+#import "StopsViewController.h"
+#import "General.h"
+
 /* \todo This is for the time format related stuff, 
  *       maybe there is a better place to put these time related functions,
  *       variable and marcros.
