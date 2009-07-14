@@ -8,31 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DownloadManager.h"
+#import "MiscCells.h"
 
 @interface SearchRangeCell : UITableViewCell
 {
 }
-@end
-
-@interface SliderCell : UITableViewCell
-{
-	UISlider *slider;
-}
-@property(assign) UISlider *slider;
-@end
-
-@interface SegmentCell : UITableViewCell
-{
-	UISegmentedControl *segment;
-}
-@property(assign) UISegmentedControl *segment;
-@end
-
-@interface WebViewCell : UITableViewCell
-{
-	UIWebView *webView;
-}
-@property(assign) UIWebView *webView;
 @end
 
 @interface SettingsViewController : UIViewController <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource> {
@@ -40,8 +20,8 @@
 	IBOutlet SliderCell		 *rangeCell;
 	IBOutlet SliderCell		 *resultCell;
 	IBOutlet WebViewCell	 *aboutCell;
-	IBOutlet SegmentCell	 *unitCell;
-	IBOutlet SegmentCell     *timeCell;
+	IBOutlet CellWithSwitch	 *unitCell;
+	IBOutlet CellWithSwitch  *timeCell;
 	//IBOutlet UIWebView       *aboutWebCell;
 	//IBOutlet UISlider        *rangeSlider;
 	//IBOutlet UISlider        *recentSlider;
