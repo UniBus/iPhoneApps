@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h> //</CLLocationManager.h>
+#import "MapViewController.h"
 //#import "StopsViewController.h"
 
-@interface NearbyViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
+@interface NearbyViewController : MapViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 {
 	CLLocationManager		*location;
 	UIActivityIndicatorView *indicator;
 	CGPoint					currentPosition;
 	
+	UISearchBar             *routeSearchBar;
+	//UIWebView               *mapWebView;
+	UITableView             *mapTableView;
 	UITableView				*stopsTableView;
 	NSArray					*stopsFound;
 	BOOL					needReset;
