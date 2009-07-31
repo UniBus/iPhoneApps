@@ -60,9 +60,10 @@ UIImage *mapIconImage = nil;
 	[super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
+	//self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];
+	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (!self) return nil;
 	
 	CGRect ctrlFrame = CGRectMake(POS_TEXT_LEFT, POS_TEXT_TOP, POS_TEXT_WIDTH, POS_TEXT_HEIGHT);
@@ -98,7 +99,8 @@ UIImage *mapIconImage = nil;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner
 {
-	[self initWithFrame:frame reuseIdentifier:reuseIdentifier];
+	//[self initWithFrame:frame reuseIdentifier:reuseIdentifier];
+	[self initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
 	ownerView = owner;
 	return self;
 }

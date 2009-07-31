@@ -72,9 +72,11 @@
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier
 {
 	self = [super initWithFrame: frame reuseIdentifier:reuseIdentifier];	
-	webView = [[UIWebView alloc] initWithFrame:CGRectMake(WEBVIEW_LEFT, WEBVIEW_TOP, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
+	//webView = [[UIWebView alloc] initWithFrame:CGRectMake(WEBVIEW_LEFT, WEBVIEW_TOP, WEBVIEW_WIDTH, WEBVIEW_HEIGHT)];
+	webView = [[UIWebView alloc] initWithFrame:self.bounds];
 	webView.userInteractionEnabled = YES;
 	webView.multipleTouchEnabled = NO;
+	webView.backgroundColor = [UIColor yellowColor];
 	[self.contentView addSubview:webView];
 	return self;
 }
