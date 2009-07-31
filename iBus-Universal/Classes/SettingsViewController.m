@@ -109,7 +109,7 @@ enum SettingTableSections
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
+	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
 - (IBAction) resultNumChanged:(id) sender
@@ -123,7 +123,7 @@ enum SettingTableSections
 	numberOfResults = [slider value];
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
+	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
 - (IBAction) rangeChangedFinial:(id) sender
@@ -171,7 +171,7 @@ enum SettingTableSections
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
 	[cellToUpdate editAction];
-	cellToUpdate.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
+	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setInteger:currentUnit forKey:UserSavedDistanceUnit];
@@ -284,41 +284,41 @@ enum SettingTableSections
 		if (cell == nil)
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CitySelectionCell"] autorelease]; 
-			cell.font = [UIFont boldSystemFontOfSize:14];
-			cell.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			//cell.accessoryView.
 		}
-		cell.textColor = [UIColor blackColor];
+		cell.textLabel.textColor = [UIColor blackColor];
 		if (indexPath.row == 0)
 		{
-			cell.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
+			cell.textLabel.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
 		}
 		else if (indexPath.row == 1)
 		{
 			if (cityUpdateAvaiable)
 			{
-				cell.textColor = [UIColor redColor];
-				cell.text = @"New update available";
+				cell.textLabel.textColor = [UIColor redColor];
+				cell.textLabel.text = @"New update available";
 			}
 			else
-				cell.text = @"Already up to date";
+				cell.textLabel.text = @"Already up to date";
 		}
 		else if (indexPath.row == 2)
 		{
 			if (!offlineDownloaded)
-				cell.text = @"Offline viewing available";
+				cell.textLabel.text = @"Offline viewing available";
 			else if (offlineUpdateAvailable)
 			{
-				cell.textColor = [UIColor redColor];
-				cell.text = @"New offline data available";
+				cell.textLabel.textColor = [UIColor redColor];
+				cell.textLabel.text = @"New offline data available";
 			}
 			else
-				cell.text = @"Offline data up to date";
+				cell.textLabel.text = @"Offline data up to date";
 		}			
 		else
 		{
-			cell.text = @"Information";
+			cell.textLabel.text = @"Information";
 		}
 	}
 	else if ( indexPath.section == kUIGeneral_Section )
@@ -329,7 +329,7 @@ enum SettingTableSections
 			{
 				timeCell = [[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
 				timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-				timeCell.font = [UIFont boldSystemFontOfSize:14];
+				timeCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 				timeCell.label.text = @"24-Hour Time";
 				timeCell.switchOn = (currentTimeFormat == TIME_24H);
 				[timeCell.userSwitch addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
@@ -343,13 +343,13 @@ enum SettingTableSections
 			if (cell == nil)
 			{
 				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingAboutCell"] autorelease]; 
-				cell.font = [UIFont boldSystemFontOfSize:14];
-				cell.textAlignment = UITextAlignmentLeft;
+				cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+				cell.textLabel.textAlignment = UITextAlignmentLeft;
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				//cell.accessoryView.
 			}
-			cell.textColor = [UIColor blackColor];
-			cell.text = @"About UniBus";
+			cell.textLabel.textColor = [UIColor blackColor];
+			cell.textLabel.text = @"About UniBus";
 		}
 	}
 	else if ( indexPath.section == kUISearch_Section )
@@ -366,7 +366,7 @@ enum SettingTableSections
 				resultCell.slider.maximumValue = NUMBER_MAX;
 				resultCell.slider.minimumValue = NUMBER_MIN;
 				resultCell.slider.value = numberOfResults;
-				resultCell.font = [UIFont boldSystemFontOfSize:14];
+				resultCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 				resultCell.label.text = @"Maximum stops";
 			}
 			cell = resultCell;
@@ -383,7 +383,7 @@ enum SettingTableSections
 				rangeCell.slider.maximumValue = RANGE_MAX;
 				rangeCell.slider.minimumValue = RANGE_MIN;
 				rangeCell.slider.value = searchRange;
-				rangeCell.font = [UIFont boldSystemFontOfSize:14];
+				rangeCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 				rangeCell.label.text = @"Search range ";
 			}
 			cell = rangeCell;
@@ -396,7 +396,7 @@ enum SettingTableSections
 				//[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
 				//[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
 				//unitCell.segment.selectedSegmentIndex =currentUnit;
-				unitCell.font = [UIFont boldSystemFontOfSize:14];
+				unitCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 				unitCell.label.text = @"Mile as distance unit";
 				[unitCell.userSwitch addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
 				unitCell.switchOn = (currentUnit == UNIT_MI);
@@ -408,9 +408,9 @@ enum SettingTableSections
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCell"] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			//[cell setSeparatorStyle: UITableViewCellSeparatorStyleNone];
-			cell.font = [UIFont systemFontOfSize:12];
-			cell.textAlignment = UITextAlignmentCenter;
-			cell.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
+			cell.textLabel.font = [UIFont systemFontOfSize:12];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 		}
 	}
 	else
