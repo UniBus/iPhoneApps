@@ -10,7 +10,7 @@
 #import <sqlite3.h>
 #import "BusRoute.h"
 
-///Search/query for stops in the routes table.
+///Search/query for routes in the routes table.
 /*!
  * \ingroup gtfsquery
  */ 
