@@ -438,7 +438,7 @@
 	}
 	
 	//reindex the array
-	NSString *calendarPhase = [NSString stringWithFormat:@"trips.service_id IN ('%@', ", [serviceIds objectAtIndex:0]];
+	NSString *calendarPhase = [NSString stringWithFormat:@"trips.service_id IN ('%@' ", [serviceIds objectAtIndex:0]];
 	for (int i = 1; i < [serviceIds count]; i++) 
 	{
 		calendarPhase = [calendarPhase stringByAppendingFormat:@", '%@'", [serviceIds objectAtIndex:i]];
