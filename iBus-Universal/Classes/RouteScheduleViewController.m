@@ -133,8 +133,8 @@
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentLeft;
-		cell.font = [UIFont systemFontOfSize:12];
+		cell.textLabel.textAlignment = UITextAlignmentLeft;
+		cell.textLabel.font = [UIFont systemFontOfSize:12];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		//cell.contentView.backgroundColor = [UIColor blueColor];
 		//cell.indentationLevel = 1;
@@ -147,9 +147,9 @@
 		cell.backgroundView.backgroundColor = [UIColor redColor];
 	
 	if (currentTimeFormat == TIME_12H)
-		cell.text = [NSString stringWithFormat:@"[%@] - %@", RawTo12H([anArrival arrivalTime]), [anArrival busSign]];
+		cell.textLabel.text = [NSString stringWithFormat:@"[%@] - %@", RawTo12H([anArrival arrivalTime]), [anArrival busSign]];
 	else 
-		cell.text = [NSString stringWithFormat:@"[%@] - %@", RawTo24H([anArrival arrivalTime]), [anArrival busSign]];	
+		cell.textLabel.text = [NSString stringWithFormat:@"[%@] - %@", RawTo24H([anArrival arrivalTime]), [anArrival busSign]];	
 	
 	return cell;
 }
