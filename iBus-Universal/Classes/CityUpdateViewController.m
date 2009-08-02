@@ -67,7 +67,7 @@
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.2/updates/";
+const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.3/updates/";
 
 BOOL  cityUpdateAvaiable = NO;
 BOOL  offlineUpdateAvailable = NO;
@@ -235,8 +235,15 @@ enum CurrentCityUpdateStatus {
 	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
 		return;
 	
-	NSString *sql = [NSString stringWithFormat:@"UPDATE cities SET website='%@', dbname='%@', lastupdate='%@', local=1 WHERE id='%@'",
-					 aCity.website, aCity.dbname, aCity.lastupdate, aCity.cid];
+	/* cities db has the following fileds:
+	 *    (id, name, state, country, website, dbname, lastupdate, local)
+	 */
+	NSString *sql = [NSString stringWithFormat:@"UPDATE cities SET website='%@', "
+												"name='%@', state='%@', country='%@', "
+												"dbname='%@', lastupdate='%@', local=1 "
+												"WHERE id='%@'",
+					 aCity.website, aCity.cname, aCity.cstate, aCity.country,
+					 aCity.dbname, aCity.lastupdate, aCity.cid];
 	
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 		NSLog(@"Error: %s", sqlite3_errmsg(database));		
@@ -675,8 +682,8 @@ enum CurrentCityUpdateStatus {
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentCenter;
-		cell.font = [UIFont boldSystemFontOfSize:14];
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 		//cell.textColor = [UIColor blueColor];
 		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -684,37 +691,37 @@ enum CurrentCityUpdateStatus {
 	switch (indexPath.section) {
 		case kUIUpdate_CurrentCity:
 			if (statusOfCurrentyCity == kCurrentCityUpdated)
-				cell.text = @"Already up to date";
+				cell.textLabel.text = @"Already up to date";
 			else if (statusOfCurrentyCity == kCurrentCityNeedsUpdate)
-				cell.text = @"New update available";
+				cell.textLabel.text = @"New update available";
 			else
-				cell.text = @"City not selected yet!";
+				cell.textLabel.text = @"City not selected yet!";
 			break;
 		case kUIUpdate_NewCity:
 			if ([newCitiesFromServer count] == 0)
-				cell.text = @"None";
+				cell.textLabel.text = @"None";
 			else
 			{
 				GTFS_City *theCity = [newCitiesFromServer objectAtIndex:indexPath.row];
-				cell.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
+				cell.textLabel.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
 			}
 			break;
 		case kUIUpdate_UpdatedCity:
 			if ([updateCitiesFromServer count] == 0)
-				cell.text = @"None";
+				cell.textLabel.text = @"None";
 				else
 				{
 					GTFS_City *theCity = [updateCitiesFromServer objectAtIndex:indexPath.row];
-					cell.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
+					cell.textLabel.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
 				}
 			break;
 		case kUIUpdate_AllOtherCity:
 			if ([otherCitiesFromServer count] == 0)
-				cell.text = @"None";
+				cell.textLabel.text = @"None";
 				else
 				{
 					GTFS_City *theCity = [otherCitiesFromServer objectAtIndex:indexPath.row];
-					cell.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
+					cell.textLabel.text = [NSString stringWithFormat:@"%@, %@, %@", theCity.cname, theCity.cstate, theCity.country];
 				}
 			break;
 		default:
