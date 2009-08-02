@@ -13,7 +13,7 @@
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *OfflineURL = @"http://zyao.servehttp.com:5144/ver1.2/offline/cache.php";	
+const NSString *OfflineURL = @"http://zyao.servehttp.com:5144/ver1.3/offline/cache.php";	
 
 BOOL autoSwitchToOffline = NO;
 BOOL alwaysOffline = NO;
@@ -213,12 +213,12 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 		if (cell == nil) 
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtOffLineCell"] autorelease];
-			cell.textAlignment = UITextAlignmentCenter;
-			cell.font = [UIFont boldSystemFontOfSize:14];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 			//cell.textColor = [UIColor blueColor];
 			//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
-		cell.text = @"Cache current city for off-line viewing";
+		cell.textLabel.text = @"Cache current city for off-line viewing";
 		return cell;
 	}
 	else if (indexPath.section == kUIOffline_Setting)
@@ -226,8 +226,8 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 		CellWithSwitch *cell = (CellWithSwitch *)[tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtOffLineSwitchView"];
 		if (cell == nil) 
 		{
-			cell = [[[CellWithSwitch alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtOffLineSwitchView"] autorelease];
-			cell.textAlignment = UITextAlignmentLeft;
+			cell = [[[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"CellIdentifierAtOffLineSwitchView"] autorelease];
+			//cell.textLabel.textAlignment = UITextAlignmentLeft;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			//cell.font = [UIFont systemFontOfSize:14];
 			//cell.textColor = [UIColor blueColor];
@@ -238,7 +238,7 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 			cell.switchOn = autoSwitchToOffline;
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(automaticSwitchTap:) forControlEvents:UIControlEventValueChanged];
-			cell.text = @"Automatic Switch";
+			cell.label.text = @"Automatic Switch";
 		}
 		else
 		{
@@ -246,7 +246,7 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(alwaysOfflineTap:) forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch setEnabled:(autoSwitchToOffline==NO)];
-			cell.text = @"Always offline";
+			cell.label.text = @"Always offline";
 		}
 		return cell;
 	}
