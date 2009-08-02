@@ -32,6 +32,9 @@ int currentTimeFormat;
  */
 NSString* RawTo24H(NSString* raw)
 {
+	if ([raw characterAtIndex:0]=='-')
+		return [NSString stringWithFormat:@"--:--"];
+	
 	int hour = [[raw substringToIndex:2] intValue];
 	int min = [[raw substringWithRange:NSMakeRange(3, 2)] intValue];
 	
@@ -52,6 +55,9 @@ NSString* RawTo24H(NSString* raw)
  */
 NSString* RawTo12H(NSString* raw)
 {
+	if ([raw characterAtIndex:0]=='-')
+		return [NSString stringWithFormat:@"--:--"];
+	
 	int hour = [[raw substringToIndex:2] intValue];
 	int min = [[raw substringWithRange:NSMakeRange(3, 2)] intValue];
 	
@@ -64,7 +70,8 @@ NSString* RawTo12H(NSString* raw)
 	else if (hour >= 12)
 	{
 		am = false;
-		hour -= 12;
+		if (hour>12)
+			hour -= 12;
 	}
 	
 	/*
