@@ -120,7 +120,9 @@ char *UnitName(int unit);
 	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
 	
 	location = [[CLLocationManager alloc] init];
-	location.delegate = self;	
+	location.delegate = self;
+	
+	stopsFoundFiltered = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidLoad 
@@ -145,6 +147,7 @@ char *UnitName(int unit);
 #endif
 	[stopsTableView release];
 	[stopsFound release];
+	[stopsFoundFiltered release];
 	[location release];
 	[super dealloc];
 }
@@ -192,6 +195,24 @@ char *UnitName(int unit);
 		NSLog(@"Choose a spot, long=%lf, latit=%lf", testLon, testLat);
 		return CGPointMake(testLon, testLat);
 	}	
+}
+
+- (void) filterStopsFound
+{
+	[stopsFoundFiltered removeAllObjects];
+	if (routesOfInterest == nil)
+	{
+		[stopsFoundFiltered addObjectsFromArray:stopsFound];
+	}
+	else
+	{
+		for (BusStop *aStop in stopsFound)
+		{
+			TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+			if ([myApplication isStop:aStop.stopId hasRoutes:routesOfInterest])
+				[stopsFoundFiltered addObject:aStop];
+		}
+	}
 }
 
 - (void) reset
@@ -245,6 +266,7 @@ char *UnitName(int unit);
 		}
 		[stopsFound release];
 		stopsFound = [querryResults retain];
+		[self filterStopsFound];
 		
 		[stopsTableView reloadData];
 	}
@@ -322,6 +344,7 @@ char *UnitName(int unit);
 	}
 	[stopsFound release];
 	stopsFound = [querryResults retain];
+	[self filterStopsFound];
 	
 	if ([stopsFound count] == 0)
 		[self alertOnEmptyStopsOfInterest];
@@ -358,14 +381,37 @@ char *UnitName(int unit);
 	searchBar.text = @"";
 	
 	searchBar.prompt = @"Filter by Routes";
+	
+	
+	// Compute routesOfInterest
+	[routesOfInterest release];
+	routesOfInterest = nil;
+	
+	//Filter found stops
+	if ([stopsFound count])
+		[self filterStopsFound];
+	
+	[stopsTableView reloadData];	
 }
 
 // called when Search (in our case "Done") button pressed
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-	[searchBar resignFirstResponder];	
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+	[searchBar resignFirstResponder];
 
+	// Compute routesOfInterest
+	[routesOfInterest release];
+	routesOfInterest = nil;
+	if (![searchBar.text isEqualToString:@""])
+	{
+		routesOfInterest = [[searchBar.text componentsSeparatedByString:@" "] copy];
+	}
+
+	//Filter found stops
+	if ([stopsFound count])
+		[self filterStopsFound];
+
+	[stopsTableView reloadData];
 }
 
 #pragma mark TableView Delegate Functions
@@ -379,12 +425,12 @@ char *UnitName(int unit);
 		return;
 	}
 	
-	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
+	BusStop *aStop = [stopsFoundFiltered objectAtIndex:indexPath.row];
 	[self showStopOnMap:aStop];
 #else
 	StopsViewController *stopsVC = [[StopsViewController alloc] initWithNibName:nil bundle:nil];
 	NSMutableArray *stopSelected = [NSMutableArray array];
-	[stopSelected addObject:[stopsFound objectAtIndex:indexPath.row]];
+	[stopSelected addObject:[stopsFoundFiltered objectAtIndex:indexPath.row]];
 	stopsVC.stopsOfInterest = stopSelected;
 	[stopsVC reload];
 	
@@ -398,7 +444,7 @@ char *UnitName(int unit);
 #ifdef MAPVIEW_ENABLED
 	StopsViewController *stopsVC = [[StopsViewController alloc] initWithNibName:nil bundle:nil];
 	NSMutableArray *stopSelected = [NSMutableArray array];
-	[stopSelected addObject:[stopsFound objectAtIndex:indexPath.row]];
+	[stopSelected addObject:[stopsFoundFiltered objectAtIndex:indexPath.row]];
 	stopsVC.stopsOfInterest = stopSelected;
 	[stopsVC reload];
 	
@@ -437,9 +483,9 @@ char *UnitName(int unit);
 	else
 	{
 	 */
-		if (stopsFound == nil)
+		if (stopsFoundFiltered == nil)
 			return 0;
-		return [stopsFound count];
+		return [stopsFoundFiltered count];
 	//}
 }
 
@@ -504,7 +550,7 @@ char *UnitName(int unit);
 			//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		}
-		BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
+		BusStop *aStop = [stopsFoundFiltered objectAtIndex:indexPath.row];
 		cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.name];
 		/* \TODO In Vancouver area, showing description is better than the name,
 		 *       but I don't want to take the chance here. Maybe other cities have

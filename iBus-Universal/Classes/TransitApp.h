@@ -11,6 +11,7 @@
 #import "StopQuery.h"
 #import "RouteQuery.h"
 #import "TripQuery.h"
+#import "RouteStops.h"
 #import "OfflineQuery.h"
 
 extern NSString * const UserSavedTimeFormat;
@@ -35,6 +36,7 @@ extern NSString * const UserSavedAlwayOffline;
 	RouteQuery   *routeQuery;
 	TripQuery	 *tripQuery;
 	OfflineQuery *offlineQuery;
+	RouteStops   *routeStops;
 	NSString     *dataFile;
 	
 	NSString	 *currentCity;
@@ -71,6 +73,8 @@ extern NSString * const UserSavedAlwayOffline;
 - (NSArray *) queryStopWithIds:(NSArray *) stopIds;
 
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
+- (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes;
+
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;
 - (void) arrivalsAtStopsAsync: (id)stopView;
 - (void) scheduleAtStopsAsync: (id)stopView;

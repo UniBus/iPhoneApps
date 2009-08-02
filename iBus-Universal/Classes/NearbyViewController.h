@@ -22,6 +22,8 @@
 	UITableView             *mapTableView;
 	UITableView				*stopsTableView;
 	NSArray					*stopsFound;
+	NSMutableArray			*stopsFoundFiltered;
+	NSMutableArray			*routesOfInterest;
 	BOOL					needReset;
 }
 

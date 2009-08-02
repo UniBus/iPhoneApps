@@ -78,6 +78,7 @@ extern BOOL alwaysOffline;
 	[arrivalQuery release];
 	[stopQuery release];
 	[routeQuery release];
+	[routeStops release];
 	[super dealloc];
 }
 
@@ -184,6 +185,8 @@ extern BOOL alwaysOffline;
 	stopQuery = [StopQuery initWithFile:destPath];	
 	[routeQuery release];
 	routeQuery = [RouteQuery initWithFile:destPath];	
+	[routeStops release];
+	routeStops = [RouteStops initWithFile:destPath];	
 	[offlineQuery release];
 	offlineQuery = [[OfflineQuery alloc] init];
 }
@@ -419,6 +422,14 @@ extern BOOL alwaysOffline;
 		return [NSMutableArray array];
 	
 	return [stopQuery queryStopWithNames:stopNames];
+}
+
+- (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes;
+{
+	if (routeStops == nil)
+		return YES;
+
+	return [routeStops isStop:stop_id hasRoutes:routes];
 }
 
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm
