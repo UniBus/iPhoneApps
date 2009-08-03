@@ -112,7 +112,7 @@ BOOL saveToFavorite2(NSString *stopId, NSString *routeId, NSString *routeName, N
 			NSLog(@"Error: %s", sqlite3_errmsg(database));				
 	}
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) VALUES ('%@', '%@', '%@', '%@', '%@')",
+	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
 		   stopId, routeId, routeName, (busSign? busSign:@""), dir];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
