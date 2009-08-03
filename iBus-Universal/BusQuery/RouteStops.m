@@ -44,7 +44,7 @@
 
 #pragma mark Query operations
 
-- (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes
+- (BOOL) isStop:(NSString *)sid hasRoutes:(NSArray *)routes
 {
 	if ([routes count] == 0)
 		return YES;
@@ -59,7 +59,7 @@
 												"routes.route_id = route_stops.route_id AND "
 												"routes.route_short_name in (%@) "
 												"LIMIT 1",
-									stop_id, routeListString];
+									sid, routeListString];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -73,6 +73,32 @@
 	
 	sqlite3_finalize(statement);
 	return found;
+}
+
+- (NSArray *) allRoutesAtStop:(NSString *) sid
+{
+	NSMutableArray *results = [NSMutableArray array];	
+	NSString *sql = [NSString stringWithFormat:@"SELECT routes.route_short_name "
+					 "FROM routes, route_stops "
+					 "WHERE route_stops.stop_id=\"%@\" AND "
+					 "routes.route_id=route_stops.route_id", 
+					 sid];
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			NSString *routeName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];			
+			[results addObject:routeName];
+		}
+	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}
+	
+	sqlite3_finalize(statement);
+	return results;
 }
 
 @end

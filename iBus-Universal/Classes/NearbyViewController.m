@@ -210,7 +210,11 @@ char *UnitName(int unit);
 		{
 			TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 			if ([myApplication isStop:aStop.stopId hasRoutes:routesOfInterest])
+			{
 				[stopsFoundFiltered addObject:aStop];
+				if ([stopsFoundFiltered count] >= numberOfResults)
+					break;
+			}				
 		}
 	}
 }
@@ -258,12 +262,14 @@ char *UnitName(int unit);
 		currentPosition = [self getARandomCoordinate];
 		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
 		NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange*UnitToKm(currentUnit)] ];
+		/*
 		if ([querryResults count] > numberOfResults)
 		{
 			//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
 			NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
 			[querryResults removeObjectsAtIndexes:rangeToDelete];
 		}
+		 */
 		[stopsFound release];
 		stopsFound = [querryResults retain];
 		[self filterStopsFound];
@@ -541,9 +547,11 @@ char *UnitName(int unit);
 		{
 			//cell = [[[CellWithNote alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			//cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.textAlignment = UITextAlignmentLeft;
 			//cell.textLabel.adjustsFontSizeToFitWidth = YES;
-			cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
+			//cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
+			cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
 			[cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth]; 
 			//cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 			//cell.textColor = [UIColor blueColor];
@@ -556,8 +564,20 @@ char *UnitName(int unit);
 		 *       but I don't want to take the chance here. Maybe other cities have
 		 *       empty description field.
 		 */
+	
+		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+		NSArray *allRoutes = [myApplication allRoutesAtStop:aStop.stopId];
+		NSString *routeString=@"";
+		for (NSString *routeName in allRoutes)
+		{
+			routeString = [routeString stringByAppendingFormat:@" %@", routeName];
+		}
 		//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1f%s", distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"[%.1f%s]  Bus:%@", 
+									 distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), 
+									 UnitName(currentUnit), 
+									 routeString];
+	
 		//[cell setNote:[NSString stringWithFormat:@"%.1f%s", 
 		//			   distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), UnitName(currentUnit)]];
 		return cell;

@@ -424,6 +424,15 @@ extern BOOL alwaysOffline;
 	return [stopQuery queryStopWithNames:stopNames];
 }
 
+- (NSArray *) allRoutesAtStop:(NSString *) sid
+{
+	if (routeStops == nil)
+	{
+		return [NSMutableArray array];
+	}
+	return [routeStops allRoutesAtStop:sid];
+}
+
 - (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes;
 {
 	if (routeStops == nil)

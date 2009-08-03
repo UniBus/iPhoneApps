@@ -73,6 +73,7 @@ extern NSString * const UserSavedAlwayOffline;
 - (NSArray *) queryStopWithIds:(NSArray *) stopIds;
 
 - (NSArray *) closestStopsFrom:(CGPoint) pos within:(double)distInKm;
+- (NSArray *) allRoutesAtStop:(NSString *) sid;
 - (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes;
 
 - (NSArray *) arrivalsAtStops: (NSArray*) stops;

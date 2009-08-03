@@ -26,6 +26,7 @@
  */
 //@{
 - (BOOL) isStop:(NSString *)stop_id hasRoutes:(NSArray *)routes;
+- (NSArray *) allRoutesAtStop:(NSString *) sid;
 //@}
 
 @end
