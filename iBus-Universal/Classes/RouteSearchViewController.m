@@ -175,13 +175,13 @@
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentLeft;
-		cell.font = [UIFont boldSystemFontOfSize:14];
+		cell.textLabel.textAlignment = UITextAlignmentLeft;
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusRoute *aRoute = [routesFound objectAtIndex:indexPath.row];
-	cell.text = [NSString stringWithFormat:@"%@ - %@", aRoute.name, aRoute.description];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", aRoute.name, aRoute.description];
 	return cell;
 }
 

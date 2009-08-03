@@ -397,15 +397,15 @@ enum TransitRouteType {
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"CellIdentifierAtRouteView"] autorelease];
-		cell.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
 	}
 	
 	if (indexPath.section == 0)
 	{
 		if (isInFavorite2(stopID, routeID, direction))
-			cell.text = @"Remove from favorite";
+			cell.textLabel.text = @"Remove from favorite";
 		else
-			cell.text = @"Add to favorite";
+			cell.textLabel.text = @"Add to favorite";
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 	else if (indexPath.section == 1)
@@ -415,12 +415,12 @@ enum TransitRouteType {
 				
 		if (indexPath.row == 0)
 		{
-			cell.text = [NSString stringWithFormat:@"Today (%@)", [formatter stringFromDate:[NSDate date]]];
+			cell.textLabel.text = [NSString stringWithFormat:@"Today (%@)", [formatter stringFromDate:[NSDate date]]];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 		}
 		else if (indexPath.row == 1)
 		{
-			cell.text = [NSString stringWithFormat:@"Tomorrow (%@)", [formatter stringFromDate:[[NSDate date] addTimeInterval:24*60*60]]];
+			cell.textLabel.text = [NSString stringWithFormat:@"Tomorrow (%@)", [formatter stringFromDate:[[NSDate date] addTimeInterval:24*60*60]]];
 			cell.accessoryType = UITableViewCellAccessoryNone;
 		}
 		else
@@ -429,7 +429,7 @@ enum TransitRouteType {
 			//[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 			//[dateFormatter setTimeStyle:NSDateFormatterNoStyle];	
 			[formatter setDateFormat:@"yyyy-MMM-dd '('EEEE')'"];
-			cell.text = [formatter stringFromDate:otherDate];//@"Monday";
+			cell.textLabel.text = [formatter stringFromDate:otherDate];//@"Monday";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.accessoryAction = @selector(pickTheOtherDate:);
 			cell.target = self;

@@ -145,7 +145,7 @@ enum _RouteTripsTableViewSection {
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"TripsOfRouteCell"] autorelease];
 	}		
 	BusTrip *aTrip = [[tripsOnRoute objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-	cell.text = aTrip.headsign;
+	cell.textLabel.text = aTrip.headsign;
 	return cell;
 }
 

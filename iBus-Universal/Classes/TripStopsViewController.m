@@ -147,7 +147,7 @@ enum _TripStopsTableViewSection {
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"StopsOnTripCell-Map"] autorelease];
 		}		
-		cell.text = @"Show the route on map!";
+		cell.textLabel.text = @"Show the route on map!";
 	}
 	else if (indexPath.section == 1)
 	{
@@ -161,7 +161,7 @@ enum _TripStopsTableViewSection {
 		
 		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 		
 		BusStop *aStop = [myApplication stopOfId:aStopId];
-		cell.text = aStop.name;
+		cell.textLabel.text = aStop.name;
 	}
 	
 	return cell;

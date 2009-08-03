@@ -239,19 +239,19 @@ enum CitySelectionSection {
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentCenter;
-		cell.font = [UIFont boldSystemFontOfSize:14];
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 	}
 	
 	if ([currentArray count] ==0)
 	{
-		cell.text = @"Downloads & Updates";
+		cell.textLabel.text = @"Downloads & Updates";
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	else
 	{	
 		GTFS_City *selectedCity = [currentArray objectAtIndex:indexPath.row];
-		cell.text = [NSString stringWithFormat:@"%@, %@, %@", selectedCity.cname, selectedCity.cstate, selectedCity.country];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@, %@, %@", selectedCity.cname, selectedCity.cstate, selectedCity.country];
 		if ([selectedCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
 		{
 			cell.accessoryType = UITableViewCellAccessoryCheckmark;	

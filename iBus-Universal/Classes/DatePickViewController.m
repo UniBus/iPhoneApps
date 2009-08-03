@@ -132,7 +132,7 @@
 	if (cell == nil) 
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-		cell.textAlignment = UITextAlignmentCenter;
+		cell.textLabel.textAlignment = UITextAlignmentCenter;
 		//cell.font = [UIFont systemFontOfSize:16];
 		//cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		//cell.indentationLevel = 1;
@@ -142,16 +142,16 @@
 	
 	switch (indexPath.row) {
 		case 0:
-			cell.text = @"Coming Saturday";
+			cell.textLabel.text = @"Coming Saturday";
 			break;
 		case 1:
-			cell.text = @"Coming Sunday";
+			cell.textLabel.text = @"Coming Sunday";
 			break;
 		case 2:
-			cell.text = @"Coming Monday";
+			cell.textLabel.text = @"Coming Monday";
 			break;
 		default:
-			cell.text = @"";
+			cell.textLabel.text = @"";
 			break;
 	}
 	
