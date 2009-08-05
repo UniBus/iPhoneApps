@@ -176,14 +176,29 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	if (cell == nil) 
 	{
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+		//cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
 		cell.textLabel.textAlignment = UITextAlignmentLeft;
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
 		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	BusStop *aStop = [stopsFound objectAtIndex:indexPath.row];
 	cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.name];
+	
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	NSArray *allRoutes = [myApplication allRoutesAtStop:aStop.stopId];
+	NSString *routeString=@"";
+	for (NSString *routeName in allRoutes)
+	{
+		if ([routeString isEqualToString:@""])
+			routeString = routeName;
+		else
+			routeString = [routeString stringByAppendingFormat:@", %@", routeName];
+	}
+	//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"Bus: %@", routeString];	
+	
 	return cell;
 }
 

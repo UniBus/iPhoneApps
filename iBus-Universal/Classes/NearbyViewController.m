@@ -553,7 +553,7 @@ char *UnitName(int unit);
 			//cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
 			cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
 			[cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth]; 
-			//cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
 			//cell.textColor = [UIColor blueColor];
 			//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -570,10 +570,14 @@ char *UnitName(int unit);
 		NSString *routeString=@"";
 		for (NSString *routeName in allRoutes)
 		{
-			routeString = [routeString stringByAppendingFormat:@" %@", routeName];
+			//routeString = [routeString stringByAppendingFormat:@" %@", routeName];
+			if ([routeString isEqualToString:@""])
+				routeString = routeName;
+			else
+				routeString = [routeString stringByAppendingFormat:@", %@", routeName];			
 		}
 		//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"[%.1f%s]  Bus:%@", 
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"[%.1f%s]  Bus: %@", 
 									 distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), 
 									 UnitName(currentUnit), 
 									 routeString];
