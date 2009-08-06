@@ -11,7 +11,6 @@
 @class BusStop;
 @class BusArrival;
 @class StopsViewController;
-@class MapViewController;
 
 @interface StopsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 	UITableView			*stopsTableView;
@@ -30,7 +29,6 @@
 - (void) alertOnEmptyStopsOfInterest;
 
 - (void) arrivalsUpdated: (NSArray *)results;
-- (void) showMapOfAStop:(BusStop *)theStop;
 
 @end
 

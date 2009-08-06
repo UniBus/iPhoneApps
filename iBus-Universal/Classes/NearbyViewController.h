@@ -25,8 +25,12 @@
 	NSMutableArray			*stopsFoundFiltered;
 	NSMutableArray			*routesOfInterest;
 	BOOL					needReset;
+	BOOL                    explicitLocation;
 }
 
 - (void) reset;
+- (void) setExplictLocation:(CGPoint)exPos;
+
+@property BOOL explicitLocation;
 
 @end

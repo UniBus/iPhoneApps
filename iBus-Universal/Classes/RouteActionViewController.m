@@ -9,145 +9,9 @@
 #import "RouteActionViewController.h"
 #import "RouteScheduleViewController.h"
 #import "DatePickViewController.h"
-#import "TransitApp.h"
 #import "FavoriteViewController.h"
-
-@interface StopsViewHeader : UIView
-{
-	UIImageView	*icon;
-	UILabel		*labelStop;
-	UILabel		*labelRoute;
-}
-
-- (void) setType:(int)type;
-- (void) setStopInfo:(NSString *)stopInfo;
-- (void) setRouteInfo:(NSString *)routeInfo;
-
-@end
-
-#define HEADER_TOTAL_WIDTH	320
-#define HEADER_TOTAL_HEIGHT	90
-
-#define HEADER_ICON_LEFT	0   //230
-#define HEADER_ICON_TOP		5
-#define HEADER_ICON_WIDTH	80
-#define HEADER_ICON_HEIGHT	80
-
-#define HEADER_ROUTE_LEFT	85
-#define HEADER_ROUTE_TOP	0
-#define HEADER_ROUTE_WIDTH	230
-#define HEADER_ROUTE_HEIGHT	45
-
-#define HEADER_STOP_LEFT	85
-#define HEADER_STOP_TOP		45
-#define HEADER_STOP_WIDTH	230
-#define HEADER_STOP_HEIGHT	45
-
-enum TransitRouteType {
-	kTransitRouteTypeTram = 0,
-	kTransitRouteTypeSubway,
-	kTransitRouteTypeRail,
-	kTransitRouteTypeBus,
-	kTransitRouteTypeFerry,
-	kTransitRouteTypeCableCar,
-	kTransitRouteTypeGondola,
-	kTransitRouteTypeFunicular,	
-};
-
-@implementation StopsViewHeader
-
-- (id)initWithFrame:(CGRect)frame
-{
-	self = [super initWithFrame: frame];	
-	if (!self) return nil;
-	
-	CGRect ctrlFrame = CGRectMake(HEADER_ICON_LEFT, HEADER_ICON_TOP, HEADER_ICON_WIDTH, HEADER_ICON_HEIGHT);
-	icon = [[UIImageView alloc] initWithFrame:ctrlFrame];	
-	
-	ctrlFrame.origin.x = HEADER_ROUTE_LEFT;
-	ctrlFrame.origin.y = HEADER_ROUTE_TOP;
-	ctrlFrame.size.height = HEADER_ROUTE_HEIGHT;
-	ctrlFrame.size.width = HEADER_ROUTE_WIDTH;
-	labelRoute = [[UITextView alloc] initWithFrame:ctrlFrame];
-	labelRoute.textColor = [UIColor blackColor];
-	labelRoute.backgroundColor = [UIColor clearColor];
-	labelRoute.font = [UIFont boldSystemFontOfSize:14];
-	labelRoute.textAlignment = UITextAlignmentLeft;
-	labelRoute.userInteractionEnabled = NO;
-	labelRoute.multipleTouchEnabled = NO;
-	labelRoute.text = @"";
-		
-	ctrlFrame.origin.x = HEADER_STOP_LEFT;
-	ctrlFrame.origin.y = HEADER_STOP_TOP;
-	ctrlFrame.size.height = HEADER_STOP_HEIGHT;
-	ctrlFrame.size.width = HEADER_STOP_WIDTH;
-	labelStop = [[UITextView alloc] initWithFrame:ctrlFrame];
-	labelStop.textColor = [UIColor blackColor];
-	labelStop.backgroundColor = [UIColor clearColor];
-	labelStop.font = [UIFont systemFontOfSize:14];
-	labelStop.textAlignment = UITextAlignmentLeft;
-	labelStop.userInteractionEnabled = NO;
-	labelStop.multipleTouchEnabled = NO;
-	labelStop.text = @"";
-	
-	[self addSubview:icon];
-	[self addSubview:labelStop];
-	[self addSubview:labelRoute];
-	
-	return self;
-}
-
-- (void) setType:(int)type
-{
-	//icon.text = action;
-	switch (type) {
-		case kTransitRouteTypeBus:
-			icon.image = [UIImage imageNamed:@"typebusicon.png"];
-			break;
-
-		case kTransitRouteTypeFerry:
-			icon.image = [UIImage imageNamed:@"typeferryicon.png"];
-			break;
-
-		case kTransitRouteTypeSubway:
-		case kTransitRouteTypeRail:
-			icon.image = [UIImage imageNamed:@"typetrainicon.png"];
-			break;
-			
-		case kTransitRouteTypeTram:
-		case kTransitRouteTypeCableCar:
-		case kTransitRouteTypeGondola:
-		case kTransitRouteTypeFunicular:			
-			icon.image = [UIImage imageNamed:@"typetramicon.png"];
-			break;
-			
-		default:
-			icon.image = [UIImage imageNamed:@"typebusicon.png"];
-			break;
-	}
-}
-
-- (void) setStopInfo:(NSString *)stopInfo
-{
-	labelStop.text = [NSString stringWithFormat:@"%@", stopInfo];
-}
-
-- (void) setRouteInfo:(NSString *)routeInfo
-{
-	labelRoute.text = [NSString stringWithFormat:@"%@", routeInfo];
-}
-
-- (void) dealloc
-{
-	[labelStop release];
-	[labelRoute release];
-	[icon release];
-	[super dealloc];
-}
-
-@end
-
-
+#import "StopRouteViewHeader.h"
+#import "TransitApp.h"
 
 @implementation RouteActionViewController
 
@@ -169,10 +33,10 @@ enum TransitRouteType {
 	routeTableView.dataSource = self;
 	routeTableView.delegate = self;
 	
-	StopsViewHeader *header = [[StopsViewHeader alloc] initWithFrame:CGRectMake(0, 0, HEADER_TOTAL_WIDTH, HEADER_TOTAL_HEIGHT)];
-	[header setType:routeType];
-	[header setStopInfo:stopName];
-	[header setRouteInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
+	StopRouteViewHeader *header = [[StopRouteViewHeader alloc] initWithFrame:CGRectZero];
+	[header setIcon:routeType];
+	[header setTitleInfo:[NSString stringWithFormat:@"%@ (%@)", routeName, busSign]];
+	[header setDetailInfo:stopName];
 
 	routeTableView.tableHeaderView = header;
 	[header release];

@@ -13,8 +13,8 @@
 #import "BusStop.h"
 #import "BusArrival.h"
 #import "TransitApp.h"
-#import "StopMapViewController.h"
 #import "RouteActionViewController.h"
+#import "StopActionViewController.h"
 
 #define kUIStop_Section_Height		([StopCell height])
 #define kUIArrival_Section_Height	([ArrivalCell height])
@@ -336,29 +336,6 @@ NSString* RawTo12H(NSString* raw)
 	}	
 }
 
-- (void) showMapOfAStop: (BusStop *)theStop
-{
-	if ( (theStop.latitude == 0) || (theStop.longtitude == 0) )
-	{
-		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"The location of the stop is not available!"
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alert show];	
-		[alert release];
-		
-		return;
-	}
-	StopMapViewController *mapViewController = [[StopMapViewController alloc] initWithNibName:nil bundle:nil];
-	
-	UINavigationController *navigController = [self navigationController];
-	if (navigController)
-	{
-		[navigController pushViewController:mapViewController animated:YES];
-		[mapViewController mapWithLatitude:theStop.latitude Longitude:theStop.longtitude];
-		[mapViewController autorelease];
-	}	
-}
-
 #pragma mark TableView Delegate Functions
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -367,7 +344,19 @@ NSString* RawTo12H(NSString* raw)
 	{
 		StopCell *stopCell = (StopCell *)[tableView cellForRowAtIndexPath:indexPath];
 		NSAssert([stopCell isKindOfClass:[StopCell class]], @"Stop cell type mismatched!!");
-		[self showMapOfAStop:[stopCell stop]];
+
+		/* ShowMapOfAStop(), was here, and then was moved to StopRouteActionView.
+		 */
+		//[self showMapOfAStop:[stopCell stop]];
+		
+		StopActionViewController *stopActionVC = [[StopActionViewController alloc] initWithNibName:nil bundle:nil];
+		UINavigationController *navigController = [self navigationController];
+		if (navigController)
+		{
+			BusStop *associatedStop = [stopsOfInterest objectAtIndex:indexPath.section];
+			[stopActionVC setStop:associatedStop];
+			[navigController pushViewController:stopActionVC animated:YES];
+		}
 	}
 	else
 	{

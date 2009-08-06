@@ -32,10 +32,13 @@ char *UnitName(int unit);
 
 @interface NearbyViewController (private)
 - (void) needsReload;
+- (void) positionUpdated;
 @end
 
 
 @implementation NearbyViewController
+
+@synthesize explicitLocation;
 
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
@@ -119,8 +122,11 @@ char *UnitName(int unit);
 	numberOfResults = [defaults integerForKey:UserSavedSearchResultsNum];
 	currentUnit = [defaults integerForKey:UserSavedDistanceUnit];
 	
-	location = [[CLLocationManager alloc] init];
-	location.delegate = self;
+	if (!explicitLocation)
+	{
+		location = [[CLLocationManager alloc] init];
+		location.delegate = self;
+	}
 	
 	stopsFoundFiltered = [[NSMutableArray alloc] init];
 }
@@ -278,16 +284,22 @@ char *UnitName(int unit);
 	}
 	else
 	{
-		if (indicator == nil)
+		if (!explicitLocation)
 		{
-			indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-			CGRect screenBound = [UIScreen mainScreen].bounds;
-			CGPoint centerPos = CGPointMake(screenBound.size.width/2, screenBound.size.height/2-60);
-			indicator.center = centerPos;
+			if (indicator == nil)
+			{
+				indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+				CGRect screenBound = [UIScreen mainScreen].bounds;
+				CGPoint centerPos = CGPointMake(screenBound.size.width/2, screenBound.size.height/2-60);
+				indicator.center = centerPos;
+			}
+			[indicator startAnimating];
+			[self.view addSubview:indicator];
+
+			[location startUpdatingLocation];
 		}
-		[indicator startAnimating];
-		[self.view addSubview:indicator];
-		[location startUpdatingLocation];
+		else
+			[self positionUpdated];
 	}
 }
 
@@ -309,6 +321,33 @@ char *UnitName(int unit);
 	//[mapWeb loadRequest:request];
 	
 }
+
+- (void) setExplictLocation:(CGPoint)exPos
+{
+	currentPosition = exPos;
+	explicitLocation = YES;
+}
+
+- (void) positionUpdated
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
+	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange*UnitToKm(currentUnit)] ];
+	//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
+	if ([querryResults count] > numberOfResults)
+	{
+		//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
+		NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
+		[querryResults removeObjectsAtIndexes:rangeToDelete];
+	}
+	[stopsFound release];
+	stopsFound = [querryResults retain];
+	[self filterStopsFound];
+	
+	if ([stopsFound count] == 0)
+		[self alertOnEmptyStopsOfInterest];
+	
+	[stopsTableView reloadData];	
+}	
 
 #pragma mark Location Update
 
@@ -339,23 +378,8 @@ char *UnitName(int unit);
 	
 	currentPosition = CGPointMake(newLocation.coordinate.longitude , newLocation.coordinate.latitude);
 	NSLog(@"[%f, %f]", currentPosition.x, currentPosition.y);
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
-	NSMutableArray *querryResults = [NSMutableArray arrayWithArray:[myApplication closestStopsFrom:currentPosition within:searchRange*UnitToKm(currentUnit)] ];
-	//Agagin, here I assume [NSMutableArray arrayWithArray] auto release the return array.
-	if ([querryResults count] > numberOfResults)
-	{
-		//NSRange *range = NSMakeRange(numberOfResults-1, [querryResults count]-numberOfResults)];
-		NSIndexSet *rangeToDelete = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(numberOfResults, [querryResults count]-numberOfResults)];
-		[querryResults removeObjectsAtIndexes:rangeToDelete];
-	}
-	[stopsFound release];
-	stopsFound = [querryResults retain];
-	[self filterStopsFound];
 	
-	if ([stopsFound count] == 0)
-		[self alertOnEmptyStopsOfInterest];
-
-	[stopsTableView reloadData];	
+	[self positionUpdated];
 }
 
 #pragma mark UISearchBarDelegate
