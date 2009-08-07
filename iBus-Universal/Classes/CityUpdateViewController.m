@@ -207,8 +207,8 @@ enum CurrentCityUpdateStatus {
 	sqlite3_finalize(statement);
 	
 	if (existed)
-		sql = [NSString stringWithFormat:@"UPDATE cities SET website='%@', dbname='%@', lastupdate='%@', local=1 WHERE id='%@'",
-			   aCity.website, aCity.dbname, aCity.lastupdate, aCity.cid];
+		sql = [NSString stringWithFormat:@"UPDATE cities SET website='%@', dbname='%@', name='%@', state='%@', country='%@', lastupdate='%@', local=1 WHERE id='%@'",
+			   aCity.website, aCity.dbname, aCity.cname, aCity.cstate, aCity.country, aCity.lastupdate, aCity.cid];
 	else
 		sql = [NSString stringWithFormat:@"INSERT INTO cities (id, name, state, country, website, dbname, lastupdate, local) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', %d)", 
 					 aCity.cid, aCity.cname, aCity.cstate, aCity.country, aCity.website, aCity.dbname, aCity.lastupdate, 1];

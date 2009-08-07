@@ -46,6 +46,8 @@
 	infoWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
 	[infoWebView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	infoWebView.delegate = self;
+	infoWebView.opaque = NO;
+	infoWebView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 	self.view = infoWebView;
 	self.navigationItem.title = @"Information";	
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;

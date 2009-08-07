@@ -18,9 +18,13 @@
         // Custom initialization
     }
 	
+	aboutWebView.delegate = self;
+	NSString *pathToHTML = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
+	NSURL *url = [NSURL fileURLWithPath:pathToHTML];	
+	[aboutWebView loadRequest:[NSURLRequest requestWithURL:url]];
     return self;
 }
-*/
+//*/
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView 
@@ -28,6 +32,11 @@
 	aboutWebView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
 	[aboutWebView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	aboutWebView.delegate = self;
+	aboutWebView.opaque = NO;
+	aboutWebView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+	aboutWebView.userInteractionEnabled = NO;
+	aboutWebView.multipleTouchEnabled = NO;
+	//aboutWebView.background
 	self.view = aboutWebView;
 	self.navigationItem.title = @"About UniBus";	
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -35,8 +44,7 @@
 	aboutWebView.delegate = self;
 	NSString *pathToHTML = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
 	NSURL *url = [NSURL fileURLWithPath:pathToHTML];	
-	[aboutWebView loadRequest:[NSURLRequest requestWithURL:url]];
-	
+	[aboutWebView loadRequest:[NSURLRequest requestWithURL:url]];	
 }
 
 /*
