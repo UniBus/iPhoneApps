@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.02">
+<archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">512</int>
-		<string key="IBDocument.SystemVersion">9F33</string>
-		<string key="IBDocument.InterfaceBuilderVersion">672</string>
-		<string key="IBDocument.AppKitVersion">949.34</string>
-		<string key="IBDocument.HIToolboxVersion">352.00</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
+		<string key="IBDocument.InterfaceBuilderVersion">677</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
+		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="130"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -45,17 +55,14 @@
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
 				</object>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="1028899118">
-					<string key="IBUITitle">Stops</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="352956543">
-						<string key="IBUITitle">Stops</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">stop.png</string>
-						</object>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="897793540">
+					<string key="IBUITitle">Favorites</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="869703103">
+						<reference key="IBUITabBar"/>
+						<int key="IBUISystemItemIdentifier">1</int>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="569376398">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="385443022">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{320, 44}</string>
@@ -65,24 +72,30 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="638970362">
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="427681466">
+						<object class="IBUIViewController" id="223106171">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="1052930884">
+								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Item</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="1028899118"/>
-							<string key="IBUINibName">StopSearchView</string>
+							<reference key="IBUIParentViewController" ref="897793540"/>
 						</object>
 					</object>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUINavigationController" id="897793540">
-						<string key="IBUITitle">Favorites</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="869703103">
-							<int key="IBUISystemItemIdentifier">1</int>
+					<reference ref="897793540"/>
+					<object class="IBUINavigationController" id="1028899118">
+						<string key="IBUITitle">Stops</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="352956543">
+							<string key="IBUITitle">Stops</string>
+							<object class="NSCustomResource" key="IBUIImage">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">stop.png</string>
+							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="385443022">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="569376398">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrameSize">{320, 44}</string>
@@ -92,15 +105,15 @@
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIViewController" id="223106171">
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="1052930884">
+							<object class="IBUIViewController" id="638970362">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="427681466">
 									<string key="IBUITitle">Item</string>
 								</object>
-								<reference key="IBUIParentViewController" ref="897793540"/>
+								<reference key="IBUIParentViewController" ref="1028899118"/>
+								<string key="IBUINibName">StopSearchView</string>
 							</object>
 						</object>
 					</object>
-					<reference ref="1028899118"/>
 					<object class="IBUINavigationController" id="167125583">
 						<string key="IBUITitle">Route</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="629685695">
@@ -109,6 +122,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">route.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="885853869">
@@ -137,6 +151,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">closest.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="506012443">
@@ -164,6 +179,7 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">setting.png</string>
 							</object>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<object class="IBUINavigationBar" key="IBUINavigationBar" id="170635456">
@@ -484,6 +500,7 @@
 					<string>132.CustomClassName</string>
 					<string>139.CustomClassName</string>
 					<string>148.CustomClassName</string>
+					<string>173.IBEditorWindowLastContentRect</string>
 					<string>2.IBAttributePlaceholdersKey</string>
 					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
@@ -494,14 +511,15 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{439, 307}, {320, 480}}</string>
+					<string>{{375, 307}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>NearbyViewController</string>
 					<string>StopSearchViewController</string>
-					<string>FavoriteViewController</string>
+					<string>FavoriteViewController2</string>
 					<string>SettingsViewController</string>
 					<string>RouteSearchViewController</string>
+					<string>{{0, 365}, {320, 480}}</string>
 					<object class="NSMutableDictionary">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -543,16 +561,36 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">FavoriteViewController</string>
-					<string key="superclassName">StopsViewController</string>
+					<string key="className">CellWithSwitch</string>
+					<string key="superclassName">UITableViewCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="264062105">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/MiscCells.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FavoriteViewController2</string>
+					<string key="superclassName">UITableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/FavoriteViewController.h</string>
+						<string key="minorKey">Classes/FavoriteViewController2.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MapViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">mapWeb</string>
+						<string key="NS.object.0">UIWebView</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/MapViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NearbyViewController</string>
-					<string key="superclassName">UIViewController</string>
+					<string key="superclassName">MapViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/NearbyViewController.h</string>
@@ -567,14 +605,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">SegmentCell</string>
-					<string key="superclassName">UITableViewCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="683860741">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/SettingsViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">SettingsViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -585,10 +615,12 @@
 							<string>rangeChangedFinial:</string>
 							<string>resultNumChanged:</string>
 							<string>resultNumChangedFinal:</string>
+							<string>timeFormatChanged:</string>
 							<string>unitChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -604,6 +636,7 @@
 							<string>rangeCell</string>
 							<string>resultCell</string>
 							<string>settingView</string>
+							<string>timeCell</string>
 							<string>unitCell</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -612,15 +645,19 @@
 							<string>SliderCell</string>
 							<string>SliderCell</string>
 							<string>UITableView</string>
-							<string>SegmentCell</string>
+							<string>CellWithSwitch</string>
+							<string>CellWithSwitch</string>
 						</object>
 					</object>
-					<reference key="sourceIdentifier" ref="683860741"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Classes/SettingsViewController.h</string>
+					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SliderCell</string>
 					<string key="superclassName">UITableViewCell</string>
-					<reference key="sourceIdentifier" ref="683860741"/>
+					<reference key="sourceIdentifier" ref="264062105"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">StopSearchViewController</string>
@@ -628,14 +665,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/StopSearchViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">StopsViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/StopsViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -677,12 +706,13 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">WebViewCell</string>
 					<string key="superclassName">UITableViewCell</string>
-					<reference key="sourceIdentifier" ref="683860741"/>
+					<reference key="sourceIdentifier" ref="264062105"/>
 				</object>
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.LastKnownRelativeProjectPath">iBus-Universal.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>
 </archive>
