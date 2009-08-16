@@ -13,6 +13,7 @@
 #import "RouteSearchViewController.h"
 #import "CitySelectViewController.h"
 #import "FavoriteViewController.h"
+#import "FavoriteViewController2.h"
 #import "SettingsViewController.h"
 #import "OfflineViewController.h"
 #import "InfoViewController.h"
@@ -49,7 +50,7 @@ NSString *tabBarViewControllerIds[]={
 	{
 		Class aClass;
 		if ([aViewCtrlName isEqual:tabBarViewControllerIds[0]])
-			aClass = [FavoriteViewController class];
+			aClass = [FavoriteViewController2 class];
 		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[1]])
 			aClass = [StopSearchViewController class];
 		else if ([aViewCtrlName isEqual:tabBarViewControllerIds[2]])
@@ -156,7 +157,7 @@ NSString *tabBarViewControllerIds[]={
 	for(UINavigationController *aViewCtrl in viewControllers)
 	{
 		NSAssert([aViewCtrl isKindOfClass:[UINavigationController class]], @"All viewController in TabBar should be NaviationView");
-		if ([aViewCtrl.topViewController isKindOfClass:[FavoriteViewController class] ])
+		if ([aViewCtrl.topViewController isKindOfClass:[FavoriteViewController2 class] ])
 			[tabBarVCSequence addObject:tabBarViewControllerIds[0]];
 		else if ([aViewCtrl.topViewController isKindOfClass:[StopSearchViewController class] ])
 			[tabBarVCSequence addObject:tabBarViewControllerIds[1]];
@@ -243,8 +244,8 @@ NSString *tabBarViewControllerIds[]={
 		if ([vc isKindOfClass:[UINavigationController class]])
 		{
 			UIViewController *subVC = [((UINavigationController *)vc).viewControllers objectAtIndex:0];
-			if ([subVC isKindOfClass:[FavoriteViewController class]])
-				[(FavoriteViewController  *)subVC reset];
+			if ([subVC isKindOfClass:[FavoriteViewController2 class]])
+				[(FavoriteViewController2  *)subVC reset];
 		}
 	}
 }

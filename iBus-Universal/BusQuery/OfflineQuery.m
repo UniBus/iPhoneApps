@@ -504,6 +504,7 @@
 	return [self queryForRoute:route inDirection:dir atStop:stop onDay:queryBeginDateStr];
 }
 
+/*
 - (NSArray *) queryTripsOnRoute:(NSString *) routeId
 {
 	NSMutableArray *allTrips = [NSMutableArray array];		
@@ -539,8 +540,53 @@
 	sqlite3_close(database);	
 	return allTrips;
 }
+*/
 
-- (NSArray *) queryStopsOnTrip:(NSString *) tripId
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId;
+{
+	NSMutableArray *allTrips = [NSMutableArray array];		
+	sqlite3 *database;
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+		return allTrips;
+	}
+	
+	//Check if there is any feasible service id in calendar
+	//Outcomes of this query are a list of service_ids.
+	NSString *sql;
+	if ([dirId isEqualToString:@""])		
+		sql = [NSString stringWithFormat: @"SELECT trip_id, direction_id, trip_headsign FROM trips "
+				"WHERE route_id='%@' "
+				"GROUP BY direction_id, trip_headsign",
+				routeId];
+	else
+		sql = [NSString stringWithFormat: @"SELECT trip_id, direction_id, trip_headsign FROM trips "
+			   "WHERE route_id='%@' AND direction_id='%@' "
+			   "GROUP BY direction_id, trip_headsign",
+			   routeId, dirId];
+	
+	NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			BusTrip *aTrip = [[BusTrip alloc] init];
+			aTrip.tripId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			aTrip.direction = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			aTrip.headsign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
+			
+			[allTrips addObject:aTrip];
+		}
+	}
+	sqlite3_finalize(statement);
+	
+	sqlite3_close(database);	
+	return allTrips;
+}
+
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId returnedTrip:(BusTrip *)aTrip
 {
 	NSMutableArray *allStops = [NSMutableArray array];		
 	sqlite3 *database;
@@ -563,9 +609,71 @@
 		}
 	}
 	sqlite3_finalize(statement);
+
 	
-	sqlite3_close(database);	
+	if (aTrip)
+	{
+		aTrip.tripId = tripId;
+		sql = [NSString stringWithFormat: @"SELECT route_id, direction_id, trip_headsign FROM trips WHERE trip_id='%@' LIMIT 1", tripId];
+		NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+		sqlite3_stmt *statement;
+		if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+		{
+			if (sqlite3_step(statement) == SQLITE_ROW)
+			{
+				aTrip.routeId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+				aTrip.direction = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+				aTrip.headsign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];				
+			}
+		}
+		sqlite3_finalize(statement);
+	}	
+	
+	sqlite3_close(database);
+
 	return allStops;
+}
+
+//- (NSArray *) queryStopsOnR:(NSString *) tripId
+- (NSArray *) queryStopsOnRoute:(NSString *) routeId inDirection:(NSString *)dirId withHeadsign:(NSString *)headSign returnedTrip:(BusTrip *)aTrip
+{
+	sqlite3 *database;
+    if (sqlite3_open([[self offlineDbName] UTF8String], &database) != SQLITE_OK) 
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+		return [NSMutableArray array];
+	}
+	
+	//Check if there is any feasible service id in calendar
+	//Outcomes of this query are a list of service_ids.
+	NSString *sql = [NSString stringWithFormat: @"SELECT trip_id FROM trips, stop_times "
+					 "WHERE trips.route_id='%@' AND "
+					 "trips.direction_id='%@' AND "
+					 "trips.trip_id = stop_times.trip_id AND "
+					 "trips.trip_headsign = '%@' "
+					 "LIMIT 1"
+					 , routeId, dirId, headSign, headSign];
+	NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+	sqlite3_stmt *statement;
+	NSString *tripId = @"";
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		if (sqlite3_step(statement) == SQLITE_ROW)
+			tripId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+	}
+	sqlite3_finalize(statement);
+	
+	sqlite3_close(database);
+	
+	if (aTrip)
+	{
+		aTrip.tripId = tripId;
+		aTrip.routeId = routeId;
+		aTrip.direction = dirId;
+		aTrip.headsign = headSign;
+	}
+	
+	return [self queryStopsOnTrip:tripId returnedTrip:nil];
 }
 
 @end

@@ -21,7 +21,7 @@
 - (BusStop *) stop;
 - (void) setStop:(id) aStop;
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier owner:(UIViewController *)owner;
-- (IBAction) mapButtonClicked:(id)sender;
+//- (IBAction) mapButtonClicked:(id)sender;
 
 @end
 

@@ -179,7 +179,8 @@
 		//cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
 		cell.textLabel.textAlignment = UITextAlignmentLeft;
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+		//cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 		//cell.textColor = [UIColor blueColor];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -197,7 +198,7 @@
 			routeString = [routeString stringByAppendingFormat:@", %@", routeName];
 	}
 	//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"Bus: %@", routeString];	
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"Routes: %@", routeString];	
 	
 	return cell;
 }

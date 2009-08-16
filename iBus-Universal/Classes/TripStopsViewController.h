@@ -11,14 +11,21 @@
 
 @interface TripStopsViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 {
-	NSMutableArray	*stopIdsOnTrip;
 	//NSMutableArray	*stopsOnTrip;
-	BusTrip			*theTrip;
+	//BusTrip			*theTrip;
+	NSMutableArray	*stopIdsOnTrip;
+	NSString        *routeId;
+	NSString        *dirId;
+	NSString        *headSign;
+	NSString        *tripId;
+	bool            queryByRouteId;
 	UITableView		*stopsTableView;
 }
 
-@property (retain) BusTrip *theTrip;
-
-- (NSString *) tripID;
+@property (retain) NSString *routeId;
+@property (retain) NSString *dirId;
+@property (retain) NSString *headSign;
+@property (retain) NSString *tripId;
+@property bool queryByRouteId;
 
 @end

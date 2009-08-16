@@ -155,7 +155,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	RouteTripsViewController *routeTripsVC = [[RouteTripsViewController alloc] initWithNibName:nil bundle:nil];
-	routeTripsVC.theRoute = [routesFound objectAtIndex:indexPath.row];
+	BusRoute *theRoute = [routesFound objectAtIndex:indexPath.row];
+	routeTripsVC.routeID =  theRoute.routeId;
+	routeTripsVC.dirID = @"";
 	[[self navigationController] pushViewController:routeTripsVC animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

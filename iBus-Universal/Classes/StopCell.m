@@ -29,6 +29,7 @@ UIImage *mapIconImage = nil;
 
 //This function is not really useful, since in current implementation,
 //    user actually select the whole cell to view the map.
+/*
 - (IBAction) mapButtonClicked:(id)sender
 {
 	//theStop.flag = YES <===> this is a fake stop
@@ -43,6 +44,7 @@ UIImage *mapIconImage = nil;
 		}
 	}
 }
+*/
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated 
 {	
@@ -86,7 +88,7 @@ UIImage *mapIconImage = nil;
 		mapIconImage = [[UIImage imageWithContentsOfFile:iconPath] retain];
 	}
 	[mapButton setBackgroundImage:mapIconImage forState:UIControlStateNormal];
-	[mapButton addTarget:self action:@selector(mapButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+	//[mapButton addTarget:self action:@selector(mapButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 	
 	self.opaque = NO;
 	//self.selectionStyle = UITableViewCellSelectionStyleNone;

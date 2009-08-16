@@ -11,7 +11,7 @@
 #import "MapViewController.h"
 //#import "StopsViewController.h"
 
-@interface NearbyViewController : MapViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
+@interface NearbyViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 {
 	CLLocationManager		*location;
 	UIActivityIndicatorView *indicator;

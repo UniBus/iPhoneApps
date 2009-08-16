@@ -93,7 +93,7 @@ char *UnitName(int unit);
 	tableFrame.size.height = self.view.bounds.size.height - (routeSearchBar.bounds.size.height);
 #endif
 	
-	stopsTableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStyleGrouped]; 
+	stopsTableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStylePlain]; 
 	//stopsTableView = [[UITableView alloc] initWithFrame:halfFrame style:UITableViewStyleGrouped]; 
 	[stopsTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth]; 
 	stopsTableView.dataSource = self;
@@ -303,6 +303,7 @@ char *UnitName(int unit);
 	}
 }
 
+#ifdef MAPVIEW_ENABLED
 - (void) showStopOnMap:(BusStop *) aStop
 {
 
@@ -321,6 +322,7 @@ char *UnitName(int unit);
 	//[mapWeb loadRequest:request];
 	
 }
+#endif
 
 - (void) setExplictLocation:(CGPoint)exPos
 {
@@ -499,10 +501,11 @@ char *UnitName(int unit);
 /*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return [NSString stringWithFormat:@"Stops within ~ %.1f %s", searchRange, UnitName(currentUnit)];	
+	//return [NSString stringWithFormat:@"Stops within ~ %.1f %s", searchRange, UnitName(currentUnit)];	
+	return @"Nearby Stops";
 }
 */
- 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	/*
@@ -577,7 +580,8 @@ char *UnitName(int unit);
 			//cell.detailTextLabel.textAlignment = UITextAlignmentCenter;
 			cell.detailTextLabel.textAlignment = UITextAlignmentLeft;
 			[cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth]; 
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+			//cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
 			//cell.textColor = [UIColor blueColor];
 			//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -601,7 +605,7 @@ char *UnitName(int unit);
 				routeString = [routeString stringByAppendingFormat:@", %@", routeName];			
 		}
 		//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"[%.1f%s]  Bus: %@", 
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"[%.1f%s]   %@", 
 									 distance(aStop.latitude, aStop.longtitude, currentPosition.y, currentPosition.x), 
 									 UnitName(currentUnit), 
 									 routeString];

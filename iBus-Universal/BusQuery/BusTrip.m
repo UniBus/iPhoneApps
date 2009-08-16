@@ -10,7 +10,7 @@
 #import "General.h"
 
 @implementation BusTrip
-@synthesize tripId, headsign, stops, direction;
+@synthesize tripId, headsign, stops, direction, routeId;
 
 #pragma mark Comparison Tools
 
@@ -20,6 +20,7 @@
 	[headsign release];
 	[stops release];
 	[direction release];
+	[routeId release];
 	[super dealloc];
 }
 

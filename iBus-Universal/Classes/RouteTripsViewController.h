@@ -11,13 +11,13 @@
 
 @interface RouteTripsViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate> 
 {
-	BusRoute		*theRoute;
+	NSString        *routeID;
+	NSString        *dirID;
 	NSMutableArray	*tripsOnRoute;
 	UITableView		*tripsTableView;
 }
 
-@property (retain) BusRoute *theRoute;
-
-- (NSString *) routeID;
+@property (retain) NSString *routeID;
+@property (retain) NSString *dirID;
 
 @end

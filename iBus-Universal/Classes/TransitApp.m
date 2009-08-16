@@ -451,6 +451,7 @@ extern BOOL alwaysOffline;
 }
 
 #pragma mark Trip Querying Functions
+/*
 - (NSArray *) queryTripsOnRoute:(NSString *) routeId
 {
 	if (tripQuery == nil)
@@ -464,8 +465,9 @@ extern BOOL alwaysOffline;
 	
 	return results;
 }
+*/
 
-- (NSArray *) queryStopsOnTrip:(NSString *) tripId
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId
 {
 	if (tripQuery == nil)
 	{
@@ -473,7 +475,35 @@ extern BOOL alwaysOffline;
 	}
 	
 	self.networkActivityIndicatorVisible = YES;
-	NSArray *results = [tripQuery queryStopsOnTrip:tripId];
+	NSArray *results = [tripQuery queryTripsOnRoute:routeId inDirection:dirId];
+	self.networkActivityIndicatorVisible = NO;
+	
+	return results;
+}
+
+- (NSArray *) queryStopsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId withHeadsign:(NSString *)headSign returnedTrip:(BusTrip *)aTrip;
+{
+	if (tripQuery == nil)
+	{
+		return [NSMutableArray array];
+	}
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [tripQuery queryStopsOnRoute:routeId inDirection:dirId withHeadsign:headSign returnedTrip:aTrip];
+	self.networkActivityIndicatorVisible = NO;
+	
+	return results;
+}
+
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId returnedTrip:(BusTrip *)aTrip;
+{
+	if (tripQuery == nil)
+	{
+		return [NSMutableArray array];
+	}
+	
+	self.networkActivityIndicatorVisible = YES;
+	NSArray *results = [tripQuery queryStopsOnTrip:tripId returnedTrip:aTrip];
 	self.networkActivityIndicatorVisible = NO;
 	
 	return results;
@@ -670,12 +700,12 @@ extern BOOL alwaysOffline;
 			if ([tripQuery available])
 			{
 				self.networkActivityIndicatorVisible = YES;
-				results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+				results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID] inDirection:[routeTripsViewCtrl dirID]];
 				self.networkActivityIndicatorVisible = NO;
 			}
 			else if ([offlineQuery available])
 			{
-				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID] inDirection:[routeTripsViewCtrl dirID]];
 			}
 			else
 			{
@@ -685,14 +715,14 @@ extern BOOL alwaysOffline;
 		else if (alwaysOffline)
 		{
 			if  ([offlineQuery available])
-				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+				results = [offlineQuery queryTripsOnRoute:[routeTripsViewCtrl routeID] inDirection:[routeTripsViewCtrl dirID]];
 			else
 				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
 		}
 		else
 		{
 			self.networkActivityIndicatorVisible = YES;
-			results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID]];
+			results = [tripQuery queryTripsOnRoute:[routeTripsViewCtrl routeID] inDirection:[routeTripsViewCtrl dirID]];
 			self.networkActivityIndicatorVisible = NO;
 		}	
 		if (results == nil)
@@ -724,6 +754,7 @@ extern BOOL alwaysOffline;
 	@synchronized (self)
 	{
 		NSArray *results = nil;
+		BusTrip *lastTrip = [[BusTrip alloc] init];
 		NSAssert(tripQuery != nil, @"Something is wrong, haven't initialized properly!");
 
 		if (autoSwitchToOffline)
@@ -731,12 +762,32 @@ extern BOOL alwaysOffline;
 			if ([tripQuery available])
 			{
 				self.networkActivityIndicatorVisible = YES;
-				results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+				if (tripStopsViewCtrl.queryByRouteId)
+				{
+					results = [tripQuery queryStopsOnRoute:tripStopsViewCtrl.routeId
+											   inDirection:tripStopsViewCtrl.dirId
+											  withHeadsign:tripStopsViewCtrl.headSign  
+											  returnedTrip:lastTrip];
+				}
+				else
+				{
+					results = [tripQuery queryStopsOnTrip:tripStopsViewCtrl.tripId returnedTrip:lastTrip];
+				}
 				self.networkActivityIndicatorVisible = NO;
 			}
 			else if ([offlineQuery available])
 			{
-				results = [offlineQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+				if (tripStopsViewCtrl.queryByRouteId)
+				{
+					results = [offlineQuery queryStopsOnRoute:tripStopsViewCtrl.routeId
+												  inDirection:tripStopsViewCtrl.dirId
+												 withHeadsign:tripStopsViewCtrl.headSign
+												 returnedTrip:lastTrip];
+				}
+				else
+				{
+					results = [offlineQuery queryStopsOnTrip:tripStopsViewCtrl.tripId returnedTrip:lastTrip];
+				}
 			}
 			else
 			{
@@ -746,28 +797,54 @@ extern BOOL alwaysOffline;
 		else if (alwaysOffline)
 		{
 			if  ([offlineQuery available])
-				results = [offlineQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			{
+				//results = [offlineQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+				if (tripStopsViewCtrl.queryByRouteId)
+				{
+					results = [offlineQuery queryStopsOnRoute:tripStopsViewCtrl.routeId
+												  inDirection:tripStopsViewCtrl.dirId
+												 withHeadsign:tripStopsViewCtrl.headSign
+												 returnedTrip:lastTrip];
+				}
+				else
+				{
+					results = [offlineQuery queryStopsOnTrip:tripStopsViewCtrl.tripId returnedTrip:lastTrip];
+				}
+			}
 			else
 				[[UIApplication sharedApplication] performSelectorOnMainThread:@selector(userAlert:) withObject:@"Offline data not available!" waitUntilDone:NO];
 		}
 		else
 		{
 			self.networkActivityIndicatorVisible = YES;
-			results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			//results = [tripQuery queryStopsOnTrip:[tripStopsViewCtrl tripID]];
+			if (tripStopsViewCtrl.queryByRouteId)
+			{
+				results = [tripQuery queryStopsOnRoute:tripStopsViewCtrl.routeId
+										   inDirection:tripStopsViewCtrl.dirId
+										  withHeadsign:tripStopsViewCtrl.headSign  
+										  returnedTrip:lastTrip];
+			}
+			else
+			{
+				results = [tripQuery queryStopsOnTrip:tripStopsViewCtrl.tripId returnedTrip:lastTrip];
+			}
 			self.networkActivityIndicatorVisible = NO;
 		}
 		if (results == nil)
 			results = [NSMutableArray array];
 		
-		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(stopsUpdated:)];
+		NSMethodSignature * sig = [[queryingObj class] instanceMethodSignatureForSelector: @selector(stopsUpdated: returnedTrip:)];
 		NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
 		[invocation setTarget: queryingObj];
-		[invocation setSelector: @selector(stopsUpdated:)];	
+		[invocation setSelector: @selector(stopsUpdated: returnedTrip:)];	
 		[invocation setArgument:&results atIndex:2];
+		[invocation setArgument:&lastTrip atIndex:3];
 		[invocation retainArguments];
 		
 		//[queryingObj arrivalsUpdated: results];
 		[self performSelectorOnMainThread:@selector(queryTaskExit:) withObject:invocation waitUntilDone:NO];
+		[lastTrip autorelease];
 	}
 }
 

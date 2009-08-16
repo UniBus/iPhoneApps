@@ -11,16 +11,16 @@
 #import "RouteScheduleViewController.h"
 #import "DatePickViewController.h"
 #import "TransitApp.h"
-#import "FavoriteViewController.h"
+#import "FavoriteViewController2.h"
 
 enum _TripStopsTableViewSection {
-	kSection_ShowInMap = 0,
+	kSection_RouteAction = 0,
 	kSection_StopsList,
 	kSection_Count
 };
 
 @implementation TripStopsViewController
-@synthesize theTrip;
+@synthesize tripId, routeId, dirId, headSign, queryByRouteId;
 
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
@@ -39,7 +39,6 @@ enum _TripStopsTableViewSection {
 		NSLog(@"Something wrong, Need to set the application to be TransitApp!!");
 	
 	[myApplication stopsOnTripAtStopsAsync:self];
-	
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -59,24 +58,30 @@ enum _TripStopsTableViewSection {
 {
 	[stopIdsOnTrip release];
 	//[stopsOnTrip release];
-	[theTrip release];
+	[tripId release];
+	[routeId release];
+	[dirId release];
+	[headSign release];
 	[stopsTableView release]; 	
     [super dealloc];
 }
 
-- (NSString *) tripID
-{
-	return theTrip.tripId;
-}
-
 #pragma mark Callback Function for tripsOnRoute query
-- (void) stopsUpdated: (NSArray *)results
+- (void) stopsUpdated: (NSArray *)results returnedTrip: (BusTrip *) aTrip
 {
 	[stopIdsOnTrip removeAllObjects];
 	
 	for (NSString *aStopId in results)
 	{
 		[stopIdsOnTrip addObject:aStopId];
+	}
+	
+	if (aTrip)
+	{
+		tripId =  aTrip.tripId;
+		routeId = aTrip.routeId;
+		dirId = aTrip.direction;
+		headSign = aTrip.headsign;
 	}
 	
 	[stopsTableView reloadData];
@@ -89,15 +94,35 @@ enum _TripStopsTableViewSection {
 {
 	if (indexPath.section == 0)
 	{
-		TripMapViewController *mapViewController = [[TripMapViewController alloc] initWithNibName:nil bundle:nil];
-		
-		UINavigationController *navigController = [self navigationController];
-		if (navigController)
-		{
-			[navigController pushViewController:mapViewController animated:YES];
-			[mapViewController mapWithTrip:self.theTrip.tripId];
-			[mapViewController autorelease];
-		}	
+		switch (indexPath.row) {
+			case 0:
+			{
+				TripMapViewController *mapViewController = [[TripMapViewController alloc] initWithNibName:nil bundle:nil];
+				
+				UINavigationController *navigController = [self navigationController];
+				if (navigController)
+				{
+					[navigController pushViewController:mapViewController animated:YES];
+					[mapViewController mapWithTrip:self.tripId];
+					[mapViewController autorelease];
+				}	
+				break;
+			}
+				
+			case 1:
+				if (isRouteInFavorite(@"", routeId, dirId, headSign))
+					removeRouteFromFavorite(routeId, dirId, headSign);
+				else
+					saveRouteToFavorite(routeId, dirId, headSign, @"");
+					//saveRouteToFavorite(routeId, dirId, headSign);
+				break;
+
+			case 2:
+				break;
+			
+			default:
+				break;
+		}
 	}
 	else
 	{
@@ -121,8 +146,8 @@ enum _TripStopsTableViewSection {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if (section == kSection_ShowInMap)
-		return 1;
+	if (section == kSection_RouteAction)
+		return 3;
 	else if (section == kSection_StopsList)
 		return [stopIdsOnTrip count];
 	return 0;
@@ -130,8 +155,8 @@ enum _TripStopsTableViewSection {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == kSection_ShowInMap)
-		return @"Show on map";
+	if (section == kSection_RouteAction)
+		return @"";
 	else if (section == kSection_StopsList)
 		return @"All stops on the route?";
 	return @"";
@@ -146,15 +171,27 @@ enum _TripStopsTableViewSection {
 		if (cell == nil) 
 		{
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"StopsOnTripCell-Map"] autorelease];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
 		}		
-		cell.textLabel.text = @"Show the route on map!";
+		if (indexPath.row == 0)
+			cell.textLabel.text = @"Show it on map!";
+		else if (indexPath.row == 1)
+		{
+			if (isRouteInFavorite(@"", routeId, dirId, headSign))
+				cell.textLabel.text = @"Remove from favorite";
+			else
+				cell.textLabel.text = @"Add to favorite";
+		}
+		else if (indexPath.row == 2)
+			cell.textLabel.text = @"All destinations of the route!";
 	}
 	else if (indexPath.section == 1)
 	{
 		cell = [tableView dequeueReusableCellWithIdentifier:@"StopsOnTripCell-Stop"];
 		if (cell == nil) 
 		{
-			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"StopsOnTripCell-Stop"] autorelease];
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"StopsOnTripCell-Stop"] autorelease];
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
 		}
 		
 		NSString *aStopId = [stopIdsOnTrip objectAtIndex:indexPath.row];
@@ -162,6 +199,18 @@ enum _TripStopsTableViewSection {
 		TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 		
 		BusStop *aStop = [myApplication stopOfId:aStopId];
 		cell.textLabel.text = aStop.name;
+		
+		NSArray *allRoutes = [myApplication allRoutesAtStop:aStopId];
+		NSString *routeString=@"";
+		for (NSString *routeName in allRoutes)
+		{
+			if ([routeString isEqualToString:@""])
+				routeString = routeName;
+			else
+				routeString = [routeString stringByAppendingFormat:@", %@", routeName];
+		}
+		//cell.textLabel.text = [NSString stringWithFormat:@"%@", aStop.description];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", routeString];			
 	}
 	
 	return cell;

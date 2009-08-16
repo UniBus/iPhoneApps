@@ -19,7 +19,8 @@ enum _RouteTripsTableViewSection {
 
 @implementation RouteTripsViewController
 
-@synthesize theRoute;
+@synthesize routeID, dirID;
+
 // Implement loadView to create a view hierarchy programmatically.
 - (void)loadView 
 {
@@ -60,14 +61,10 @@ enum _RouteTripsTableViewSection {
 - (void)dealloc 
 {
 	[tripsOnRoute release];
-	[theRoute release];
+	[routeID release];
+	[dirID release];
 	[tripsTableView release]; 	
     [super dealloc];
-}
-
-- (NSString *) routeID
-{
-	return theRoute.routeId;
 }
 
 #pragma mark Callback Function for tripsOnRoute query
@@ -102,7 +99,9 @@ enum _RouteTripsTableViewSection {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	TripStopsViewController *tripStopsVC = [[TripStopsViewController alloc] initWithNibName:nil bundle:nil];
-	tripStopsVC.theTrip = [[tripsOnRoute objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	BusTrip *theTrip = [[tripsOnRoute objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	tripStopsVC.tripId = theTrip.tripId;
+	tripStopsVC.queryByRouteId = NO;
 	[[self navigationController] pushViewController:tripStopsVC animated:YES];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -145,7 +144,18 @@ enum _RouteTripsTableViewSection {
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"TripsOfRouteCell"] autorelease];
 	}		
 	BusTrip *aTrip = [[tripsOnRoute objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-	cell.textLabel.text = aTrip.headsign;
+	if (![aTrip.headsign isEqualToString:@""])
+		cell.textLabel.text = aTrip.headsign;
+	else
+	{
+		if ([aTrip.direction isEqualToString:@"0"])
+			cell.textLabel.text = @"Outbound";
+		else if ([aTrip.direction isEqualToString:@"1"])
+			cell.textLabel.text = @"Inbound";
+		else
+			cell.textLabel.text = @"Unknown";
+			
+	}
 	return cell;
 }
 

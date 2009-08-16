@@ -62,8 +62,10 @@ extern NSString * const UserSavedAlwayOffline;
 - (NSArray *) queryRouteWithNames:(NSArray *) routeNames;
 - (NSArray *) queryRouteWithIds:(NSArray *) routeIds;
 
-- (NSArray *) queryTripsOnRoute:(NSString *) routeId;
-- (NSArray *) queryStopsOnTrip:(NSString *) tripId;
+//- (NSArray *) queryTripsOnRoute:(NSString *) routeId;
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId;
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId returnedTrip:(BusTrip *)aTrip;
+- (NSArray *) queryStopsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId withHeadsign:(NSString *)headSign returnedTrip:(BusTrip *)aTrip;
 
 - (BusStop *) getRandomStop;
 - (BusStop *) stopOfId:(NSString *) stopId;
@@ -81,6 +83,7 @@ extern NSString * const UserSavedAlwayOffline;
 - (void) scheduleAtStopsAsync: (id)stopView;
 - (void) stopsOnTripAtStopsAsync: (id)tripStopView;
 - (void) tripsOnRouteAtStopsAsync: (id)routeTripView;
+//- (void) tripsOnRouteDirAtStopsAsync: (id)routeDirTripView;
 
 - (void) setCurrentCity:(NSString *)city cityId:(NSString *)cid database:(NSString *)db webPrefix:(NSString *)prefix;
 - (NSString *) currentCity;

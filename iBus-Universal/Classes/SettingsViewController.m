@@ -10,6 +10,7 @@
 #import "CitySelectViewController.h"
 #import "CityUpdateViewController.h"
 #import "OfflineViewController.h"
+#import "TagManagerViewController.h"
 #import "InfoViewController.h"
 #import "AboutViewController.h"
 #import "TransitApp.h"
@@ -206,7 +207,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 4;
+		return 5;
 	else if (section == kUIGeneral_Section)
 		return 2;
 	else if (section == kUISearch_Section)
@@ -316,9 +317,13 @@ enum SettingTableSections
 			else
 				cell.textLabel.text = @"Offline data up to date";
 		}			
-		else
+		else if (indexPath.row == 3)
 		{
 			cell.textLabel.text = @"Information";
+		}
+		else
+		{
+			cell.textLabel.text = @"Tags Management";
 		}
 	}
 	else if ( indexPath.section == kUIGeneral_Section )
@@ -489,10 +494,15 @@ enum SettingTableSections
 		OfflineViewController *offlineVC = [[OfflineViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:offlineVC animated:YES];
 	}
-	else
+	else if (indexPath.row == 3)
 	{
 		InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:infoVC animated:YES];
+	}
+	else
+	{
+		TagManagerViewController *tagVC = [[TagManagerViewController alloc] initWithStyle:UITableViewStyleGrouped];
+		[[self navigationController] pushViewController:tagVC animated:YES];
 	}
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

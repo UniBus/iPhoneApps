@@ -36,16 +36,21 @@
 enum QueryType {
 	kQuery_None = -1,
 	kQuery_TripsOnRoute = 0,
-	kQuery_StopsOnTrip
+	kQuery_StopsOnTrip,
+	kQuery_StopsOnRoute
 };
 
 @implementation TripQuery
+
+//@synthesize queryingRoute, queryingDir, queryingTrip, queryingHeadSign;
+@synthesize queryingRoute, queryingTrip, lastTrip;
 
 - (id) init
 {
 	[super init];
 	tripsOnRoute = [[NSMutableArray alloc] init];
 	stopsOnTrip = [[NSMutableArray alloc] init];
+	lastTrip = [[BusTrip alloc] init];
 	currentQuery = kQuery_None;
 	return self;
 }
@@ -54,6 +59,7 @@ enum QueryType {
 {
 	[stopsOnTrip release];
 	[tripsOnRoute release];
+	[lastTrip release];
 	[super dealloc];
 }
 
@@ -88,6 +94,36 @@ enum QueryType {
 	return tripsOnRoute;
 }
 
+/*!
+ * \brief Return all different trips for a route.
+ *
+ * \param routeId The given route (route_id). 
+ * \param dirId The given direction (direction_id). 
+ * \return 
+ *		An array of trips. Empty array, in case there is no trips availabe.
+ * \remark
+ *      - The result should have nothing to do with query time/period, and should include possible trips of any time.
+ *      - The result is somewhat depending on GTFS data. I mean, some agencies put trips to different destinations
+ *          under a same route with same direction, while other may distinguish them by using differnt route_id.
+ * \todo
+ *     Server side, when querying for trips, please double check if it is possible to group the trip
+ *       by trip_headsign, such that trips to differnt destinations can be distinguished.
+ */
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId;
+{
+	NSString *urlString = [NSString stringWithFormat:@"%@/tripsofroute.php?route_id=%@&direction_id=%@", webServicePrefix, routeId, dirId];	
+	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
+	NSURL *queryURL = [NSURL URLWithString:encodedString];
+	queryingRoute = routeId;
+	
+	NSAssert( (currentQuery == kQuery_None), @"TripQuery in a wrong state!!");
+	
+	currentQuery = kQuery_TripsOnRoute;
+	[tripsOnRoute removeAllObjects];
+	[self queryByURL:queryURL];	
+	currentQuery = kQuery_None;
+	return tripsOnRoute;
+}
 
 /*!
  * \brief Return all stops in a trip.
@@ -97,7 +133,7 @@ enum QueryType {
  *		An array of stops. Empty array, in case there is no stop availabe.
  *
  */
-- (NSArray *) queryStopsOnTrip:(NSString *) tripId
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId returnedTrip:(BusTrip *)aTrip
 {
 	NSString *urlString = [NSString stringWithFormat:@"%@/stopsoftrip.php?trip_id=%@", webServicePrefix, tripId];	
 	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
@@ -110,6 +146,47 @@ enum QueryType {
 	[stopsOnTrip removeAllObjects];
 	[self queryByURL:queryURL];	
 	currentQuery = kQuery_None;
+	
+	if (aTrip)
+	{
+		aTrip.routeId = lastTrip.routeId;
+		aTrip.tripId = lastTrip.tripId;
+		aTrip.direction = lastTrip.direction;
+		aTrip.headsign = lastTrip.headsign;
+	}
+	return stopsOnTrip;
+}
+
+/*!
+ * \brief Return all stops in a trip.
+ *
+ * \param tripId The given trip (trip_id). 
+ * \return 
+ *		An array of stops. Empty array, in case there is no stop availabe.
+ *
+ */
+- (NSArray *) queryStopsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId withHeadsign:(NSString *)headSign returnedTrip:(BusTrip *)aTrip
+{
+	NSString *urlString = [NSString stringWithFormat:@"%@/stopsoftrip.php?route_id=%@&direction_id=%@&headsign=%@", 
+						   webServicePrefix, routeId, dirId, headSign];	
+	NSString * encodedString = [urlString stringByReplacingOccurrencesOfString: @" "withString: @"%20"];
+	NSURL *queryURL = [NSURL URLWithString:encodedString];
+	queryingRoute = routeId;
+	
+	NSAssert( (currentQuery == kQuery_None), @"TripQuery in a wrong state!!");
+	
+	currentQuery = kQuery_StopsOnRoute;
+	[stopsOnTrip removeAllObjects];
+	[self queryByURL:queryURL];	
+	currentQuery = kQuery_None;
+
+	if (aTrip)
+	{
+		aTrip.routeId = lastTrip.routeId;
+		aTrip.tripId = lastTrip.tripId;
+		aTrip.direction = lastTrip.direction;
+		aTrip.headsign = lastTrip.headsign;
+	}
 	return stopsOnTrip;
 }
 
@@ -129,12 +206,19 @@ enum QueryType {
 
 	if (currentQuery == kQuery_StopsOnTrip)
 	{
-		if ([elementName isEqualToString:@"stop"]) 
+		if ([elementName isEqualToString:@"trip"]) 
 		{
-			NSString *receivedTripId = [attributeDict valueForKey:@"trip_id"];
-			NSString *receivedStopId = [attributeDict valueForKey:@"stop_id"];
-			
-			NSAssert([receivedTripId isEqualToString:queryingTrip], @"Query results contain garbage!!");
+			[lastTrip release];
+			lastTrip = [[BusTrip alloc] init];
+			lastTrip.routeId = [attributeDict valueForKey:@"route_id"];
+			lastTrip.direction = [attributeDict valueForKey:@"direction_id"];
+			lastTrip.tripId = [attributeDict valueForKey:@"trip_id"];
+			lastTrip.headsign = [attributeDict valueForKey:@"head_sign"];
+			NSAssert([lastTrip.tripId isEqualToString:queryingTrip], @"Query results contain garbage!!");
+		}
+		else if ([elementName isEqualToString:@"stop"]) 
+		{
+			NSString *receivedStopId = [attributeDict valueForKey:@"stop_id"];			
 			[stopsOnTrip addObject:receivedStopId];
 		}
 	}
@@ -150,6 +234,25 @@ enum QueryType {
 			
 			NSAssert([receivedRouteId isEqualToString:queryingRoute], @"Query results contain garbage!!");
 			[tripsOnRoute addObject:aTrip];
+		}
+	}
+	else if (currentQuery == kQuery_StopsOnRoute)
+	{
+		if ([elementName isEqualToString:@"trip"]) 
+		{
+			[lastTrip release];
+			lastTrip = [[BusTrip alloc] init];
+			lastTrip.routeId = [attributeDict valueForKey:@"route_id"];
+			lastTrip.direction = [attributeDict valueForKey:@"direction_id"];
+			lastTrip.tripId = [attributeDict valueForKey:@"trip_id"];
+			lastTrip.headsign = [attributeDict valueForKey:@"head_sign"];
+
+			NSAssert([lastTrip.routeId isEqualToString:queryingRoute], @"Query results contain garbage!!");
+		}
+		else if ([elementName isEqualToString:@"stop"]) 
+		{
+			NSString *receivedStopId = [attributeDict valueForKey:@"stop_id"];
+			[stopsOnTrip addObject:receivedStopId];
 		}
 	}
 }

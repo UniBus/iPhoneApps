@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BusTrip.h"
 
 @interface OfflineQuery : NSObject {
 	BOOL         available;
@@ -31,10 +32,16 @@
 - (NSArray *) queryForStops: (NSArray *) stops;
 
 ///Search for all possible trips for a given route.
-- (NSArray *) queryTripsOnRoute:(NSString *) routeId;
+//- (NSArray *) queryTripsOnRoute:(NSString *) routeId;
+
+///Search for all possible trips for a given route.
+- (NSArray *) queryTripsOnRoute:(NSString *) routeId inDirection:(NSString *) dirId;
 
 ///Search for all stops in a given trip.
-- (NSArray *) queryStopsOnTrip:(NSString *) tripId;
+- (NSArray *) queryStopsOnTrip:(NSString *) tripId  returnedTrip:(BusTrip *)aTrip;
+
+///Search for all stops in a given trip.
+- (NSArray *) queryStopsOnRoute:(NSString *) routeId inDirection:(NSString *)dirId withHeadsign:(NSString *)headSign returnedTrip:(BusTrip *)aTrip;
 //@}
 
 @end

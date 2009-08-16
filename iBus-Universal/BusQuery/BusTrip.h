@@ -14,12 +14,14 @@
  */
 @interface BusTrip : NSObject {
 	NSString		*tripId;		/*!< trip id */
+	NSString        *routeId;		/*!< route id */
 	NSString		*headsign;		/*!< head sign */
 	NSString		*direction;		/*!< direction */
 	NSMutableArray	*stops;			/*!< stops along the trip */
 } BusTrip;
 
 @property (retain) NSString *tripId;
+@property (retain) NSString *routeId;
 @property (retain) NSString *headsign;
 @property (retain) NSMutableArray *stops;
 @property (retain) NSString *direction;
