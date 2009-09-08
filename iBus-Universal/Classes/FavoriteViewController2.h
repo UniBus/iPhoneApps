@@ -14,17 +14,19 @@ NSArray * readFavoriteRoutes();
 
 BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign, NSString *routeName);
 BOOL removeRouteFromFavorite(NSString *routeId, NSString *dir);
+BOOL setRouteIndexInFavorite(NSString *routeId, NSString *dirId, NSInteger index);
 BOOL isRouteInFavorite(NSString *routeId, NSString *dirId);
 
 BOOL saveStopToFavorite(NSString *stopId);
 BOOL removeStopFromFavorite(NSString *stopId);
+BOOL setStopIndexInFavorite(NSString *stopId, NSInteger index);
 BOOL isStopInFavorite(NSString *stopId);
 
 @interface FavoriteViewController2 : UIViewController <UITableViewDataSource, UITableViewDelegate> 
 {
 	UITableView *favoriteTableView;
-	NSArray *favoriteStops;
-	NSArray *favoriteRoutes;
+	NSMutableArray *favoriteStops;
+	NSMutableArray *favoriteRoutes;
 }
 
 - (void) reset;

@@ -41,10 +41,10 @@ NSArray *readFavoriteStops()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites2.stop_id, stops.stop_name "
+	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites2.stop_id, stops.stop_name, rowindex "
 					 "FROM favorites2, stops "
 					 "WHERE favorites2.stop_id=stops.stop_id AND route_id='' "
-					 "ORDER BY favorites2.stop_id"];
+					 "ORDER BY favorites2.rowindex ASC"];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -80,10 +80,10 @@ NSArray * readFavoriteRoutes()
 		return favorites;
 	
 	NSString *sql = [NSString stringWithFormat:@""
-					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id "
+					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id, rowindex "
 					 "FROM favorites2, routes "
 					 "WHERE stop_id='' AND routes.route_id=favorites2.route_id "
-					 "ORDER BY routes.route_id "];
+					 "ORDER BY favorites2.rowindex ASC"];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -179,6 +179,32 @@ BOOL removeRouteFromFavorite(NSString *routeId, NSString *dirId)
 	return result;
 }
 
+BOOL setRouteIndexInFavorite(NSString *routeId, NSString *dirId, NSInteger index)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = nil;
+	
+	sql = [NSString stringWithFormat:@""
+		   "UPDATE OR IGNORE favorites2 "
+		   "SET rowindex=%d "
+		   "WHERE stop_id='' AND route_id='%@' AND direction_id='%@' ", 
+		   index, routeId, dirId];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
+	{
+		result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	
+	sqlite3_close(database);
+	return result;
+}
+
 BOOL isRouteInFavorite(NSString *routeId, NSString *dirId)
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
@@ -256,6 +282,32 @@ BOOL removeStopFromFavorite(NSString *stopId)
 	return result;
 }
 
+BOOL setStopIndexInFavorite(NSString *stopId, NSInteger index)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = nil;
+	
+	sql = [NSString stringWithFormat:@""
+		   "UPDATE OR IGNORE favorites2 "
+		   "SET rowindex=%d "
+		   "WHERE stop_id='%@' AND route_id='' AND direction_id='' AND bus_sign='' ", 
+		   index, stopId];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
+	{
+		result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	
+	sqlite3_close(database);
+	return result;
+}
+
 BOOL isStopInFavorite(NSString *stopId)
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
@@ -305,7 +357,7 @@ BOOL isStopInFavorite(NSString *stopId)
 	[self reset];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    //self.navigationItem.rightBarButtonItem = [self editButtonItem];
+    self.navigationItem.rightBarButtonItem = [self editButtonItem];
 }
 
 /*
@@ -358,8 +410,15 @@ BOOL isStopInFavorite(NSString *stopId)
 {
 	[favoriteStops release];
 	[favoriteRoutes release];
+	
+	/* Here it assumes arrays returned from
+	 *    - readFavoriteStops()
+	 *    - readFavoriteRoutes()
+	 *  are mutable array.
+	 */
 	favoriteStops = [readFavoriteStops() retain];
 	favoriteRoutes = [readFavoriteRoutes() retain];
+	
 	[favoriteTableView reloadData];
 }
 
@@ -374,6 +433,29 @@ BOOL isStopInFavorite(NSString *stopId)
 }
  */
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated 
+{
+    [super setEditing:editing animated:animated];
+    [favoriteTableView setEditing:editing animated:YES];
+}
+
+-(void) reorderFavoriteStops
+{
+	for(int index=0; index<[favoriteStops count]; index++)
+	{
+		NSDictionary *astop = [favoriteStops objectAtIndex:index];
+		setStopIndexInFavorite([astop objectForKey:@"stop:info:id"], index);		
+	}
+}
+
+-(void) reorderFavoriteRoutes
+{
+	for(int index=0; index<[favoriteRoutes count]; index++)
+	{
+		NSDictionary *aroute = [favoriteRoutes objectAtIndex:index];
+		setRouteIndexInFavorite([aroute objectForKey:@"route:info:id"], [aroute objectForKey:@"route:info:dir"], index);		
+	}
+}
 
 #pragma mark TableView Delegate Functions
 
@@ -473,29 +555,63 @@ BOOL isStopInFavorite(NSString *stopId)
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Return NO if you do not want the specified item to be editable.
 	return YES;
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	return UITableViewCellEditingStyleDelete;
+}
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
-	if (editingStyle == UITableViewCellEditingStyleDelete) 
+    // If row is deleted, remove it from the list.
+    if (editingStyle != UITableViewCellEditingStyleDelete)
+		return;
+	
+	if (indexPath.section == 0) //deleting a stop
 	{
-		// Delete the row from the data source
-		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-	}   
-	else if (editingStyle == UITableViewCellEditingStyleInsert) 
+		NSDictionary *astop = [favoriteStops objectAtIndex:indexPath.row];
+		removeStopFromFavorite([astop objectForKey:@"stop:info:id"]);
+		[favoriteStops removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];			
+	}		
+	else if (indexPath.section == 1) //deleting a route 
 	{
-		// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-	}   
+		NSDictionary *aroute = [favoriteRoutes objectAtIndex:indexPath.row];
+		removeRouteFromFavorite([aroute objectForKey:@"route:info:id"], [aroute objectForKey:@"route:info:dir"]);
+		[favoriteRoutes removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];			
+	}
 }
 
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath 
 {
+	if (fromIndexPath.section != toIndexPath.section)
+	{
+		NSLog(@"Something wrong, this is not supposed to happen!!");
+		return;
+	}
+	
+	if (fromIndexPath.section == 0) //deleting a stop
+	{
+		NSDictionary *astop = [[favoriteStops objectAtIndex:fromIndexPath.row] retain];
+		[favoriteStops removeObjectAtIndex:fromIndexPath.row];
+		[favoriteStops insertObject:astop atIndex:toIndexPath.row];			
+		[astop release];
+		[self reorderFavoriteStops];
+	}		
+	else if (fromIndexPath.section == 1) //deleting a route 
+	{
+		NSDictionary *aroute = [[favoriteRoutes objectAtIndex:fromIndexPath.row] retain];
+		[favoriteRoutes removeObjectAtIndex:fromIndexPath.row];
+		[favoriteRoutes insertObject:aroute atIndex:toIndexPath.row];
+		[aroute release];
+		[self reorderFavoriteRoutes];
+	}	
 }
 
 
@@ -503,7 +619,15 @@ BOOL isStopInFavorite(NSString *stopId)
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	// Return NO if you do not want the item to be re-orderable.
-	return NO;
+	return YES;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+	if (sourceIndexPath.section != proposedDestinationIndexPath.section)
+		return sourceIndexPath;
+	else
+		return proposedDestinationIndexPath;
 }
 
 @end
