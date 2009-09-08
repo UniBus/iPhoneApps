@@ -9,7 +9,7 @@
 #import "StopActionViewController.h"
 #import "StopRouteViewHeader.h"
 #import "StopMapViewController.h"
-#import "FavoriteViewController.h"
+#import "FavoriteViewController2.h"
 #import "NearbyViewController.h"
 #import "TransitApp.h"
 
@@ -134,10 +134,10 @@
 	
 	if (indexPath.section == 0)
 	{
-		if (isInFavorite2(theStop.stopId, @"", @""))
-			removeFromFavorite2(theStop.stopId,  @"", @"");
+		if (isStopInFavorite(theStop.stopId))
+			removeStopFromFavorite(theStop.stopId);
 		else
-			saveToFavorite2(theStop.stopId, @"", @"", @"", @"");
+			saveStopToFavorite(theStop.stopId);
 		[tableView reloadData];
 		
 		[self notifyApplicationFavoriteChanged];
@@ -197,10 +197,10 @@
 	
 	if (indexPath.section == 0)
 	{
-		if (isInFavorite2(theStop.stopId, @"", @""))
-			cell.textLabel.text = @"Remove from favorite";
+		if (isStopInFavorite(theStop.stopId))
+			cell.textLabel.text = @"Unbookmark the stop";
 		else
-			cell.textLabel.text = @"Add to favorite";
+			cell.textLabel.text = @"Bookmark the stop";
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 	else if (indexPath.section == 1)

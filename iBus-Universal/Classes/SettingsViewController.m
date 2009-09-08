@@ -109,7 +109,7 @@ enum SettingTableSections
 	searchRange = [slider value]; 
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
-	[cellToUpdate editAction];
+	//[cellToUpdate editAction];
 	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
@@ -123,7 +123,7 @@ enum SettingTableSections
 	UISlider *slider = (UISlider *)sender;
 	numberOfResults = [slider value];
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
-	[cellToUpdate editAction];
+	//[cellToUpdate editAction];
 	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 }
 
@@ -171,7 +171,7 @@ enum SettingTableSections
 		currentUnit = UNIT_KM;
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 3 inSection:kUISearch_Section]];
-	[cellToUpdate editAction];
+	//[cellToUpdate editAction];
 	cellToUpdate.textLabel.text = [NSString stringWithFormat: @"Show no more than %d stops within %.1f %s", numberOfResults, searchRange, UnitName(currentUnit)];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
@@ -207,7 +207,7 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 5;
+		return 4;
 	else if (section == kUIGeneral_Section)
 		return 2;
 	else if (section == kUISearch_Section)
@@ -401,8 +401,9 @@ enum SettingTableSections
 				//[unitCell.segment insertSegmentWithTitle:@"Km" atIndex:0 animated:NO];
 				//[unitCell.segment insertSegmentWithTitle:@"Mi" atIndex:1 animated:NO];				
 				//unitCell.segment.selectedSegmentIndex =currentUnit;
+				unitCell.selectionStyle = UITableViewCellSelectionStyleNone;
 				unitCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-				unitCell.label.text = @"Mile as distance unit";
+				unitCell.label.text = @"Mile as unit";
 				[unitCell.userSwitch addTarget:self action:@selector(unitChanged:) forControlEvents:UIControlEventValueChanged];
 				unitCell.switchOn = (currentUnit == UNIT_MI);
 			}

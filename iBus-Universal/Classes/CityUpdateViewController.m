@@ -357,7 +357,7 @@ enum CurrentCityUpdateStatus {
 		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
 	}
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites SELECT * FROM src.favorites"];
+	sql = [NSString stringWithFormat:@"INSERT INTO favorites2 SELECT * FROM src.favorites2"];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;

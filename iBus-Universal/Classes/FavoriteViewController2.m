@@ -6,7 +6,7 @@
 //  Copyright 2008 Zhenwang Yao. All rights reserved.
 //
 #import <sqlite3.h>
-#import "FavoriteViewController.h"
+//#import "FavoriteViewController.h"
 #import "FavoriteViewController2.h"
 #import "TripStopsViewController.h"
 #import "TransitApp.h"
@@ -41,10 +41,10 @@ NSArray *readFavoriteStops()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites.stop_id, stops.stop_name "
-					 "FROM favorites, stops "
-					 "WHERE favorites.stop_id=stops.stop_id AND route_id='' "
-					 "ORDER BY favorites.stop_id"];
+	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites2.stop_id, stops.stop_name "
+					 "FROM favorites2, stops "
+					 "WHERE favorites2.stop_id=stops.stop_id AND route_id='' "
+					 "ORDER BY favorites2.stop_id"];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -79,9 +79,10 @@ NSArray * readFavoriteRoutes()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites.route_id, routes.route_short_name, favorites.bus_sign, favorites.direction_id "
-					 "FROM favorites, routes "
-					 "WHERE stop_id='' AND routes.route_id=favorites.route_id "
+	NSString *sql = [NSString stringWithFormat:@""
+					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id "
+					 "FROM favorites2, routes "
+					 "WHERE stop_id='' AND routes.route_id=favorites2.route_id "
 					 "ORDER BY routes.route_id "];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
@@ -123,13 +124,13 @@ BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign,
 	NSString *sql = nil;
 	
 	//Delete those favorite with ambiguious direction.
+	//Currently only one route in one direction can be bookmarked.
 	if (![dirId isEqualToString:@""])
 	{
-		sql = [NSString stringWithFormat:@"DELETE from favorites "
-			   "WHERE stop_id='%@' AND route_id='%@' AND "
-			   "direction_id='%@' AND route_name='%@' AND "
-			   "bus_sign='%@'", 
-			   @"", routeId, dirId, routeName, headSign];
+		sql = [NSString stringWithFormat:@""
+			   "DELETE from favorites2 "
+			   "WHERE stop_id='' AND route_id='%@' AND direction_id='' ", 
+			   routeId];
 		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 		{
 			result = YES;
@@ -138,8 +139,10 @@ BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign,
 			NSLog(@"Error: %s", sqlite3_errmsg(database));				
 	}
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) VALUES (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",
-		   @"", routeId, routeName, (headSign? headSign:@""), dirId];
+	sql = [NSString stringWithFormat:@""
+		   "INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) "
+		   "VALUES ('', '%@', '%@', '%@', '%@')",
+		   routeId, routeName, (headSign? headSign:@""), dirId];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
 		result = YES;
@@ -151,7 +154,84 @@ BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign,
 	return result;
 }
 
-BOOL removeRouteFromFavorite(NSString *routeId, NSString *dirId, NSString *headSign)
+BOOL removeRouteFromFavorite(NSString *routeId, NSString *dirId)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = nil;
+		
+	sql = [NSString stringWithFormat:@""
+		   "DELETE from favorites2 "
+		   "WHERE stop_id='' AND route_id='%@' AND direction_id='%@' ", 
+		   routeId, dirId];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
+	{
+		result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	
+	sqlite3_close(database);
+	return result;
+}
+
+BOOL isRouteInFavorite(NSString *routeId, NSString *dirId)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = [NSString stringWithFormat:@""
+					 "SELECT route_id FROM favorites2 "
+					 "WHERE stop_id='' AND route_id='%@' AND direction_id='%@' ",
+					 routeId, dirId];
+	sqlite3_stmt *statement;
+	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+	{
+		if (sqlite3_step(statement) == SQLITE_ROW)
+			result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	sqlite3_finalize(statement);
+	
+	sqlite3_close(database);
+	return result;
+}
+
+BOOL saveStopToFavorite(NSString *stopId)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+    if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = NO;
+	NSString *sql = nil;
+
+	/* Make sure it has been checked that there is no such record in the table!
+	 */
+	sql = [NSString stringWithFormat:@""
+		   "INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) "
+		   "VALUES ('%@', '', '', '', '')", stopId];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
+	{
+		result = YES;
+	}
+	else
+		NSLog(@"Error: %s", sqlite3_errmsg(database));			
+	
+	sqlite3_close(database);
+	return result;
+}
+
+BOOL removeStopFromFavorite(NSString *stopId)
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	sqlite3 *database;
@@ -161,33 +241,10 @@ BOOL removeRouteFromFavorite(NSString *routeId, NSString *dirId, NSString *headS
 	BOOL result = NO;
 	NSString *sql = nil;
 	
-#ifdef DEBUGFULL
-	sqlite3_stmt *statement;
 	sql = [NSString stringWithFormat:@""
-					 "SELECT stop_id, route_id FROM favorites "
-					 "WHERE stop_id='%@' AND route_id='%@' AND direction_id='%@' AND head_sign='') ",
-					 stopId, routeId, dirId, headSign];
-	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
-	{
-		if (sqlite3_step(statement) == SQLITE_ROW)
-		{
-			result = YES;
-		}
-		else
-		{
-			NSLog(@"Try to remove a non-existing entry!");
-			assert(NO);
-		}
-	}
-	else
-		NSLog(@"Error: %s", sqlite3_errmsg(database));			
-	sqlite3_finalize(statement);	
-#endif
-	
-	sql = [NSString stringWithFormat:@"DELETE from favorites "
-		   "WHERE stop_id='%@' AND route_id='%@' AND "
-		   "      direction_id='%@' AND head_sign='%@' ", 
-		   @"", routeId, dirId, headSign];
+		   "DELETE from favorites2 "
+		   "WHERE stop_id='%@' AND route_id='' AND direction_id='' AND bus_sign='' ", 
+		   stopId];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{
 		result = YES;
@@ -199,7 +256,7 @@ BOOL removeRouteFromFavorite(NSString *routeId, NSString *dirId, NSString *headS
 	return result;
 }
 
-BOOL isRouteInFavorite(NSString *stopId, NSString *routeId, NSString *dirId, NSString *headSign)
+BOOL isStopInFavorite(NSString *stopId)
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	sqlite3 *database;
@@ -208,9 +265,9 @@ BOOL isRouteInFavorite(NSString *stopId, NSString *routeId, NSString *dirId, NSS
 	
 	BOOL result = NO;
 	NSString *sql = [NSString stringWithFormat:@""
-					 "SELECT stop_id, route_id FROM favorites "
-					 "WHERE stop_id='%@' AND route_id='%@' AND direction_id='%@' AND bus_sign='%@' ",
-					 stopId, routeId, dirId, headSign];
+					 "SELECT stop_id FROM favorites2 "
+					 "WHERE stop_id='%@' AND route_id='' AND direction_id='' AND bus_sign='' ",
+					 stopId];
 	sqlite3_stmt *statement;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{

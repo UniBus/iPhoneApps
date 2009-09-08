@@ -1,8 +1,38 @@
-Portland, OR, USA, http://zyao.servehttp.com:5144/portland/, portland.sqlite
-San Francisco, CA, USA, http://zyao.servehttp.com:5144/sanfrancisco/, sanfrancisco.sqlite
-Orange County, CA, USA, http://zyao.servehttp.com:5144/oc/, oc.sqlite
-Sacramento, CA, USA, http://zyao.servehttp.com:5144/sacramento/, sacramento.sqlite
-Humboldt County, CA, USA, http://zyao.servehttp.com:5144/humboldt/, humboldt.sqlite
-Dallas, TX, USA, http://zyao.servehttp.com:5144/dallas/, dallas.sqlite
-Austin, TX, USA, http://zyao.servehttp.com:5144/austin/, austin.sqlite
-Denver, CO, USA, http://zyao.servehttp.com:5144/denver/, denver.sqlite
+id, name, state, country, website, dbname, lastupdate, oldbtime, local, oldbdownloaded
+portland, Portland, OR, USA, http://zyao.servehttp.com:5144/ver1.3/portland/, portland.sqlite, 20081210, 20081201, 0, 0
+sanfrancisco, San Francisco, CA, USA, http://zyao.servehttp.com:5144/ver1.3/sanfrancisco/, sanfrancisco.sqlite, 20090315, 20090315, 0, 0
+oc, Orange County, CA, USA, http://zyao.servehttp.com:5144/ver1.3/oc/, oc.sqlite, 20090614, 20090614, 0, 0
+sacramento, Sacramento, CA, USA, http://zyao.servehttp.com:5144/ver1.3/sacramento/, sacramento.sqlite, 20090614, 20090614, 0, 0
+humboldt, Humboldt County, CA, USA, http://zyao.servehttp.com:5144/ver1.3/humboldt/, humboldt.sqlite, 20081210, 20081201, 0, 0
+dallas, Dallas, TX, USA, http://zyao.servehttp.com:5144/ver1.3/dallas/, dallas.sqlite, 20090220, 20090220, 0, 0
+austin, Austin, TX, USA, http://zyao.servehttp.com:5144/ver1.3/austin/, austin.sqlite, 20090608, 20090608, 0, 0
+denver, Denver, CO, USA, http://zyao.servehttp.com:5144/ver1.3/denver/, denver.sqlite, 20090617, 20090617, 0, 0
+davis, Davis, CA, USA, http://zyao.servehttp.com:5144/ver1.3/davis/, davis.sqlite, 20090312, 20090312, 0, 0
+riovista, Rio Vista, CA, USA, http://zyao.servehttp.com:5144/ver1.3/riovista/, riovista.sqlite, 20081210, 20081201, 0, 0
+york, York, ON, Canada, http://zyao.servehttp.com:5144/ver1.3/york/, york.sqlite, 20090425, 20090425, 0, 0
+perth, Perth, WA, Australia, http://zyao.servehttp.com:5144/ver1.3/perth/, perth.sqlite, 20090621, 20090621, 0, 0
+milwaukee, Milwaukee, WI, USA, http://zyao.servehttp.com:5144/ver1.3/milwaukee/, milwaukee.sqlite, 20090611, 20090611, 0, 0
+toronto, Toronto, ON, Canada, http://zyao.servehttp.com:5144/ver1.3/toronto/, toronto.sqlite, 20081210, 20081201, 0, 0
+honolulu, Honolulu, Hawaii, USA, http://zyao.servehttp.com:5144/ver1.3/honolulu/, honolulu.sqlite, 20090608, 20090608, 0, 0
+hampton, Hampton Roads, VA, USA, http://zyao.servehttp.com:5144/ver1.3/hampton/, hampton.sqlite, 20081210, 20081201, 0, 0
+metrolink, Southern California (Metrolink), CA, USA, http://zyao.servehttp.com:5144/ver1.3/metrolink/, metrolink.sqlite, 20081210, 20081201, 0, 0
+vancouver, Vancouver, BC, Canada, http://zyao.servehttp.com:5144/ver1.3/vancouver/, vancouver.sqlite, 20090617, 20090617, 0, 0
+monroe, Monroe County, PA, USA, http://zyao.servehttp.com:5144/ver1.3/monroe/, monroe.sqlite, 20090309, 20090309, 0, 0
+flagstaff, Flagstaff, AZ, USA, http://zyao.servehttp.com:5144/ver1.3/flagstaff/, flagstaff.sqlite, 20090309, 20090309, 0, 0
+jefferson, Port Townsend, WA, USA, http://zyao.servehttp.com:5144/ver1.3/jefferson/, jefferson.sqlite, 20090309, 20090309, 0, 0
+island, Island County, WA, USA, http://zyao.servehttp.com:5144/ver1.3/island/, island.sqlite, 20090309, 20090309, 0, 0
+houston, Houston, TX, USA, http://zyao.servehttp.com:5144/ver1.3/houston/, houston.sqlite, 20090309, 20090309, 0, 0
+irvine, Irvine, CA, USA, http://zyao.servehttp.com:5144/ver1.3/irvine/, irvine.sqlite, 20090608, 20090608, 0, 0
+broward, Broward County, FL, USA, http://zyao.servehttp.com:5144/ver1.3/broward/, broward.sqlite, 20090429, 20090429, 0, 0
+blacksburg, Blacksburg, VA, USA, http://zyao.servehttp.com:5144/ver1.3/blacksburg/, blacksburg.sqlite, 20090409, 20090409, 0, 0
+dc, Washington, DC, USA, http://zyao.servehttp.com:5144/ver1.3/dc/, dc.sqlite, 20090614, 20090614, 0, 0
+missoula, Missoula, MT, USA, http://zyao.servehttp.com:5144/ver1.3/missoula/, missoula.sqlite, 20090409, 20090409, 0, 0
+minneapolis, Minneapolis, MN, USA, http://zyao.servehttp.com:5144/ver1.3/minneapolis/, minneapolis.sqlite, 20090417, 20090417, 0, 0
+edmonton, Edmonton, AB, Canada, http://zyao.servehttp.com:5144/ver1.3/edmonton/, edmonton.sqlite, 20090604, 20090604, 0, 0
+la, Los Angeles, CA, USA, http://zyao.servehttp.com:5144/ver1.3/la/, la.sqlite, 20090611, 20090611, 0, 0
+ottowa, Ottawa, ON, Canada, http://zyao.servehttp.com:5144/ver1.3/ottowa/, ottowa.sqlite, 20090622, 20090622, 0, 0
+philadelphia, Philadelphia, PA, USA, http://zyao.servehttp.com:5144/ver1.3/philadelphia/, philadelphia.sqlite, 20090731, 20090731, 0, 0
+sandiego, San Diego, CA, USA, http://zyao.servehttp.com:5144/ver1.3/sandiego/, sandiego.sqlite, 20090731, 20090731, 0, 0
+tillamook, Tillamook County, OR, USA, http://zyao.servehttp.com:5144/ver1.3/tillamook/, tillamook.sqlite, 20090731, 20090731, 0, 0
+massachusetts, (Multiple Cities), MA, USA, http://zyao.servehttp.com:5144/ver1.3/massachusetts/, massachusetts.sqlite, 20090806, 20090806, 0, 0
+

@@ -9,7 +9,7 @@
 #import "RouteActionViewController.h"
 #import "RouteScheduleViewController.h"
 #import "DatePickViewController.h"
-#import "FavoriteViewController.h"
+#import "FavoriteViewController2.h"
 #import "StopRouteViewHeader.h"
 #import "TransitApp.h"
 
@@ -144,6 +144,7 @@
 	[routeTableView reloadData];
 }
 
+/*
 - (void) pickTheOtherDate: (id) sender
 {
 	DatePickViewController *datePickVC = [[DatePickViewController alloc] initWithNibName:@"DatePickView" bundle:nil];
@@ -152,7 +153,8 @@
 	datePickVC.date = otherDate;
 	[[self navigationController] pushViewController:datePickVC animated:YES];
 }
-
+*/
+ 
 - (void) notifyApplicationFavoriteChanged
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
@@ -172,10 +174,21 @@
 	
 	if (indexPath.section == 0)
 	{
-		if (isInFavorite2(stopID, routeID, direction))
-			removeFromFavorite2(stopID, routeID, direction);
+		if (indexPath.row == 0)
+		{
+			if (isStopInFavorite(stopID))
+				removeStopFromFavorite(stopID);
+			else
+				saveStopToFavorite(stopID);
+		}
 		else
-			saveToFavorite2(stopID, routeID, routeName, busSign, direction);
+		{
+			if (isRouteInFavorite(routeID, direction))
+				removeRouteFromFavorite(routeID, direction);
+			else
+				saveRouteToFavorite(routeID, direction, busSign, routeName);
+		}
+		
 		[tableView reloadData];
 		
 		[self notifyApplicationFavoriteChanged];
@@ -230,7 +243,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == 0)
-		return 1;
+		return 2;
 	else if (section == 1)
 		return 3;
 	return 0;
@@ -266,10 +279,20 @@
 	
 	if (indexPath.section == 0)
 	{
-		if (isInFavorite2(stopID, routeID, direction))
-			cell.textLabel.text = @"Remove from favorite";
+		if (indexPath.row == 0)
+		{
+			if (isStopInFavorite(stopID))
+				cell.textLabel.text = @"Unbookmark the stop";
+			else
+				cell.textLabel.text = @"Bookmark the stop";
+		}
 		else
-			cell.textLabel.text = @"Add to favorite";
+		{
+			if (isRouteInFavorite(routeID, direction))
+				cell.textLabel.text = @"Unbookmark the route";
+			else
+				cell.textLabel.text = @"Bookmark the route";
+		}
 		cell.accessoryType = UITableViewCellAccessoryNone;
 	}
 	else if (indexPath.section == 1)
@@ -295,13 +318,25 @@
 			[formatter setDateFormat:@"yyyy-MMM-dd '('EEEE')'"];
 			cell.textLabel.text = [formatter stringFromDate:otherDate];//@"Monday";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-			cell.accessoryAction = @selector(pickTheOtherDate:);
-			cell.target = self;
+			//cell.accessoryAction = @selector(pickTheOtherDate:);
+			//cell.target = self;
 		}
 		[formatter release];
 	}
 	
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+	/* There is only one cell with accessory button.
+	 */
+	DatePickViewController *datePickVC = [[DatePickViewController alloc] initWithNibName:@"DatePickView" bundle:nil];
+	datePickVC.target = self;
+	datePickVC.callback = @selector(theOtherDatePicked:);
+	datePickVC.date = otherDate;
+	[[self navigationController] pushViewController:datePickVC animated:YES];
+	
 }
 
 @end

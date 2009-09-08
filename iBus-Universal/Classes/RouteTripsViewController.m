@@ -9,7 +9,7 @@
 #import "TripStopsViewController.h"
 #import "DatePickViewController.h"
 #import "TransitApp.h"
-#import "FavoriteViewController.h"
+//#import "FavoriteViewController.h"
 
 enum _RouteTripsTableViewSection {
 	kSection_Direction_0 = 0,

@@ -12,7 +12,7 @@
 #import "StopSearchViewController.h"
 #import "RouteSearchViewController.h"
 #import "CitySelectViewController.h"
-#import "FavoriteViewController.h"
+//#import "FavoriteViewController.h"
 #import "FavoriteViewController2.h"
 #import "SettingsViewController.h"
 #import "OfflineViewController.h"
@@ -233,6 +233,8 @@ NSString *tabBarViewControllerIds[]={
 				[(RouteSearchViewController  *)subVC reset];
 			else if ([subVC isKindOfClass:[NearbyViewController class]])
 				[(NearbyViewController *)subVC reset];
+			else if ([subVC isKindOfClass:[FavoriteViewController2 class]])
+				[(FavoriteViewController2  *)subVC reset];
 		}
 	}	
 }

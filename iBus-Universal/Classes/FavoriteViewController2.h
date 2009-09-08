@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "StopsViewController.h"
 
+NSArray *readFavoriteStops();
+NSArray * readFavoriteRoutes();
+
 BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign, NSString *routeName);
-BOOL removeRouteFromFavorite(NSString *routeId, NSString *dir, NSString *headSign);
-BOOL isRouteInFavorite(NSString *stopId, NSString *routeId, NSString *dirId, NSString *headSign);
+BOOL removeRouteFromFavorite(NSString *routeId, NSString *dir);
+BOOL isRouteInFavorite(NSString *routeId, NSString *dirId);
+
+BOOL saveStopToFavorite(NSString *stopId);
+BOOL removeStopFromFavorite(NSString *stopId);
+BOOL isStopInFavorite(NSString *stopId);
 
 @interface FavoriteViewController2 : UIViewController <UITableViewDataSource, UITableViewDelegate> 
 {

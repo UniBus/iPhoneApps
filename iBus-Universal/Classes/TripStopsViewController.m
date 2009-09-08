@@ -88,6 +88,17 @@ enum _TripStopsTableViewSection {
 	self.navigationItem.prompt = nil;
 }
 
+- (void) notifyApplicationFavoriteChanged
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication]; 
+	@try {
+		[myApplication.delegate performSelector:@selector(favoriteDidChange:) withObject:self];
+	}
+	@catch (NSException * e) {
+		NSLog(@"didSelectRowAtIndexPath: Caught %@: %@", [e name], [e reason]);
+	}
+}
+
 #pragma mark TableView Delegate Functions
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,13 +121,19 @@ enum _TripStopsTableViewSection {
 			}
 				
 			case 1:
-				if (isRouteInFavorite(@"", routeId, dirId, headSign))
-					removeRouteFromFavorite(routeId, dirId, headSign);
+			{
+				if (isRouteInFavorite(routeId, dirId))
+					removeRouteFromFavorite(routeId, dirId);
 				else
 					saveRouteToFavorite(routeId, dirId, headSign, @"");
 					//saveRouteToFavorite(routeId, dirId, headSign);
+				
+				[tableView reloadData];
+				
+				[self notifyApplicationFavoriteChanged];
+				
 				break;
-
+			}
 			case 2:
 				break;
 			
@@ -177,10 +194,10 @@ enum _TripStopsTableViewSection {
 			cell.textLabel.text = @"Show it on map!";
 		else if (indexPath.row == 1)
 		{
-			if (isRouteInFavorite(@"", routeId, dirId, headSign))
-				cell.textLabel.text = @"Remove from favorite";
+			if (isRouteInFavorite(routeId, dirId))
+				cell.textLabel.text = @"Unbookmark the route";
 			else
-				cell.textLabel.text = @"Add to favorite";
+				cell.textLabel.text = @"Bookmark the route";
 		}
 		else if (indexPath.row == 2)
 			cell.textLabel.text = @"All destinations of the route!";

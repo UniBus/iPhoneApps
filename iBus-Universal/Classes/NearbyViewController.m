@@ -175,6 +175,7 @@ char *UnitName(int unit);
 
 - (void) alertOnEmptyStopsOfInterest
 {
+	/*
 	// open an alert with just an OK button
 	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %.1f %s", searchRange, UnitName(currentUnit)];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
@@ -182,6 +183,7 @@ char *UnitName(int unit);
 	[alert show];	
 	[alert release];
 	//Show some info to user here!	
+	 */
 }
 
 - (CGPoint) getARandomCoordinate

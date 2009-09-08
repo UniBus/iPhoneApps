@@ -11,7 +11,7 @@
 #import "Upgrade.h"
 #import "GTFSCity.h"
 
-NSString * const desiredDbVersion = @"1.2";
+NSString * const desiredDbVersion = @"1.3";
 
 BOOL isValidDatabase(NSString *dbName)
 {
@@ -109,7 +109,7 @@ void resetCurrentCity(NSString *newDb)
 }
 
 #pragma mark Upgrade $(city).sqlite database
-BOOL upgradeFavorites_V10TOV11(NSString *currentDb, NSString *newDb)
+BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 {
 	sqlite3 *destDb;
 	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
@@ -122,12 +122,51 @@ BOOL upgradeFavorites_V10TOV11(NSString *currentDb, NSString *newDb)
 		result = NO;
 		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
 	}
+
+	//STEP 1: Create table favorite2 if not exist	
+	sql = [NSString stringWithFormat:@""
+		   "CREATE TABLE IF NOT EXISTS favorites2 ("
+		   "  stop_id CHAR(16), "
+		   "  route_id CHAR(32), "
+		   "  route_name CHAR(32), "
+		   "  direction_id CHAR(4), "
+		   "  bus_sign CHAR(128), "
+		   "  rowindex DOUBLE "
+		   ")"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
 	
-	sql = [NSString stringWithFormat:@"INSERT INTO favorites "
-				"SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, routes.route_long_name as bus_sign "
-				"FROM routes, src.favorites "
-				"WHERE routes.route_short_name=src.favorites.route_id"
+	//STEP 2: Create DBinfo, and tag db version
+	sql = [NSString stringWithFormat:@"UPDATE dbinfo SET value='1.3' WHERE parameter='db_version'"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+
+	//STEP 3: Copy favorite stops from old database
+	sql = [NSString stringWithFormat:@""
+		   "INSERT INTO favorites2 "
+		   "   SELECT DISTINCT stop_id as stop_id, '', '', '','', rowid "
+		   "   FROM src.favorites "
+		   "   WHERE stop_id<>'' "
 			];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	//STEP 4: Copy favorite routes from old database
+	sql = [NSString stringWithFormat:@""
+		   "INSERT INTO favorites2 "
+		   "   SELECT DISTINCT '', route_id, route_name, direction_id, bus_sign, rowid "
+		   "   FROM src.favorites "
+		   "   WHERE route_id<>'' "
+		   ];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;
@@ -138,7 +177,52 @@ BOOL upgradeFavorites_V10TOV11(NSString *currentDb, NSString *newDb)
 	return result;	
 }
 
-BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
+
+BOOL upgradeFavorites2(NSString *currentDb, NSString *newDb)
+{
+	sqlite3 *destDb;	
+	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
+		return NO;
+	
+	BOOL result = YES;
+	NSString *sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS favorites2", currentDb];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sql = [NSString stringWithFormat:@""
+		   "CREATE TABLE IF NOT EXISTS favorites2 ("
+		   "  stop_id CHAR(16), "
+		   "  route_id CHAR(32), "
+		   "  route_name CHAR(32), "
+		   "  direction_id CHAR(4), "
+		   "  bus_sign CHAR(128), "
+		   "  rowindex DOUBLE "
+		   ")"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sql = [NSString stringWithFormat:@"UPDATE dbinfo SET value='1.3' WHERE parameter='db_version'"];
+	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		result = NO;
+		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
+	}
+	
+	sqlite3_close(destDb);	
+	
+	return upgradeFavorites(currentDb, newDb);
+}
+
+
+/* This function is called to update favorite table from ver1.1 to ver1.2
+ */
+BOOL upgradeFavorites_before_ver12(NSString *currentDb, NSString *newDb)
 {
 	sqlite3 *destDb;
 	
@@ -174,16 +258,20 @@ BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 	
 	if ([currentDbVersion isEqualToString:@"1.0"])
 	{
-		sql = [NSString stringWithFormat:@"INSERT INTO favorites "
-		   "SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, '' as direction_id,  routes.route_long_name as bus_sign "
-		   "FROM routes, src.favorites "
-		   "WHERE routes.route_short_name=src.favorites.route_id"
+		sql = [NSString stringWithFormat:@""
+			   "INSERT INTO favorites "
+			   "   SELECT favorites.stop_id, routes.route_id, routes.route_short_name as route_name, '' as direction_id,  routes.route_long_name as bus_sign "
+			   "   FROM routes, src.favorites "
+			   "   WHERE routes.route_short_name=src.favorites.route_id"
 		   ];
 		NSLog(@"Update from 1.0: SQL: %@", sql);
 	}
 	else
 	{
-		sql = [NSString stringWithFormat:@"INSERT INTO favorites SELECT stop_id, route_id, route_name, '' as direction_id, bus_sign FROM src.favorites"];
+		sql = [NSString stringWithFormat:@""
+			   "INSERT INTO favorites "
+			   "   SELECT stop_id, route_id, route_name, '' as direction_id, bus_sign "
+			   "   FROM src.favorites"];
 		NSLog(@"Update from 1.1: SQL: %@", sql);
 	}
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
@@ -196,7 +284,10 @@ BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 	return result;
 }
 
-BOOL upgradeFavorites2(NSString *currentDb, NSString *newDb)
+/* This function is called when the favorites table does not exist,
+ *   probably version 1.0.
+ */
+BOOL upgradeFavorites2_before_ver12(NSString *currentDb, NSString *newDb)
 {
 	sqlite3 *destDb;	
 	if (sqlite3_open([newDb UTF8String], &destDb) != SQLITE_OK) 
@@ -210,13 +301,14 @@ BOOL upgradeFavorites2(NSString *currentDb, NSString *newDb)
 		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
 	}
 	
-	sql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS favorites ("
-									@"stop_id CHAR(16), "
-									@"route_id CHAR(32), "
-									@"route_name CHAR(32), "
-									@"direction_id CHAR(4), "
-									@"bus_sign CHAR(128) "
-									@")"];
+	sql = [NSString stringWithFormat:@""
+		   "CREATE TABLE IF NOT EXISTS favorites ("
+		   "  stop_id CHAR(16), "
+		   "  route_id CHAR(32), "
+		   "  route_name CHAR(32), "
+		   "  direction_id CHAR(4), "
+		   "  bus_sign CHAR(128) "
+		   ")"];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;
@@ -317,6 +409,9 @@ BOOL upgrade(NSString *currentDb, NSString *newDb)
 	NSString *tmpDbPathForUpgrade = [upgradePath stringByAppendingPathComponent:dbName];
 	if ([fileManager fileExistsAtPath:newDb])
 	{
+		/* This part only useful before ver1.2, when there are some cities included in the package.
+		 *   But after ver1.3, all cities update are done online.
+		 */
 		copyDatabase(tmpDbPathForUpgrade, newDb);
 		if (upgradeFavorites(currentDb, tmpDbPathForUpgrade) == NO)
 		{
@@ -367,10 +462,11 @@ BOOL upgradeCities(NSString *currentDb, NSString *newDb)
 		NSLog(@"Error: %s", sqlite3_errmsg(destDb));		
 	}
 	 */
-	sql = [NSString stringWithFormat:@"REPLACE INTO cities(id, name, state, country, website, dbname, lastupdate, local, oldbdownloaded, oldbtime) "
-		   @"SELECT cities.id, cities.name, cities.state, cities.country, cities.website, cities.dbname, oldcities.lastupdate, oldcities.local, cities.oldbdownloaded, cities.oldbtime "
-		   @"       FROM cities, src.cities as oldcities "
-		   @"       WHERE cities.id=oldcities.id AND oldcities.local=1"];
+	sql = [NSString stringWithFormat:@""
+		   "REPLACE INTO cities(id, name, state, country, website, dbname, lastupdate, local, oldbdownloaded, oldbtime) "
+		   "    SELECT cities.id, cities.name, cities.state, cities.country, cities.website, cities.dbname, oldcities.lastupdate, oldcities.local, oldcities.oldbdownloaded, oldcities.oldbtime "
+		   "    FROM cities, src.cities as oldcities "
+		   "    WHERE cities.id=oldcities.id AND oldcities.local=1"];
 	if (sqlite3_exec(destDb, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
 	{
 		result = NO;
