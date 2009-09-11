@@ -12,6 +12,7 @@
 #import "DatePickViewController.h"
 #import "TransitApp.h"
 #import "FavoriteViewController2.h"
+#import "RouteTripsViewController.h"
 
 enum _TripStopsTableViewSection {
 	kSection_RouteAction = 0,
@@ -78,10 +79,10 @@ enum _TripStopsTableViewSection {
 	
 	if (aTrip)
 	{
-		tripId =  aTrip.tripId;
-		routeId = aTrip.routeId;
-		dirId = aTrip.direction;
-		headSign = aTrip.headsign;
+		self.tripId =  [aTrip.tripId retain];
+		self.routeId = [aTrip.routeId retain];
+		self.dirId = [aTrip.direction retain];
+		self.headSign = [aTrip.headsign retain];
 	}
 	
 	[stopsTableView reloadData];
@@ -134,8 +135,15 @@ enum _TripStopsTableViewSection {
 				
 				break;
 			}
+				
 			case 2:
+			{
+				RouteTripsViewController *routeTripsVC = [[RouteTripsViewController alloc] initWithNibName:nil bundle:nil];
+				routeTripsVC.routeID =  self.routeId;
+				routeTripsVC.dirID = self.dirId;
+				[[self navigationController] pushViewController:routeTripsVC animated:YES];
 				break;
+			}
 			
 			default:
 				break;
@@ -164,7 +172,13 @@ enum _TripStopsTableViewSection {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kSection_RouteAction)
-		return 3;
+	{
+		UIViewController *parentViewCtrl = [self.navigationController.viewControllers objectAtIndex:([self.navigationController.viewControllers count]-2)];
+		if ([parentViewCtrl isKindOfClass:[RouteTripsViewController class]])
+			return 2;
+		else
+			return 3;
+	}
 	else if (section == kSection_StopsList)
 		return [stopIdsOnTrip count];
 	return 0;

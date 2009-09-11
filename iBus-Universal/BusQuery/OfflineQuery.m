@@ -62,6 +62,10 @@
 			[feasibleServiceIds addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 		
 	//Then, check if the day has been particularly added or removed from some services
@@ -84,6 +88,10 @@
 				NSLog(@"Unknown exception type found in current calendar_dates table!!");
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 	
 	for(NSString *exceptionalId in exceptionalServiceIds)
@@ -131,6 +139,10 @@
 			[allRoutes setObject:dictForARoute forKey:currentKey];
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 
 	return allRoutes;
@@ -489,6 +501,10 @@
 			[arrival release];		
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 	
 	sqlite3_close(database);	
@@ -580,6 +596,10 @@
 			[allTrips addObject:aTrip];
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 	
 	sqlite3_close(database);	
@@ -608,6 +628,10 @@
 			[allStops addObject:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
 		}
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
 
 	
@@ -626,6 +650,10 @@
 				aTrip.headsign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];				
 			}
 		}
+		else
+		{
+			NSLog(@"Error: %s", sqlite3_errmsg(database));	
+		}	
 		sqlite3_finalize(statement);
 	}	
 	
@@ -644,24 +672,65 @@
 		return [NSMutableArray array];
 	}
 	
+	TransitApp *myApplication = (TransitApp *)[UIApplication sharedApplication];
+	NSString *sql = [NSString stringWithFormat:@"ATTACH DATABASE '%@' AS local", [myApplication currentDatabaseWithFullPath]];
+	NSLog(@"queryStopsOnRoute: attach: SQL: %@", sql);
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+		sqlite3_close(database);	
+		return [NSMutableArray array];
+	}	
+	
 	//Check if there is any feasible service id in calendar
 	//Outcomes of this query are a list of service_ids.
-	NSString *sql = [NSString stringWithFormat: @"SELECT trip_id FROM trips, stop_times "
-					 "WHERE trips.route_id='%@' AND "
-					 "trips.direction_id='%@' AND "
-					 "trips.trip_id = stop_times.trip_id AND "
-					 "trips.trip_headsign = '%@' "
-					 "LIMIT 1"
-					 , routeId, dirId, headSign, headSign];
-	NSLog(@"queryTripsOnRoute: SQL: %@", sql);
+	sql = [NSString stringWithFormat: @""
+		   "SELECT trips.trip_id FROM trips, stop_times, local.routes "
+		   "WHERE trips.route_id='%@' AND "
+		   "      trips.direction_id='%@' AND "
+		   "      trips.trip_id = stop_times.trip_id AND "
+		   "      routes.route_id = trips.route_id AND "
+		   "      (trips.trip_headsign = '%@' OR "		   
+		   "       routes.route_long_name = '%@' OR "
+		   "       routes.route_short_name = '%@' ) "
+		   "LIMIT 1", 
+		   routeId, dirId, headSign, headSign, headSign];
+	NSLog(@"queryStopsOnRoute: SQL: %@", sql);
 	sqlite3_stmt *statement;
-	NSString *tripId = @"";
+	NSString *tripId = NULL;
 	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
 	{
 		if (sqlite3_step(statement) == SQLITE_ROW)
 			tripId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 	}
+	else
+	{
+		NSLog(@"Error: %s", sqlite3_errmsg(database));	
+	}	
 	sqlite3_finalize(statement);
+	
+	if (tripId == NULL)
+	{
+		sql = [NSString stringWithFormat: @""
+			   "SELECT trips.trip_id FROM trips, stop_times, local.routes "
+			   "WHERE trips.route_id='%@' AND "
+			   "      trips.direction_id='%@' AND "
+			   "      trips.trip_id = stop_times.trip_id AND "
+			   "      routes.route_id = trips.route_id "
+			   "LIMIT 1", 
+			   routeId, dirId];
+		NSLog(@"queryStopsOnRoute: SQL: %@", sql);
+		if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
+		{
+			if (sqlite3_step(statement) == SQLITE_ROW)
+				tripId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+		}
+		else
+		{
+			NSLog(@"Error: %s", sqlite3_errmsg(database));	
+		}	
+		sqlite3_finalize(statement);		
+	}
 	
 	sqlite3_close(database);
 	

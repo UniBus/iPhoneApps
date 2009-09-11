@@ -119,8 +119,18 @@
 	{
 		NSLog(@"Error: %s", sqlite3_errmsg(database));		
 	}
-	
 	sqlite3_finalize(statement);
+	
+	if (aStop == nil)
+	{
+		aStop = [[BusStop alloc] init];
+		aStop.stopId = anId;
+		aStop.name = @"<Unknown>";
+		aStop.longtitude = 0.;
+		aStop.latitude = 0.;
+		aStop.description = @"Unknow stop";
+	}
+	
 	return [aStop autorelease];
 }
 

@@ -300,22 +300,22 @@ enum SettingTableSections
 			if (cityUpdateAvaiable)
 			{
 				cell.textLabel.textColor = [UIColor redColor];
-				cell.textLabel.text = @"New update available";
+				cell.textLabel.text = @"City Database (New update available)";
 			}
 			else
-				cell.textLabel.text = @"Already up to date";
+				cell.textLabel.text = @"City Database (Up-to-date)";
 		}
 		else if (indexPath.row == 2)
 		{
 			if (!offlineDownloaded)
-				cell.textLabel.text = @"Offline viewing available";
+				cell.textLabel.text = @"Offline Data (Not Cached)";
 			else if (offlineUpdateAvailable)
 			{
 				cell.textLabel.textColor = [UIColor redColor];
-				cell.textLabel.text = @"New offline data available";
+				cell.textLabel.text = @"Offline Data (New update available)";
 			}
 			else
-				cell.textLabel.text = @"Offline data up to date";
+				cell.textLabel.text = @"Offline Data (Up-to-date)";
 		}			
 		else if (indexPath.row == 3)
 		{

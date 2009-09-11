@@ -41,7 +41,7 @@ NSArray *readFavoriteStops()
     if (sqlite3_open([[myApplication currentDatabaseWithFullPath] UTF8String], &database) != SQLITE_OK) 
 		return favorites;
 	
-	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites2.stop_id, stops.stop_name, rowindex "
+	NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT favorites2.stop_id, stops.stop_name "
 					 "FROM favorites2, stops "
 					 "WHERE favorites2.stop_id=stops.stop_id AND route_id='' "
 					 "ORDER BY favorites2.rowindex ASC"];
@@ -80,7 +80,7 @@ NSArray * readFavoriteRoutes()
 		return favorites;
 	
 	NSString *sql = [NSString stringWithFormat:@""
-					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id, rowindex "
+					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id "
 					 "FROM favorites2, routes "
 					 "WHERE stop_id='' AND routes.route_id=favorites2.route_id "
 					 "ORDER BY favorites2.rowindex ASC"];
@@ -140,7 +140,7 @@ BOOL saveRouteToFavorite(NSString *routeId, NSString *dirId, NSString *headSign,
 	}
 	
 	sql = [NSString stringWithFormat:@""
-		   "INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) "
+		   "INSERT INTO favorites2(stop_id, route_id, route_name, bus_sign, direction_id) "
 		   "VALUES ('', '%@', '%@', '%@', '%@')",
 		   routeId, routeName, (headSign? headSign:@""), dirId];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
@@ -244,7 +244,7 @@ BOOL saveStopToFavorite(NSString *stopId)
 	/* Make sure it has been checked that there is no such record in the table!
 	 */
 	sql = [NSString stringWithFormat:@""
-		   "INSERT INTO favorites(stop_id, route_id, route_name, bus_sign, direction_id) "
+		   "INSERT INTO favorites2(stop_id, route_id, route_name, bus_sign, direction_id) "
 		   "VALUES ('%@', '', '', '', '')", stopId];
 	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) == SQLITE_OK)
 	{

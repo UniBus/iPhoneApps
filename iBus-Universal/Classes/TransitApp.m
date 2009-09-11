@@ -158,6 +158,7 @@ extern BOOL alwaysOffline;
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:destPath])
 	{
+		/* This portion is for older version.
 		NSError *error;
 		// The writable database does not exist, so copy the default to the appropriate location.
 		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
@@ -165,6 +166,8 @@ extern BOOL alwaysOffline;
 			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
 		else
 			NSLog(@"Database file copy to %@", destPath);
+		 */
+		[self userAlert: @"Database missed or corrupted! Please download new city database for the city from Settings."];
 	}
 	else
 	{
@@ -530,6 +533,7 @@ extern BOOL alwaysOffline;
 	NSInvocationOperation *theOp = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(queryStopTaskEntry:) object:stopView];
 	[theOp setQueuePriority:NSOperationQueuePriorityNormal];
 	[opQueue addOperation:theOp];
+	[theOp release];
 }
 
 - (void) arrivalsAtStopsAsync: (id)stopView
