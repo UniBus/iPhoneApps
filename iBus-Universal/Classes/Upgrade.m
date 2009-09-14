@@ -108,6 +108,21 @@ void resetCurrentCity(NSString *newDb)
 	sqlite3_close(database);	
 }
 
+
+void antiqueCity(NSString *cid)
+{
+	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
+	sqlite3 *database;
+	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
+		NSLog(NO, @"Open database Error!");
+	
+	NSString *sql = [NSString stringWithFormat:@"UPDATE cities SET lastupdate='20090101' WHERE id='%@'", cid];
+	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK)
+		NSLog(@"Error: %s", sqlite3_errmsg(database));
+	
+	sqlite3_close(database);	
+}
+
 #pragma mark Upgrade $(city).sqlite database
 BOOL upgradeFavorites(NSString *currentDb, NSString *newDb)
 {

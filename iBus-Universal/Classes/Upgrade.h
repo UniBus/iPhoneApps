@@ -10,6 +10,7 @@
 
 BOOL upgradeNeeded(NSString *currengDb);
 void resetCurrentCity(NSString *newDb);
+void antiqueCity(NSString *cid);
 
 BOOL upgradeFavorites(NSString *currentDb, NSString *newDb);
 BOOL copyDatabase(NSString *currentDb, NSString *newDb);

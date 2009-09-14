@@ -78,7 +78,7 @@
 - (NSArray *) allRoutesAtStop:(NSString *) sid
 {
 	NSMutableArray *results = [NSMutableArray array];	
-	NSString *sql = [NSString stringWithFormat:@"SELECT routes.route_short_name "
+	NSString *sql = [NSString stringWithFormat:@"SELECT routes.route_short_name, routes.route_long_name "
 					 "FROM routes, route_stops "
 					 "WHERE route_stops.stop_id=\"%@\" AND "
 					 "routes.route_id=route_stops.route_id", 
@@ -88,7 +88,9 @@
 	{
 		while (sqlite3_step(statement) == SQLITE_ROW)
 		{
-			NSString *routeName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];			
+			NSString *routeName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			if ([routeName isEqualToString:@""])
+				routeName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
 			[results addObject:routeName];
 		}
 	}

@@ -140,7 +140,7 @@ enum _TripStopsTableViewSection {
 			{
 				RouteTripsViewController *routeTripsVC = [[RouteTripsViewController alloc] initWithNibName:nil bundle:nil];
 				routeTripsVC.routeID =  self.routeId;
-				routeTripsVC.dirID = self.dirId;
+				routeTripsVC.dirID = @"";
 				[[self navigationController] pushViewController:routeTripsVC animated:YES];
 				break;
 			}

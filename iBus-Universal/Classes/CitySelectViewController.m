@@ -167,6 +167,12 @@ enum CitySelectionSection {
 		return;
 	}
 	
+	if ([localCities count] == 0)
+	{
+		[tableView deselectRowAtIndexPath:indexPath animated:YES];
+		return;
+	}
+	
 	//select row: indexPath.row
 	GTFS_City *selectedCity = [localCities objectAtIndex:indexPath.row];
 	currentCityId = selectedCity.cid;
@@ -245,8 +251,16 @@ enum CitySelectionSection {
 	
 	if ([currentArray count] ==0)
 	{
-		cell.textLabel.text = @"Downloads & Updates";
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		if (indexPath.section == kUISection_Local)
+		{
+			cell.textLabel.text = @"<None>";
+			cell.accessoryType = UITableViewCellAccessoryNone;
+		}
+		else
+		{
+			cell.textLabel.text = @"Downloads & Updates";
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		}
 	}
 	else
 	{	

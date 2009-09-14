@@ -80,7 +80,7 @@ NSArray * readFavoriteRoutes()
 		return favorites;
 	
 	NSString *sql = [NSString stringWithFormat:@""
-					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id "
+					 "SELECT DISTINCT favorites2.route_id, routes.route_short_name, favorites2.bus_sign, favorites2.direction_id, routes.route_long_name "
 					 "FROM favorites2, routes "
 					 "WHERE stop_id='' AND routes.route_id=favorites2.route_id "
 					 "ORDER BY favorites2.rowindex ASC"];
@@ -91,6 +91,8 @@ NSArray * readFavoriteRoutes()
 		{			
 			NSString *savedRouteId = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 			NSString *savedRouteName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			if ( [savedRouteName isEqualToString:@""] )
+				savedRouteName =  [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 4)];
 			NSString *savedRouteSign = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 2)];
 			NSString *savedRouteDir = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
 

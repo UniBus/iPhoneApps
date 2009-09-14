@@ -148,6 +148,12 @@ extern BOOL alwaysOffline;
 }
 */
 
+/* To make current city look like hasn't been updated for a while.
+ */
+- (void) antiqueCurrentCity
+{
+}
+
 - (void) initializeDatabase
 {
 	NSAssert((currentDatabase != nil), @"Database is not set properly!!");
@@ -177,9 +183,12 @@ extern BOOL alwaysOffline;
 			if (upgrade(destPath, srcPath) == NO)
 				[self userAlert: @"Upgrading database incompleted! Please download new data for the city from Settings."];
 			else
-				[self userAlert: @"Database upgraded!"];
+			{
+				[self userAlert: @"Database upgraded!"];				
+				antiqueCity(currentCityId);
 				//The following line was for updating from V1.0 to V1.1
 				//[self userAlert: @"Database upgraded! You may find some extra routes in your list, please check."];
+			}
 		}
 	}
 	
