@@ -42,6 +42,7 @@ extern float searchRange;
 extern int numberOfResults;
 extern BOOL autoSwitchToOffline;
 extern BOOL alwaysOffline;
+extern BOOL cityUpdateAvailable;
 
 @interface TransitApp ()
 - (void) initializeGTFSInfoDatabase;
@@ -186,6 +187,7 @@ extern BOOL alwaysOffline;
 			{
 				[self userAlert: @"Database upgraded!"];				
 				antiqueCity(currentCityId);
+				cityUpdateAvailable = YES;
 				//The following line was for updating from V1.0 to V1.1
 				//[self userAlert: @"Database upgraded! You may find some extra routes in your list, please check."];
 			}

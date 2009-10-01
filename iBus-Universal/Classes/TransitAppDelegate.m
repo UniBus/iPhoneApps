@@ -22,8 +22,9 @@
 
 extern BOOL autoSwitchToOffline;
 extern BOOL alwaysOffline;
-extern BOOL cityUpdateAvaiable;
+extern BOOL cityUpdateAvailable;
 extern BOOL offlineUpdateAvailable;
+extern BOOL offlineDownloaded;
 
 NSString *tabBarViewControllerIds[]={
 	@"FavoriteViewController",
@@ -96,6 +97,7 @@ NSString *tabBarViewControllerIds[]={
 	
 	autoSwitchToOffline = [defaults boolForKey:UserSavedAutoSwitchOffline];
 	alwaysOffline = [defaults boolForKey:UserSavedAlwayOffline];
+	offlineDownloaded = offlineDbDownloaded(selectedCityId);
 	
 	// This is the first time it run the App.
 	if ([selectedCity isEqualToString:@""] || [selectedDatabase isEqualToString:@""] || [selectedWebPrefix isEqualToString:@""])
@@ -299,12 +301,12 @@ extern NSString *GTFSUpdateURL;
 		[cityUpdateVC checkUpdates];
 		
 		//After calling the above function, the following two global variables will be updated:
-		//	- cityUpdateAvaiable;
+		//	- cityUpdateAvailable;
 		//	- offlineUpdateAvailable;
 		
-		if (cityUpdateAvaiable && offlineUpdateAvailable)
+		if (cityUpdateAvailable && offlineUpdateAvailable)
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
-		else if (cityUpdateAvaiable || offlineUpdateAvailable)
+		else if (cityUpdateAvailable || offlineUpdateAvailable)
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 		else
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		

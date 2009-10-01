@@ -28,7 +28,7 @@ extern BOOL  globalTestMode;
 extern int   currentUnit;
 extern int   currentTimeFormat;
 
-extern BOOL  cityUpdateAvaiable;
+extern BOOL  cityUpdateAvailable;
 extern BOOL  offlineUpdateAvailable;
 extern BOOL  offlineDownloaded;
 
@@ -297,7 +297,7 @@ enum SettingTableSections
 		}
 		else if (indexPath.row == 1)
 		{
-			if (cityUpdateAvaiable)
+			if (cityUpdateAvailable)
 			{
 				cell.textLabel.textColor = [UIColor redColor];
 				cell.textLabel.text = @"City Database (New update available)";

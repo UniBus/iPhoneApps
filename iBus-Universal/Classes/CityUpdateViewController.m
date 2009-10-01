@@ -69,7 +69,7 @@
 
 const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.3/updates/";
 
-BOOL  cityUpdateAvaiable = NO;
+BOOL  cityUpdateAvailable = NO;
 BOOL  offlineUpdateAvailable = NO;
 BOOL  offlineDownloaded = NO;
 
@@ -395,7 +395,7 @@ enum CurrentCityUpdateStatus {
 		statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;
 	}
 		
-	cityUpdateAvaiable = NO;
+	cityUpdateAvailable = NO;
 	offlineUpdateAvailable = NO;
 	[otherCitiesFromServer release];
 	[newCitiesFromServer release];
@@ -492,7 +492,7 @@ enum CurrentCityUpdateStatus {
 				else
 					statusOfCurrentyCityOfflineDb = kCurrentCityUpdated;				
 			}
-			cityUpdateAvaiable = (statusOfCurrentyCity == kCurrentCityNeedsUpdate);
+			cityUpdateAvailable = (statusOfCurrentyCity == kCurrentCityNeedsUpdate);
 			offlineUpdateAvailable = (statusOfCurrentyCityOfflineDb == kCurrentCityNeedsUpdate);
 		}
 		
@@ -804,7 +804,7 @@ enum CurrentCityUpdateStatus {
 		if ([updatingCity.cid isEqualToString:[(TransitApp *)[UIApplication sharedApplication] currentCityId]])
 		{
 			statusOfCurrentyCity = kCurrentCityUpdated;
-			cityUpdateAvaiable = NO;
+			cityUpdateAvailable = NO;
 			if (offlineUpdateAvailable)
 				[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 			else
