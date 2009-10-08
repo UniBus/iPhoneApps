@@ -10,11 +10,6 @@
 #import "DownloadManager.h"
 #import "MiscCells.h"
 
-@interface SearchRangeCell : UITableViewCell
-{
-}
-@end
-
 @interface SettingsViewController : UIViewController <UIWebViewDelegate, UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView	 *settingView;
 	IBOutlet SliderCell		 *rangeCell;

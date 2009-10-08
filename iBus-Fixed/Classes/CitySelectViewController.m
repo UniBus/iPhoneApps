@@ -116,6 +116,32 @@ enum CitySelectionSection {
 	sqlite3_close(database);	
 }
 
+- (void) presetCitySelectedInGTFS
+{
+	[self retrieveSupportedCities];
+	assert([localCities count] == 1);
+	if ([localCities count] != 1)
+		return;
+
+	//select row: indexPath.row
+	GTFS_City *selectedCity = [localCities objectAtIndex:0];
+	currentCityId = selectedCity.cid;
+	currentCity = [[NSString stringWithFormat:@"%@, %@, %@", selectedCity.cname, selectedCity.cstate, selectedCity.country] retain];
+	currentURL = selectedCity.website;
+	currentDatabase = selectedCity.dbname;
+	
+	@try
+	{
+		if (delegate)
+			[delegate performSelector:@selector(citySelected:) withObject:self];
+	}
+	@catch (NSException *exception)
+	{
+		NSLog(@"citySelected: Caught %@: %@", [exception name], [exception  reason]);
+	}
+}
+
+
 - (void) deleteAllFilesForCity:(GTFS_City *)aCity
 {
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];	
@@ -202,7 +228,10 @@ enum CitySelectionSection {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return 2;
+	if (iBusFixedVersion)
+		return 1;
+	else
+		return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 

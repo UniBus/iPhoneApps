@@ -11,7 +11,7 @@
 #import "Upgrade.h"
 #import "GTFSCity.h"
 
-NSString * const desiredDbVersion = @"1.3";
+NSString * const desiredDbVersion = @"1.4";
 
 BOOL isValidDatabase(NSString *dbName)
 {

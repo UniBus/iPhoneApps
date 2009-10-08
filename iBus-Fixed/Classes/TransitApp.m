@@ -24,7 +24,6 @@ NSString * const UserSavedTabBarSequence = @"UserSavedTabBarSequence";
 NSString * const UserSavedSearchRange = @"UserSavedSearchRange";
 NSString * const UserSavedSearchResultsNum = @"UserSavedSearchResultsNum";
 NSString * const UserSavedSelectedPage = @"UserSavedSelectedPage";
-NSString * const UserApplicationTitle = @"iBus-Universal";
 
 NSString * const UserCurrentCityId = @"UserSavedCurrentCityId";
 NSString * const UserCurrentCity = @"UserSavedCurrentCity";
@@ -34,7 +33,14 @@ NSString * const UserCurrentWebPrefix = @"UserSaveCurrentWebPrefix";
 NSString * const UserSavedAutoSwitchOffline = @"UserSavedAutoSwitchOffline";
 NSString * const UserSavedAlwayOffline = @"UserSavedAlwayOffline";
 
-NSString * const gtfsInfoDatabase = @"gtfs_info.sqlite";
+NSString * const ApplicationPresetFixedVersion = @"ApplicationPresetFixedVersion";
+NSString * const ApplicationPresetTitle = @"ApplicationPresetTitle";
+NSString * const ApplicationPresetGTFSInfo = @"ApplicationPresetGTFSInfo";
+
+NSString * applicationTitle = @"iBus-Universal";
+NSString * gtfsInfoDatabase = @"gtfs_info.sqlite";
+NSInteger  iBusFixedVersion = 0;
+NSInteger  numberOfCitiesSupported = -1;
 
 extern int currentTimeFormat;
 extern int currentUnit;
@@ -48,6 +54,7 @@ extern BOOL cityUpdateAvailable;
 - (void) initializeGTFSInfoDatabase;
 - (void) initializeDatabase;
 - (void) initializeWebService;
+- (void) readApplicationPresets;
 - (void) queryArrivalTaskEntry: (id) queryingObj;
 - (void) queryStopTaskEntry: (id) queryingObj;
 - (void) queryTripsOnRoueTaskEntry: (id) queryingObj;
@@ -65,6 +72,8 @@ extern BOOL cityUpdateAvailable;
 {
 	[super init];
 	
+	[self readApplicationPresets];
+	
 	[self registerUserDefaults];
 	[self initializeGTFSInfoDatabase];
 	
@@ -81,6 +90,20 @@ extern BOOL cityUpdateAvailable;
 	[routeQuery release];
 	[routeStops release];
 	[super dealloc];
+}
+
+//!
+//! Read preset parameters in the Info.plist file
+//!
+- (void) readApplicationPresets
+{
+	NSString *presetTitle = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ApplicationPresetTitle"];
+	if (![presetTitle isEqualToString:@""])
+		applicationTitle = [presetTitle copy];
+	NSString *presetGTFSInfo = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"ApplicationPresetGTFSInfo"];
+	if (![presetGTFSInfo isEqualToString:@""])
+		gtfsInfoDatabase = [presetGTFSInfo copy];
+	iBusFixedVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:ApplicationPresetFixedVersion] intValue];	
 }
 
 //!
@@ -107,7 +130,7 @@ extern BOOL cityUpdateAvailable;
 - (void) userAlert: (NSString *) msg
 {
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:msg
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:msg
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];		
@@ -165,16 +188,18 @@ extern BOOL cityUpdateAvailable;
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:destPath])
 	{
-		/* This portion is for older version.
-		NSError *error;
-		// The writable database does not exist, so copy the default to the appropriate location.
-		NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
-		if (![fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
-			NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+		if (iBusFixedVersion)
+		{
+			NSError *error;
+			// The writable database does not exist, so copy the default to the appropriate location.
+			NSString *srcPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:currentDatabase];
+			if (![fileManager copyItemAtPath:srcPath toPath:destPath error:&error])
+				NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
+			else
+				NSLog(@"Database file copy to %@", destPath);
+		}
 		else
-			NSLog(@"Database file copy to %@", destPath);
-		 */
-		[self userAlert: @"Database missed or corrupted! Please download new city database for the city from Settings."];
+			[self userAlert: @"Database missed or corrupted! Please download new city database for the city from Settings."];
 	}
 	else
 	{

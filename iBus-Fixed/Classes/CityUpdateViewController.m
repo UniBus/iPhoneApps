@@ -67,7 +67,7 @@
 
 #define TIMEOUT_DOWNLOAD	60.0
 
-const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.3/updates/";
+const NSString *GTFSUpdateURL = @"http://zyao.servehttp.com:5144/ver1.4/updates/";
 
 BOOL  cityUpdateAvailable = NO;
 BOOL  offlineUpdateAvailable = NO;
@@ -76,8 +76,8 @@ BOOL  offlineDownloaded = NO;
 enum CityUpdateSections
 {
 	kUIUpdate_CurrentCity = 0,
-	kUIUpdate_NewCity,
 	kUIUpdate_UpdatedCity,
+	kUIUpdate_NewCity,
 	kUIUpdate_AllOtherCity,
 	kUIUpdate_Section_Num
 };
@@ -96,6 +96,10 @@ enum CurrentCityUpdateStatus {
 };
 
 @interface CityUpdateViewController (private)
+NSMutableArray	*newCitiesFromServer;
+NSMutableArray	*updateCitiesFromServer;
+NSMutableArray	*otherCitiesFromServer;
+BOOL			downloadingNewCity;
 - (NSInteger) checkCityInLocalDb: (NSString *)city lastUpdate:(NSString *)updateDate;
 - (void) checkUpdates;
 - (void)startDownloadingURL:(NSString *) urlString asFile:(NSString *) fileName;
@@ -207,15 +211,20 @@ enum CurrentCityUpdateStatus {
 	sqlite3_finalize(statement);
 	
 	if (existed)
+	{
 		sql = [NSString stringWithFormat:@"UPDATE cities SET website='%@', dbname='%@', name='%@', state='%@', country='%@', lastupdate='%@', local=1 WHERE id='%@'",
 			   aCity.website, aCity.dbname, aCity.cname, aCity.cstate, aCity.country, aCity.lastupdate, aCity.cid];
-	else
+		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+			NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}
+	else if (iBusFixedVersion == 0)
+	{
 		sql = [NSString stringWithFormat:@"INSERT INTO cities (id, name, state, country, website, dbname, lastupdate, local) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', %d)", 
 					 aCity.cid, aCity.cname, aCity.cstate, aCity.country, aCity.website, aCity.dbname, aCity.lastupdate, 1];
-	
-	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
-		NSLog(@"Error: %s", sqlite3_errmsg(database));		
-	
+		if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
+			NSLog(@"Error: %s", sqlite3_errmsg(database));		
+	}
+		
 	sqlite3_close(database);	
 }
 
@@ -262,6 +271,9 @@ enum CurrentCityUpdateStatus {
  */
 - (void) flagCityToLocalGTFSInfo: (GTFS_City *)aCity
 {
+	if (iBusFixedVersion)
+		return;
+	
 	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
 	sqlite3 *database;
 	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
@@ -529,14 +541,14 @@ enum CurrentCityUpdateStatus {
 	UIActionSheet *actionSheet;
 	//NSString *otherButtonTitle = nil;
 	if (downloadingNewCity)
-		actionSheet = [[UIActionSheet alloc] initWithTitle:UserApplicationTitle
+		actionSheet = [[UIActionSheet alloc] initWithTitle:applicationTitle
 												  delegate:self
 										 cancelButtonTitle:@"Cancel" 
 									destructiveButtonTitle:@"OK" 
 										 otherButtonTitles:nil];
 	else
 	{
-		actionSheet = [[UIActionSheet alloc] initWithTitle:UserApplicationTitle
+		actionSheet = [[UIActionSheet alloc] initWithTitle:applicationTitle
 															 delegate:self
 													cancelButtonTitle:@"Cancel" 
 											   destructiveButtonTitle:@"Overwrite" 
@@ -617,7 +629,10 @@ enum CurrentCityUpdateStatus {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return kUIUpdate_Section_Num;
+	if (iBusFixedVersion)
+		return 2;
+	else
+		return kUIUpdate_Section_Num;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 

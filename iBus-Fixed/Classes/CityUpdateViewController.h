@@ -12,11 +12,7 @@
 @interface CityUpdateViewController : UIViewController <UIActionSheetDelegate, UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *updateTableView;
 	GTFS_City		*updatingCity;
-	NSMutableArray	*newCitiesFromServer;
-	NSMutableArray	*updateCitiesFromServer;
-	NSMutableArray	*otherCitiesFromServer;
 	NSInteger		bytesReceived;
-	BOOL			downloadingNewCity;
 	BOOL			overwriteFavorites;
 	NSInteger		statusOfCurrentyCity;
 	NSInteger		statusOfCurrentyCityOfflineDb;

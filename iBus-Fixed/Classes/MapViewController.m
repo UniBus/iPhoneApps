@@ -190,7 +190,7 @@ double DistanceBetween(CGPoint point1, CGPoint point2)
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Map load-in failed!"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"Map load-in failed!"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];
 	[alert release];	

@@ -156,7 +156,7 @@ NSString* RawTo12H(NSString* raw)
 	//To be implemented in subclasses
 	
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"There is no stops"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"There is no stops"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];

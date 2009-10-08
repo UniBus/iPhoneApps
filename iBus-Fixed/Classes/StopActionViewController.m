@@ -76,7 +76,7 @@
 	if ( (theStop.latitude == 0) || (theStop.longtitude == 0) )
 	{
 		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"The location of the stop is not available!"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"The location of the stop is not available!"
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
@@ -99,7 +99,7 @@
 	if ( (theStop.latitude == 0) || (theStop.longtitude == 0) )
 	{
 		// open an alert with just an OK button
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"The location of the stop is not available!"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"The location of the stop is not available!"
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];

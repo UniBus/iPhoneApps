@@ -25,5 +25,7 @@
 @property (readonly) NSString	*currentDatabase;
 @property (retain) id delegate;
 
+- (void) presetCitySelectedInGTFS;
+
 @end
 

@@ -31,64 +31,6 @@ enum OfflineViewSections
 	kUIOffline_Section_Num
 };
 
-void updateOfflineDbInfoInGTFS(NSString *cityId, int downloaded, NSString *downloadTime)
-{
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
-	sqlite3 *database;
-	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
-		return;
-	
-	NSString *sql = [NSString stringWithFormat:@"UPDATE cities SET oldbdownloaded=%d, oldbtime='%@' WHERE id='%@'",
-					 downloaded, (downloadTime)?downloadTime:@"", cityId];
-	if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, NULL) != SQLITE_OK) 
-		NSLog(@"Error: %s", sqlite3_errmsg(database));		
-	
-	sqlite3_close(database);	
-}
-
-BOOL offlineDbDownloaded(NSString *cityId)
-{
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
-	sqlite3 *database;
-	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
-		return NO;
-	
-	BOOL downloaded = NO;
-	NSString *sql = [NSString stringWithFormat:@"SELECT oldbdownloaded FROM cities WHERE id='%@'", cityId];
-	sqlite3_stmt *statement;
-	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
-	{
-		if (sqlite3_step(statement) == SQLITE_ROW)
-			downloaded = (sqlite3_column_int(statement, 0) == 1);
-	}	
-	sqlite3_finalize(statement);
-	
-	sqlite3_close(database);
-	return downloaded;
-}
-
-NSString *offlineDbDownloadTime(NSString *cityId)
-{
-	TransitApp *myApplication = (TransitApp *) [UIApplication sharedApplication];
-	sqlite3 *database;
-	if (sqlite3_open([[myApplication gtfsInfoDatabase] UTF8String], &database) != SQLITE_OK) 
-		return @"";
-	
-	NSString *downloadTime = @"";
-	NSString *sql = [NSString stringWithFormat:@"SELECT oldbtime FROM cities WHERE id='%@'", cityId];
-	sqlite3_stmt *statement;
-	if (sqlite3_prepare_v2(database, [sql UTF8String], -1, &statement, NULL) == SQLITE_OK) 
-	{
-		if (sqlite3_step(statement) == SQLITE_ROW)
-			if (sqlite3_column_text(statement, 0))
-				downloadTime = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-	}	
-	sqlite3_finalize(statement);
-	
-	sqlite3_close(database);
-	return downloadTime;
-}
-
 @interface OfflineViewController (private)
 - (void)startDownloadingURL:(NSString *) urlString asFile:(NSString *) fileName;
 @end
@@ -164,7 +106,7 @@ NSString *offlineDbDownloadTime(NSString *cityId)
 {
 	unzippingCancelled = YES;
 	/*
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle
 													message:@"Installing in progress, please wait"
 												   delegate:self 
 										  cancelButtonTitle:@"OK" 

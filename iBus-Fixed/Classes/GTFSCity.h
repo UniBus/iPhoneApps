@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+int totalNumberOfCitiesInGTFS();
+BOOL offlineDbUpdateAvailable(NSString *cityId);
+BOOL cityDbUpdateAvailable(NSString *cityId);
+void updateOfflineDbInfoInGTFS(NSString *cityId, int downloaded, NSString *downloadTime);
+BOOL offlineDbDownloaded(NSString *cityId);
+NSString *offlineDbDownloadTime(NSString *cityId);
+
 @interface GTFS_City : NSObject
 {
 	NSString *cid;
@@ -17,8 +24,11 @@
 	NSString *website;
 	NSString *dbname;
 	NSString *lastupdate;
+	NSString *lastupdatelocal;
 	NSString *oldbtime;
+	NSString *oldbtimelocal;
 	NSInteger local;
+	NSInteger oldbdownloaded;
 }
 
 @property (retain) NSString *cid;
@@ -28,8 +38,14 @@
 @property (retain) NSString *website;
 @property (retain) NSString *dbname;
 @property (retain) NSString *lastupdate;
+@property (retain) NSString *lastupdatelocal;
 @property (retain) NSString *oldbtime;
-@property NSInteger			local;
+@property (retain) NSString *oldbtimelocal;
+@property NSInteger	        local;
+@property NSInteger         oldbdownloaded;
+
+- (BOOL) isSameCity: (GTFS_City *)city;
+- (BOOL) isEqualTo: (GTFS_City *)city;
 
 @end
 

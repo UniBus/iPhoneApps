@@ -1,5 +1,5 @@
 //
-//  SettingsAppDelegate.m
+//  SettingsViewController2.m
 //  Settings
 //
 //  Created by Zhenwang Yao on 18/08/08.
@@ -9,7 +9,6 @@
 #import "SettingsViewController.h"
 #import "CitySelectViewController.h"
 #import "CityUpdateViewController.h"
-#import "OfflineViewController.h"
 #import "TagManagerViewController.h"
 #import "InfoViewController.h"
 #import "AboutViewController.h"
@@ -32,12 +31,16 @@ extern BOOL  cityUpdateAvailable;
 extern BOOL  offlineUpdateAvailable;
 extern BOOL  offlineDownloaded;
 
+BOOL autoSwitchToOffline;
+BOOL alwaysOffline;
+
 char *UnitName(int unit);
 
 enum SettingTableSections
 {
 	kUICity_Section = 0,
 	kUISearch_Section,
+	kUIOffline_Section,
 	kUIGeneral_Section,
 	//kUIAbout_Section,
 	kUISetting_Section_Num
@@ -139,6 +142,33 @@ enum SettingTableSections
 	[defaults setInteger:numberOfResults forKey:UserSavedSearchResultsNum];
 }
 
+- (void) updateSwitchEnabled
+{
+	//Disable alwayOff setting
+	CellWithSwitch *cellToUpdate = (CellWithSwitch *) [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow: 1 inSection:kUIOffline_Section]];
+	if ([cellToUpdate isKindOfClass:[CellWithSwitch class]])
+	{
+		[cellToUpdate.userSwitch setEnabled:(autoSwitchToOffline==NO)];
+	}
+	else
+		NSAssert(NO, @"Didn't get the right row, check the indexPath");
+}
+
+- (IBAction) automaticSwitchTap:(id)sender
+{
+	autoSwitchToOffline = ((UISwitch *)sender).on;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setFloat:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
+	[self updateSwitchEnabled];
+}
+
+- (IBAction) alwaysOfflineTap:(id)sender
+{
+	alwaysOffline = ((UISwitch *)sender).on;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setFloat:alwaysOffline forKey:UserSavedAlwayOffline];
+}
+
 /*
 - (void) startCacheCurrentCity
 {
@@ -207,11 +237,18 @@ enum SettingTableSections
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == kUICity_Section)
-		return 4;
+	{
+		if (totalNumberOfCitiesInGTFS() == 1)
+			return 2;
+		else
+			return 3;
+	}
 	else if (section == kUIGeneral_Section)
 		return 2;
 	else if (section == kUISearch_Section)
 		return 4;
+	else if (section == kUIOffline_Section)
+		return 2;
 	else
 		return 2;
 }
@@ -223,6 +260,9 @@ enum SettingTableSections
 			return REGULARCELL_HEIGHT;				
 			break;
 		case kUIGeneral_Section:
+			return REGULARCELL_HEIGHT;				
+			break;
+		case kUIOffline_Section:
 			return REGULARCELL_HEIGHT;				
 			break;
 		case kUISearch_Section:
@@ -262,6 +302,9 @@ enum SettingTableSections
 		case kUISearch_Section:
 			title = @"Nearby Search";
 			break;
+		case kUIOffline_Section:
+			title = @"Offline Viewing";
+			break;
 		/*
 		case kUIAbout_Section:
 			title = @"About & Disclaimer";
@@ -300,11 +343,12 @@ enum SettingTableSections
 			if (cityUpdateAvailable)
 			{
 				cell.textLabel.textColor = [UIColor redColor];
-				cell.textLabel.text = @"City Database (New update available)";
+				cell.textLabel.text = @"Updates";
 			}
 			else
-				cell.textLabel.text = @"City Database (Up-to-date)";
+				cell.textLabel.text = @"Updates";
 		}
+		/*
 		else if (indexPath.row == 2)
 		{
 			if (!offlineDownloaded)
@@ -316,8 +360,9 @@ enum SettingTableSections
 			}
 			else
 				cell.textLabel.text = @"Offline Data (Up-to-date)";
-		}			
-		else if (indexPath.row == 3)
+		}
+		*/
+		else if (indexPath.row == 2)
 		{
 			cell.textLabel.text = @"Information";
 		}
@@ -356,6 +401,35 @@ enum SettingTableSections
 			cell.textLabel.textColor = [UIColor blackColor];
 			cell.textLabel.text = @"About UniBus";
 		}
+	}
+	else if (indexPath.section == kUIOffline_Section)
+	{
+		CellWithSwitch *cell = (CellWithSwitch *)[tableView dequeueReusableCellWithIdentifier:@"CellIdentifierAtOffLineSwitchView"];
+		if (cell == nil) 
+		{
+			cell = [[[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"CellIdentifierAtOffLineSwitchView"] autorelease];
+			//cell.textLabel.textAlignment = UITextAlignmentLeft;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			//cell.font = [UIFont systemFontOfSize:14];
+			//cell.textColor = [UIColor blueColor];
+			//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		}
+		if (indexPath.row == 0)
+		{
+			cell.switchOn = autoSwitchToOffline;
+			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
+			[cell.userSwitch addTarget:self action:@selector(automaticSwitchTap:) forControlEvents:UIControlEventValueChanged];
+			cell.label.text = @"Automatic Switch";
+		}
+		else
+		{
+			cell.switchOn = alwaysOffline;
+			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
+			[cell.userSwitch addTarget:self action:@selector(alwaysOfflineTap:) forControlEvents:UIControlEventValueChanged];
+			[cell.userSwitch setEnabled:(autoSwitchToOffline==NO)];
+			cell.label.text = @"Always offline";
+		}
+		return cell;
 	}
 	else if ( indexPath.section == kUISearch_Section )
 	{
@@ -481,21 +555,31 @@ enum SettingTableSections
 	
 	if (indexPath.row == 0)
 	{
-		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
-		selectionVC.delegate = [UIApplication sharedApplication];
-		[[self navigationController] pushViewController:selectionVC animated:YES];
+		if (totalNumberOfCitiesInGTFS() == 1)
+		{
+			InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
+			[[self navigationController] pushViewController:infoVC animated:YES];
+		}
+		else
+		{
+			CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
+			selectionVC.delegate = [UIApplication sharedApplication];
+			[[self navigationController] pushViewController:selectionVC animated:YES];
+		}
 	}
 	else if (indexPath.row == 1)
 	{
 		CityUpdateViewController *updateVC = [[CityUpdateViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:updateVC animated:YES];
 	}
+	/*
 	else if (indexPath.row == 2)
 	{
-		OfflineViewController *offlineVC = [[OfflineViewController alloc] initWithNibName:nil bundle:nil];
-		[[self navigationController] pushViewController:offlineVC animated:YES];
+		//OfflineViewController *offlineVC = [[OfflineViewController alloc] initWithNibName:nil bundle:nil];
+		//[[self navigationController] pushViewController:offlineVC animated:YES];
 	}
-	else if (indexPath.row == 3)
+	*/
+	else if (indexPath.row == 2)
 	{
 		InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
 		[[self navigationController] pushViewController:infoVC animated:YES];
@@ -521,8 +605,5 @@ enum SettingTableSections
 }
 
 @end
-
-@end
-
 
 

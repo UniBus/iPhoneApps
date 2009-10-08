@@ -178,7 +178,7 @@ char *UnitName(int unit);
 	/*
 	// open an alert with just an OK button
 	NSString *message = [NSString stringWithFormat:@"Could't find any stops within %.1f %s", searchRange, UnitName(currentUnit)];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:message
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:message
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -365,7 +365,7 @@ char *UnitName(int unit);
 	}
 	
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Couldn't update current location"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"Couldn't update current location"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
@@ -634,7 +634,7 @@ char *UnitName(int unit);
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 	// open an alert with just an OK button
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UserApplicationTitle message:@"Map load-in failed!"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle message:@"Map load-in failed!"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];
 	[alert release];	

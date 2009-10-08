@@ -19,7 +19,6 @@ extern NSString * const UserSavedDistanceUnit;
 extern NSString * const UserSavedTabBarSequence;
 extern NSString * const UserSavedSearchRange;
 extern NSString * const UserSavedSearchResultsNum;
-extern NSString * const UserApplicationTitle;
 extern NSString * const UserSavedSelectedPage;
 
 extern NSString * const UserCurrentCityId;
@@ -29,6 +28,15 @@ extern NSString * const UserCurrentWebPrefix;
 
 extern NSString * const UserSavedAutoSwitchOffline;
 extern NSString * const UserSavedAlwayOffline;
+
+extern NSString * const ApplicationPresetFixedVersion;
+extern NSString * const ApplicationPresetTitle;
+extern NSString * const ApplicationPresetGTFSInfo;
+
+extern NSString * applicationTitle;
+extern NSString * gtfsInfoDatabase;
+extern NSInteger  iBusFixedVersion;
+
 
 @interface TransitApp : UIApplication {
 	ArrivalQuery *arrivalQuery;

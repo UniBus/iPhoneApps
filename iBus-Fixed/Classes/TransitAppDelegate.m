@@ -15,7 +15,7 @@
 //#import "FavoriteViewController.h"
 #import "FavoriteViewController2.h"
 #import "SettingsViewController.h"
-#import "OfflineViewController.h"
+//#import "OfflineViewController.h"
 #import "InfoViewController.h"
 #import "CityUpdateViewController.h"
 #import "NearbyViewController.h"
@@ -102,9 +102,16 @@ NSString *tabBarViewControllerIds[]={
 	// This is the first time it run the App.
 	if ([selectedCity isEqualToString:@""] || [selectedDatabase isEqualToString:@""] || [selectedWebPrefix isEqualToString:@""])
 	{
-		
+		//if there is only one city
 		CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 		selectionVC.delegate = self;
+		if (iBusFixedVersion)
+			if (totalNumberOfCitiesInGTFS() == 1)
+			{
+				[selectionVC presetCitySelectedInGTFS];
+				[selectionVC release];
+				return;
+			}
 
 		configController = [[UINavigationController alloc] initWithRootViewController:selectionVC];	
 		configController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -289,8 +296,6 @@ extern NSString *GTFSUpdateURL;
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
-	CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
-	
 	NSURL *targetingUrl = [NSURL URLWithString:GTFSUpdateURL];
 	SCNetworkReachabilityFlags flags;
     SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[targetingUrl host] UTF8String]);
@@ -298,6 +303,7 @@ extern NSString *GTFSUpdateURL;
 	CFRelease(reachability);
 	if (gotFlags && (flags & kSCNetworkReachabilityFlagsReachable) && !(flags & kSCNetworkReachabilityFlagsConnectionRequired)) 
 	{
+		CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
 		[cityUpdateVC checkUpdates];
 		
 		//After calling the above function, the following two global variables will be updated:
