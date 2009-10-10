@@ -28,6 +28,7 @@
 		7D465FC2107C5E61005B6233 /* CityUpdateViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D465FC1107C5E61005B6233 /* CityUpdateViewController2.m */; };
 		7D47AA83107FB89400A83D15 /* busIcon_m.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D47AA82107FB89400A83D15 /* busIcon_m.png */; };
 		7D47AAC6107FC63500A83D15 /* aboutvan.html in Resources */ = {isa = PBXBuildFile; fileRef = 7D47AAC5107FC63500A83D15 /* aboutvan.html */; };
+		7D47AC701080824C00A83D15 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D47AC6F1080824C00A83D15 /* dist.plist */; };
 		7D59C9C50E94A9EC00FEA89A /* CitySelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */; };
 		7D61AD110EE06FDB0023BCC4 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D61AD100EE06FDB0023BCC4 /* DownloadManager.m */; };
 		7D6C0FC1102A9295002739BE /* StopActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6C0FC0102A9295002739BE /* StopActionViewController.m */; };
@@ -202,6 +203,7 @@
 		7D465FC1107C5E61005B6233 /* CityUpdateViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityUpdateViewController2.m; sourceTree = "<group>"; };
 		7D47AA82107FB89400A83D15 /* busIcon_m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busIcon_m.png; sourceTree = "<group>"; };
 		7D47AAC5107FC63500A83D15 /* aboutvan.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = aboutvan.html; sourceTree = "<group>"; };
+		7D47AC6F1080824C00A83D15 /* dist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dist.plist; sourceTree = "<group>"; };
 		7D59C9C30E94A9EC00FEA89A /* CitySelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitySelectViewController.h; sourceTree = "<group>"; };
 		7D59C9C40E94A9EC00FEA89A /* CitySelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitySelectViewController.m; sourceTree = "<group>"; };
 		7D61AD0F0EE06FDB0023BCC4 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				7D47AC6F1080824C00A83D15 /* dist.plist */,
 			);
 			name = "iBus-Universal";
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				7D7FE1E0107E6FF700F9D8C0 /* busIcon_g.png in Resources */,
 				7D47AA83107FB89400A83D15 /* busIcon_m.png in Resources */,
 				7D47AAC6107FC63500A83D15 /* aboutvan.html in Resources */,
+				7D47AC701080824C00A83D15 /* dist.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +997,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhenwang Yao";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

@@ -91,7 +91,7 @@ enum OfflineViewSections
 {
 	autoSwitchToOffline = ((UISwitch *)sender).on;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	[defaults setFloat:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
+	[defaults setBool:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
 	[self updateSwitchEnabled];
 }
 
@@ -99,7 +99,7 @@ enum OfflineViewSections
 {
 	alwaysOffline = ((UISwitch *)sender).on;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	[defaults setFloat:alwaysOffline forKey:UserSavedAlwayOffline];
+	[defaults setBool:alwaysOffline forKey:UserSavedAlwayOffline];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)theButtonIndex

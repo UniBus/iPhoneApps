@@ -39,8 +39,8 @@ char *UnitName(int unit);
 enum SettingTableSections
 {
 	kUICity_Section = 0,
-	kUISearch_Section,
 	kUIOffline_Section,
+	kUISearch_Section,
 	kUIGeneral_Section,
 	//kUIAbout_Section,
 	kUISetting_Section_Num
@@ -156,13 +156,9 @@ enum SettingTableSections
 
 - (IBAction) automaticSwitchTap:(id)sender
 {
-	autoSwitchToOffline = ((UISwitch *)sender).on;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	[defaults setFloat:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
-	[self updateSwitchEnabled];
-	
-	if (autoSwitchToOffline && (!offlineDownloaded))
+	if ((!autoSwitchToOffline) && (!offlineDownloaded))
 	{
+		((UISwitch *)sender).on = autoSwitchToOffline;
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle 
 														message:@"Warning: Offline schedule not cached yet!"
 													   delegate:self 
@@ -170,7 +166,13 @@ enum SettingTableSections
 											  otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
+		return;
 	}
+	
+	autoSwitchToOffline = ((UISwitch *)sender).on;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setBool:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
+	[self updateSwitchEnabled];
 	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:kUIOffline_Section]];
 	if (autoSwitchToOffline)
@@ -183,12 +185,9 @@ enum SettingTableSections
 
 - (IBAction) alwaysOfflineTap:(id)sender
 {
-	alwaysOffline = ((UISwitch *)sender).on;
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
-	[defaults setFloat:alwaysOffline forKey:UserSavedAlwayOffline];
-
-	if (alwaysOffline && (!offlineDownloaded))
+	if ((!alwaysOffline) && (!offlineDownloaded))
 	{
+		((UISwitch *)sender).on = alwaysOffline;
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle 
 														message:@"Warning: Offline schedule not cached yet!"
 													   delegate:self 
@@ -196,8 +195,13 @@ enum SettingTableSections
 											  otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
+		return;
 	}
 		
+	alwaysOffline = ((UISwitch *)sender).on;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
+	[defaults setBool:alwaysOffline forKey:UserSavedAlwayOffline];
+	
 	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:kUIOffline_Section]];
 	if (autoSwitchToOffline)
 		cellToUpdate.textLabel.text = @"Automatically switch online/offline.";
