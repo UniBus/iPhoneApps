@@ -7,7 +7,7 @@
 //
 
 #import "AboutViewController.h"
-
+#import "TransitApp.h"
 
 @implementation AboutViewController
 
@@ -38,11 +38,18 @@
 	aboutWebView.multipleTouchEnabled = NO;
 	//aboutWebView.background
 	self.view = aboutWebView;
-	self.navigationItem.title = @"About UniBus";	
+	self.navigationItem.title = @"About";	
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	aboutWebView.delegate = self;
-	NSString *pathToHTML = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
+	NSString *pathToHTML;
+	if (iBusFixedVersion)
+	{
+		NSString *aboutFileName = [[[NSBundle mainBundle] infoDictionary] objectForKey:ApplicationPresetAboutFile];	
+		pathToHTML= [[NSBundle mainBundle] pathForResource:aboutFileName ofType:@"html"];
+	}
+	else
+		pathToHTML= [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
 	NSURL *url = [NSURL fileURLWithPath:pathToHTML];	
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:url]];	
 }

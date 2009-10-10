@@ -60,6 +60,7 @@
  *
  * \ingroup xmlquery 
  */
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "CityUpdateViewController.h"
 #import "OfflineViewController.h"
 #import "TransitApp.h"
@@ -380,6 +381,15 @@ BOOL			downloadingNewCity;
 	return result;
 }
 
+- (void) checkUpdatesInBackground
+{
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	
+	[self checkUpdates];
+	
+	[pool release];	
+}
+
 #pragma mark XML query
 /*!
  * \brief Initiate checking the update by requesting cities.php.
@@ -418,23 +428,30 @@ BOOL			downloadingNewCity;
 	
 	NSString *urlString = [NSString stringWithFormat:@"%@cities.php", GTFSUpdateURL];
 	NSURL *queryURL = [NSURL URLWithString:urlString];	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:queryURL];
-	// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-	[parser setDelegate:self];
-	// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
+	SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[queryURL host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (gotFlags && (flags & kSCNetworkReachabilityFlagsReachable) && !(flags & kSCNetworkReachabilityFlagsConnectionRequired)) 
+	{		
+		
+		NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:queryURL];
+		// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
+		[parser setDelegate:self];
+		// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
+		[parser setShouldProcessNamespaces:NO];
+		[parser setShouldReportNamespacePrefixes:NO];
+		[parser setShouldResolveExternalEntities:NO];
 
-	[parser parse];
+		[parser parse];
 
-	NSError *parseError = [parser parserError];
-	if (parseError) {
-		NSLog(@"Error: %@", parseError);
-	}
+		NSError *parseError = [parser parserError];
+		if (parseError) {
+			NSLog(@"Error: %@", parseError);
+		}
 
-	[parser release];
-	
+		[parser release];
+	}	
 	/*
 	statusOfCurrentyCity = kCurrentCityUpdated;
 	NSString *appCurrentCityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];	
@@ -515,6 +532,7 @@ BOOL			downloadingNewCity;
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
 	//[arrivalsForStops sortUsingSelector:@selector(compare:)];
+	[updateTableView reloadData];
 	return;
 }
 
@@ -820,7 +838,7 @@ BOOL			downloadingNewCity;
 		{
 			statusOfCurrentyCity = kCurrentCityUpdated;
 			cityUpdateAvailable = NO;
-			if (offlineUpdateAvailable)
+			if ((offlineUpdateAvailable) && (offlineDownloaded))
 				[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 			else
 				[UIApplication sharedApplication].applicationIconBadgeNumber = 0;

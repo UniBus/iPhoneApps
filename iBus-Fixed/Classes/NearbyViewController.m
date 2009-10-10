@@ -23,8 +23,8 @@
 //#define MAPVIEW_ENABLED
 #define DEFAULT_SHOW_MAP        0
 
-float searchRange = 0.1;
-int   numberOfResults = 5;
+float searchRange = 0.5;
+int   numberOfResults = 15;
 BOOL  globalTestMode = NO;
 int   currentUnit = UNIT_KM;
 
@@ -500,13 +500,12 @@ char *UnitName(int unit);
 	}
 }
 */
-/*
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	//return [NSString stringWithFormat:@"Stops within ~ %.1f %s", searchRange, UnitName(currentUnit)];	
-	return @"Nearby Stops";
+	return [NSString stringWithFormat:@"Nearest stops within %.1f %s", searchRange, UnitName(currentUnit)];
 }
-*/
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {

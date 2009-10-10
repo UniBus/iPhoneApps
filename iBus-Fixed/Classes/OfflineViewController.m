@@ -197,7 +197,7 @@ enum OfflineViewSections
 			cell.switchOn = autoSwitchToOffline;
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(automaticSwitchTap:) forControlEvents:UIControlEventValueChanged];
-			cell.label.text = @"Automatic Switch";
+			cell.label.text = @"Automatic switch";
 		}
 		else
 		{

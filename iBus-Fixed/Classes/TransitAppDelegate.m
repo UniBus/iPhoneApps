@@ -138,7 +138,10 @@ NSString *tabBarViewControllerIds[]={
 		[window makeKeyAndVisible];	
 		[window addSubview:tabBarController.view];
 		
-		[self performSelectorInBackground:@selector(checkForUpdate) withObject:nil];
+		CityUpdateViewController *cityUpdateVC = [[CityUpdateViewController alloc] init]; 
+		[cityUpdateVC checkUpdatesInBackground];
+
+		//[self performSelectorInBackground:@selector(checkForUpdate) withObject:nil];
 	}
 }
 
@@ -291,6 +294,7 @@ NSString *tabBarViewControllerIds[]={
 }
 */
 
+/*
 extern NSString *GTFSUpdateURL;
 - (void) checkForUpdate
 {
@@ -310,9 +314,9 @@ extern NSString *GTFSUpdateURL;
 		//	- cityUpdateAvailable;
 		//	- offlineUpdateAvailable;
 		
-		if (cityUpdateAvailable && offlineUpdateAvailable)
+		if (cityUpdateAvailable && (offlineUpdateAvailable && offlineDownloaded) )
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
-		else if (cityUpdateAvailable || offlineUpdateAvailable)
+		else if (cityUpdateAvailable || (offlineUpdateAvailable && offlineDownloaded) )
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 		else
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		
@@ -320,6 +324,7 @@ extern NSString *GTFSUpdateURL;
 	
 	[pool release];
 }
+*/
 
 @end
 

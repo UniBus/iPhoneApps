@@ -9,9 +9,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>busIcon.png</string>
+	<string>busIcon_m.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.ibus.${PRODUCT_NAME:identifier}</string>
+	<string>ibus.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -34,7 +34,7 @@
 	<string>iBus-Vancouver</string>
 	<key>ApplicationPresetGTFSInfo</key>
 	<string>gtfs_info.vancouver</string>
-	<key>SupportList</key>
-	<string>supportedcities.lst</string>
+	<key>ApplicationPresetAboutFile</key>
+	<string>aboutvan</string>
 </dict>
 </plist>

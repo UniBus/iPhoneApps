@@ -36,11 +36,12 @@ NSString * const UserSavedAlwayOffline = @"UserSavedAlwayOffline";
 NSString * const ApplicationPresetFixedVersion = @"ApplicationPresetFixedVersion";
 NSString * const ApplicationPresetTitle = @"ApplicationPresetTitle";
 NSString * const ApplicationPresetGTFSInfo = @"ApplicationPresetGTFSInfo";
+NSString * const ApplicationPresetAboutFile = @"ApplicationPresetAboutFile";
 
 NSString * applicationTitle = @"iBus-Universal";
 NSString * gtfsInfoDatabase = @"gtfs_info.sqlite";
 NSInteger  iBusFixedVersion = 0;
-NSInteger  numberOfCitiesSupported = -1;
+//NSInteger  numberOfCitiesSupported = -1;
 
 extern int currentTimeFormat;
 extern int currentUnit;

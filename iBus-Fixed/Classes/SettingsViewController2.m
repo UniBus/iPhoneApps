@@ -160,6 +160,25 @@ enum SettingTableSections
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setFloat:autoSwitchToOffline forKey:UserSavedAutoSwitchOffline];
 	[self updateSwitchEnabled];
+	
+	if (autoSwitchToOffline && (!offlineDownloaded))
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle 
+														message:@"Warning: Offline schedule not cached yet!"
+													   delegate:self 
+											  cancelButtonTitle:@"OK" 
+											  otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+	}
+	
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:kUIOffline_Section]];
+	if (autoSwitchToOffline)
+		cellToUpdate.textLabel.text = @"Automatically switch online/offline.";
+	else if (alwaysOffline)
+		cellToUpdate.textLabel.text = @"Always use offline schedule.";
+	else
+		cellToUpdate.textLabel.text = @"Always use online schedule (offline disabled).";
 }
 
 - (IBAction) alwaysOfflineTap:(id)sender
@@ -167,6 +186,25 @@ enum SettingTableSections
 	alwaysOffline = ((UISwitch *)sender).on;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];	
 	[defaults setFloat:alwaysOffline forKey:UserSavedAlwayOffline];
+
+	if (alwaysOffline && (!offlineDownloaded))
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:applicationTitle 
+														message:@"Warning: Offline schedule not cached yet!"
+													   delegate:self 
+											  cancelButtonTitle:@"OK" 
+											  otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+	}
+		
+	UITableViewCell *cellToUpdate = [settingView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:kUIOffline_Section]];
+	if (autoSwitchToOffline)
+		cellToUpdate.textLabel.text = @"Automatically switch online/offline.";
+	else if (alwaysOffline)
+		cellToUpdate.textLabel.text = @"Always use offline schedule.";
+	else
+		cellToUpdate.textLabel.text = @"Always use online schedule (offline disabled).";
 }
 
 /*
@@ -248,7 +286,7 @@ enum SettingTableSections
 	else if (section == kUISearch_Section)
 		return 4;
 	else if (section == kUIOffline_Section)
-		return 2;
+		return 3;
 	else
 		return 2;
 }
@@ -263,7 +301,11 @@ enum SettingTableSections
 			return REGULARCELL_HEIGHT;				
 			break;
 		case kUIOffline_Section:
-			return REGULARCELL_HEIGHT;				
+			//return REGULARCELL_HEIGHT;				
+			if (indexPath.row == 2)
+				return [[UIFont fontWithName:@"HelveticaBold" size:12] capHeight] + 32;
+			else
+				return REGULARCELL_HEIGHT;				
 			break;
 		case kUISearch_Section:
 			if ( (indexPath.row == 0) || (indexPath.row == 1) )
@@ -336,17 +378,15 @@ enum SettingTableSections
 		cell.textLabel.textColor = [UIColor blackColor];
 		if (indexPath.row == 0)
 		{
+			if (totalNumberOfCitiesInGTFS() == 1)
+				cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.textLabel.text = [(TransitApp *)[UIApplication sharedApplication] currentCity];
 		}
 		else if (indexPath.row == 1)
 		{
 			if (cityUpdateAvailable)
-			{
 				cell.textLabel.textColor = [UIColor redColor];
-				cell.textLabel.text = @"Updates";
-			}
-			else
-				cell.textLabel.text = @"Updates";
+			cell.textLabel.text = @"Updates";
 		}
 		/*
 		else if (indexPath.row == 2)
@@ -380,7 +420,7 @@ enum SettingTableSections
 				timeCell = [[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
 				timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
 				timeCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-				timeCell.label.text = @"24-Hour Time";
+				timeCell.label.text = @"24-Hour time";
 				timeCell.switchOn = (currentTimeFormat == TIME_24H);
 				[timeCell.userSwitch addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
 			}
@@ -399,7 +439,7 @@ enum SettingTableSections
 				//cell.accessoryView.
 			}
 			cell.textLabel.textColor = [UIColor blackColor];
-			cell.textLabel.text = @"About UniBus";
+			cell.textLabel.text = [NSString stringWithFormat:@"About %@", applicationTitle];
 		}
 	}
 	else if (indexPath.section == kUIOffline_Section)
@@ -419,15 +459,28 @@ enum SettingTableSections
 			cell.switchOn = autoSwitchToOffline;
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(automaticSwitchTap:) forControlEvents:UIControlEventValueChanged];
-			cell.label.text = @"Automatic Switch";
+			cell.label.text = @"Automatic switch";
 		}
-		else
+		else if (indexPath.row == 1)
 		{
 			cell.switchOn = alwaysOffline;
 			[cell.userSwitch removeTarget:self action:NULL forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch addTarget:self action:@selector(alwaysOfflineTap:) forControlEvents:UIControlEventValueChanged];
 			[cell.userSwitch setEnabled:(autoSwitchToOffline==NO)];
 			cell.label.text = @"Always offline";
+		}
+		else
+		{
+			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"SettingViewCellNotes"] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.textLabel.font = [UIFont systemFontOfSize:12];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			if (autoSwitchToOffline)
+				cell.textLabel.text = @"Automatically switch online/offline.";
+			else if (alwaysOffline)
+				cell.textLabel.text = @"Always use offline schedule.";
+			else
+				cell.textLabel.text = @"Always use online schedule (offline disabled).";
 		}
 		return cell;
 	}
@@ -555,12 +608,14 @@ enum SettingTableSections
 	
 	if (indexPath.row == 0)
 	{
+		/*
 		if (totalNumberOfCitiesInGTFS() == 1)
 		{
 			InfoViewController *infoVC = [[InfoViewController alloc] initWithNibName:nil bundle:nil];
 			[[self navigationController] pushViewController:infoVC animated:YES];
 		}
-		else
+		*/
+		if (totalNumberOfCitiesInGTFS() > 1)
 		{
 			CitySelectViewController *selectionVC = [[CitySelectViewController alloc] initWithNibName:nil bundle:nil];
 			selectionVC.delegate = [UIApplication sharedApplication];

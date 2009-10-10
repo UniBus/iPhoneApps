@@ -32,6 +32,7 @@ extern NSString * const UserSavedAlwayOffline;
 extern NSString * const ApplicationPresetFixedVersion;
 extern NSString * const ApplicationPresetTitle;
 extern NSString * const ApplicationPresetGTFSInfo;
+extern NSString * const ApplicationPresetAboutFile;
 
 extern NSString * applicationTitle;
 extern NSString * gtfsInfoDatabase;

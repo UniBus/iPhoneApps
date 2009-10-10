@@ -24,6 +24,7 @@
  */
 //@{
 - (void) checkUpdates;
+- (void) checkUpdatesInBackground;
 - (BOOL) updateAvaiable; //This is for current city only
 - (BOOL) newOfflineDatabaseAvailable;
 //@}

@@ -60,6 +60,7 @@
  *
  * \ingroup xmlquery 
  */
+#import <SystemConfiguration/SCNetworkReachability.h>
 #import "CityUpdateViewController.h"
 #import "OfflineViewController.h"
 #import "TransitApp.h"
@@ -118,12 +119,15 @@ int              downloadingDbType;
 int              totalOfflineDbSize;
 BOOL             unzippingCancelled;
 - (NSInteger) checkCityInLocalDb: (NSString *)city lastUpdate:(NSString *)updateDate;
-- (void) getAllLocalCities;
+- (void) loadLocalCities;
 - (void)startDownloadingURL:(NSString *) urlString asFile:(NSString *) fileName;
 
 - (void)cityDbFileDownloaded:(NSString *)destinationFilename;
 - (void)offlineDbFileDownloaded:(NSString *)destinationFilename;
 - (void) offlineDbFileUnzipped:(NSString *)downloadedOfflineDb;
+
+- (void) checkUpdatesInBackground;
+- (void) updateApplicationBadge;
 
 @end
 
@@ -139,9 +143,12 @@ BOOL             unzippingCancelled;
 	updateTableView.dataSource = self;
 	self.view = updateTableView; 
 
-	[self getAllLocalCities];
-	[self checkUpdates];
+	[self loadLocalCities];
 	[updateTableView reloadData];
+	
+	[self performSelectorInBackground:@selector(checkUpdatesInBackground) withObject:nil];
+	//[self checkUpdates];
+	//[updateTableView reloadData];
 	
 	self.navigationItem.title = @"Updates";
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -318,11 +325,25 @@ BOOL             unzippingCancelled;
 /*!
  * \brief Get all cities from local gtfs_info.cities.
  *
- * \return a NSMutableArray with all local
- *     
+ * \return None.
+ *
+ * \remark 
+ *    This function is called by checkUpdates. In this
+ *      the local list allLocalCities is updated. At the same time,
+ *      some local variable is flaged including:
+ *      - cityUpdateAvailable
+ *      - offlineUpdateAvailable
+ *      - offlineDownloaded.
+ *      
  */
-- (void) getAllLocalCities
+- (void) loadLocalCities
 {	
+	if (allLocalCities)
+		if ([allLocalCities count] > 0)
+			return;
+	
+	[self updateApplicationBadge];
+		
 	[allLocalCities release];
 	allLocalCities = [[NSMutableArray alloc] init];
 	
@@ -373,10 +394,10 @@ BOOL             unzippingCancelled;
 			[city release];
 		}
 		else
-			NSLog(@"Error in getAllLocalCities (sqlite3_step): %s", sqlite3_errmsg(database));
+			NSLog(@"Error in loadLocalCities (sqlite3_step): %s", sqlite3_errmsg(database));
 	}
 	else
-		NSLog(@"Error in getAllLocalCities (sqlite3_prepare_v2): %s", sqlite3_errmsg(database));		
+		NSLog(@"Error in loadLocalCities (sqlite3_prepare_v2): %s", sqlite3_errmsg(database));		
 
 	sqlite3_finalize(statement);		
 	sqlite3_close(database);
@@ -412,6 +433,30 @@ BOOL             unzippingCancelled;
 	return YES;
 }
 
+- (void) checkUpdatesInBackground
+{
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	
+	[self checkUpdates];
+	
+	[pool release];	
+}
+
+- (void) updateApplicationBadge
+{
+	NSString *cityId = [(TransitApp *)[UIApplication sharedApplication] currentCityId];
+	cityUpdateAvailable = cityDbUpdateAvailable(cityId);
+	offlineUpdateAvailable = offlineDbUpdateAvailable(cityId);
+	offlineDownloaded = offlineDbDownloaded(cityId);	
+
+	if (cityUpdateAvailable && (offlineUpdateAvailable && offlineDownloaded) )
+		[UIApplication sharedApplication].applicationIconBadgeNumber = 2;
+	else if (cityUpdateAvailable || (offlineUpdateAvailable && offlineDownloaded) )
+		[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
+	else
+		[UIApplication sharedApplication].applicationIconBadgeNumber = 0;		
+}
+
 #pragma mark XML query
 /*!
  * \brief Initiate checking the update by requesting cities.php.
@@ -419,27 +464,41 @@ BOOL             unzippingCancelled;
  * \remarks
  *		- This function can be directly called, when checking update without UI.
  *		- When CityUpdate UI is shown, this function is called from [self loadView].
+ *
+ * Note that this function is also called when the app starts
+ *  so here so something for that.
+ *
  */
 - (void) checkUpdates
 {	
+	//Try access the server for latest updates
+	[self loadLocalCities];
 	NSString *urlString = [NSString stringWithFormat:@"%@cities.php", GTFSUpdateURL];
-	NSURL *queryURL = [NSURL URLWithString:urlString];	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:queryURL];
-	// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
-	[parser setDelegate:self];
-	// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
-
-	[parser parse];
-
-	NSError *parseError = [parser parserError];
-	if (parseError) {
-		NSLog(@"Error: %@", parseError);
+	NSURL *queryURL = [NSURL URLWithString:urlString];		
+	
+	SCNetworkReachabilityFlags flags;
+    SCNetworkReachabilityRef reachability =  SCNetworkReachabilityCreateWithName(NULL, [[queryURL host] UTF8String]);
+    BOOL gotFlags = SCNetworkReachabilityGetFlags(reachability, &flags);    
+	CFRelease(reachability);
+	if (gotFlags && (flags & kSCNetworkReachabilityFlagsReachable) && !(flags & kSCNetworkReachabilityFlagsConnectionRequired)) 
+	{
+		NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:queryURL];
+		// Set self as the delegate of the parser so that it will receive the parser delegate methods callbacks.
+		[parser setDelegate:self];
+		// Depending on the XML document you're parsing, you may want to enable these features of NSXMLParser.
+		[parser setShouldProcessNamespaces:NO];
+		[parser setShouldReportNamespacePrefixes:NO];
+		[parser setShouldResolveExternalEntities:NO];
+		
+		[parser parse];
+		
+		NSError *parseError = [parser parserError];
+		if (parseError) {
+			NSLog(@"Error: %@", parseError);
+		}
+		
+		[parser release];
 	}
-
-	[parser release];
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
@@ -473,6 +532,9 @@ BOOL             unzippingCancelled;
 {
 	//[arrivalsForStops sortUsingSelector:@selector(compare:)];
 	[updateTableView reloadData];
+	
+	[self updateApplicationBadge];
+	
 	return;
 }
 
@@ -717,7 +779,7 @@ BOOL             unzippingCancelled;
 	{
 		statusOfCurrentyCity = kCurrentCityUpdated;
 		cityUpdateAvailable = NO;
-		if (offlineUpdateAvailable)
+		if ((offlineUpdateAvailable) && (offlineDownloaded))
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 1;
 		else
 			[UIApplication sharedApplication].applicationIconBadgeNumber = 0;

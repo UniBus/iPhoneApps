@@ -335,7 +335,7 @@ enum SettingTableSections
 				timeCell = [[CellWithSwitch alloc] initWithFrame:CGRectMake(0, 0, REGULARCELL_WIDTH, SLIDERCELL_HEIGHT) reuseIdentifier:@"timeCell"];
 				timeCell.selectionStyle = UITableViewCellSelectionStyleNone;
 				timeCell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-				timeCell.label.text = @"24-Hour Time";
+				timeCell.label.text = @"24-Hour time";
 				timeCell.switchOn = (currentTimeFormat == TIME_24H);
 				[timeCell.userSwitch addTarget:self action:@selector(timeFormatChanged:) forControlEvents:UIControlEventValueChanged];
 			}
@@ -354,7 +354,7 @@ enum SettingTableSections
 				//cell.accessoryView.
 			}
 			cell.textLabel.textColor = [UIColor blackColor];
-			cell.textLabel.text = @"About UniBus";
+			cell.textLabel.text = @"About";
 		}
 	}
 	else if ( indexPath.section == kUISearch_Section )
@@ -519,8 +519,6 @@ enum SettingTableSections
 	else 
 		return YES;
 }
-
-@end
 
 @end
 
