@@ -1,0 +1,3 @@
+../code/import_gtfs_info.py ./database/gtfs_info.sqlite supportedcities.lst
+../code/add_dbinfo.py ./database/gtfs_info.sqlite
+

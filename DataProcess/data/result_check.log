@@ -1,0 +1,117 @@
+================= austin ================
+66|CRAIGWOOD/ FM 969|30.28416|-97.65985|Southeast corner of CRAIGWOOD and FM 969 (WEBBERVILLE ) - Nearside
+133|WACKENHUT CORRECTIONAL FACILITY|30.27104|-97.64667|Southeast corner of WACKENHUT CORRECTIONAL FACILIT and FM 969 (WEBBERVILLE ) - Nearside
+================= dallas ================
+12898|SCHROEDER @ GALVA - S - NS|32.916118|-96.762192|SCHROEDER @ GALVA - S - NS
+12899|SCHROEDER @ GALVA - S - NS|32.912078|-96.762787|SCHROEDER @ GALVA - S - NS
+================= davis ================
+22000|Hutchison Dr & A St (EB)|38.540031|-121.746053|Buses head EB
+22001|A St & Hutchison (SB)|38.54049|-121.746012|Buses head SB
+================= denver ================
+10007|W 100th Ave & Pecos St|39.87864|-105.00615|W 100th Ave & Pecos St
+10008|W 100th Ave & Ura Ln|39.87791|-105.01119|W 100th Ave & Ura Ln
+================= humboldt ================
+1289|Spruce Point|40.7419|-124.2|Spruce Point
+1251|Broadway St & McCullen Ave|40.77423|-124.19057|Broadway St & McCullen Ave, Eureka, CA 95501
+================= oc ================
+10|ANAHEIM-VERMONT|33.82344|-117.90981|ANAHEIM-VERMONT
+1000|KRAEMER-BIRCH|33.9162|-117.86367|KRAEMER-BIRCH
+================= perth ================
+10000|Albany Hwy After Armadale Rd|-32.14796|116.020217222222|Albany Hwy After Armadale Rd
+10001|Albany Hwy After Frys L|-32.144985|116.018336666667|Albany Hwy After Frys L
+================= portland ================
+10|Abernethy & Barclay|45.384749|-122.603202|Southbound stop in Gladstone (Stop ID 10)
+100|SW Allen & Erickson|45.476379|-122.812071|Eastbound stop in Beaverton (Stop ID 100)
+================= riovista ================
+1557|Main St & S Front St|38.1559|-121.6908|Main St & S Front St
+1537|Rio Vista Senior Center|38.1553|-121.6901|This bus stop is located at 25 Main Street
+================= sacramento ================
+102|OLMSTEAD DR & FAIRBANKS AVE|38.625807|-121.460055|Buses head NB
+103|NORTHGATE BLVD & WINTER GARDEN AVE|38.625807|-121.475353|Buses head NB
+================= sanfrancisco ================
+LAKE|Lake Merritt BART|37.79760237|-122.2654984|Lake Merritt BART
+MCAR|MacArthur BART|37.82840941|-122.2671871|MacArthur BART
+================= york ================
+9|WARDEN / DENISON|43.827697|-79.326723|WARDEN AVE E & Denison Street
+210|PINE VALLEY / HWY 7|43.784173|-79.572422|HWY 7 & Pine Valley Drive
+================= austin ================
+1000|2|ROSEWOOD
+1010|3|BURNET/MANCHACA
+================= dallas ================
+8973|001|WYNNEWOOD/MOCKINGBIRD STATION
+8974|002|HATCHER
+================= davis ================
+A|A|DOWNTOWN/5TH ST/ALHAMBRA
+B|B|WAKE FOREST/SYCAMORE/DRAKE
+================= denver ================
+0|0|South Broadway
+0L|0L|South Broadway Limited
+================= humboldt ================
+1||Mainline
+3||ETS Red Route
+================= oc ================
+1|1|Pacific Coast Highway
+131|131|Lakeview/Riverdale
+================= perth ================
+13350|RED|Red Cat To Waca
+5977|777|Wellington St Bus Stn - Edith Cowan University Mount Lawley
+================= portland ================
+4|4|Fessenden
+6|6|Martin Luther King Jr Blvd
+================= riovista ================
+29|50 W|Route 50 Westbound
+30|50 E|Route 50 Eastbound
+================= sacramento ================
+001|1|GREENBACK
+002|2|RIVERSIDE
+================= sanfrancisco ================
+AirBART|Shuttle|
+01|BART|
+================= york ================
+8663|001|HIGHWAY 7
+8664|002|MILLIKEN
+===========================================================================
+Show number of stops in each Database:
+Portland: 7409
+San Frasncisco: 46
+Sacramento: 3524
+Orange County: 6529
+Humboldt: 230
+Denver: 10165
+Dallas: 11426
+Austin: 3010
+York: 4443
+Davis: 289
+Rio Vista: 51
+Perth: 11707
+===========================================================================
+===========================================================================
+Show number of stops in each Database:
+Portland: 100
+San Frasncisco: 11
+Sacramento: 95
+Orange County: 80
+Humboldt: 10
+Denver: 182
+Dallas: 138
+Austin: 103
+York: 143
+Davis: 16
+Rio Vista: 6
+Perth: 602
+===========================================================================
+===========================================================================
+Show number of stops in each Database:
+Portland: 0
+San Frasncisco: 0
+Sacramento: 0
+Orange County: 0
+Humboldt: 0
+Denver: 0
+Dallas: 0
+Austin: 0
+York: 0
+Davis: 0
+Rio Vista: 0
+Perth: 0
+===========================================================================

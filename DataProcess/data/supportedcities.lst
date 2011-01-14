@@ -1,0 +1,13 @@
+id, name, state, country, website, dbname, lastupdate, local
+portland, Portland, OR, USA, http://zyao.servehttp.com:5144/ver1.1/portland/, portland.sqlite, 20081010, 1
+sanfrancisco, San Francisco, CA, USA, http://zyao.servehttp.com:5144/ver1.1/sanfrancisco/, sanfrancisco.sqlite, 20080626, 1
+oc, Orange County, CA, USA, http://zyao.servehttp.com:5144/ver1.1/oc/, oc.sqlite, 20080520, 1
+sacramento, Sacramento, CA, USA, http://zyao.servehttp.com:5144/ver1.1/sacramento/, sacramento.sqlite, 20081006, 1
+humboldt, Humboldt County, CA, USA, http://zyao.servehttp.com:5144/ver1.1/humboldt/, humboldt.sqlite, 20080910, 1
+dallas, Dallas, TX, USA, http://zyao.servehttp.com:5144/ver1.1/dallas/, dallas.sqlite, 20080728, 1
+austin, Austin, TX, USA, http://zyao.servehttp.com:5144/ver1.1/austin/, austin.sqlite, 20071128, 1
+denver, Denver, CO, USA, http://zyao.servehttp.com:5144/ver1.1/denver/, denver.sqlite, 20080716, 1
+davis, Davis, CA, USA, http://zyao.servehttp.com:5144/ver1.1/davis/, davis.sqlite, 20081017, 0
+riovista, Rio Vista, CA, USA, http://zyao.servehttp.com:5144/ver1.1/riovista/, riovista.sqlite, 20081022, 0
+york, York, ON, Canada, http://zyao.servehttp.com:5144/ver1.1/york/, york.sqlite, 20081022, 0
+perth, Perth, WA, Australia, http://zyao.servehttp.com:5144/ver1.1/perth/, perth.sqlite, 20081021, 0
