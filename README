@@ -1,0 +1,11 @@
+iBus-Universal
+ * UniBus app. 
+
+iBus-Fixed
+ * iBusVan app.
+ * Later version than UniBus
+ * Was designed for individual cities
+ * With offline data compression.
+ * Should be able to build UniBus binary as well.
+
+ 
