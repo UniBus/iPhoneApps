@@ -780,7 +780,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iBus-Fixed" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* iBus-Universal */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -978,6 +985,7 @@
 				GCC_PREFIX_HEADER = iBus_Fixed_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = UniBus;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -990,6 +998,7 @@
 				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = UniBus;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -1017,6 +1026,7 @@
 				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = UniBus;
+				SDKROOT = iphoneos;
 			};
 			name = DistributionAdhoc;
 		};
@@ -1029,6 +1039,7 @@
 				GCC_PREFIX_HEADER = iBus_Fixed_Prefix.pch;
 				INFOPLIST_FILE = "iBusVan-Info.plist";
 				PRODUCT_NAME = iBusVan;
+				SDKROOT = iphoneos;
 			};
 			name = DistributionAdhoc;
 		};
@@ -1055,6 +1066,7 @@
 				GCC_PREFIX_HEADER = iBus_Universal_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = UniBus;
+				SDKROOT = iphoneos;
 			};
 			name = Distribution;
 		};
@@ -1069,6 +1081,7 @@
 				GCC_PREFIX_HEADER = iBus_Fixed_Prefix.pch;
 				INFOPLIST_FILE = "iBusVan-Info.plist";
 				PRODUCT_NAME = iBusVan;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -1081,6 +1094,7 @@
 				GCC_PREFIX_HEADER = iBus_Fixed_Prefix.pch;
 				INFOPLIST_FILE = "iBusVan-Info.plist";
 				PRODUCT_NAME = iBusVan;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -1093,6 +1107,7 @@
 				GCC_PREFIX_HEADER = iBus_Fixed_Prefix.pch;
 				INFOPLIST_FILE = "iBusVan-Info.plist";
 				PRODUCT_NAME = iBusVan;
+				SDKROOT = iphoneos;
 			};
 			name = Distribution;
 		};
